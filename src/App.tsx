@@ -3,29 +3,31 @@ globalThis.Buffer = buffer.Buffer;
 //3rd-party
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 //routes
-import { Layout } from "./components/Layout";
 import ErrorPage from "./pages/ErrorPage";
-import Home from "./pages/Home";
+import Index from "./pages/Index";
 import { ConnectionProvider } from "@solana/wallet-adapter-react";
+import OverlayProvider from "./context/OverlayProvider";
 
 declare global {
   interface Window {
     xnft: any;
   }
 }
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <Home /> }],
+    children: [{ index: true, element: <Index /> }],
   },
 ]);
 
 function App() {
   return (
     <ConnectionProvider endpoint={import.meta.env.VITE_RPC_URL}>
-      <RouterProvider router={router} />
+      <OverlayProvider>
+        <RouterProvider router={router} />
+      </OverlayProvider>
     </ConnectionProvider>
   );
 }
