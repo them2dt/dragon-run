@@ -1,0 +1,43 @@
+{
+  "name": "Sporting F1",
+  "description": "Sporting F1 is an F1 Fantasy League consisting of 2,000 cars. NFT traits make race prediction and earn points. The top 100 players of the 2023 season will receive prizes.",
+  "external_url": "https://twitter.com/sportinglabs",
+  "image": "https://xnfts.s3.us-west-2.amazonaws.com/DjJUy3ZDndb3vdWKVDEhp8o9PUHUQcYShJYsnKEQD1qy/manifest/0b1129f301/assets/icon.png",
+  "properties": {},
+  "xnft": {
+    "version": "0.0.1",
+    "manifest": {
+      "entrypoints": {
+        "default": {
+          "web": "https://sporting-xnft.vercel.app/"
+        }
+      },
+      "icon": {
+        "md": "https://xnfts.s3.us-west-2.amazonaws.com/DjJUy3ZDndb3vdWKVDEhp8o9PUHUQcYShJYsnKEQD1qy/manifest/0b1129f301/assets/icon.png"
+      },
+      "screenshots": [
+        {
+          "uri": "https://xnfts.s3.us-west-2.amazonaws.com/DjJUy3ZDndb3vdWKVDEhp8o9PUHUQcYShJYsnKEQD1qy/manifest/0b1129f301/assets/screenshot1.png",
+          "type": "image/png"
+        },
+        {
+          "uri": "https://xnfts.s3.us-west-2.amazonaws.com/DjJUy3ZDndb3vdWKVDEhp8o9PUHUQcYShJYsnKEQD1qy/manifest/0b1129f301/assets/screenshot2.png",
+          "type": "image/png"
+        },
+        {
+          "uri": "https://xnfts.s3.us-west-2.amazonaws.com/DjJUy3ZDndb3vdWKVDEhp8o9PUHUQcYShJYsnKEQD1qy/manifest/0b1129f301/assets/screenshot3.png",
+          "type": "image/png"
+        },
+        {
+          "uri": "https://xnfts.s3.us-west-2.amazonaws.com/DjJUy3ZDndb3vdWKVDEhp8o9PUHUQcYShJYsnKEQD1qy/manifest/0b1129f301/assets/screenshot4.png",
+          "type": "image/png"
+        }
+      ]
+    },
+    "contact": {
+      "repository": "https://github.com/sportinglabs/sporting-xnft"
+    },
+    "programIds": ["9ZskGH9wtdwM9UXjBq1KDwuaLfrZyPChz41Hx7NWhTFf"],
+    "history": []
+  }
+}

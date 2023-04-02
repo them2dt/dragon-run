@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "jetbrains-light";
+  src: url("./fonts/jb-light.ttf");
+}
+
+@font-face {
+  font-family: "jetbrains-medium";
+  src: url("./fonts/jb-medium.ttf");
+}
+
+@font-face {
+  font-family: "jetbrains-bold";
+  src: url("./fonts/jb-bold.ttf");
+}
+
+@font-face {
+  font-family: "sonara-rounded";
+  src: url("./fonts/sonara.otf");
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  display: none;
+}
+
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  display: none;
+}
+
+:root {
+  --black: rgb(10, 10, 10);
+  --black-faded: rgba(0, 0, 0, 0.5);
+  --white: rgb(255, 255, 255);
+  --white-faded: rgba(255, 255, 255, 0.075);
+  --signature: rgb(36, 220, 162);
+  --signature-faded: rgba(36, 220, 162, 0.2);
+}
+
+.route-container {
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  background-color: black;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  z-index: 1000;
+}
+
+.header button {
+  margin: 0;
+  margin-left: 20px;
+  padding: 0;
+  border: 0px solid var(--black);
+  background-color: transparent;
+  color: var(--white);
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header button:hover {
+  transition-duration: 0.2s;
+  color: var(--white-faded);
+}
+
+.header button:not(:hover) {
+  transition-duration: 0.2s;
+}
+
+.header button:active {
+  color: var(--signature);
+}

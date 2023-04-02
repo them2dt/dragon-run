@@ -1,0 +1,26 @@
+{
+  "name": "Sporting F1",
+  "version": "0.0.1",
+  "description": "Sporting F1 is an F1 Fantasy League consisting of 2,000 cars. NFT traits make race prediction and earn points. The top 100 players of the 2023 season will receive prizes.",
+  "website": "https://twitter.com/sportinglabs",
+  "kind": "app",
+  "icon": {
+    "md": "./assets/icon.png"
+  },
+  "contact": {
+    "repository": "https://github.com/sportinglabs/sporting-xnft"
+  },
+  "tag": "game",
+  "programIds": ["9ZskGH9wtdwM9UXjBq1KDwuaLfrZyPChz41Hx7NWhTFf"],
+  "screenshots": [
+    "./assets/screenshot1.png",
+    "./assets/screenshot2.png",
+    "./assets/screenshot3.png",
+    "./assets/screenshot4.png"
+  ],
+  "entrypoints": {
+    "default": {
+      "web": "./dist/index.html"
+    }
+  }
+}

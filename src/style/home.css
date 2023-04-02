@@ -1,0 +1,42 @@
+.home {
+  margin: 0;
+  padding: 0;
+}
+
+.home-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.home-title img {
+  width: 70vw;
+}
+
+.home-buttons {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 50vh;
+}
+.home-button {
+  width: calc(100vw - 40px);
+  margin: 0;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  background-color: rgb(214, 68, 0);
+  font-family: "jetbrains-bold";
+  font-size: 24px;
+  color: white;
+}
+
+.home-button:hover {
+  background-color: white;
+  color: rgb(214, 68, 0);
+  transition-duration: 0.2s;
+}
+.home-button:not(:hover) {
+  transition-duration: 0.2s;
+}
