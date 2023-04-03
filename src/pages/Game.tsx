@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import phaserGame from '../phaser/phaserGame'
+import phaserGame from '../phaser/PhaserGame'
 import { useOverlay } from "../context/useOverlay";
-import HomeScene from '../scenes/HomeScene'
+import GameScene from "../phaser/scenes/GameScene";
 import Home from "../overlays/Home";
+import Preloader from "../phaser/scenes/Preloader";
 
 export default function Game() {
 
@@ -10,7 +11,7 @@ export default function Game() {
 
   useEffect(() => {
     console.log("Setting up scene...");
-    const scene = phaserGame.scene.keys.home as HomeScene;
+    const scene = phaserGame.scene.keys.preloader as Preloader;
   }, [])
 
   return (
