@@ -6,6 +6,8 @@ const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   parent: 'phaser-container',
   backgroundColor: '#282c34',
+  width: 800,
+  height: 640,
   scale: {
     mode: Phaser.Scale.ScaleModes.RESIZE,
     autoCenter: Phaser.Scale.Center.CENTER_BOTH,

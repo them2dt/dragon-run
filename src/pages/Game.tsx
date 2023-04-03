@@ -1,21 +1,22 @@
 import { useEffect } from "react";
 import phaserGame from '../phaser/phaserGame'
-import HomeScene from '../scenes/HomeScene'
 import { useOverlay } from "../context/useOverlay";
+import HomeScene from '../scenes/HomeScene'
+import Home from "../overlays/Home";
 
-export default function Index() {
+export default function Game() {
 
   const { overlay } = useOverlay();
 
   useEffect(() => {
-    console.log("Creating emitter");
+    console.log("Setting up scene...");
     const scene = phaserGame.scene.keys.home as HomeScene;
-    scene.createEmitter();
   }, [])
 
   return (
     <>
-      {overlay}
+      {overlay === "" && null}
+      {overlay === "Home" ? <Home /> : null}
     </>
     
   );

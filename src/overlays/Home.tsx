@@ -12,7 +12,7 @@ export default function Home() {
         <img src={logo} alt="logo" />
       </div>
       <div className="home-buttons">
-        <button className="home-button" onClick={() => setOverlay(<None />)}>Play</button>
+        <button className="home-button" onClick={() => setOverlay("")}>Play</button>
       </div>
     </div>
   );
