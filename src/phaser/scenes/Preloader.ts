@@ -26,7 +26,7 @@ export default class Preloader extends Phaser.Scene
 
 		this.load.image(TextureKeys.Coin, 'game-assets/house/object_coin.png')
 
-		this.load.atlas(TextureKeys.RocketMouse, 'game-assets/characters/rocket-mouse.png', 'game-assets/characters/rocket-mouse.json')
+		this.load.aseprite(TextureKeys.DefaultCharacter, 'game-assets/characters/default-character.png', 'game-assets/characters/default-character.json')
 	}
 
 	create()

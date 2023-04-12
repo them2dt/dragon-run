@@ -9,7 +9,7 @@ enum TextureKeys
 	LaserEnd = 'laser-end',
 	LaserMiddle = 'laser-middle',
 	Coin = 'coin',
-	RocketMouse = 'rocket-mouse'
+	DefaultCharacter = 'default-character'
 }
 
 export default TextureKeys
