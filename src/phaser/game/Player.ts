@@ -3,19 +3,19 @@ import TextureKeys from '../../consts/TextureKeys'
 import AnimationKeys from '../../consts/AnimationKeys'
 import SceneKeys from '../../consts/SceneKeys'
 
-enum MouseState
+enum PlayerState
 {
 	Running,
 	Killed,
 	Dead
 }
 
-export default class RocketMouse extends Phaser.GameObjects.Container
+export default class Player extends Phaser.GameObjects.Container
 {
 	private cursors: Phaser.Types.Input.Keyboard.CursorKeys
 	private defaultCharacter: Phaser.GameObjects.Sprite
 
-	private mouseState = MouseState.Running
+	private playerState = PlayerState.Running
 
 	constructor(scene: Phaser.Scene, x: number, y: number)
 	{
@@ -33,17 +33,18 @@ export default class RocketMouse extends Phaser.GameObjects.Container
 		body.setSize(this.defaultCharacter.width * 0.4, this.defaultCharacter.height * 0.86)
 		body.setOffset(this.defaultCharacter.width * -0.25, -this.defaultCharacter.height - 6)
 
+
 		this.cursors = scene.input.keyboard.createCursorKeys()
 	}
 
 	kill()
 	{
-		if (this.mouseState !== MouseState.Running)
+		if (this.playerState !== PlayerState.Running)
 		{
 			return
 		}
 
-		this.mouseState = MouseState.Killed
+		this.playerState = PlayerState.Killed
 
 		this.defaultCharacter.play(AnimationKeys.DefaultCharacterIdleLeft, true)
 
@@ -56,9 +57,9 @@ export default class RocketMouse extends Phaser.GameObjects.Container
 	{
 		const body = this.body as Phaser.Physics.Arcade.Body
 
-		switch (this.mouseState)
+		switch (this.playerState)
 		{
-			case MouseState.Running:
+			case PlayerState.Running:
 			{
 				if (this.cursors.space?.isDown)
 				{
@@ -97,17 +98,17 @@ export default class RocketMouse extends Phaser.GameObjects.Container
 				break		
 			}
 
-			case MouseState.Killed:
+			case PlayerState.Killed:
 			{
 				body.velocity.x *= 0.99
 				if (body.velocity.x <= 5)
 				{
-					this.mouseState = MouseState.Dead
+					this.playerState = PlayerState.Dead
 				}
 				break
 			}
 
-			case MouseState.Dead:
+			case PlayerState.Dead:
 			{
 				if (this.scene.scene.isActive(SceneKeys.GameOver))
 				{

@@ -12,7 +12,7 @@ export default class Preloader extends Phaser.Scene
 	}
 
 	preload()
-	{
+	{	
 		this.load.image(TextureKeys.Background, 'game-assets/house/bg_repeat_340x640.png')
 		this.load.image(TextureKeys.MouseHole, 'game-assets/house/object_mousehole.png')
 		this.load.image(TextureKeys.Window1, 'game-assets/house/object_window1.png')
@@ -25,6 +25,9 @@ export default class Preloader extends Phaser.Scene
 		this.load.image(TextureKeys.LaserMiddle, 'game-assets/house/object_laser.png')
 
 		this.load.image(TextureKeys.Coin, 'game-assets/house/object_coin.png')
+
+		this.load.image(TextureKeys.CaveTiles, 'game-assets/tiles/cave-tileset.png')
+		this.load.tilemapTiledJSON(TextureKeys.CaveMap, 'game-assets/tiles/cave-map.json')
 
 		this.load.aseprite(TextureKeys.DefaultCharacter, 'game-assets/characters/default-character.png', 'game-assets/characters/default-character.json')
 	}

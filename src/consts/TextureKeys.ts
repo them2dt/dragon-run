@@ -9,7 +9,9 @@ enum TextureKeys
 	LaserEnd = 'laser-end',
 	LaserMiddle = 'laser-middle',
 	Coin = 'coin',
-	DefaultCharacter = 'default-character'
+	DefaultCharacter = 'default-character',
+	CaveTiles = 'cave-tiles',
+	CaveMap = 'cave-map',
 }
 
 export default TextureKeys
