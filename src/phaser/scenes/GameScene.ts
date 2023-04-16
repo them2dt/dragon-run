@@ -60,7 +60,6 @@ export default class GameScene extends Phaser.Scene
 		const body = this.player.body as Phaser.Physics.Arcade.Body
 
 		body.setCollideWorldBounds(true)
-		body.setBounce(0.1, 0.1)
 		
 		this.physics.add.collider(this.player, this.ground)
 
