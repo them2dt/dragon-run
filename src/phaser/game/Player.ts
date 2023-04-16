@@ -30,8 +30,8 @@ export default class Player extends Phaser.GameObjects.Container
 		scene.physics.add.existing(this)
 
 		const body = this.body as Phaser.Physics.Arcade.Body
-		body.setSize(this.defaultCharacter.width * 0.4, this.defaultCharacter.height * 0.86)
-		body.setOffset(this.defaultCharacter.width * -0.25, -this.defaultCharacter.height - 6)
+		body.setSize(this.defaultCharacter.width * 0.4, this.defaultCharacter.height * 0.8)
+		body.setOffset(this.defaultCharacter.width * -0.25, -this.defaultCharacter.height - 4)
 
 
 		this.cursors = scene.input.keyboard.createCursorKeys()
