@@ -60,18 +60,16 @@ export default class Player extends Phaser.GameObjects.Container
 			{
 				if (this.cursors.left.isDown) {
 					body.setVelocityX(-160);
-
-					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningLeft, true);
+					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
+					this.defaultCharacter.setFlipX(true)
 				}
 				else if (this.cursors.right.isDown) {
 					body.setVelocityX(160);
-
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
+					this.defaultCharacter.setFlipX(false)
 				}
 				else {
 					body.setVelocityX(0);
-
-					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight);
 				}
 
 				if (this.cursors.up.isDown && body.blocked.down) {
@@ -79,14 +77,16 @@ export default class Player extends Phaser.GameObjects.Container
 				}
 
 				if (!body.blocked.down && body.velocity.x < 0) {
-					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingLeft, true)
+					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true)
+					this.defaultCharacter.setFlipX(true)
 
 				} else if (!body.blocked.down && body.velocity.x >= 0) {
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true)
+					this.defaultCharacter.setFlipX(false)
 				} 
 
 				if (body.blocked.down && body.velocity.x == 0) {
-					this.defaultCharacter.play(AnimationKeys.DefaultCharacterIdleRight)
+					this.defaultCharacter.play(AnimationKeys.DefaultCharacterIdleRight, true)
 				}
 
 				break		
