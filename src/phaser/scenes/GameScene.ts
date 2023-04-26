@@ -3,23 +3,29 @@ import Phaser from 'phaser'
 import TextureKeys from '../../consts/TextureKeys'
 import SceneKeys from '../../consts/SceneKeys'
 import Player from '../components/Player'
+import { AnimatedTile, TilesetTileData, TileAnimationData } from '../components/AnimatedTile'
 
 export default class GameScene extends Phaser.Scene
 {
 
 	private player!: Player
 
-	private map!: Phaser.Tilemaps.Tilemap
+	private tilemap!: Phaser.Tilemaps.Tilemap
 	private ground!: Phaser.Tilemaps.TilemapLayer
 	private lava!: Phaser.Tilemaps.TilemapLayer
+	private animatedTiles!: AnimatedTile[]
+	private tileset!: Phaser.Tilemaps.Tileset
+	private tileData!: TilesetTileData
 
 	private bg1!: Phaser.GameObjects.Image
 	private bg2!: Phaser.GameObjects.Image
 	private bg3!: Phaser.GameObjects.Image
 
+
 	constructor()
 	{
 		super(SceneKeys.GameScene)
+		this.animatedTiles = []
 	}
 
 	resize (gameSize: any, baseSize: any, displaySize: any, resolution: any)
@@ -45,20 +51,43 @@ export default class GameScene extends Phaser.Scene
 		this.bg1 = this.add.image(0, 50, TextureKeys.Background1)
 		this.bg1.setSize(width, height)
 		this.bg1.setOrigin(0, 0)
-		this.bg1.setScrollFactor(0.5, 0.5)
+		this.bg1.setScrollFactor(0.2, 0.2)
 		this.bg1.scale = 7
 		
-		this.map = this.make.tilemap({ key: TextureKeys.CaveMap })
-		this.map.addTilesetImage('cave-tileset', TextureKeys.CaveTiles, 16, 16, 1, 2)
+		this.tilemap = this.make.tilemap({ key: TextureKeys.CaveMap })
+		this.tileset = this.tilemap.addTilesetImage('cave-tileset', TextureKeys.CaveTiles, 16, 16, 1, 2)
 		
-		this.ground = this.map.createLayer('Ground', this.map.getTileset('cave-tileset'), 0, -1500)
+		this.ground = this.tilemap.createLayer('Ground', this.tilemap.getTileset('cave-tileset'), 0, -1500)
 		this.ground.setCollisionByProperty({ collides: true })
 		this.ground.setSize(width, height)
 		this.ground.scale = 2.4
 		
-		this.lava = this.map.createLayer('Lava', this.map.getTileset('cave-tileset'), 0, -1500)
+		this.lava = this.tilemap.createLayer('Lava', this.tilemap.getTileset('cave-tileset'), 0, -1500)
 		this.lava.setSize(width, height)
 		this.lava.scale = 2.4
+
+
+		const tileData = this.tileset.tileData as TilesetTileData;
+		for (let tileid in tileData) {
+			this.tilemap.layers.forEach(layer => {
+			if (layer.tilemapLayer.type === "StaticTilemapLayer") return;
+			layer.data.forEach(tileRow => {
+				tileRow.forEach(tile => {
+				if (tile.index - this.tileset.firstgid === parseInt(tileid, 10)) {
+					this.animatedTiles.push(
+					new AnimatedTile(
+						tile,
+						tileData[tileid].animation!,
+						this.tileset.firstgid
+					)
+					);
+				}
+				});
+			});
+			});
+		}
+
+
 		/*
 		const debugGraphics = this.add.graphics().setAlpha(0.7)
 		this.ground.renderDebug(debugGraphics, {
@@ -93,10 +122,9 @@ export default class GameScene extends Phaser.Scene
 
 
 
-	update(t: number, dt: number)
-	{
-		
-	}
+	public update(time: number, delta: number): void {
+		this.animatedTiles.forEach(tile => tile.update(delta/2));
+	  }
 
 	
 
