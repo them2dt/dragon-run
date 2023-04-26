@@ -1,6 +1,8 @@
 enum TextureKeys
 {
-	Background = 'background',
+	Background1 = 'background-1',
+	Background2 = 'background-2',
+	Background3 = 'background-3',
 	MouseHole = 'mouse-hole',
 	Window1 = 'window-1',
 	Window2 = 'window-2',

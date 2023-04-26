@@ -1,0 +1,32 @@
+import Phaser from 'phaser'
+
+import TextureKeys from '../consts/TextureKeys'
+import SceneKeys from '../consts/SceneKeys'
+import AnimationKeys from '../consts/AnimationKeys'
+
+export default class Preloader extends Phaser.Scene
+{
+	constructor()
+	{
+		super(SceneKeys.Preloader)
+	}
+
+	preload()
+	{	
+		this.load.image(TextureKeys.Background1, 'game-assets/backgrounds/volcano-bg1.png')
+		this.load.image(TextureKeys.Background2, 'game-assets/backgrounds/volcano-bg2.png')
+		this.load.image(TextureKeys.Background3, 'game-assets/backgrounds/volcano-bg3.png')
+
+		this.load.image(TextureKeys.Coin, 'game-assets/house/object_coin.png')
+
+		this.load.image(TextureKeys.CaveTiles, 'game-assets/tiles/cave-tileset-extruded.png')
+		this.load.tilemapTiledJSON(TextureKeys.CaveMap, 'game-assets/tiles/cave-map.json')
+
+		this.load.aseprite(TextureKeys.DefaultCharacter, 'game-assets/characters/default-character.png', 'game-assets/characters/default-character.json')
+	}
+
+	create()
+	{	
+		this.scene.start(SceneKeys.GameScene)
+	}
+}

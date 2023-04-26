@@ -3,7 +3,7 @@ import phaserGame from '../phaser/PhaserGame'
 import { useOverlay } from "../context/useOverlay";
 import GameScene from "../phaser/scenes/GameScene";
 import Home from "../overlays/Home";
-import Preloader from "../phaser/scenes/Preloader";
+import Preloader from "../phaser/Preloader";
 
 export default function Game() {
 
