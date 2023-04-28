@@ -33,8 +33,8 @@ export default class Player extends Phaser.GameObjects.Container
 		scene.physics.add.existing(this)
 
 		const body = this.body as Phaser.Physics.Arcade.Body
-		body.setSize(this.playerSize * this.defaultCharacter.width * 0.4, this.playerSize * this.defaultCharacter.height * 0.8)
-		body.setOffset(this.defaultCharacter.width * -0.25, -this.defaultCharacter.height - 4)
+		body.setSize(this.playerSize * this.defaultCharacter.width * 0.43, this.playerSize * this.defaultCharacter.height * 0.83)
+		body.setOffset(this.defaultCharacter.width * -0.29, -this.defaultCharacter.height - 7)
 
 
 		this.cursors = scene.input.keyboard.createCursorKeys()
@@ -63,12 +63,12 @@ export default class Player extends Phaser.GameObjects.Container
 			case PlayerState.Running:
 			{
 				if (this.cursors.left.isDown) {
-					body.setVelocityX(this.playerSpeed * -190);
+					body.setVelocityX(this.playerSpeed * -210);
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
 					this.defaultCharacter.setFlipX(true)
 				}
 				else if (this.cursors.right.isDown) {
-					body.setVelocityX(this.playerSpeed * 190);
+					body.setVelocityX(this.playerSpeed * 210);
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
 					this.defaultCharacter.setFlipX(false)
 				}
@@ -77,7 +77,7 @@ export default class Player extends Phaser.GameObjects.Container
 				}
 
 				if (this.cursors.up.isDown && body.blocked.down) {
-					body.setVelocityY(this.playerJump * -180);
+					body.setVelocityY(this.playerJump * -190);
 				}
 
 				if (!body.blocked.down && body.velocity.x < 0) {
