@@ -15,21 +15,25 @@ export default class Player extends Phaser.GameObjects.Container
 	private cursors: Phaser.Types.Input.Keyboard.CursorKeys
 	private defaultCharacter: Phaser.GameObjects.Sprite
 
-	private playerState = PlayerState.Running
+	private playerState: PlayerState = PlayerState.Running
+	private playerSpeed: number = 1.0
+	private playerJump: number = 1.0
+	private playerSize: number = 1.0
+	
 
 	constructor(scene: Phaser.Scene, x: number, y: number) {
 		super(scene, x, y)
 
 		scene.anims.createFromAseprite(TextureKeys.DefaultCharacter)
 
-		this.defaultCharacter = scene.add.sprite(0, 0, TextureKeys.DefaultCharacter).setOrigin(0.55, 1).setScale(1.5)
+		this.defaultCharacter = scene.add.sprite(0, 0, TextureKeys.DefaultCharacter).setOrigin(0.55, 1).setScale(this.playerSize * 1.5)
 
 		this.add(this.defaultCharacter)
 
 		scene.physics.add.existing(this)
 
 		const body = this.body as Phaser.Physics.Arcade.Body
-		body.setSize(this.defaultCharacter.width * 0.4, this.defaultCharacter.height * 0.8)
+		body.setSize(this.playerSize * this.defaultCharacter.width * 0.4, this.playerSize * this.defaultCharacter.height * 0.8)
 		body.setOffset(this.defaultCharacter.width * -0.25, -this.defaultCharacter.height - 4)
 
 
@@ -59,12 +63,12 @@ export default class Player extends Phaser.GameObjects.Container
 			case PlayerState.Running:
 			{
 				if (this.cursors.left.isDown) {
-					body.setVelocityX(-160);
+					body.setVelocityX(this.playerSpeed * -190);
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
 					this.defaultCharacter.setFlipX(true)
 				}
 				else if (this.cursors.right.isDown) {
-					body.setVelocityX(160);
+					body.setVelocityX(this.playerSpeed * 190);
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
 					this.defaultCharacter.setFlipX(false)
 				}
@@ -73,7 +77,7 @@ export default class Player extends Phaser.GameObjects.Container
 				}
 
 				if (this.cursors.up.isDown && body.blocked.down) {
-					body.setVelocityY(-220);
+					body.setVelocityY(this.playerJump * -180);
 				}
 
 				if (!body.blocked.down && body.velocity.x < 0) {
