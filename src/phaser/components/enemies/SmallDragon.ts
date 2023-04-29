@@ -43,10 +43,14 @@ export default class SmallDragon extends Phaser.Physics.Arcade.Sprite {
 		this.dragonState = DragonState.Killed
 
 		this.play(AnimationKeys.SmallDragonOrangeIdleRight, true)
+		this.setFlipY(true)
 
 		const body = this.body as Phaser.Physics.Arcade.Body
 		body.setAccelerationY(0)
-		body.setVelocity(1000, 0)
+		body.setVelocityY(0)
+		body.setVelocityX(0)
+		body.collideWorldBounds = false
+
 	}
 	
 

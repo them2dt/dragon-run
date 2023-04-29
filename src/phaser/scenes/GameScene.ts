@@ -10,6 +10,7 @@ export default class GameScene extends Phaser.Scene
 {
 
 	private player!: Player
+	private playerBody!: Phaser.Physics.Arcade.Body
 	private playerGroundCollider!: Phaser.Physics.Arcade.Collider
 	private playerLavaCollider!: Phaser.Physics.Arcade.Collider
 
@@ -42,7 +43,6 @@ export default class GameScene extends Phaser.Scene
 
 		this.cameras.main.zoom = 0.8 + (width / 2000)
 
-
     }
 
 	create()
@@ -71,7 +71,6 @@ export default class GameScene extends Phaser.Scene
 		this.lava.setSize(width, height)
 		this.lava.scale = 2.4
 
-
 		const tileData = this.tileset.tileData as TilesetTileData;
 		for (let tileid in tileData) {
 			this.tilemap.layers.forEach(layer => {
@@ -91,35 +90,14 @@ export default class GameScene extends Phaser.Scene
 			});
 			});
 		}
-		
-		
-		this.player = new Player(this, 0, 0)
-		this.add.existing(this.player)
-		const playerBody = this.player.body as Phaser.Physics.Arcade.Body
-		playerBody.setCollideWorldBounds(true)
 
-		this.SmallDragonsOrange = this.physics.add.group({
-			classType: SmallDragon,
-			createCallback: (gO) => {
-				const SmallDragonGO = gO as SmallDragon
-				SmallDragonGO.body.onCollide = true
-			}
-		})
+		this.spawnEnemies()
 
-		this.SmallDragonsOrange.get(0, 0, TextureKeys.SmallDragonOrange)
-
-		/*
-		const SmallDragonsOrangeLayer = this.tilemap.getObjectLayer('SmallDragonsOrange')
-		SmallDragonsOrangeLayer.objects.forEach(lizObj => {
-			this.SmallDragonsOrange.get(lizObj.x! + lizObj.width! * 0.5, lizObj.y! - lizObj.height! * 0.5, 'lizard')
-		})
-		*/
+		this.spawnPlayer()
 		
-		
-		this.physics.world.setBounds(0, 0, Number.MAX_SAFE_INTEGER, height)
+		this.physics.world.setBounds(0, 0, Number.MAX_SAFE_INTEGER, height)		
 		
 		this.cameras.main.setBounds(0, 0, Number.MAX_SAFE_INTEGER, height)
-		
 		this.cameras.main.startFollow(this.player, true, 1, 1, 0, 200)
 		this.cameras.main.zoom = 0.8 + (width / 2000)
 		
@@ -127,6 +105,7 @@ export default class GameScene extends Phaser.Scene
 		this.playerLavaCollider = this.physics.add.collider(this.player, this.lava, () => {
 			this.killPlayer()
 		})
+
 		this.physics.add.collider(this.SmallDragonsOrange, this.ground)
 
 		
@@ -137,6 +116,28 @@ export default class GameScene extends Phaser.Scene
 	public update(time: number, delta: number): void {
 		this.animatedTiles.forEach(tile => tile.update(delta/2));
 	}
+
+	spawnPlayer = () => {
+		this.player = new Player(this, 0, 0)
+		this.add.existing(this.player)
+	}
+
+
+	spawnEnemies = () => {
+		this.SmallDragonsOrange = this.physics.add.group({
+			classType: SmallDragon,
+			createCallback: (gO) => {
+				const SmallDragonGO = gO as SmallDragon
+				SmallDragonGO.body.onCollide = true
+			}
+		})
+
+		const SmallDragonsOrangeLayer = this.tilemap.getObjectLayer('Enemies')
+		SmallDragonsOrangeLayer.objects.forEach(enemyObject => {
+			this.SmallDragonsOrange.get(enemyObject.x! * 2.4, enemyObject.y! * 0.4, TextureKeys.SmallDragonOrange)
+		})
+	}
+
 
 	killPlayer = () => {
 		this.cameras.main.stopFollow()

@@ -33,8 +33,11 @@ export default class Player extends Phaser.GameObjects.Container {
 		const body = this.body as Phaser.Physics.Arcade.Body
 		body.setSize(this.playerSize * this.defaultCharacter.width * 0.43, this.playerSize * this.defaultCharacter.height * 0.83)
 		body.setOffset(this.defaultCharacter.width * -0.29, -this.defaultCharacter.height - 7)
-
-		body.setAccelerationY(200)
+		body.setCollideWorldBounds(true)
+		body.setDragX(0)
+		body.setDragY(0)
+		body.setFrictionX(0)
+		body.setFrictionY(0)
 
 		this.cursors = scene.input.keyboard.createCursorKeys()
 	}
@@ -50,8 +53,8 @@ export default class Player extends Phaser.GameObjects.Container {
 
 		const body = this.body as Phaser.Physics.Arcade.Body
 		body.setAccelerationY(0)
-		body.setVelocityY(-1000)
-		body.setGravityY(0)
+		body.setVelocityY(-200)
+		body.setGravityY(150)
 		body.collideWorldBounds = false
 	}
 
@@ -109,7 +112,6 @@ export default class Player extends Phaser.GameObjects.Container {
 					break
 				}
 
-				body.setVelocity(0, 0)
 				this.scene.scene.run(SceneKeys.GameOver)
 				break
 			}
