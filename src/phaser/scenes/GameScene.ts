@@ -121,7 +121,7 @@ export default class GameScene extends Phaser.Scene
 	spawnPlayer = () => {
 		const playerLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Player)
 		playerLayer.objects.forEach(playerObject => {
-			this.player = new Player(this, playerObject.x! * 2.4, playerObject.y! * 0.4,)
+			this.player = new Player(this, playerObject.x! * 2.4, playerObject.y! * 0.5,)
 		})
 		this.add.existing(this.player)
 	}
