@@ -5,6 +5,7 @@ import SceneKeys from '../../consts/SceneKeys'
 import Player from '../components/Player'
 import SmallDragon from '../components/enemies/SmallDragon'
 import { AnimatedTile, TilesetTileData} from '../components/AnimatedTile'
+import TiledLayerKeys from '../../consts/TiledLayerKeys'
 
 export default class GameScene extends Phaser.Scene
 {
@@ -14,7 +15,7 @@ export default class GameScene extends Phaser.Scene
 	private playerGroundCollider!: Phaser.Physics.Arcade.Collider
 	private playerLavaCollider!: Phaser.Physics.Arcade.Collider
 
-	private SmallDragonsOrange!: Phaser.Physics.Arcade.Group
+	private smallDragonsOrange!: Phaser.Physics.Arcade.Group
 
 	private tilemap!: Phaser.Tilemaps.Tilemap
 	private ground!: Phaser.Tilemaps.TilemapLayer
@@ -106,7 +107,7 @@ export default class GameScene extends Phaser.Scene
 			this.killPlayer()
 		})
 
-		this.physics.add.collider(this.SmallDragonsOrange, this.ground)
+		this.physics.add.collider(this.smallDragonsOrange, this.ground)
 
 		
 		this.scale.on('resize', this.resize, this);
@@ -118,13 +119,15 @@ export default class GameScene extends Phaser.Scene
 	}
 
 	spawnPlayer = () => {
-		this.player = new Player(this, 0, 0)
+		const playerLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Player)
+		playerLayer.objects.forEach(playerObject => {
+			this.player = new Player(this, playerObject.x! * 2.4, playerObject.y! * 0.4,)
+		})
 		this.add.existing(this.player)
 	}
 
-
 	spawnEnemies = () => {
-		this.SmallDragonsOrange = this.physics.add.group({
+		this.smallDragonsOrange = this.physics.add.group({
 			classType: SmallDragon,
 			createCallback: (gO) => {
 				const SmallDragonGO = gO as SmallDragon
@@ -132,9 +135,9 @@ export default class GameScene extends Phaser.Scene
 			}
 		})
 
-		const SmallDragonsOrangeLayer = this.tilemap.getObjectLayer('Enemies')
-		SmallDragonsOrangeLayer.objects.forEach(enemyObject => {
-			this.SmallDragonsOrange.get(enemyObject.x! * 2.4, enemyObject.y! * 0.4, TextureKeys.SmallDragonOrange)
+		const enemiesLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Enemies)
+		enemiesLayer.objects.forEach(enemyObject => {
+			this.smallDragonsOrange.get(enemyObject.x! * 2.4, enemyObject.y! * 0.4, TextureKeys.SmallDragonOrange)
 		})
 	}
 
