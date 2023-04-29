@@ -11,11 +11,11 @@ export default class GameScene extends Phaser.Scene
 {
 
 	private player!: Player
+	private smallDragons!: Phaser.GameObjects.Group
+
 	private playerBody!: Phaser.Physics.Arcade.Body
 	private playerGroundCollider!: Phaser.Physics.Arcade.Collider
 	private playerLavaCollider!: Phaser.Physics.Arcade.Collider
-
-	private smallDragonsOrange!: Phaser.Physics.Arcade.Group
 
 	private tilemap!: Phaser.Tilemaps.Tilemap
 	private ground!: Phaser.Tilemaps.TilemapLayer
@@ -27,14 +27,12 @@ export default class GameScene extends Phaser.Scene
 	private bg2!: Phaser.GameObjects.Image
 	private bg3!: Phaser.GameObjects.Image
 
-	constructor()
-	{
+	constructor() {
 		super(SceneKeys.GameScene)
 		this.animatedTiles = []
 	}
 
-	resize (gameSize: any, baseSize: any, displaySize: any, resolution: any)
-    {
+	resize (gameSize: any, baseSize: any, displaySize: any, resolution: any) {
         const width = gameSize.width;
         const height = gameSize.height;
 
@@ -46,12 +44,13 @@ export default class GameScene extends Phaser.Scene
 
     }
 
-	create()
-	{
-		const width = this.scale.width
-		const height = this.scale.height
+	create() {
 
 		this.anims.createFromAseprite(TextureKeys.SmallDragonOrange)
+		this.anims.createFromAseprite(TextureKeys.DefaultCharacter)
+
+		const width = this.scale.width
+		const height = this.scale.height
 
 		this.bg1 = this.add.image(0, 50, TextureKeys.Background1)
 		this.bg1.setSize(width, height)
@@ -104,12 +103,12 @@ export default class GameScene extends Phaser.Scene
 		
 		this.playerGroundCollider = this.physics.add.collider(this.player, this.ground)
 		this.playerLavaCollider = this.physics.add.collider(this.player, this.lava, () => {
-			this.killPlayer()
+			this.player.kill()
 		})
 
-		this.physics.add.collider(this.smallDragonsOrange, this.ground)
+		this.physics.add.collider(this.smallDragons, this.player, this.handlePlayerSmallDragonCollision, undefined, this)
+		this.physics.add.collider(this.smallDragons, this.ground)
 
-		
 		this.scale.on('resize', this.resize, this);
 
 	}
@@ -122,38 +121,44 @@ export default class GameScene extends Phaser.Scene
 		const playerLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Player)
 		playerLayer.objects.forEach(playerObject => {
 			this.player = new Player(this, playerObject.x! * 2.4, playerObject.y! * 0.5,)
+			this.add.existing(this.player)
 		})
-		this.add.existing(this.player)
 	}
 
 	spawnEnemies = () => {
-		this.smallDragonsOrange = this.physics.add.group({
+
+		this.smallDragons = this.physics.add.group({
 			classType: SmallDragon,
-			createCallback: (gO) => {
-				const SmallDragonGO = gO as SmallDragon
-				SmallDragonGO.body.onCollide = true
+			createCallback: (go) => {
+				const enemyGo = go as SmallDragon
+				const enemyBody = enemyGo.body as Phaser.Physics.Arcade.Body
+				enemyBody.onCollide = true
+
 			}
 		})
 
 		const enemiesLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Enemies)
 		enemiesLayer.objects.forEach(enemyObject => {
-			this.smallDragonsOrange.get(enemyObject.x! * 2.4, enemyObject.y! * 0.4, TextureKeys.SmallDragonOrange)
+			const enemy = new SmallDragon(this, enemyObject.x! * 2.4, enemyObject.y! * 0.4)
+			this.add.existing(enemy)
+			this.smallDragons.add(enemy)
+			
 		})
+		
 	}
 
+	handlePlayerSmallDragonCollision(object1: Phaser.GameObjects.GameObject, object2: Phaser.GameObjects.GameObject) {
+		const player = object1 as Player
+		const playerBody = object1.body as Phaser.Physics.Arcade.Body
+		const smallDragon = object2 as SmallDragon
 
-	killPlayer = () => {
-		this.cameras.main.stopFollow()
-		this.physics.world.removeCollider(this.playerLavaCollider)
-		this.physics.world.removeCollider(this.playerGroundCollider)
-		this.player.kill()
-		this.cameras.main.fade(2000, 0, 0, 0)
+		if (playerBody.touching.down) {
+			playerBody.setVelocityY(-220)
+			smallDragon.kill()
+		} else {
+			player.kill()
+		}
 
-		/*
-		this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-			this.scene.restart()
-		})
-		*/
 	}
 
 	

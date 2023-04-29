@@ -22,8 +22,6 @@ export default class Player extends Phaser.GameObjects.Container {
 	constructor(scene: Phaser.Scene, x: number, y: number) {
 		super(scene, x, y)
 
-		scene.anims.createFromAseprite(TextureKeys.DefaultCharacter)
-
 		this.defaultCharacter = scene.add.sprite(0, 0, TextureKeys.DefaultCharacter).setOrigin(0.55, 1).setScale(this.playerSize * 1.5)
 
 		this.add(this.defaultCharacter)
@@ -51,8 +49,13 @@ export default class Player extends Phaser.GameObjects.Container {
 
 		this.defaultCharacter.play(AnimationKeys.DefaultCharacterDeadRight, true)
 
+		this.scene.cameras.main.stopFollow()
+		this.scene.cameras.main.fade(2000, 0, 0, 0)
+
 		const body = this.body as Phaser.Physics.Arcade.Body
+		body.checkCollision.none = true
 		body.setAccelerationY(0)
+		body.setVelocityX(0)
 		body.setVelocityY(-200)
 		body.setGravityY(150)
 		body.collideWorldBounds = false
