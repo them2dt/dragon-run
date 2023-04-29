@@ -3,21 +3,19 @@ import TextureKeys from '../../consts/TextureKeys'
 import AnimationKeys from '../../consts/AnimationKeys'
 import SceneKeys from '../../consts/SceneKeys'
 
-enum PlayerState
-{
-	Running,
+enum PlayerState {
+	Alive,
 	Killed,
 	Dead
 }
 
-export default class Player extends Phaser.GameObjects.Container
-{
+export default class Player extends Phaser.GameObjects.Container {
 	private cursors: Phaser.Types.Input.Keyboard.CursorKeys
 	private defaultCharacter: Phaser.GameObjects.Sprite
 
-	private playerState: PlayerState = PlayerState.Running
-	private playerSpeed: number = 1.0
-	private playerJump: number = 1.0
+	private playerState: PlayerState = PlayerState.Alive
+	private playerSpeed: number = 210
+	private playerJump: number = -300
 	private playerSize: number = 1.0
 	
 
@@ -36,39 +34,37 @@ export default class Player extends Phaser.GameObjects.Container
 		body.setSize(this.playerSize * this.defaultCharacter.width * 0.43, this.playerSize * this.defaultCharacter.height * 0.83)
 		body.setOffset(this.defaultCharacter.width * -0.29, -this.defaultCharacter.height - 7)
 
+		body.setAccelerationY(200)
 
 		this.cursors = scene.input.keyboard.createCursorKeys()
 	}
 
 	kill() {
-		if (this.playerState !== PlayerState.Running) {
+		if (this.playerState !== PlayerState.Alive) {
 			return
 		}
 
 		this.playerState = PlayerState.Killed
 
-		this.defaultCharacter.play(AnimationKeys.DefaultCharacterIdleLeft, true)
+		this.defaultCharacter.play(AnimationKeys.DefaultCharacterIdleRight, true)
 
 		const body = this.body as Phaser.Physics.Arcade.Body
 		body.setAccelerationY(0)
 		body.setVelocity(1000, 0)
 	}
 
-	preUpdate()
-	{
+	preUpdate() {
 		const body = this.body as Phaser.Physics.Arcade.Body
 
-		switch (this.playerState)
-		{
-			case PlayerState.Running:
-			{
+		switch (this.playerState) {
+			case PlayerState.Alive: {
 				if (this.cursors.left.isDown) {
-					body.setVelocityX(this.playerSpeed * -210);
+					body.setVelocityX(-this.playerSpeed);
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
 					this.defaultCharacter.setFlipX(true)
 				}
 				else if (this.cursors.right.isDown) {
-					body.setVelocityX(this.playerSpeed * 210);
+					body.setVelocityX(this.playerSpeed);
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
 					this.defaultCharacter.setFlipX(false)
 				}
@@ -77,16 +73,18 @@ export default class Player extends Phaser.GameObjects.Container
 				}
 
 				if (this.cursors.up.isDown && body.blocked.down) {
-					body.setVelocityY(this.playerJump * -190);
+					body.setVelocityY(this.playerJump);
 				}
 
 				if (!body.blocked.down && body.velocity.x < 0) {
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true)
 					this.defaultCharacter.setFlipX(true)
 
-				} else if (!body.blocked.down && body.velocity.x >= 0) {
+				} else if (!body.blocked.down && body.velocity.x > 0) {
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true)
 					this.defaultCharacter.setFlipX(false)
+				} else if (!body.blocked.down && body.velocity.x === 0) {
+					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true)
 				} 
 
 				if (body.blocked.down && body.velocity.x == 0) {
@@ -96,20 +94,16 @@ export default class Player extends Phaser.GameObjects.Container
 				break		
 			}
 
-			case PlayerState.Killed:
-			{
+			case PlayerState.Killed: {
 				body.velocity.x *= 0.99
-				if (body.velocity.x <= 5)
-				{
+				if (body.velocity.x <= 5) {
 					this.playerState = PlayerState.Dead
 				}
 				break
 			}
 
-			case PlayerState.Dead:
-			{
-				if (this.scene.scene.isActive(SceneKeys.GameOver))
-				{
+			case PlayerState.Dead: {
+				if (this.scene.scene.isActive(SceneKeys.GameOver)) {
 					break
 				}
 

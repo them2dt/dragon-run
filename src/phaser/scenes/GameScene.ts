@@ -3,12 +3,14 @@ import Phaser from 'phaser'
 import TextureKeys from '../../consts/TextureKeys'
 import SceneKeys from '../../consts/SceneKeys'
 import Player from '../components/Player'
-import { AnimatedTile, TilesetTileData, TileAnimationData } from '../components/AnimatedTile'
+import SmallDragon from '../components/enemies/SmallDragon'
+import { AnimatedTile, TilesetTileData} from '../components/AnimatedTile'
 
 export default class GameScene extends Phaser.Scene
 {
 
 	private player!: Player
+	private SmallDragonsOrange!: Phaser.Physics.Arcade.Group
 
 	private tilemap!: Phaser.Tilemaps.Tilemap
 	private ground!: Phaser.Tilemaps.TilemapLayer
@@ -20,7 +22,6 @@ export default class GameScene extends Phaser.Scene
 	private bg1!: Phaser.GameObjects.Image
 	private bg2!: Phaser.GameObjects.Image
 	private bg3!: Phaser.GameObjects.Image
-
 
 	constructor()
 	{
@@ -46,7 +47,8 @@ export default class GameScene extends Phaser.Scene
 	{
 		const width = this.scale.width
 		const height = this.scale.height
-	
+
+		this.anims.createFromAseprite(TextureKeys.SmallDragonOrange)
 
 		this.bg1 = this.add.image(0, 50, TextureKeys.Background1)
 		this.bg1.setSize(width, height)
@@ -63,6 +65,7 @@ export default class GameScene extends Phaser.Scene
 		this.ground.scale = 2.4
 		
 		this.lava = this.tilemap.createLayer('Lava', this.tilemap.getTileset('cave-tileset'), 0, -1500)
+		this.lava.setCollisionByProperty({ collides: true })
 		this.lava.setSize(width, height)
 		this.lava.scale = 2.4
 
@@ -100,12 +103,31 @@ export default class GameScene extends Phaser.Scene
 		
 		this.player = new Player(this, 0, 0)
 		this.add.existing(this.player)
-		
-		const body = this.player.body as Phaser.Physics.Arcade.Body
+		const playerBody = this.player.body as Phaser.Physics.Arcade.Body
+		playerBody.setCollideWorldBounds(true)
 
-		body.setCollideWorldBounds(true)
+		this.SmallDragonsOrange = this.physics.add.group({
+			classType: SmallDragon,
+			createCallback: (gO) => {
+				const SmallDragonGO = gO as SmallDragon
+				SmallDragonGO.body.onCollide = true
+			}
+		})
+
+		this.SmallDragonsOrange.get(0, 0, TextureKeys.SmallDragonOrange)
+
+		/*
+		const SmallDragonsOrangeLayer = this.tilemap.getObjectLayer('SmallDragonsOrange')
+		SmallDragonsOrangeLayer.objects.forEach(lizObj => {
+			this.SmallDragonsOrange.get(lizObj.x! + lizObj.width! * 0.5, lizObj.y! - lizObj.height! * 0.5, 'lizard')
+		})
+		*/
 		
 		this.physics.add.collider(this.player, this.ground)
+		this.physics.add.collider(this.player, this.lava, () => {
+			this.player.kill()
+		})
+		this.physics.add.collider(this.SmallDragonsOrange, this.ground)
 
 		this.physics.world.setBounds(0, 0, Number.MAX_SAFE_INTEGER, height)
 

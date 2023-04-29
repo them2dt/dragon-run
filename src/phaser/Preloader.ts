@@ -16,12 +16,12 @@ export default class Preloader extends Phaser.Scene
 		this.load.image(TextureKeys.Background2, 'game-assets/backgrounds/volcano-bg2.png')
 		this.load.image(TextureKeys.Background3, 'game-assets/backgrounds/volcano-bg3.png')
 
-		this.load.image(TextureKeys.Coin, 'game-assets/house/object_coin.png')
-
 		this.load.image(TextureKeys.CaveTiles, 'game-assets/tiles/cave-tileset-extruded.png')
 		this.load.tilemapTiledJSON(TextureKeys.CaveMap, 'game-assets/tiles/cave-map.json')
 
 		this.load.aseprite(TextureKeys.DefaultCharacter, 'game-assets/characters/default-character.png', 'game-assets/characters/default-character.json')
+		this.load.aseprite(TextureKeys.SmallDragonOrange, 'game-assets/characters/small-dragon-orange.png', 'game-assets/characters/small-dragon-orange.json')
+		this.load.aseprite(TextureKeys.SmallDragonGreen, 'game-assets/characters/small-dragon-green.png', 'game-assets/characters/small-dragon-green.json')
 	}
 
 	create()

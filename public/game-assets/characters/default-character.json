@@ -128,21 +128,10 @@
   "size": { "w": 141, "h": 118 },
   "scale": "1",
   "frameTags": [
-   { "name": "idle_right", "from": 0, "to": 9, "direction": "forward" },
-   { "name": "running_right", "from": 10, "to": 13, "direction": "forward" },
-   { "name": "jumping_right", "from": 10, "to": 10, "direction": "forward" },
-   { "name": "dead_right", "from": 14, "to": 14, "direction": "forward" }
-  ],
-  "layers": [
-   { "name": "Group 1" },
-   { "name": "LeftArm", "group": "Group 1", "opacity": 255, "blendMode": "normal" },
-   { "name": "LeftLeg", "group": "Group 1", "opacity": 255, "blendMode": "normal" },
-   { "name": "RightLeg", "group": "Group 1", "opacity": 255, "blendMode": "normal" },
-   { "name": "Torso", "group": "Group 1", "opacity": 255, "blendMode": "normal" },
-   { "name": "Head", "group": "Group 1", "opacity": 255, "blendMode": "normal" },
-   { "name": "RightArm", "group": "Group 1", "opacity": 255, "blendMode": "normal" }
-  ],
-  "slices": [
+   { "name": "d_c_idle_right", "from": 0, "to": 9, "direction": "forward" },
+   { "name": "d_c_running_right", "from": 10, "to": 13, "direction": "forward" },
+   { "name": "d_c_jumping_right", "from": 10, "to": 10, "direction": "forward" },
+   { "name": "d_c_dead_right", "from": 14, "to": 14, "direction": "forward" }
   ]
  }
 }
