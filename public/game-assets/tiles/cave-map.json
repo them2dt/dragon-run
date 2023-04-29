@@ -223,9 +223,44 @@
          "width":200,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":3,
+         "name":"Enemies",
+         "objects":[
+                {
+                 "gid":30,
+                 "height":16,
+                 "id":1,
+                 "name":"Small-Dragon-Orange-1",
+                 "rotation":0,
+                 "type":"Small-Dragon-Orange",
+                 "visible":true,
+                 "width":16,
+                 "x":336.666666666667,
+                 "y":795.666666666667
+                }, 
+                {
+                 "gid":30,
+                 "height":16,
+                 "id":2,
+                 "name":"Small-Dragon-Orange-2",
+                 "rotation":0,
+                 "type":"Small-Dragon-Orange",
+                 "visible":true,
+                 "width":16,
+                 "x":690.333333333333,
+                 "y":796.666666666667
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":3,
- "nextobjectid":1,
+ "nextlayerid":4,
+ "nextobjectid":3,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.1",
@@ -490,7 +525,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -499,7 +534,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -508,7 +543,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -517,7 +552,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -642,7 +677,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -651,7 +686,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -660,7 +695,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -669,7 +704,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {

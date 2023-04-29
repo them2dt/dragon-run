@@ -10,6 +10,9 @@ export default class GameScene extends Phaser.Scene
 {
 
 	private player!: Player
+	private playerGroundCollider!: Phaser.Physics.Arcade.Collider
+	private playerLavaCollider!: Phaser.Physics.Arcade.Collider
+
 	private SmallDragonsOrange!: Phaser.Physics.Arcade.Group
 
 	private tilemap!: Phaser.Tilemaps.Tilemap
@@ -17,7 +20,6 @@ export default class GameScene extends Phaser.Scene
 	private lava!: Phaser.Tilemaps.TilemapLayer
 	private animatedTiles!: AnimatedTile[]
 	private tileset!: Phaser.Tilemaps.Tileset
-	private tileData!: TilesetTileData
 
 	private bg1!: Phaser.GameObjects.Image
 	private bg2!: Phaser.GameObjects.Image
@@ -89,16 +91,6 @@ export default class GameScene extends Phaser.Scene
 			});
 			});
 		}
-
-
-		/*
-		const debugGraphics = this.add.graphics().setAlpha(0.7)
-		this.ground.renderDebug(debugGraphics, {
-			tileColor: null,
-			collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255),
-			faceColor: new Phaser.Display.Color(40, 39, 37, 255)
-		})
-		*/
 		
 		
 		this.player = new Player(this, 0, 0)
@@ -123,30 +115,42 @@ export default class GameScene extends Phaser.Scene
 		})
 		*/
 		
-		this.physics.add.collider(this.player, this.ground)
-		this.physics.add.collider(this.player, this.lava, () => {
-			this.player.kill()
-		})
-		this.physics.add.collider(this.SmallDragonsOrange, this.ground)
-
+		
 		this.physics.world.setBounds(0, 0, Number.MAX_SAFE_INTEGER, height)
-
+		
 		this.cameras.main.setBounds(0, 0, Number.MAX_SAFE_INTEGER, height)
 		
 		this.cameras.main.startFollow(this.player, true, 1, 1, 0, 200)
 		this.cameras.main.zoom = 0.8 + (width / 2000)
-
+		
+		this.playerGroundCollider = this.physics.add.collider(this.player, this.ground)
+		this.playerLavaCollider = this.physics.add.collider(this.player, this.lava, () => {
+			this.killPlayer()
+		})
+		this.physics.add.collider(this.SmallDragonsOrange, this.ground)
 
 		
 		this.scale.on('resize', this.resize, this);
 
 	}
 
-
-
 	public update(time: number, delta: number): void {
 		this.animatedTiles.forEach(tile => tile.update(delta/2));
-	  }
+	}
+
+	killPlayer = () => {
+		this.cameras.main.stopFollow()
+		this.physics.world.removeCollider(this.playerLavaCollider)
+		this.physics.world.removeCollider(this.playerGroundCollider)
+		this.player.kill()
+		this.cameras.main.fade(2000, 0, 0, 0)
+
+		/*
+		this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+			this.scene.restart()
+		})
+		*/
+	}
 
 	
 

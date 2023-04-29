@@ -46,11 +46,13 @@ export default class Player extends Phaser.GameObjects.Container {
 
 		this.playerState = PlayerState.Killed
 
-		this.defaultCharacter.play(AnimationKeys.DefaultCharacterIdleRight, true)
+		this.defaultCharacter.play(AnimationKeys.DefaultCharacterDeadRight, true)
 
 		const body = this.body as Phaser.Physics.Arcade.Body
 		body.setAccelerationY(0)
-		body.setVelocity(1000, 0)
+		body.setVelocityY(-1000)
+		body.setGravityY(0)
+		body.collideWorldBounds = false
 	}
 
 	preUpdate() {
