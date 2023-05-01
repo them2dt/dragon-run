@@ -32,11 +32,7 @@ export default class GameScene extends Phaser.Scene
         const width = gameSize.width;
         const height = gameSize.height;
 
-		this.physics.world.setBounds(0, 0, Number.MAX_SAFE_INTEGER, height)
-
-		this.cameras.main.setBounds(0, 0, Number.MAX_SAFE_INTEGER, height)
-
-		this.cameras.main.zoom = 0.8 + (width / 2000)
+		this.cameras.main.setZoom(1 + (width / 2000))
 
     }
 
@@ -91,11 +87,12 @@ export default class GameScene extends Phaser.Scene
 
 		this.spawnPlayer()
 		
-		this.physics.world.setBounds(0, 0, Number.MAX_SAFE_INTEGER, height)		
+		this.cameras.main.startFollow(this.player, true, 0.9, 0.1, 0, 100)
+		this.cameras.main.setZoom(1 + (width / 2000))
+
+		this.physics.world.setBounds(0, 0, this.tilemap.widthInPixels * 2.4, this.tilemap.heightInPixels * 2.4)
 		
-		this.cameras.main.setBounds(0, 0, Number.MAX_SAFE_INTEGER, height)
-		this.cameras.main.startFollow(this.player, true, 1, 1, 0, 200)
-		this.cameras.main.zoom = 0.8 + (width / 2000)
+		this.cameras.main.removeBounds()
 		
 		this.physics.add.collider(this.player, this.ground)
 		this.physics.add.collider(this.player, this.lava, () => {
