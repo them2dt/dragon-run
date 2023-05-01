@@ -1,6 +1,5 @@
 import Phaser from 'phaser'
 import AnimationKeys from '../../../consts/AnimationKeys'
-import SceneKeys from '../../../consts/SceneKeys'
 import TextureKeys from '../../../consts/TextureKeys'
 
 enum DragonState {
@@ -20,6 +19,11 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 	private dragonDirection: DragonDirection = DragonDirection.Right
 	private dragonSpeed: number = 14	
 
+	public groundChecker!: Phaser.GameObjects.Rectangle
+	public groundCheckerBody!: Phaser.Physics.Arcade.Body
+
+	private groundCheckerWait: number = 0
+
 	constructor(scene: Phaser.Scene, x: number, y: number) {
 		super(scene, x, y)
 
@@ -34,6 +38,15 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 		const body = this.body as Phaser.Physics.Arcade.Body
 		body.setSize(this.smallDragon.width * 0.63, this.smallDragon.height * 0.52)
 		body.setOffset(this.width * 0.5 - 28, this.height * 0.5 + 14)
+		
+		this.groundChecker = scene.add.rectangle(40, 67, 10, 10)
+
+		this.add(this.groundChecker)
+
+		scene.physics.add.existing(this.groundChecker)
+
+		this.groundCheckerBody = this.groundChecker.body as Phaser.Physics.Arcade.Body
+		this.groundCheckerBody.setAllowGravity(true)
 
 	}
 
@@ -55,6 +68,16 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 		body.collideWorldBounds = false
 
 	}
+
+	swapDirection() {
+		if (this.dragonDirection == DragonDirection.Left) {
+			this.dragonDirection = DragonDirection.Right
+		}
+		else {
+			this.dragonDirection = DragonDirection.Left
+		}
+		this.groundCheckerBody.velocity.y = 0
+	}
 	
 
 	preUpdate(t: number, dt: number) {
@@ -67,11 +90,23 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 					body.setVelocityX(-this.dragonSpeed);
 					this.smallDragon.play(AnimationKeys.SmallDragonOrangeRunningRight, true);
 					this.smallDragon.setFlipX(true)
+					this.groundCheckerBody.setOffset(-76, 0)
+					console.log("ground checker: " + this.groundCheckerBody.velocity.y)
+					console.log(body.velocity.y)
+					if (t > this.groundCheckerWait && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
+						this.swapDirection()
+						this.groundCheckerWait = t + 1000
+					}
 				}
 				else if (this.dragonDirection == DragonDirection.Right) {
 					body.setVelocityX(this.dragonSpeed);
 					this.smallDragon.play(AnimationKeys.SmallDragonOrangeRunningRight, true);
 					this.smallDragon.setFlipX(false)
+					this.groundCheckerBody.setOffset(0, 0)
+					if (t > this.groundCheckerWait && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
+						this.swapDirection()
+						this.groundCheckerWait = t + 1000
+					}
 				}
 				else {
 					body.setVelocityX(0);

@@ -133,6 +133,8 @@ export default class GameScene extends Phaser.Scene
 				const enemyGo = go as SmallDragon
 				const enemyBody = enemyGo.body as Phaser.Physics.Arcade.Body
 				enemyBody.onCollide = true
+				enemyGo.groundCheckerBody.onCollide = true
+				this.physics.add.collider(enemyGo.groundChecker, this.ground)
 
 			}
 		})
