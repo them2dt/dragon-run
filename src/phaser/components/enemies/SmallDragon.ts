@@ -92,8 +92,6 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 					this.smallDragon.play(AnimationKeys.SmallDragonOrangeRunningRight, true);
 					this.smallDragon.setFlipX(true)
 					this.groundCheckerBody.setOffset(-76, 0)
-					console.log("ground checker: " + this.groundCheckerBody.velocity.y)
-					console.log(body.velocity.y)
 					if (t > this.groundCheckerTimer && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
 						this.swapDirection()
 						this.groundCheckerTimer = t + 1000
