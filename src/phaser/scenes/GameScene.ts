@@ -13,10 +13,6 @@ export default class GameScene extends Phaser.Scene
 	private player!: Player
 	private smallDragons!: Phaser.GameObjects.Group
 
-	private playerBody!: Phaser.Physics.Arcade.Body
-	private playerGroundCollider!: Phaser.Physics.Arcade.Collider
-	private playerLavaCollider!: Phaser.Physics.Arcade.Collider
-
 	private tilemap!: Phaser.Tilemaps.Tilemap
 	private ground!: Phaser.Tilemaps.TilemapLayer
 	private lava!: Phaser.Tilemaps.TilemapLayer
@@ -101,8 +97,8 @@ export default class GameScene extends Phaser.Scene
 		this.cameras.main.startFollow(this.player, true, 1, 1, 0, 200)
 		this.cameras.main.zoom = 0.8 + (width / 2000)
 		
-		this.playerGroundCollider = this.physics.add.collider(this.player, this.ground)
-		this.playerLavaCollider = this.physics.add.collider(this.player, this.lava, () => {
+		this.physics.add.collider(this.player, this.ground)
+		this.physics.add.collider(this.player, this.lava, () => {
 			this.player.kill()
 		})
 
