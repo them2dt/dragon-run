@@ -22,7 +22,7 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 	public groundChecker!: Phaser.GameObjects.Rectangle
 	public groundCheckerBody!: Phaser.Physics.Arcade.Body
 
-	private groundCheckerTimer: number = 0
+	private swapTimer: number = 0
 	private deadTimer: number = 0
 
 	constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -37,8 +37,8 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 		scene.physics.add.existing(this)
 
 		const body = this.body as Phaser.Physics.Arcade.Body
-		body.setSize(this.smallDragon.width * 0.63, this.smallDragon.height * 0.52)
-		body.setOffset(this.width * 0.5 - 28, this.height * 0.5 + 14)
+		body.setSize(this.smallDragon.width * 0.55, this.smallDragon.height * 0.49)
+		body.setOffset(this.width * 0.5 - 26, this.height * 0.5 + 16)
 		
 		this.groundChecker = scene.add.rectangle(40, 67, 10, 10)
 
@@ -91,10 +91,14 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 					body.setVelocityX(-this.dragonSpeed);
 					this.smallDragon.play(AnimationKeys.SmallDragonOrangeRunningRight, true);
 					this.smallDragon.setFlipX(true)
-					this.groundCheckerBody.setOffset(-76, 0)
-					if (t > this.groundCheckerTimer && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
+					this.groundCheckerBody.setOffset(-78, 0)
+					if ( t > this.swapTimer &&body.onWall()) {
 						this.swapDirection()
-						this.groundCheckerTimer = t + 1000
+						this.swapTimer = t + 1000
+					}
+					if (t > this.swapTimer && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
+						this.swapDirection()
+						this.swapTimer = t + 1000
 					}
 				}
 				else if (this.dragonDirection == DragonDirection.Right) {
@@ -102,9 +106,14 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 					this.smallDragon.play(AnimationKeys.SmallDragonOrangeRunningRight, true);
 					this.smallDragon.setFlipX(false)
 					this.groundCheckerBody.setOffset(0, 0)
-					if (t > this.groundCheckerTimer && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
+					if (t > this.swapTimer && body.onWall()) {
 						this.swapDirection()
-						this.groundCheckerTimer = t + 1000
+						this.swapTimer = t + 1000
+
+					}
+					if (t > this.swapTimer && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
+						this.swapDirection()
+						this.swapTimer = t + 1000
 					}
 				}
 				else {
