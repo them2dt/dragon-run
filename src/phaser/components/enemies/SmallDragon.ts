@@ -22,7 +22,8 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 	public groundChecker!: Phaser.GameObjects.Rectangle
 	public groundCheckerBody!: Phaser.Physics.Arcade.Body
 
-	private groundCheckerWait: number = 0
+	private groundCheckerTimer: number = 0
+	private deadTimer: number = 0
 
 	constructor(scene: Phaser.Scene, x: number, y: number) {
 		super(scene, x, y)
@@ -93,9 +94,9 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 					this.groundCheckerBody.setOffset(-76, 0)
 					console.log("ground checker: " + this.groundCheckerBody.velocity.y)
 					console.log(body.velocity.y)
-					if (t > this.groundCheckerWait && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
+					if (t > this.groundCheckerTimer && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
 						this.swapDirection()
-						this.groundCheckerWait = t + 1000
+						this.groundCheckerTimer = t + 1000
 					}
 				}
 				else if (this.dragonDirection == DragonDirection.Right) {
@@ -103,9 +104,9 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 					this.smallDragon.play(AnimationKeys.SmallDragonOrangeRunningRight, true);
 					this.smallDragon.setFlipX(false)
 					this.groundCheckerBody.setOffset(0, 0)
-					if (t > this.groundCheckerWait && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
+					if (t > this.groundCheckerTimer && body.velocity.y === 0 && this.groundCheckerBody.velocity.y !== 0) {
 						this.swapDirection()
-						this.groundCheckerWait = t + 1000
+						this.groundCheckerTimer = t + 1000
 					}
 				}
 				else {
@@ -126,7 +127,13 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 			}
 
 			case DragonState.Killed: {
-				
+				// Remove from the game after 2 seconds
+				if (this.deadTimer === 0) {
+					this.deadTimer = t + 2000
+				}
+				else if (t > this.deadTimer) {
+					this.destroy()
+				}
 
 				break
 			}
