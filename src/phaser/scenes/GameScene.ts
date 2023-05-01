@@ -53,12 +53,12 @@ export default class GameScene extends Phaser.Scene
 		this.tilemap = this.make.tilemap({ key: TextureKeys.CaveMap })
 		this.tileset = this.tilemap.addTilesetImage('cave-tileset', TextureKeys.CaveTiles, 16, 16, 1, 2)
 		
-		this.ground = this.tilemap.createLayer('Ground', this.tilemap.getTileset('cave-tileset'), 0, -1500)
+		this.ground = this.tilemap.createLayer('Ground', this.tilemap.getTileset('cave-tileset'), -100, -1500)
 		this.ground.setCollisionByProperty({ collides: true })
 		this.ground.setSize(width, height)
 		this.ground.scale = 2.4
 		
-		this.lava = this.tilemap.createLayer('Lava', this.tilemap.getTileset('cave-tileset'), 0, -1500)
+		this.lava = this.tilemap.createLayer('Lava', this.tilemap.getTileset('cave-tileset'), -100, -1500)
 		this.lava.setCollisionByProperty({ collides: true })
 		this.lava.setSize(width, height)
 		this.lava.scale = 2.4
