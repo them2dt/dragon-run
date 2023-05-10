@@ -66,6 +66,7 @@ export default class Player extends Phaser.GameObjects.Container {
 
 		
 		if (this.defaultCharacter.flipX) {
+			fireball.x -= 16
 			vec.x = -1
 		}
 		else {
