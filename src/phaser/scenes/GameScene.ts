@@ -129,6 +129,9 @@ export default class GameScene extends Phaser.Scene
 				this.physics.add.collider(go, this.ground, (object1, object2) => {
 					const fireball = object1 as Phaser.Physics.Arcade.Image
 					const fireballBody = fireball.body as Phaser.Physics.Arcade.Body
+					if (!fireballBody) {
+						return
+					}
 					if (fireballBody.velocity.x === 0) {
 					fireball.destroy()
 					}
