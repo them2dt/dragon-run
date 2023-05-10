@@ -6,6 +6,7 @@ enum TextureKeys
 	CaveTiles = 'cave-tiles',
 	CaveMap = 'cave-map',
 	DefaultCharacter = 'default-character',
+	Fireball = 'fireball',
 	SmallDragonOrange = 'small-dragon-orange',
 	SmallDragonGreen = 'small-dragon-green',
 }

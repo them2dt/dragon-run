@@ -13,6 +13,9 @@ export default class GameScene extends Phaser.Scene
 	private player!: Player
 	private smallDragons!: Phaser.GameObjects.Group
 
+	private playerFireballs!: Phaser.Physics.Arcade.Group
+	private playerFireballsMaxAmount: number = 20
+
 	private tilemap!: Phaser.Tilemaps.Tilemap
 	private ground!: Phaser.Tilemaps.TilemapLayer
 	private lava!: Phaser.Tilemaps.TilemapLayer
@@ -22,6 +25,8 @@ export default class GameScene extends Phaser.Scene
 	private bg1!: Phaser.GameObjects.Image
 	private bg2!: Phaser.GameObjects.Image
 	private bg3!: Phaser.GameObjects.Image
+
+	private mainScale: number = 2.4
 
 	constructor() {
 		super(SceneKeys.GameScene)
@@ -86,11 +91,13 @@ export default class GameScene extends Phaser.Scene
 		this.spawnEnemies()
 
 		this.spawnPlayer()
+
+		this.createPlayerFireballs()
 		
 		this.cameras.main.startFollow(this.player, true, 0.9, 0.1, 0, 100)
 		this.cameras.main.setZoom(1 + (width / 2000))
 
-		this.physics.world.setBounds(0, 0, this.tilemap.widthInPixels * 2.4, this.tilemap.heightInPixels * 2.4)
+		this.physics.world.setBounds(0, 0, this.tilemap.widthInPixels * this.mainScale, this.tilemap.heightInPixels * this.mainScale)
 		
 		this.cameras.main.removeBounds()
 		
@@ -102,6 +109,8 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.smallDragons, this.player, this.handlePlayerSmallDragonCollision, undefined, this)
 		this.physics.add.collider(this.smallDragons, this.ground)
 
+
+
 		this.scale.on('resize', this.resize, this);
 
 	}
@@ -110,10 +119,40 @@ export default class GameScene extends Phaser.Scene
 		this.animatedTiles.forEach(tile => tile.update(delta/2));
 	}
 
+	createPlayerFireballs = () => {
+		this.playerFireballs = this.physics.add.group({
+			classType: Phaser.Physics.Arcade.Image,
+			maxSize: this.playerFireballsMaxAmount,
+			createCallback: (go) => {
+				const fireballBody = go.body as Phaser.Physics.Arcade.Body
+				fireballBody.onCollide = true
+				this.physics.add.collider(go, this.ground, (object1, object2) => {
+					const fireball = object1 as Phaser.Physics.Arcade.Image
+					const fireballBody = fireball.body as Phaser.Physics.Arcade.Body
+					if (fireballBody.velocity.x === 0) {
+					fireball.destroy()
+					}
+				})
+				this.physics.add.collider(go, this.lava, (object1, object2) => {
+					const fireball = object1 as Phaser.Physics.Arcade.Image
+					fireball.destroy()
+				})
+				this.physics.add.collider(go, this.smallDragons, (object1, object2) => {
+					const fireball = object1 as Phaser.Physics.Arcade.Image
+					const smallDragon = object2 as SmallDragon
+					fireball.destroy()
+					smallDragon.kill()
+				})
+			}
+		})
+
+		this.player.setFireballs(this.playerFireballs)
+	}
+
 	spawnPlayer = () => {
 		const playerLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Player)
 		playerLayer.objects.forEach(playerObject => {
-			this.player = new Player(this, playerObject.x! * 2.4, playerObject.y! * 0.5,)
+			this.player = new Player(this, playerObject.x! * this.mainScale, playerObject.y! * 0.5,)
 			this.add.existing(this.player)
 		})
 	}
@@ -134,7 +173,7 @@ export default class GameScene extends Phaser.Scene
 
 		const enemiesLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Enemies)
 		enemiesLayer.objects.forEach(enemyObject => {
-			const enemy = new SmallDragon(this, enemyObject.x! * 2.4, enemyObject.y! * 0.4)
+			const enemy = new SmallDragon(this, enemyObject.x! * this.mainScale, enemyObject.y! * 0.4)
 			this.add.existing(enemy)
 			this.smallDragons.add(enemy)
 			

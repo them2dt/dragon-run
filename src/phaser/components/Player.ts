@@ -13,6 +13,11 @@ export default class Player extends Phaser.GameObjects.Container {
 	private cursors: Phaser.Types.Input.Keyboard.CursorKeys
 	private defaultCharacter: Phaser.GameObjects.Sprite
 
+	private fireballs?: Phaser.Physics.Arcade.Group
+	private fireballSpeed: number = 450
+	private fireballCooldown: number = 200
+	private fireballTimer: number = 0
+
 	private playerState: PlayerState = PlayerState.Alive
 	private playerSpeed: number = 210
 	private playerJump: number = -300
@@ -40,6 +45,55 @@ export default class Player extends Phaser.GameObjects.Container {
 		this.cursors = scene.input.keyboard.createCursorKeys()
 	}
 
+	setFireballs(fireballs: Phaser.Physics.Arcade.Group) {
+		this.fireballs = fireballs
+	}
+
+	private throwFireball() {
+
+		const playerBody = this.body as Phaser.Physics.Arcade.Body
+
+		if (!this.fireballs) {
+			return
+		}
+
+		const fireball = this.fireballs.get(this.x, this.y - (playerBody.height * 0.8), TextureKeys.Fireball) as Phaser.Physics.Arcade.Image
+		if (!fireball) {
+			return
+		}
+
+		const vec = new Phaser.Math.Vector2(0, 0)
+
+		
+		if (this.defaultCharacter.flipX) {
+			vec.x = -1
+		}
+		else {
+			vec.x = 1
+		}
+
+		vec.y = 0.4
+
+		const fireballBody = fireball.body as Phaser.Physics.Arcade.Body
+		fireballBody.setSize(8, 8)
+
+		const angle = vec.angle()
+
+		fireball.setScale(2)
+		fireball.setOrigin(0.5, 0.5)
+		fireball.setBounceY(0.98)
+		fireball.setBounceX(0)
+		fireball.setMaxVelocity(300)
+		fireball.setActive(true)
+		fireball.setVisible(true)
+		fireball.setRotation(angle)
+
+		fireball.x += vec.x * 16
+		fireball.y += vec.y * 16
+		fireball.setVelocity(vec.x * this.fireballSpeed, vec.y * this.fireballSpeed)
+
+	}
+
 	kill() {
 		if (this.playerState !== PlayerState.Alive) {
 			return
@@ -61,7 +115,7 @@ export default class Player extends Phaser.GameObjects.Container {
 		body.collideWorldBounds = false
 	}
 
-	preUpdate() {
+	preUpdate(t: number, dt: number) {
 		const body = this.body as Phaser.Physics.Arcade.Body
 
 		switch (this.playerState) {
@@ -93,7 +147,15 @@ export default class Player extends Phaser.GameObjects.Container {
 					this.defaultCharacter.setFlipX(false)
 				} else if (!body.blocked.down && body.velocity.x === 0) {
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true)
-				} 
+				}
+
+				if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
+					if (t < this.fireballTimer) {
+						return
+					}
+					this.throwFireball()
+					this.fireballTimer = t + this.fireballCooldown
+				}
 
 				if (body.blocked.down && body.velocity.x == 0) {
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterIdleRight, true)
