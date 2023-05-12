@@ -41,6 +41,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 		body.setFrictionX(0)
 		body.setFrictionY(0)
 
+
 	}
 
 	kill() {
@@ -64,7 +65,6 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 		switch (this.dragonState) {
 			case DragonState.Alive: {
                 body.setVelocityX(this.dragonSpeed)
-                this.redDragon.play(AnimationKeys.RedDragonIdleRight, true)
 				
 				break		
 			}

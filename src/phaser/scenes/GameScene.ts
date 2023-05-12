@@ -11,7 +11,7 @@ import TiledLayerKeys from '../../consts/TiledLayerKeys'
 export default class GameScene extends Phaser.Scene
 {
 
-	public player!: Player
+	private player!: Player
 	private redDragon!: RedDragon
 	private smallDragons!: Phaser.GameObjects.Group
 
@@ -118,6 +118,12 @@ export default class GameScene extends Phaser.Scene
 
 		this.createLavaballs()
 		this.throwLavaballs()
+
+		this.time.addEvent({
+			delay: 3000,                // ms
+			callback: this.throwLavaballs,
+			repeat: -1
+		})
 		
 		this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100)
 		this.handleZoom()
@@ -193,20 +199,19 @@ export default class GameScene extends Phaser.Scene
 	}
 
 	createLavaballs = () => {
+		
 		this.lavaballs = this.physics.add.group({
 			classType: Phaser.Physics.Arcade.Image,
 			createCallback: (go) => {
 				const lavaballBody = go.body as Phaser.Physics.Arcade.Body
 				lavaballBody.onCollide = true
 				lavaballBody.pushable = false
-				this.physics.add.collider(go, this.lava, (object1, object2) => {
-					const lavaball = object1 as Phaser.Physics.Arcade.Image
-					const lavaballBody = lavaball.body as Phaser.Physics.Arcade.Body
-					lavaballBody.setVelocityX(0)
-					lavaballBody.setVelocityY(-500)
-				})
 				this.physics.add.collider(go, this.player, () => {
 					this.player.kill()
+				})
+				this.physics.add.collider(go, this.lava, (object1, object2) => {
+					const lavaball = object1 as Phaser.Physics.Arcade.Image
+					lavaball.destroy()
 				})
 			}
 		})
@@ -222,27 +227,20 @@ export default class GameScene extends Phaser.Scene
 		}
 
 		this.lavaballsLayer.objects.forEach(lavaballObject => {
-			const lavaball = this.lavaballs.get(lavaballObject.x! * this.mainScale + this.objectsLayerOffsetX, lavaballObject.y! * 0.4, TextureKeys.Fireball) as Phaser.Physics.Arcade.Image
+			const lavaball = this.lavaballs.get(lavaballObject.x! * this.mainScale + this.objectsLayerOffsetX, (lavaballObject.y! * 2.4) - 1520, TextureKeys.Fireball) as Phaser.Physics.Arcade.Image
 			
 			const vec = new Phaser.Math.Vector2(0, 0)
 
 			vec.y = 2
 
 			const lavaballBody = lavaball.body as Phaser.Physics.Arcade.Body
-			lavaballBody.setSize(8, 8)
-
-			const angle = vec.angle()
-
-			lavaball.setScale(2)
-			lavaball.setOrigin(0.5, 0.5)
-			lavaball.setRotation(angle)
-
-			lavaball.x += vec.x * 16
-			lavaball.y += vec.y * 16
-			lavaball.setVelocity(vec.x * this.lavaballSpeed, vec.y * this.lavaballSpeed)
-
 			this.add.existing(lavaball)
 			this.lavaballs.add(lavaball)
+			lavaballBody.setSize(8, 8)
+			lavaballBody.setAllowGravity(true)
+			lavaballBody.setVelocityY(-this.lavaballSpeed)
+			lavaball.setScale(2)
+			
 		})
 		
 	}
