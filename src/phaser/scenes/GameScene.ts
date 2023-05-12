@@ -12,8 +12,10 @@ export default class GameScene extends Phaser.Scene
 {
 
 	private player!: Player
-	private redDragon!: RedDragon
 	private smallDragons!: Phaser.GameObjects.Group
+
+	private redDragon!: RedDragon
+	private redDragonSpeed: number = 200
 
 	private playerFireballs!: Phaser.Physics.Arcade.Group
 	private playerFireballsMaxAmount: number = 20
@@ -41,7 +43,7 @@ export default class GameScene extends Phaser.Scene
 	private bg3!: Phaser.GameObjects.Image
 
 	private mainScale: number = 2.4
-	private defaultZoom: number = 0.1
+	private defaultZoom: number = 1
 	private zoom: number = 1
 
 	constructor() {
@@ -110,6 +112,9 @@ export default class GameScene extends Phaser.Scene
 
 		this.spawnRedDragon()
 
+		const redDragonBody = this.redDragon.body as Phaser.Physics.Arcade.Body
+		redDragonBody.setVelocityX(this.redDragonSpeed)
+
 		this.spawnEnemies()
 
 		this.spawnPlayer()
@@ -162,7 +167,7 @@ export default class GameScene extends Phaser.Scene
 
 	public update(time: number, delta: number): void {
 		this.animatedTiles.forEach(tile => tile.update(delta/2));
-		this.redDragon.setPosition(this.player.x - 300, this.player.y - 100)
+		this.redDragon.y = this.player.y
 	}
 
 	createPlayerFireballs = () => {

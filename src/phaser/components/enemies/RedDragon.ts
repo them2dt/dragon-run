@@ -16,7 +16,6 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 	public redDragonBody!: Phaser.Physics.Arcade.Body
 
 	private dragonState: DragonState = DragonState.Alive
-	private dragonSpeed: number = 210
 	private dragonSize: number = 1.0
 	
 
@@ -64,7 +63,6 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
 		switch (this.dragonState) {
 			case DragonState.Alive: {
-                body.setVelocityX(this.dragonSpeed)
 				
 				break		
 			}
