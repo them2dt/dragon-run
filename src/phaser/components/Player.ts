@@ -11,7 +11,8 @@ enum PlayerState {
 
 export default class Player extends Phaser.GameObjects.Container {
 	private cursors: Phaser.Types.Input.Keyboard.CursorKeys
-	private fireKey!: Phaser.Input.Keyboard.Key
+	private fireKeyOne!: Phaser.Input.Keyboard.Key
+	private firekeyTwo!: Phaser.Input.Keyboard.Key
 	private wKey!: Phaser.Input.Keyboard.Key
 	private aKey!: Phaser.Input.Keyboard.Key
 	private sKey!: Phaser.Input.Keyboard.Key
@@ -49,7 +50,8 @@ export default class Player extends Phaser.GameObjects.Container {
 		body.setFrictionY(0)
 
 		this.cursors = scene.input.keyboard.createCursorKeys()
-		this.fireKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
+		this.fireKeyOne = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
+		this.firekeyTwo = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.PERIOD)
 		this.wKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
 		this.aKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
 		this.sKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
@@ -161,7 +163,7 @@ export default class Player extends Phaser.GameObjects.Container {
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true)
 				}
 
-				if (Phaser.Input.Keyboard.JustDown(this.fireKey)) {
+				if (Phaser.Input.Keyboard.JustDown(this.fireKeyOne) || Phaser.Input.Keyboard.JustDown(this.firekeyTwo)) {
 					if (t < this.fireballTimer) {
 						return
 					}
