@@ -121,6 +121,8 @@ export default class GameScene extends Phaser.Scene
 		this.physics.world.setBounds(-100, -100, this.tilemap.widthInPixels * this.mainScale, this.tilemap.heightInPixels * this.mainScale)
 		
 		this.cameras.main.removeBounds()
+		this.cameras.main.setViewport(-40, 0, width + 80, height)
+
 		
 		this.physics.add.collider(this.player, this.ground)
 		this.physics.add.collider(this.player, this.lava, () => {
