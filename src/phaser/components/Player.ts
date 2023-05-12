@@ -11,6 +11,12 @@ enum PlayerState {
 
 export default class Player extends Phaser.GameObjects.Container {
 	private cursors: Phaser.Types.Input.Keyboard.CursorKeys
+	private fireKey!: Phaser.Input.Keyboard.Key
+	private wKey!: Phaser.Input.Keyboard.Key
+	private aKey!: Phaser.Input.Keyboard.Key
+	private sKey!: Phaser.Input.Keyboard.Key
+	private dKey!: Phaser.Input.Keyboard.Key
+
 	private defaultCharacter: Phaser.GameObjects.Sprite
 
 	private fireballs?: Phaser.Physics.Arcade.Group
@@ -43,6 +49,11 @@ export default class Player extends Phaser.GameObjects.Container {
 		body.setFrictionY(0)
 
 		this.cursors = scene.input.keyboard.createCursorKeys()
+		this.fireKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
+		this.wKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
+		this.aKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+		this.sKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
+		this.dKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
 	}
 
 	setFireballs(fireballs: Phaser.Physics.Arcade.Group) {
@@ -121,12 +132,12 @@ export default class Player extends Phaser.GameObjects.Container {
 
 		switch (this.playerState) {
 			case PlayerState.Alive: {
-				if (this.cursors.left.isDown) {
+				if (this.cursors.left.isDown || this.aKey.isDown) {
 					body.setVelocityX(-this.playerSpeed);
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
 					this.defaultCharacter.setFlipX(true)
 				}
-				else if (this.cursors.right.isDown) {
+				else if (this.cursors.right.isDown || this.dKey.isDown) {
 					body.setVelocityX(this.playerSpeed);
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
 					this.defaultCharacter.setFlipX(false)
@@ -135,7 +146,7 @@ export default class Player extends Phaser.GameObjects.Container {
 					body.setVelocityX(0);
 				}
 
-				if (this.cursors.up.isDown && body.blocked.down) {
+				if (this.cursors.up.isDown && body.blocked.down || this.wKey.isDown && body.blocked.down || this.cursors.space.isDown && body.blocked.down) {
 					body.setVelocityY(this.playerJump);
 				}
 
@@ -150,7 +161,7 @@ export default class Player extends Phaser.GameObjects.Container {
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true)
 				}
 
-				if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
+				if (Phaser.Input.Keyboard.JustDown(this.fireKey)) {
 					if (t < this.fireballTimer) {
 						return
 					}
