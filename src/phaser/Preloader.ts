@@ -22,6 +22,7 @@ export default class Preloader extends Phaser.Scene
 		this.load.image(TextureKeys.Fireball, 'game-assets/misc/fireball.png')
 		this.load.image(TextureKeys.Lavaball, 'game-assets/misc/lavaball.png')
 
+		this.load.aseprite(TextureKeys.RedDragon, 'game-assets/characters/red-dragon.png', 'game-assets/characters/red-dragon.json')
 		this.load.aseprite(TextureKeys.DefaultCharacter, 'game-assets/characters/default-character.png', 'game-assets/characters/default-character.json')
 		this.load.aseprite(TextureKeys.SmallDragonOrange, 'game-assets/characters/small-dragon-orange.png', 'game-assets/characters/small-dragon-orange.json')
 		this.load.aseprite(TextureKeys.SmallDragonGreen, 'game-assets/characters/small-dragon-green.png', 'game-assets/characters/small-dragon-green.json')

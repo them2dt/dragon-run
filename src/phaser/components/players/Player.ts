@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
-import TextureKeys from '../../consts/TextureKeys'
-import AnimationKeys from '../../consts/AnimationKeys'
-import SceneKeys from '../../consts/SceneKeys'
+import TextureKeys from '../../../consts/TextureKeys'
+import AnimationKeys from '../../../consts/AnimationKeys'
+import SceneKeys from '../../../consts/SceneKeys'
 
 enum PlayerState {
 	Alive,

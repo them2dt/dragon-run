@@ -5,6 +5,7 @@ enum TextureKeys
 	Background3 = 'background-3',
 	CaveTiles = 'cave-tiles',
 	CaveMap = 'cave-map',
+	RedDragon = 'red-dragon',
 	DefaultCharacter = 'default-character',
 	Fireball = 'fireball',    
 	Lavaball = 'lavaball',    

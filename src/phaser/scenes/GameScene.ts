@@ -2,15 +2,17 @@ import Phaser from 'phaser'
 
 import TextureKeys from '../../consts/TextureKeys'
 import SceneKeys from '../../consts/SceneKeys'
-import Player from '../components/Player'
+import Player from '../components/players/Player'
 import SmallDragon from '../components/enemies/SmallDragon'
+import RedDragon from '../components/enemies/RedDragon'
 import { AnimatedTile, TilesetTileData} from '../components/AnimatedTile'
 import TiledLayerKeys from '../../consts/TiledLayerKeys'
 
 export default class GameScene extends Phaser.Scene
 {
 
-	private player!: Player
+	public player!: Player
+	private redDragon!: RedDragon
 	private smallDragons!: Phaser.GameObjects.Group
 
 	private playerFireballs!: Phaser.Physics.Arcade.Group
@@ -39,7 +41,7 @@ export default class GameScene extends Phaser.Scene
 	private bg3!: Phaser.GameObjects.Image
 
 	private mainScale: number = 2.4
-	private defaultZoom: number = 1
+	private defaultZoom: number = 0.1
 	private zoom: number = 1
 
 	constructor() {
@@ -106,6 +108,8 @@ export default class GameScene extends Phaser.Scene
 			});
 		}
 
+		this.spawnRedDragon()
+
 		this.spawnEnemies()
 
 		this.spawnPlayer()
@@ -152,6 +156,7 @@ export default class GameScene extends Phaser.Scene
 
 	public update(time: number, delta: number): void {
 		this.animatedTiles.forEach(tile => tile.update(delta/2));
+		this.redDragon.setPosition(this.player.x - 300, this.player.y - 100)
 	}
 
 	createPlayerFireballs = () => {
@@ -240,6 +245,11 @@ export default class GameScene extends Phaser.Scene
 			this.lavaballs.add(lavaball)
 		})
 		
+	}
+
+	spawnRedDragon = () => {
+		this.redDragon = new RedDragon(this, 100, 100)
+		this.add.existing(this.redDragon)
 	}
 
 	spawnPlayer = () => {
