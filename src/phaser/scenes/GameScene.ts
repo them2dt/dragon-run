@@ -131,14 +131,12 @@ export default class GameScene extends Phaser.Scene
 		})
 		
 		this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100)
-		this.handleZoom()
-
+		
 		this.physics.world.setBounds(-100, -100, this.tilemap.widthInPixels * this.mainScale, this.tilemap.heightInPixels * this.mainScale)
 		
 		this.cameras.main.removeBounds()
-		this.cameras.main.setViewport(-80, 0, width + 160, height)
+		this.handleZoom()
 
-		
 		this.physics.add.collider(this.player, this.ground)
 		this.physics.add.collider(this.player, this.lava, () => {
 			this.player.kill()
@@ -159,8 +157,6 @@ export default class GameScene extends Phaser.Scene
 		})
 		this.physics.add.collider(this.smallDragons, this.ground)
 
-
-
 		this.scale.on('resize', this.resize, this);
 
 	}
@@ -168,6 +164,9 @@ export default class GameScene extends Phaser.Scene
 	public update(time: number, delta: number): void {
 		this.animatedTiles.forEach(tile => tile.update(delta/2));
 		this.redDragon.y = this.player.y
+
+		this.handleCameraFollow()
+
 	}
 
 	createPlayerFireballs = () => {
@@ -284,9 +283,28 @@ export default class GameScene extends Phaser.Scene
 		
 	}
 
+	handleCameraFollow = () => {
+		const redDragonBody = this.redDragon.body as Phaser.Physics.Arcade.Body
+		const width = this.scale.width
+
+		const distanceBetweenPlayerAndRedDragon = Phaser.Math.Distance.Between(this.player.body.position.x, 0, redDragonBody.position.x, 0)
+
+		// Trust the math?
+		const cameraOffset = - (width * 0.3) + (-250 + (210 * (this.defaultZoom + this.zoom) ))
+		// Again, trust the math?
+		if (distanceBetweenPlayerAndRedDragon < -cameraOffset + redDragonBody.width * 0.5 + 10) {
+			const redDragonBody = this.redDragon.body as Phaser.Physics.Arcade.Body
+			this.cameras.main.startFollow(this.redDragon, false, 0.9, 0.1, cameraOffset, 100)
+		} else {
+			this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100)
+		}
+	}
+
 	handleZoom = () => {
 		const width = this.scale.width
 		const height = this.scale.height
+
+		this.cameras.main.setViewport(-80, 0, width + 160, height)
 
 		// desktop
 		if ( width >= 1000) {
