@@ -8,8 +8,21 @@ import RedDragon from '../components/enemies/RedDragon'
 import { AnimatedTile, TilesetTileData} from '../components/AnimatedTile'
 import TiledLayerKeys from '../../consts/TiledLayerKeys'
 
+enum Device {
+	MobilePortrait,
+	MobileLandscape,
+	Desktop
+}
+
+enum CameraFollowing {
+	Player,
+	RedDragon
+}
+
 export default class GameScene extends Phaser.Scene
 {
+
+	private device:Device = Device.Desktop
 
 	private player!: Player
 	private smallDragons!: Phaser.GameObjects.Group
@@ -45,6 +58,10 @@ export default class GameScene extends Phaser.Scene
 	private mainScale: number = 2.4
 	private defaultZoom: number = 1
 	private zoom: number = 1
+
+	private cameraFollowing: CameraFollowing = CameraFollowing.Player
+	private dragonCameraOffset!: number
+
 
 	constructor() {
 		super(SceneKeys.GameScene)
@@ -285,17 +302,14 @@ export default class GameScene extends Phaser.Scene
 
 	handleCameraFollow = () => {
 		const redDragonBody = this.redDragon.body as Phaser.Physics.Arcade.Body
-		const width = this.scale.width
 
 		const distanceBetweenPlayerAndRedDragon = Phaser.Math.Distance.Between(this.player.body.position.x, 0, redDragonBody.position.x, 0)
 
-		// Trust the math?
-		const cameraOffset = - (width * 0.3) + (-250 + (210 * (this.defaultZoom + this.zoom) ))
-		// Again, trust the math?
-		if (distanceBetweenPlayerAndRedDragon < -cameraOffset + redDragonBody.width * 0.5 + 10) {
-			const redDragonBody = this.redDragon.body as Phaser.Physics.Arcade.Body
-			this.cameras.main.startFollow(this.redDragon, false, 0.9, 0.1, cameraOffset, 100)
-		} else {
+		if (distanceBetweenPlayerAndRedDragon < -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10 && this.cameraFollowing === CameraFollowing.Player) {
+			this.cameraFollowing = CameraFollowing.RedDragon
+			this.cameras.main.startFollow(this.redDragon, false, 0.9, 0.1, this.dragonCameraOffset, 100)
+		} else if (distanceBetweenPlayerAndRedDragon >= -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10 && this.cameraFollowing === CameraFollowing.RedDragon) {
+			this.cameraFollowing = CameraFollowing.Player
 			this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100)
 		}
 	}
@@ -306,8 +320,8 @@ export default class GameScene extends Phaser.Scene
 
 		this.cameras.main.setViewport(-80, 0, width + 160, height)
 
-		// desktop
 		if ( width >= 1000) {
+			this.device = Device.Desktop
 			switch (true) {
 				case width < 1200:
 					this.zoom = 0.6
@@ -322,8 +336,8 @@ export default class GameScene extends Phaser.Scene
 					this.zoom = 0.7
 					break;
 			}
-		// mobile portrait
 		} else if ( width < height ) {
+			this.device = Device.MobilePortrait
 			switch (true) {
 				case width < 400:
 					this.zoom = 0
@@ -338,8 +352,8 @@ export default class GameScene extends Phaser.Scene
 					this.zoom = 0.7
 					break;
 			}
-		// mobile landscape
 		} else {
+			this.device = Device.MobileLandscape
 			switch (true) {
 				case height < 300:
 					this.zoom = -0.2
@@ -372,6 +386,17 @@ export default class GameScene extends Phaser.Scene
 					this.zoom = 0.6
 					break;
 			}
+		}
+
+		switch (this.device) {
+			case Device.MobilePortrait:
+				this.dragonCameraOffset = - (width * 0.3) + (-250 + (210 * (this.defaultZoom + this.zoom) ))
+				break;
+				case Device.MobileLandscape:
+				this.dragonCameraOffset = - (width * 0.5) + (-290 + (380 * (this.defaultZoom + this.zoom) ))
+				break;
+			case Device.Desktop:
+				this.dragonCameraOffset = - (width * 0.3) + (-250 + (210 * (this.defaultZoom + this.zoom) ))
 		}
 
 		this.cameras.main.setZoom(this.defaultZoom + this.zoom)
