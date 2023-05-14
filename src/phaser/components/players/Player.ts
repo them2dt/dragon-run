@@ -2,14 +2,15 @@ import Phaser from 'phaser'
 import TextureKeys from '../../../consts/TextureKeys'
 import AnimationKeys from '../../../consts/AnimationKeys'
 import SceneKeys from '../../../consts/SceneKeys'
+import GameScene from '../../scenes/GameScene'
+import CameraFollowing from '../../../consts/CameraFollowing'
+import PlayerState from '../../../consts/players/PlayerState'
 
-enum PlayerState {
-	Alive,
-	Killed,
-	Dead
-}
 
 export default class Player extends Phaser.GameObjects.Container {
+
+	private currentScene!: SceneKeys
+	
 	private cursors: Phaser.Types.Input.Keyboard.CursorKeys
 	private fireKeyOne!: Phaser.Input.Keyboard.Key
 	private firekeyTwo!: Phaser.Input.Keyboard.Key
@@ -25,7 +26,7 @@ export default class Player extends Phaser.GameObjects.Container {
 	private fireballCooldown: number = 200
 	private fireballTimer: number = 0
 
-	private playerState: PlayerState = PlayerState.Alive
+	public playerState: PlayerState = PlayerState.Alive
 	private playerSpeed: number = 210
 	private playerJump: number = -300
 	private playerSize: number = 1.0
@@ -33,6 +34,10 @@ export default class Player extends Phaser.GameObjects.Container {
 
 	constructor(scene: Phaser.Scene, x: number, y: number) {
 		super(scene, x, y)
+
+		if (this.scene.scene.isActive(SceneKeys.GameScene)) {
+			this.currentScene = SceneKeys.GameScene
+		}
 
 		this.defaultCharacter = scene.add.sprite(0, 0, TextureKeys.DefaultCharacter).setOrigin(0.55, 1).setScale(this.playerSize * 1.5)
 
@@ -58,7 +63,7 @@ export default class Player extends Phaser.GameObjects.Container {
 		this.dKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
 	}
 
-	setFireballs(fireballs: Phaser.Physics.Arcade.Group) {
+	public setFireballs(fireballs: Phaser.Physics.Arcade.Group) {
 		this.fireballs = fireballs
 	}
 
@@ -108,7 +113,7 @@ export default class Player extends Phaser.GameObjects.Container {
 
 	}
 
-	kill() {
+	public kill() {
 		if (this.playerState !== PlayerState.Alive) {
 			return
 		}
@@ -117,7 +122,13 @@ export default class Player extends Phaser.GameObjects.Container {
 
 		this.defaultCharacter.play(AnimationKeys.DefaultCharacterDeadRight, true)
 
-		this.scene.cameras.main.stopFollow()
+		if (this.currentScene === SceneKeys.GameScene) {
+			const cameraFollowing = (this.scene as GameScene).cameraFollowing
+			if (cameraFollowing === CameraFollowing.Player) {
+				this.scene.cameras.main.stopFollow()
+			}
+		}
+
 		this.scene.cameras.main.fade(2000, 0, 0, 0)
 
 		const body = this.body as Phaser.Physics.Arcade.Body
@@ -129,7 +140,7 @@ export default class Player extends Phaser.GameObjects.Container {
 		body.collideWorldBounds = false
 	}
 
-	preUpdate(t: number, dt: number) {
+	public preUpdate(t: number, dt: number) {
 		const body = this.body as Phaser.Physics.Arcade.Body
 
 		switch (this.playerState) {

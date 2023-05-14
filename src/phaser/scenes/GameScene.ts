@@ -6,18 +6,11 @@ import Player from '../components/players/Player'
 import SmallDragon from '../components/enemies/SmallDragon'
 import RedDragon from '../components/enemies/RedDragon'
 import { AnimatedTile, TilesetTileData} from '../components/AnimatedTile'
+import Device from '../../consts/Device'
+import CameraFollowing from '../../consts/CameraFollowing'
 import TiledLayerKeys from '../../consts/TiledLayerKeys'
+import PlayerState from '../../consts/players/PlayerState'
 
-enum Device {
-	MobilePortrait,
-	MobileLandscape,
-	Desktop
-}
-
-enum CameraFollowing {
-	Player,
-	RedDragon
-}
 
 export default class GameScene extends Phaser.Scene
 {
@@ -59,7 +52,7 @@ export default class GameScene extends Phaser.Scene
 	private defaultZoom: number = 1
 	private zoom: number = 1
 
-	private cameraFollowing: CameraFollowing = CameraFollowing.Player
+	public cameraFollowing: CameraFollowing = CameraFollowing.Player
 	private dragonCameraOffset!: number
 
 
@@ -68,7 +61,7 @@ export default class GameScene extends Phaser.Scene
 		this.animatedTiles = []
 	}
 
-	resize () {
+	public resize () {
 
 		this.handleZoom()
 
@@ -76,8 +69,9 @@ export default class GameScene extends Phaser.Scene
 
     }
 
-	create() {
+	public create() {
 
+		this.anims.createFromAseprite(TextureKeys.RedDragon)
 		this.anims.createFromAseprite(TextureKeys.SmallDragonOrange)
 		this.anims.createFromAseprite(TextureKeys.DefaultCharacter)
 
@@ -132,6 +126,8 @@ export default class GameScene extends Phaser.Scene
 		const redDragonBody = this.redDragon.body as Phaser.Physics.Arcade.Body
 		redDragonBody.setVelocityX(this.redDragonSpeed)
 
+		this.redDragon.depth = 1000
+
 		this.spawnEnemies()
 
 		this.spawnPlayer()
@@ -182,11 +178,16 @@ export default class GameScene extends Phaser.Scene
 		this.animatedTiles.forEach(tile => tile.update(delta/2));
 		this.redDragon.y = this.player.y
 
+		if (this.redDragon.x > this.player.x - 150 && this.player.playerState === PlayerState.Alive) {
+			this.player.kill()
+			this.redDragon.attackPlayer()
+		}
+
 		this.handleCameraFollow()
 
 	}
 
-	createPlayerFireballs = () => {
+	private createPlayerFireballs = () => {
 		this.playerFireballs = this.physics.add.group({
 			classType: Phaser.Physics.Arcade.Image,
 			maxSize: this.playerFireballsMaxAmount,
@@ -219,7 +220,7 @@ export default class GameScene extends Phaser.Scene
 		this.player.setFireballs(this.playerFireballs)
 	}
 
-	createLavaballs = () => {
+	private createLavaballs = () => {
 		
 		this.lavaballs = this.physics.add.group({
 			classType: Phaser.Physics.Arcade.Image,
@@ -238,7 +239,7 @@ export default class GameScene extends Phaser.Scene
 		})
 	}
 
-	throwLavaballs = () => {
+	private throwLavaballs = () => {
 
 		if (!this.lavaballs) {
 			return
@@ -266,19 +267,19 @@ export default class GameScene extends Phaser.Scene
 		
 	}
 
-	spawnRedDragon = () => {
+	public spawnRedDragon = () => {
 		this.redDragon = new RedDragon(this, 100, 100)
 		this.add.existing(this.redDragon)
 	}
 
-	spawnPlayer = () => {
+	public spawnPlayer = () => {
 		this.playerLayer.objects.forEach(playerObject => {
 			this.player = new Player(this, playerObject.x! * this.mainScale + this.objectsLayerOffsetX, playerObject.y! * 0.5,)
 			this.add.existing(this.player)
 		})
 	}
 
-	spawnEnemies = () => {
+	public spawnEnemies = () => {
 
 		this.smallDragons = this.physics.add.group({
 			classType: SmallDragon,
@@ -300,7 +301,7 @@ export default class GameScene extends Phaser.Scene
 		
 	}
 
-	handleCameraFollow = () => {
+	public handleCameraFollow = () => {
 		const redDragonBody = this.redDragon.body as Phaser.Physics.Arcade.Body
 
 		const distanceBetweenPlayerAndRedDragon = Phaser.Math.Distance.Between(this.player.body.position.x, 0, redDragonBody.position.x, 0)
@@ -314,7 +315,7 @@ export default class GameScene extends Phaser.Scene
 		}
 	}
 
-	handleZoom = () => {
+	public handleZoom = () => {
 		const width = this.scale.width
 		const height = this.scale.height
 

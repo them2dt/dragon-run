@@ -1,14 +1,7 @@
 import Phaser from 'phaser'
 import TextureKeys from '../../../consts/TextureKeys'
 import AnimationKeys from '../../../consts/AnimationKeys'
-import SceneKeys from '../../../consts/SceneKeys'
-import GameScene from '../../scenes/GameScene'
-
-enum DragonState {
-	Alive,
-	Killed,
-	Dead
-}
+import DragonState from '../../../consts/enemies/DragonState'
 
 export default class RedDragon extends Phaser.GameObjects.Container {
 
@@ -40,15 +33,14 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 		body.setFrictionX(0)
 		body.setFrictionY(0)
 
-
 	}
 
-	kill() {
+	public kill() {
 		if (this.dragonState !== DragonState.Alive) {
 			return
 		}
 
-		this.dragonState = DragonState.Killed
+		this.dragonState = DragonState.Dead
 
 		const body = this.body as Phaser.Physics.Arcade.Body
 		body.checkCollision.none = true
@@ -58,18 +50,28 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 		body.setGravityY(150)
 	}
 
-	preUpdate(t: number, dt: number) {
+	public attackPlayer() {
+		if (this.dragonState !== DragonState.Alive) {
+			return
+		}
+
+		this.dragonState = DragonState.Attacking
+
+		this.redDragon.play(AnimationKeys.RedDragonAttackRight, true)
+
+	}
+
+	public preUpdate(t: number, dt: number) {
 		const body = this.body as Phaser.Physics.Arcade.Body
 
 		switch (this.dragonState) {
 			case DragonState.Alive: {
+
+				this.redDragon.play(AnimationKeys.RedDragonFlyingRight, true)
+			
+
 				
 				break		
-			}
-
-			case DragonState.Killed: {
-				
-				break
 			}
 
 			case DragonState.Dead: {

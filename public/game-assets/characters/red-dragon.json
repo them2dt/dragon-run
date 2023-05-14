@@ -760,7 +760,7 @@
   "size": { "w": 764, "h": 644 },
   "scale": "1",
   "frameTags": [
-   { "name": "r_d_idle_right", "from": 0, "to": 13, "direction": "forward" },
+   { "name": "r_d_flying_right", "from": 0, "to": 13, "direction": "forward" },
    { "name": "r_d_attack_right", "from": 14, "to": 93, "direction": "forward" }
   ]
  }

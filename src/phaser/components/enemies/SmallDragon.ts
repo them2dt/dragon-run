@@ -1,22 +1,14 @@
 import Phaser from 'phaser'
 import AnimationKeys from '../../../consts/AnimationKeys'
 import TextureKeys from '../../../consts/TextureKeys'
-
-enum DragonState {
-	Alive,
-	Killed
-}
-
-enum DragonDirection {
-	Left,
-	Right
-}
+import DefaultEnemyState from '../../../consts/enemies/DefaultEnemyState'
+import DefaultEnemyDirection from '../../../consts/enemies/DefaultEnemyDirection'
 
 export default class SmallDragon extends Phaser.GameObjects.Container {
 
 	private smallDragon!: Phaser.GameObjects.Sprite
-	private dragonState: DragonState = DragonState.Alive
-	private dragonDirection: DragonDirection = DragonDirection.Right
+	private dragonState: DefaultEnemyState = DefaultEnemyState.Alive
+	private dragonDirection: DefaultEnemyDirection = DefaultEnemyDirection.Right
 	private dragonSpeed: number = 14	
 
 	public groundChecker!: Phaser.GameObjects.Rectangle
@@ -52,11 +44,11 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 	}
 
 	kill() {
-		if (this.dragonState !== DragonState.Alive) {
+		if (this.dragonState !== DefaultEnemyState.Alive) {
 			return
 		}
 
-		this.dragonState = DragonState.Killed
+		this.dragonState = DefaultEnemyState.Dead
 
 		this.smallDragon.play(AnimationKeys.SmallDragonOrangeIdleRight, true)
 
@@ -71,11 +63,11 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 	}
 
 	swapDirection() {
-		if (this.dragonDirection == DragonDirection.Left) {
-			this.dragonDirection = DragonDirection.Right
+		if (this.dragonDirection == DefaultEnemyDirection.Left) {
+			this.dragonDirection = DefaultEnemyDirection.Right
 		}
 		else {
-			this.dragonDirection = DragonDirection.Left
+			this.dragonDirection = DefaultEnemyDirection.Left
 		}
 		this.groundCheckerBody.velocity.y = 0
 	}
@@ -86,8 +78,8 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 		const body = this.body as Phaser.Physics.Arcade.Body
 
 		switch (this.dragonState) {
-			case DragonState.Alive: {
-				if (this.dragonDirection == DragonDirection.Left) {
+			case DefaultEnemyState.Alive: {
+				if (this.dragonDirection == DefaultEnemyDirection.Left) {
 					body.setVelocityX(-this.dragonSpeed);
 					this.smallDragon.play(AnimationKeys.SmallDragonOrangeRunningRight, true);
 					this.smallDragon.setFlipX(true)
@@ -101,7 +93,7 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 						this.swapTimer = t + 1000
 					}
 				}
-				else if (this.dragonDirection == DragonDirection.Right) {
+				else if (this.dragonDirection == DefaultEnemyDirection.Right) {
 					body.setVelocityX(this.dragonSpeed);
 					this.smallDragon.play(AnimationKeys.SmallDragonOrangeRunningRight, true);
 					this.smallDragon.setFlipX(false)
@@ -133,7 +125,7 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 				break		
 			}
 
-			case DragonState.Killed: {
+			case DefaultEnemyState.Dead: {
 				// Remove from the game after 2 seconds
 				if (this.deadTimer === 0) {
 					this.deadTimer = t + 2000
