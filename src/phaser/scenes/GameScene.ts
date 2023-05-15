@@ -183,10 +183,10 @@ export default class GameScene extends Phaser.Scene
 
 		if (this.player.playerState === PlayerState.Alive) {
 			this.redDragon.dragonState = DragonState.Chasing
-			this.redDragon.followY(playerBody.position.y + playerBody.halfHeight - 16, 100)
+			this.redDragon.followY(playerBody.position.y + playerBody.halfHeight - 37, 100)
 		}
 
-		if (this.redDragon.x > this.player.x - 100 && this.player.playerState === PlayerState.Alive) {
+		if (this.redDragon.x > this.player.x - 140 && this.player.playerState === PlayerState.Alive) {
 			this.redDragon.attackPlayer()
 
 			this.time.addEvent({
@@ -408,13 +408,13 @@ export default class GameScene extends Phaser.Scene
 
 		switch (this.device) {
 			case Device.MobilePortrait:
-				this.dragonCameraOffset = - (width * 0.3) + (-250 + (210 * (this.defaultZoom + this.zoom) ))
+				this.dragonCameraOffset = - (width * 0.3) + (-200 + (210 * (this.defaultZoom + this.zoom) ))
 				break;
 				case Device.MobileLandscape:
-				this.dragonCameraOffset = - (width * 0.5) + (-290 + (380 * (this.defaultZoom + this.zoom) ))
+				this.dragonCameraOffset = - (width * 0.5) + (-240 + (380 * (this.defaultZoom + this.zoom) ))
 				break;
 			case Device.Desktop:
-				this.dragonCameraOffset = - (width * 0.3) + (-250 + (210 * (this.defaultZoom + this.zoom) ))
+				this.dragonCameraOffset = - (width * 0.3) + (-200 + (210 * (this.defaultZoom + this.zoom) ))
 		}
 
 		this.cameras.main.setZoom(this.defaultZoom + this.zoom)

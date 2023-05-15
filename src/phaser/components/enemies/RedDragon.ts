@@ -16,7 +16,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 	constructor(scene: Phaser.Scene, x: number, y: number) {
 		super(scene, x, y)
 
-		this.redDragon = scene.add.sprite(0, 0, TextureKeys.RedDragon).setOrigin(0.55, 1).setScale(this.dragonSize * 1.5)
+		this.redDragon = scene.add.sprite(0, 0, TextureKeys.RedDragon).setOrigin(0.55, 1).setScale(this.dragonSize * 2.4)
 
 		this.add(this.redDragon)
 
@@ -25,8 +25,8 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 		this.redDragonBody = this.body as Phaser.Physics.Arcade.Body
 
 		const body = this.body as Phaser.Physics.Arcade.Body
-		body.setSize(this.dragonSize * this.redDragon.width, this.dragonSize * this.redDragon.height)
-		body.setOffset(-this.redDragon.width + 26, -this.redDragon.height - 40)
+		body.setSize(this.dragonSize * this.redDragon.width * 1.3, this.dragonSize * this.redDragon.height)
+		body.setOffset(-this.redDragon.width , -this.redDragon.height - 60)
 		body.setCollideWorldBounds(false)
         body.setAllowGravity(false)
 		body.setDragX(0)
