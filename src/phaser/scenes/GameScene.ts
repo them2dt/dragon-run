@@ -10,6 +10,7 @@ import Device from '../../consts/Device'
 import CameraFollowing from '../../consts/CameraFollowing'
 import TiledLayerKeys from '../../consts/TiledLayerKeys'
 import PlayerState from '../../consts/players/PlayerState'
+import DragonState from '../../consts/enemies/DragonState'
 
 
 export default class GameScene extends Phaser.Scene
@@ -20,7 +21,7 @@ export default class GameScene extends Phaser.Scene
 	private player!: Player
 	private smallDragons!: Phaser.GameObjects.Group
 
-	private redDragon!: RedDragon
+	public redDragon!: RedDragon
 	private redDragonSpeed: number = 200
 
 	private playerFireballs!: Phaser.Physics.Arcade.Group
@@ -92,12 +93,14 @@ export default class GameScene extends Phaser.Scene
 		this.lavaballsLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Lavaballs)
 		
 		this.ground = this.tilemap.createLayer('Ground', this.tilemap.getTileset('cave-tileset'), this.mapOffsetX, this.mapOffsetY)
+		this.ground.setCullPadding(10)
 		this.ground.setCollisionByProperty({ collides: true })
 		this.ground.setSize(width, height)
 		this.ground.scale = 2.4
 		
 		this.lava = this.tilemap.createLayer('Lava', this.tilemap.getTileset('cave-tileset'), this.mapOffsetX, this.mapOffsetY)
 		this.lava.setCollisionByProperty({ collides: true })
+		this.lava.setCullPadding(10)
 		this.lava.setSize(width, height)
 		this.lava.scale = 2.4
 
@@ -176,14 +179,22 @@ export default class GameScene extends Phaser.Scene
 	public update(time: number, delta: number): void {
 		this.animatedTiles.forEach(tile => tile.update(delta/2))
 
-		if (this.player.playerState === PlayerState.Alive) {
-			this.redDragon.followY(this.player.body.position.y, 100)
+		const playerBody = this.player.body as Phaser.Physics.Arcade.Body
 
+		if (this.player.playerState === PlayerState.Alive) {
+			this.redDragon.dragonState = DragonState.Chasing
+			this.redDragon.followY(playerBody.position.y + playerBody.halfHeight - 11, 100)
 		}
 
-		if (this.redDragon.x > this.player.x - 150 && this.player.playerState === PlayerState.Alive) {
-			this.player.kill()
+		if (this.redDragon.x > this.player.x - 100 && this.player.playerState === PlayerState.Alive) {
 			this.redDragon.attackPlayer()
+
+			this.time.addEvent({
+				delay: 200,                // ms
+				callback: () => this.player.kill(),
+				repeat: 1
+			})
+			
 		}
 
 		this.handleCameraFollow()
@@ -305,14 +316,19 @@ export default class GameScene extends Phaser.Scene
 	}
 
 	public handleCameraFollow = () => {
+
+		if (!this.redDragon || !this.player || this.cameraFollowing === CameraFollowing.None) {
+			return
+		}
+
 		const redDragonBody = this.redDragon.body as Phaser.Physics.Arcade.Body
 
-		const distanceBetweenPlayerAndRedDragon = Phaser.Math.Distance.Between(this.player.body.position.x, 0, redDragonBody.position.x, 0)
+		const distanceBetweenPlayerAndRedDragonX = Phaser.Math.Distance.Between(this.player.body.position.x, 0, redDragonBody.position.x, 0)
 
-		if (distanceBetweenPlayerAndRedDragon < -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10 && this.cameraFollowing === CameraFollowing.Player) {
+		if (distanceBetweenPlayerAndRedDragonX < -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10 && this.cameraFollowing === CameraFollowing.Player) {
 			this.cameraFollowing = CameraFollowing.RedDragon
-			this.cameras.main.startFollow(this.redDragon, false, 0.9, 0.1, this.dragonCameraOffset, 100)
-		} else if (distanceBetweenPlayerAndRedDragon >= -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10 && this.cameraFollowing === CameraFollowing.RedDragon) {
+			this.cameras.main.startFollow(this.redDragon, false, 0.9, 0.1, this.dragonCameraOffset, redDragonBody.height * 0.5)
+		} else if (distanceBetweenPlayerAndRedDragonX >= -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10 && this.cameraFollowing === CameraFollowing.RedDragon) {
 			this.cameraFollowing = CameraFollowing.Player
 			this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100)
 		}
@@ -321,8 +337,6 @@ export default class GameScene extends Phaser.Scene
 	public handleZoom = () => {
 		const width = this.scale.width
 		const height = this.scale.height
-
-		this.cameras.main.setViewport(-80, 0, width + 160, height)
 
 		if ( width >= 1000) {
 			this.device = Device.Desktop

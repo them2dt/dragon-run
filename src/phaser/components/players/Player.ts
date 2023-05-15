@@ -5,6 +5,7 @@ import SceneKeys from '../../../consts/SceneKeys'
 import GameScene from '../../scenes/GameScene'
 import CameraFollowing from '../../../consts/CameraFollowing'
 import PlayerState from '../../../consts/players/PlayerState'
+import DragonState from '../../../consts/enemies/DragonState'
 
 
 export default class Player extends Phaser.GameObjects.Container {
@@ -114,6 +115,11 @@ export default class Player extends Phaser.GameObjects.Container {
 	}
 
 	public kill() {
+
+		if (this.scene.scene.isActive(SceneKeys.GameScene)) {
+			this.currentScene = SceneKeys.GameScene
+		}
+
 		if (this.playerState !== PlayerState.Alive) {
 			return
 		}
@@ -123,7 +129,13 @@ export default class Player extends Phaser.GameObjects.Container {
 		this.defaultCharacter.play(AnimationKeys.DefaultCharacterDeadRight, true)
 
 		if (this.currentScene === SceneKeys.GameScene) {
-			const cameraFollowing = (this.scene as GameScene).cameraFollowing
+			const gameScene = this.scene as GameScene
+			const cameraFollowing = gameScene.cameraFollowing
+
+			if (gameScene.redDragon.dragonState === DragonState.Chasing) {
+				gameScene.redDragon.dragonState = DragonState.Idle
+			}
+			
 			if (cameraFollowing === CameraFollowing.Player) {
 				this.scene.cameras.main.stopFollow()
 			}

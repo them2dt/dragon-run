@@ -8,7 +8,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 	private redDragon: Phaser.GameObjects.Sprite
 	public redDragonBody!: Phaser.Physics.Arcade.Body
 
-	private dragonState: DragonState = DragonState.Alive
+	public dragonState: DragonState = DragonState.Idle
 	private dragonSize: number = 1.0
 	public dragonSpeed: number = 0
 	
@@ -35,10 +35,10 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 	}
 
 	public kill() {
-		if (this.dragonState !== DragonState.Alive) {
+		if (this.dragonState !== DragonState.Chasing) {
 			return
 		}
-
+		
 		this.dragonState = DragonState.Dead
 
 		const body = this.body as Phaser.Physics.Arcade.Body
@@ -50,7 +50,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 	}
 
 	public attackPlayer() {
-		if (this.dragonState !== DragonState.Alive) {
+		if (this.dragonState !== DragonState.Chasing) {
 			return
 		}
 
@@ -63,13 +63,14 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 	public followY(y: number, offset:number) {
 		const body = this.body as Phaser.Physics.Arcade.Body
 
-		if (this.dragonState === DragonState.Alive) {
+		const redDragonY = body.y + (body.height)
 
-			if (body.y < y - offset) {
-				body.setVelocityY(100)
+		if (this.dragonState === DragonState.Chasing) {
+
+			if (redDragonY < y - offset) {
+				body.setVelocityY(100 * (y - redDragonY) * 0.05)
 			} else {
-				body.setVelocityY(-100)
-
+				body.setVelocityY(-100 * (redDragonY - y) * 0.05)
 			}
 		}
 	}
@@ -79,7 +80,17 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 		const body = this.body as Phaser.Physics.Arcade.Body
 
 		switch (this.dragonState) {
-			case DragonState.Alive: {
+
+			case DragonState.Idle: {
+
+				body.setVelocityX(50)
+
+				body.setVelocityY(0)
+
+				break
+			}
+
+			case DragonState.Chasing: {
 
 				this.redDragon.play(AnimationKeys.RedDragonFlyingRight, true)
 

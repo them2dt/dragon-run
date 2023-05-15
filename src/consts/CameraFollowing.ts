@@ -1,4 +1,5 @@
 enum CameraFollowing {
+	None,
 	Player,
 	RedDragon
 }

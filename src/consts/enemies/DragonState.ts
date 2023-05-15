@@ -1,5 +1,6 @@
 enum DragonState {
-    Alive,
+    Idle,
+    Chasing,
     Attacking,
     Dead
 }
