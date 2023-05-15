@@ -114,17 +114,16 @@ export default class GameScene extends Phaser.Scene
 						tileData[tileid].animation!,
 						this.tileset.firstgid
 					)
-					);
+					)
 				}
-				});
-			});
-			});
+				})
+			})
+			})
 		}
 
 		this.spawnRedDragon()
 
-		const redDragonBody = this.redDragon.body as Phaser.Physics.Arcade.Body
-		redDragonBody.setVelocityX(this.redDragonSpeed)
+		this.redDragon.dragonSpeed = this.redDragonSpeed
 
 		this.redDragon.depth = 1000
 
@@ -175,8 +174,12 @@ export default class GameScene extends Phaser.Scene
 	}
 
 	public update(time: number, delta: number): void {
-		this.animatedTiles.forEach(tile => tile.update(delta/2));
-		this.redDragon.y = this.player.y
+		this.animatedTiles.forEach(tile => tile.update(delta/2))
+
+		if (this.player.playerState === PlayerState.Alive) {
+			this.redDragon.followY(this.player.body.position.y, 100)
+
+		}
 
 		if (this.redDragon.x > this.player.x - 150 && this.player.playerState === PlayerState.Alive) {
 			this.player.kill()

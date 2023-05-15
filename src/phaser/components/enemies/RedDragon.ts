@@ -10,6 +10,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
 	private dragonState: DragonState = DragonState.Alive
 	private dragonSize: number = 1.0
+	public dragonSpeed: number = 0
 	
 
 	constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -30,8 +31,6 @@ export default class RedDragon extends Phaser.GameObjects.Container {
         body.setAllowGravity(false)
 		body.setDragX(0)
 		body.setDragY(0)
-		body.setFrictionX(0)
-		body.setFrictionY(0)
 
 	}
 
@@ -61,6 +60,21 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
 	}
 
+	public followY(y: number, offset:number) {
+		const body = this.body as Phaser.Physics.Arcade.Body
+
+		if (this.dragonState === DragonState.Alive) {
+
+			if (body.y < y - offset) {
+				body.setVelocityY(100)
+			} else {
+				body.setVelocityY(-100)
+
+			}
+		}
+	}
+
+
 	public preUpdate(t: number, dt: number) {
 		const body = this.body as Phaser.Physics.Arcade.Body
 
@@ -68,10 +82,17 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 			case DragonState.Alive: {
 
 				this.redDragon.play(AnimationKeys.RedDragonFlyingRight, true)
-			
 
+				body.setVelocityX(this.dragonSpeed)
 				
 				break		
+			}
+
+			case DragonState.Attacking: {
+
+				body.setVelocityX(50)
+
+				break
 			}
 
 			case DragonState.Dead: {
