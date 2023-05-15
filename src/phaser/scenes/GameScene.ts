@@ -125,10 +125,9 @@ export default class GameScene extends Phaser.Scene
 		}
 
 		this.spawnRedDragon()
-
-		this.redDragon.dragonSpeed = this.redDragonSpeed
-
 		this.redDragon.depth = 1000
+		this.redDragon.dragonSpeed = this.redDragonSpeed
+		this.redDragon.start()
 
 		this.spawnEnemies()
 
@@ -182,7 +181,11 @@ export default class GameScene extends Phaser.Scene
 		const playerBody = this.player.body as Phaser.Physics.Arcade.Body
 
 		if (this.player.playerState === PlayerState.Alive) {
-			this.redDragon.dragonState = DragonState.Chasing
+
+			if (this.redDragon.dragonState !== DragonState.Chasing) {
+				return
+			}
+
 			this.redDragon.followY(playerBody.position.y + playerBody.halfHeight - 37, 100)
 		}
 

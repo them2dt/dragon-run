@@ -34,6 +34,10 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
 	}
 
+	public start() {
+		this.dragonState = DragonState.Chasing
+	}
+
 	public kill() {
 		if (this.dragonState !== DragonState.Chasing) {
 			return
