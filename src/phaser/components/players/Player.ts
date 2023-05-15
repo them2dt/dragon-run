@@ -47,8 +47,8 @@ export default class Player extends Phaser.GameObjects.Container {
 		scene.physics.add.existing(this)
 
 		const body = this.body as Phaser.Physics.Arcade.Body
-		body.setSize(this.playerSize * this.defaultCharacter.width * 0.43, this.playerSize * this.defaultCharacter.height * 0.83)
-		body.setOffset(this.defaultCharacter.width * -0.29, -this.defaultCharacter.height - 7)
+		body.setSize(this.playerSize * this.defaultCharacter.width * 0.43, this.playerSize * this.defaultCharacter.height * 0.75)
+		body.setOffset(this.defaultCharacter.width * -0.29, -this.defaultCharacter.height + 1)
 		body.setCollideWorldBounds(true)
 		body.setDragX(0)
 		body.setDragY(0)

@@ -183,7 +183,7 @@ export default class GameScene extends Phaser.Scene
 
 		if (this.player.playerState === PlayerState.Alive) {
 			this.redDragon.dragonState = DragonState.Chasing
-			this.redDragon.followY(playerBody.position.y + playerBody.halfHeight - 11, 100)
+			this.redDragon.followY(playerBody.position.y + playerBody.halfHeight - 16, 100)
 		}
 
 		if (this.redDragon.x > this.player.x - 100 && this.player.playerState === PlayerState.Alive) {
