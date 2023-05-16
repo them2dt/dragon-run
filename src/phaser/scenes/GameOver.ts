@@ -27,7 +27,6 @@ export default class GameOver extends Phaser.Scene
 
 		this.input.keyboard.once('keydown-SPACE', () => {
 			this.scene.stop(SceneKeys.GameOver)
-			this.scene.stop(SceneKeys.CaveScene)
 			this.scene.start(SceneKeys.CaveScene)
 		})
 	}

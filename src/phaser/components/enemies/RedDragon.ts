@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import TextureKeys from '../../../consts/TextureKeys'
 import AnimationKeys from '../../../consts/AnimationKeys'
 import DragonState from '../../../consts/enemies/DragonState'
+import EnemySoundEffectKeys from '../../../consts/audio/EnemySoundEffectKeys'
 
 export default class RedDragon extends Phaser.GameObjects.Container {
 
@@ -12,7 +13,6 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 	private dragonSize: number = 1.0
 	public dragonSpeed: number = 0
 	
-
 	constructor(scene: Phaser.Scene, x: number, y: number) {
 		super(scene, x, y)
 
@@ -36,6 +36,9 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
 	public start() {
 		this.dragonState = DragonState.Chasing
+		this.scene.sound.play(EnemySoundEffectKeys.DragonRoar1, { volume: 0.7 })
+		this.scene.sound.play(EnemySoundEffectKeys.DragonWings1, { loop: true, volume: 1 })
+
 	}
 
 	public kill() {
@@ -62,6 +65,14 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
 		this.redDragon.play(AnimationKeys.RedDragonAttackRight, true)
 
+		this.scene.sound.play(EnemySoundEffectKeys.DragonRoar2, { volume: 0.9 })
+
+		this.scene.time.addEvent({
+			delay: 200,                // ms
+			callback: () => this.scene.sound.play(EnemySoundEffectKeys.DragonBurn1, { volume: 1 }),
+			repeat: 1
+		})
+		
 	}
 
 	public followY(y: number, offset:number) {

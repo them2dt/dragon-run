@@ -3,6 +3,7 @@ import AnimationKeys from '../../../consts/AnimationKeys'
 import TextureKeys from '../../../consts/TextureKeys'
 import DefaultEnemyState from '../../../consts/enemies/DefaultEnemyState'
 import DefaultEnemyDirection from '../../../consts/enemies/DefaultEnemyDirection'
+import EnemySoundEffectKeys from '../../../consts/audio/EnemySoundEffectKeys'
 
 export default class SmallDragon extends Phaser.GameObjects.Container {
 
@@ -51,6 +52,8 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 		this.dragonState = DefaultEnemyState.Dead
 
 		this.smallDragon.play(AnimationKeys.SmallDragonOrangeIdleRight, true)
+
+		this.scene.sound.play(EnemySoundEffectKeys.EnemyDeath1, { volume: 0.5 })
 
 		const body = this.body as Phaser.Physics.Arcade.Body
 		body.checkCollision.none = true

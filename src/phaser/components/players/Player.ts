@@ -7,6 +7,7 @@ import CameraFollowing from '../../../consts/CameraFollowing'
 import PlayerState from '../../../consts/players/PlayerState'
 import DragonState from '../../../consts/enemies/DragonState'
 import MusicKeys from '../../../consts/audio/MusicKeys'
+import PlayerSoundEffectKeys from '../../../consts/audio/PlayerSoundEffectKeys'
 
 
 export default class Player extends Phaser.GameObjects.Container {
@@ -98,20 +99,17 @@ export default class Player extends Phaser.GameObjects.Container {
 		const fireballBody = fireball.body as Phaser.Physics.Arcade.Body
 		fireballBody.setSize(8, 8)
 
-		const angle = vec.angle()
-
 		fireball.setScale(2)
 		fireball.setOrigin(0.5, 0.5)
 		fireball.setBounceY(0.98)
 		fireball.setBounceX(0)
 		fireball.setMaxVelocity(300)
-		fireball.setActive(true)
-		fireball.setVisible(true)
-		fireball.setRotation(angle)
 
 		fireball.x += vec.x * 16
 		fireball.y += vec.y * 16
 		fireball.setVelocity(vec.x * this.fireballSpeed, vec.y * this.fireballSpeed)
+
+		this.scene.sound.play(PlayerSoundEffectKeys.PlayerFireballThrow1, { volume: 0.5 })
 
 	}
 
@@ -128,6 +126,14 @@ export default class Player extends Phaser.GameObjects.Container {
 		this.playerState = PlayerState.Killed
 
 		this.defaultCharacter.play(AnimationKeys.DefaultCharacterDeadRight, true)
+
+		this.scene.sound.play(PlayerSoundEffectKeys.PlayerDeath1, { volume: 0.5 })
+
+		this.scene.time.addEvent({
+			delay: 1000,                // ms
+			callback: () => this.scene.sound.play(PlayerSoundEffectKeys.PlayerDeath2, { volume: 1 }),
+			repeat: 1
+		})
 
 		if (this.currentScene === SceneKeys.CaveScene) {
 			const caveScene = this.scene as CaveScene
@@ -174,12 +180,12 @@ export default class Player extends Phaser.GameObjects.Container {
 
 				if (this.cursors.up.isDown && body.blocked.down || this.wKey.isDown && body.blocked.down || this.cursors.space.isDown && body.blocked.down) {
 					body.setVelocityY(this.playerJump);
+					this.scene.sound.play(PlayerSoundEffectKeys.PlayerJump1, { volume: 0.8 })
 				}
 
 				if (!body.blocked.down && body.velocity.x < 0) {
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true)
 					this.defaultCharacter.setFlipX(true)
-
 				} else if (!body.blocked.down && body.velocity.x > 0) {
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true)
 					this.defaultCharacter.setFlipX(false)
@@ -198,6 +204,18 @@ export default class Player extends Phaser.GameObjects.Container {
 				if (body.blocked.down && body.velocity.x == 0) {
 					this.defaultCharacter.play(AnimationKeys.DefaultCharacterIdleRight, true)
 				}
+
+				if (
+					this.cursors.left.isDown  && body.velocity.x < 0 && body.blocked.down || 
+					this.aKey.isDown && body.velocity.x < 0 && body.blocked.down || 
+					this.cursors.right.isDown && body.velocity.x > 0 && body.blocked.down ||
+					this.dKey.isDown && body.velocity.x > 0 && body.blocked.down
+				) {
+					if (!this.scene.sound.get(PlayerSoundEffectKeys.PlayerRun1)) {
+					this.scene.sound.play(PlayerSoundEffectKeys.PlayerRun1, {rate: 1.2, volume: 0.3 })
+					}
+				}
+					
 
 				break		
 			}
