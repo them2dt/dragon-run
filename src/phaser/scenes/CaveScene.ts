@@ -83,9 +83,9 @@ export default class CaveScene extends Phaser.Scene
 		this.anims.createFromAseprite(TextureKeys.SmallDragonOrange)
 		this.anims.createFromAseprite(TextureKeys.DefaultCharacter)
 
-		this.music = this.sound.add(MusicKeys.CaveScene1, { loop: true, volume: 0.4 })
+		this.music = this.sound.add(MusicKeys.CaveScene1, { loop: true })
 
-		SoundFade.fadeIn(this.music, 10000)
+		SoundFade.fadeIn(this.music, 10000, 0.5)
 
 		this.sound.play(EnvironmentSoundEffectKeys.LavaBackground1, { loop: true, volume: 0.2 })
 
@@ -213,7 +213,7 @@ export default class CaveScene extends Phaser.Scene
 			this.time.addEvent({
 				delay: 200,                // ms
 				callback: () => this.player.kill(),
-				repeat: 1
+				repeat: 0
 			})
 			
 		}

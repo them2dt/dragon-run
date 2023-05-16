@@ -37,7 +37,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 	public start() {
 		this.dragonState = DragonState.Chasing
 		this.scene.sound.play(EnemySoundEffectKeys.DragonRoar1, { volume: 0.7 })
-		this.scene.sound.play(EnemySoundEffectKeys.DragonWings1, { loop: true, volume: 1 })
+		this.scene.sound.play(EnemySoundEffectKeys.DragonWings1, { loop: true, volume: 0.6 })
 
 	}
 
@@ -70,7 +70,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 		this.scene.time.addEvent({
 			delay: 200,                // ms
 			callback: () => this.scene.sound.play(EnemySoundEffectKeys.DragonBurn1, { volume: 1 }),
-			repeat: 1
+			repeat: 0
 		})
 		
 	}

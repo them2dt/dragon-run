@@ -130,9 +130,9 @@ export default class Player extends Phaser.GameObjects.Container {
 		this.scene.sound.play(PlayerSoundEffectKeys.PlayerDeath1, { volume: 0.5 })
 
 		this.scene.time.addEvent({
-			delay: 1000,                // ms
-			callback: () => this.scene.sound.play(PlayerSoundEffectKeys.PlayerDeath2, { volume: 1 }),
-			repeat: 1
+			delay: 1500,                // ms
+			callback: () => this.scene.sound.play(PlayerSoundEffectKeys.PlayerDeath2, { volume: 0.6 }),
+			repeat: 0
 		})
 
 		if (this.currentScene === SceneKeys.CaveScene) {
@@ -212,7 +212,7 @@ export default class Player extends Phaser.GameObjects.Container {
 					this.dKey.isDown && body.velocity.x > 0 && body.blocked.down
 				) {
 					if (!this.scene.sound.get(PlayerSoundEffectKeys.PlayerRun1)) {
-					this.scene.sound.play(PlayerSoundEffectKeys.PlayerRun1, {rate: 1.2, volume: 0.3 })
+					this.scene.sound.play(PlayerSoundEffectKeys.PlayerRun1, {rate: 1.2, volume: 0.2 })
 					}
 				}
 					
