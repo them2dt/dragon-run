@@ -11,12 +11,16 @@ import CameraFollowing from '../../consts/CameraFollowing'
 import TiledLayerKeys from '../../consts/TiledLayerKeys'
 import PlayerState from '../../consts/players/PlayerState'
 import DragonState from '../../consts/enemies/DragonState'
+import MusicKeys from '../../consts/audio/MusicKeys'
+import SoundFade from 'phaser3-rex-plugins/plugins/soundfade.js';
+import EnvironmentSoundEffectKeys from '../../consts/audio/EnvironmentSoundEffectKeys'
 
-
-export default class GameScene extends Phaser.Scene
+export default class CaveScene extends Phaser.Scene
 {
 
 	private device:Device = Device.Desktop
+
+	public music!: Phaser.Sound.BaseSound
 
 	private player!: Player
 	private smallDragons!: Phaser.GameObjects.Group
@@ -58,7 +62,7 @@ export default class GameScene extends Phaser.Scene
 
 
 	constructor() {
-		super(SceneKeys.GameScene)
+		super(SceneKeys.CaveScene)
 		this.animatedTiles = []
 	}
 
@@ -75,6 +79,13 @@ export default class GameScene extends Phaser.Scene
 		this.anims.createFromAseprite(TextureKeys.RedDragon)
 		this.anims.createFromAseprite(TextureKeys.SmallDragonOrange)
 		this.anims.createFromAseprite(TextureKeys.DefaultCharacter)
+
+		this.music = this.sound.add(MusicKeys.CaveScene1, { loop: true, volume: 0.5 })
+
+		SoundFade.fadeIn(this.music, 10000)
+
+		this.sound.play(EnvironmentSoundEffectKeys.LavaBackground1, { loop: true, volume: 0.5 })
+
 
 		const width = this.scale.width
 		const height = this.scale.height

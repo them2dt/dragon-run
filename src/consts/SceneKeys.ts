@@ -1,7 +1,7 @@
 enum SceneKeys
 {
 	Preloader = 'preloader',
-	GameScene = 'game',
+	CaveScene = 'cave-scene',
 	GameOver = 'game-over'
 }
 

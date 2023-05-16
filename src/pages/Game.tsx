@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import phaserGame from '../phaser/PhaserGame'
 import { useOverlay } from "../context/useOverlay";
-import GameScene from "../phaser/scenes/GameScene";
+import GameScene from "../phaser/scenes/CaveScene";
 import Home from "../overlays/Home";
 import Preloader from "../phaser/Preloader";
 

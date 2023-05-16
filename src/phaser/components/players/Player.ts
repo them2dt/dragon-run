@@ -2,10 +2,11 @@ import Phaser from 'phaser'
 import TextureKeys from '../../../consts/TextureKeys'
 import AnimationKeys from '../../../consts/AnimationKeys'
 import SceneKeys from '../../../consts/SceneKeys'
-import GameScene from '../../scenes/GameScene'
+import CaveScene from '../../scenes/CaveScene'
 import CameraFollowing from '../../../consts/CameraFollowing'
 import PlayerState from '../../../consts/players/PlayerState'
 import DragonState from '../../../consts/enemies/DragonState'
+import MusicKeys from '../../../consts/audio/MusicKeys'
 
 
 export default class Player extends Phaser.GameObjects.Container {
@@ -36,8 +37,8 @@ export default class Player extends Phaser.GameObjects.Container {
 	constructor(scene: Phaser.Scene, x: number, y: number) {
 		super(scene, x, y)
 
-		if (this.scene.scene.isActive(SceneKeys.GameScene)) {
-			this.currentScene = SceneKeys.GameScene
+		if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
+			this.currentScene = SceneKeys.CaveScene
 		}
 
 		this.defaultCharacter = scene.add.sprite(0, 0, TextureKeys.DefaultCharacter).setOrigin(0.55, 1).setScale(this.playerSize * 1.5)
@@ -116,8 +117,8 @@ export default class Player extends Phaser.GameObjects.Container {
 
 	public kill() {
 
-		if (this.scene.scene.isActive(SceneKeys.GameScene)) {
-			this.currentScene = SceneKeys.GameScene
+		if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
+			this.currentScene = SceneKeys.CaveScene
 		}
 
 		if (this.playerState !== PlayerState.Alive) {
@@ -128,12 +129,12 @@ export default class Player extends Phaser.GameObjects.Container {
 
 		this.defaultCharacter.play(AnimationKeys.DefaultCharacterDeadRight, true)
 
-		if (this.currentScene === SceneKeys.GameScene) {
-			const gameScene = this.scene as GameScene
-			const cameraFollowing = gameScene.cameraFollowing
+		if (this.currentScene === SceneKeys.CaveScene) {
+			const caveScene = this.scene as CaveScene
+			const cameraFollowing = caveScene.cameraFollowing
 
-			if (gameScene.redDragon.dragonState === DragonState.Chasing) {
-				gameScene.redDragon.dragonState = DragonState.Idle
+			if (caveScene.redDragon.dragonState === DragonState.Chasing) {
+				caveScene.redDragon.dragonState = DragonState.Idle
 			}
 			
 			if (cameraFollowing === CameraFollowing.Player) {
@@ -212,6 +213,10 @@ export default class Player extends Phaser.GameObjects.Container {
 			case PlayerState.Dead: {
 				if (this.scene.scene.isActive(SceneKeys.GameOver)) {
 					break
+				}
+
+				if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
+					this.scene.sound.removeByKey(MusicKeys.CaveScene1)
 				}
 
 				this.scene.scene.run(SceneKeys.GameOver)

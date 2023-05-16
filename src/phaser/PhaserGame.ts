@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
 import Preloader from './Preloader'
-import Game from './scenes/GameScene'
+import CaveScene from './scenes/CaveScene'
 import GameOver from './scenes/GameOver'
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -13,7 +13,7 @@ const config: Phaser.Types.Core.GameConfig = {
 			debug: true
 		}
 	},
-	scene: [Preloader, Game, GameOver],
+	scene: [Preloader, CaveScene, GameOver],
 	scale: {
 		mode: Phaser.Scale.RESIZE,
 		autoCenter: Phaser.Scale.CENTER_BOTH,
