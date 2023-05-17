@@ -1,6 +1,6 @@
-import logo from "../assets/logo.png";
-import { useOverlay } from "../context/useOverlay";
-import None from "./None";
+import logo from "../../assets/logo.png";
+import { useOverlay } from "../../context/useOverlay";
+import OverlayKeys from "../../consts/OverlayKeys";
 
 export default function Home() {
 
@@ -12,7 +12,7 @@ export default function Home() {
         <img src={logo} alt="logo" />
       </div>
       <div className="home-buttons">
-        <button className="home-button" onClick={() => setOverlay("")}>Play</button>
+        <button className="home-button" onClick={() => (setOverlay(OverlayKeys.Game))}>Play</button>
       </div>
     </div>
   );

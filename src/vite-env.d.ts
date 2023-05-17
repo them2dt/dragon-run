@@ -3,6 +3,7 @@
 interface ImportMetaEnv {
   readonly VITE_RPC_URL: string;
   readonly VITE_CM: string;
+  readonly VITE_FIREBASE_CONFIG: object;
   // more env variables...
 }
 

@@ -1,13 +1,9 @@
-import { createContext, useState} from 'react';
-import Home from '../overlays/Home';
-
-type Overlay = {
-  overlay: string;
-}
+import { createContext, useState} from 'react'
+import OverlayKeys from '../consts/OverlayKeys';
 
 type OverlayContextType = {
-  overlay: string;
-  setOverlay: React.Dispatch<React.SetStateAction<string>>;
+  overlay: OverlayKeys;
+  setOverlay: React.Dispatch<React.SetStateAction<OverlayKeys>>;
 }
 
 type OverlayProviderProps = {
@@ -18,7 +14,7 @@ export const OverlayContext = createContext<OverlayContextType>(null!);
 
 export const OverlayProvider = ({ children }: OverlayProviderProps) => {
 
-  const [overlay, setOverlay] = useState<string>("Home");
+  const [overlay, setOverlay] = useState<OverlayKeys>(OverlayKeys.Home);
 
   return (
     <OverlayContext.Provider value={{overlay, setOverlay}}>

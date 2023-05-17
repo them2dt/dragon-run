@@ -2,15 +2,12 @@ import Phaser from 'phaser'
 
 import SceneKeys from '../../consts/SceneKeys'
 
-export default class GameOver extends Phaser.Scene
-{
-	constructor()
-	{
+export default class GameOver extends Phaser.Scene {
+	constructor() {
 		super(SceneKeys.GameOver)
 	}
 
-	create()
-	{
+	create() {
 		const { width, height } = this.scale
 
 		const x = width * 0.5

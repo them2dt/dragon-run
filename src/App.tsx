@@ -4,7 +4,7 @@ globalThis.Buffer = buffer.Buffer;
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 //routes
 import ErrorPage from "./pages/ErrorPage";
-import Game from "./pages/Game";
+import Game from "./pages/Index";
 import { ConnectionProvider } from "@solana/wallet-adapter-react";
 import OverlayProvider from "./context/OverlayProvider";
 

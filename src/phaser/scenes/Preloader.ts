@@ -1,21 +1,19 @@
 import Phaser from 'phaser'
 
-import TextureKeys from '../consts/TextureKeys'
-import SceneKeys from '../consts/SceneKeys'
-import MusicKeys from '../consts/audio/MusicKeys'
-import EnemySoundEffectKeys from '../consts/audio/EnemySoundEffectKeys'
-import PlayerSoundEffectKeys from '../consts/audio/PlayerSoundEffectKeys'
-import EnvironmentSoundEffectKeys from '../consts/audio/EnvironmentSoundEffectKeys'
+import TextureKeys from '../../consts/TextureKeys'
+import SceneKeys from '../../consts/SceneKeys'
+import MusicKeys from '../../consts/audio/MusicKeys'
+import EnemySoundEffectKeys from '../../consts/audio/EnemySoundEffectKeys'
+import PlayerSoundEffectKeys from '../../consts/audio/PlayerSoundEffectKeys'
+import EnvironmentSoundEffectKeys from '../../consts/audio/EnvironmentSoundEffectKeys'
 
-export default class Preloader extends Phaser.Scene
-{
-	constructor()
-	{
+export default class Preloader extends Phaser.Scene {
+
+	constructor() {
 		super(SceneKeys.Preloader)
 	}
 
-	preload()
-	{	
+	preload() {	
 		
 		this.load.image(TextureKeys.Background1, 'game-assets/backgrounds/volcano-bg1.png')
 		this.load.image(TextureKeys.Background2, 'game-assets/backgrounds/volcano-bg2.png')
@@ -61,8 +59,7 @@ export default class Preloader extends Phaser.Scene
 
 	}
 
-	create()
-	{	
-		this.scene.start(SceneKeys.CaveScene)
+	create() {	
+		this.scene.start(SceneKeys.HomeScene)
 	}
 }
