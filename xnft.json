@@ -1,26 +1,18 @@
 {
+  "kind": "app",
+  "storage": "arweave",
   "name": "Dragon Run",
   "version": "1.0.0",
   "description": "Dragon Run is an adventure game, ",
-  "website": "https://twitter.com/sportinglabs",
-  "kind": "app",
-  "icon": {
-    "md": "./assets/icon.png"
-  },
-  "contact": {
-    "repository": "https://github.com/sportinglabs/sporting-xnft"
-  },
-  "tag": "game",
-  "programIds": ["9ZskGH9wtdwM9UXjBq1KDwuaLfrZyPChz41Hx7NWhTFf"],
-  "screenshots": [
-    "./assets/screenshot1.png",
-    "./assets/screenshot2.png",
-    "./assets/screenshot3.png",
-    "./assets/screenshot4.png"
-  ],
+  "website": "https://emptea.xyz",
+  "contact": "twitter.com/EmpteaXYZ",
   "entrypoints": {
     "default": {
       "web": "./dist/index.html"
     }
-  }
+  },
+  "icon": {
+    "md": "./assets/icon.png"
+  },
+  "screenshots": []
 }
