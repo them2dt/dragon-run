@@ -1,20 +1,22 @@
 import * as Phaser from 'phaser';
-import TextureKeys from '../../consts/TextureKeys';
-import SceneKeys from '../../consts/SceneKeys';
+import TextureKeys from '@consts/TextureKeys';
+import SceneKeys from '@consts/SceneKeys';
 import Player from '../components/players/Player';
 import SmallDragon from '../components/enemies/SmallDragon';
 import RedDragon from '../components/enemies/RedDragon';
 import { AnimatedTile, TilesetTileData } from '../components/AnimatedTile';
 import Device from '../../consts/Device';
-import CameraFollowing from '../../consts/CameraFollowing';
-import TiledLayerKeys from '../../consts/TiledLayerKeys';
-import PlayerState from '../../consts/players/PlayerState';
-import DragonState from '../../consts/enemies/DragonState';
-import MusicKeys from '../../consts/audio/MusicKeys';
+import CameraFollowing from '@consts/CameraFollowing';
+import TiledLayerKeys from '@consts/TiledLayerKeys';
+import PlayerState from '@consts/players/PlayerState';
+import DragonState from '@consts/enemies/DragonState';
+import MusicKeys from '@consts/audio/MusicKeys';
 import SoundFade from 'phaser3-rex-plugins/plugins/soundfade.js';
-import EnvironmentSoundEffectKeys from '../../consts/audio/EnvironmentSoundEffectKeys';
-import EnemySoundEffectKeys from '../../consts/audio/EnemySoundEffectKeys';
-import PlayerSoundEffectKeys from '../../consts/audio/PlayerSoundEffectKeys';
+import EnvironmentSoundEffectKeys from '@consts/audio/EnvironmentSoundEffectKeys';
+import EnemySoundEffectKeys from '@consts/audio/EnemySoundEffectKeys';
+import PlayerSoundEffectKeys from '@consts/audio/PlayerSoundEffectKeys';
+import eventsCenter from '@events-center';
+import EventKeys from '@consts/EventKeys';
 
 export default class CaveScene extends Phaser.Scene {
   private device: Device = Device.Desktop;

@@ -9,7 +9,6 @@ export default class GameOver extends Phaser.Scene {
   }
 
   create() {
-
     eventsCenter.emit(EventKeys.GameOver);
 
     const { width, height } = this.scale;
@@ -35,6 +34,7 @@ export default class GameOver extends Phaser.Scene {
     keyboard.once('keydown-SPACE', () => {
       this.scene.stop(SceneKeys.GameOver);
       this.scene.start(SceneKeys.CaveScene);
+      eventsCenter.emit(EventKeys.Game);
     });
   }
 }

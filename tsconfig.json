@@ -19,6 +19,9 @@
     "paths": {
       "@/*": ["/*"],
       "@consts/*": ["consts/*"],
+      "@events-center": ["events/eventsCenter.ts"],
+      "@context/*": ["context/*"],
+      
     }
   },
   "include": ["src"],

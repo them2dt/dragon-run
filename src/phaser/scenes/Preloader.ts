@@ -5,6 +5,8 @@ import MusicKeys from '../../consts/audio/MusicKeys';
 import EnemySoundEffectKeys from '../../consts/audio/EnemySoundEffectKeys';
 import PlayerSoundEffectKeys from '../../consts/audio/PlayerSoundEffectKeys';
 import EnvironmentSoundEffectKeys from '../../consts/audio/EnvironmentSoundEffectKeys';
+import eventsCenter from '@events-center';
+import EventKeys from '@consts/EventKeys';
 
 export default class Preloader extends Phaser.Scene {
   constructor() {
@@ -84,6 +86,6 @@ export default class Preloader extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start(SceneKeys.HomeScene);
+    eventsCenter.emit(EventKeys.Preloader);
   }
 }

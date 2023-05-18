@@ -2,14 +2,14 @@ import React from 'react';
 import { useOverlay } from '../../context/useOverlay';
 import OverlayKeys from '../../consts/OverlayKeys';
 
-export default function Game() {
+export default function GameOver() {
   const { setOverlay } = useOverlay();
 
   return (
     <div className="home">
       <div className="home-buttons">
-        <button className="home-button">
-          Game
+        <button className="home-button" onClick={() => setOverlay(OverlayKeys.GameOver)}>
+          GameOver
         </button>
       </div>
     </div>

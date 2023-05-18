@@ -13,7 +13,7 @@ type OverlayProviderProps = {
 export const OverlayContext = createContext<OverlayContextType | null>(null);
 
 export const OverlayProvider = ({ children }: OverlayProviderProps) => {
-  const [overlay, setOverlay] = useState<OverlayKeys>(OverlayKeys.Home);
+  const [overlay, setOverlay] = useState<OverlayKeys>(OverlayKeys.Preloader);
 
   return <OverlayContext.Provider value={{ overlay, setOverlay }}>{children}</OverlayContext.Provider>;
 };
