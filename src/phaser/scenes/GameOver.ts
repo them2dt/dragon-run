@@ -1,5 +1,7 @@
 import * as Phaser from 'phaser';
 import SceneKeys from '../../consts/SceneKeys';
+import eventsCenter from '../../events/eventsCenter';
+import EventKeys from '@consts/EventKeys';
 
 export default class GameOver extends Phaser.Scene {
   constructor() {
@@ -7,6 +9,9 @@ export default class GameOver extends Phaser.Scene {
   }
 
   create() {
+
+    eventsCenter.emit(EventKeys.GameOver);
+
     const { width, height } = this.scale;
 
     const x = width * 0.5;

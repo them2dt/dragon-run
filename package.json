@@ -40,7 +40,8 @@
     "react-router-dom": "^6.8.1",
     "react-toastify": "^9.1.2",
     "stream-browserify": "^3.0.0",
-    "tw-elements": "^1.0.0-alpha13"
+    "tw-elements": "^1.0.0-alpha13",
+    "vite-tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
