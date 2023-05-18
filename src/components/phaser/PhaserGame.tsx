@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useOverlay } from '../../context/useOverlay';
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import Preloader from '../../phaser/scenes/Preloader';
 import CaveScene from '../../phaser/scenes/CaveScene';
 import GameOver from '../../phaser/scenes/GameOver';

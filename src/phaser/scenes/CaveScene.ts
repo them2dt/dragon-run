@@ -1,5 +1,4 @@
-import Phaser from 'phaser';
-
+import * as Phaser from 'phaser';
 import TextureKeys from '../../consts/TextureKeys';
 import SceneKeys from '../../consts/SceneKeys';
 import Player from '../components/players/Player';
@@ -95,18 +94,25 @@ export default class CaveScene extends Phaser.Scene {
     this.bg1.scale = 4 * (this.defaultZoom + this.zoom);
 
     this.tilemap = this.make.tilemap({ key: TextureKeys.CaveMap });
-    this.tileset = this.tilemap.addTilesetImage('cave-tileset', TextureKeys.CaveTiles, 16, 16, 1, 2);
+    this.tileset = this.tilemap.addTilesetImage(
+      'cave-tileset',
+      TextureKeys.CaveTiles,
+      16,
+      16,
+      1,
+      2,
+    ) as Phaser.Tilemaps.Tileset;
 
-    this.playerLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Player);
-    this.enemiesLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Enemies);
-    this.lavaballsLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Lavaballs);
+    this.playerLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Player) as Phaser.Tilemaps.ObjectLayer;
+    this.enemiesLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Enemies) as Phaser.Tilemaps.ObjectLayer;
+    this.lavaballsLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Lavaballs) as Phaser.Tilemaps.ObjectLayer;
 
     this.ground = this.tilemap.createLayer(
       'Ground',
-      this.tilemap.getTileset('cave-tileset'),
+      this.tilemap.getTileset('cave-tileset') as Phaser.Tilemaps.Tileset,
       this.mapOffsetX,
       this.mapOffsetY,
-    );
+    ) as Phaser.Tilemaps.TilemapLayer;
     this.ground.setCullPadding(10);
     this.ground.setCollisionByProperty({ collides: true });
     this.ground.setSize(width, height);
@@ -114,10 +120,10 @@ export default class CaveScene extends Phaser.Scene {
 
     this.lava = this.tilemap.createLayer(
       'Lava',
-      this.tilemap.getTileset('cave-tileset'),
+      this.tilemap.getTileset('cave-tileset') as Phaser.Tilemaps.Tileset,
       this.mapOffsetX,
       this.mapOffsetY,
-    );
+    ) as Phaser.Tilemaps.TilemapLayer;
     this.lava.setCollisionByProperty({ collides: true });
     this.lava.setCullPadding(10);
     this.lava.setSize(width, height);
@@ -178,23 +184,22 @@ export default class CaveScene extends Phaser.Scene {
       this.player.kill();
     });
 
-    this.physics.add.collider(
-      this.smallDragons,
-      this.player,
-      (object1: Phaser.GameObjects.GameObject, object2: Phaser.GameObjects.GameObject) => {
-        const player = object1 as Player;
-        const playerBody = object1.body as Phaser.Physics.Arcade.Body;
-        const smallDragon = object2 as SmallDragon;
+    this.physics.add.collider(this.smallDragons, this.player, (object1, object2) => {
+      if (this.player.playerState !== PlayerState.Alive || object1 !== this.player) {
+        return;
+      }
+      const player = object1 as Player;
+      const playerBody = object1.body as Phaser.Physics.Arcade.Body;
+      const smallDragon = object2 as SmallDragon;
 
-        if (playerBody.touching.down) {
-          playerBody.setVelocityY(-220);
-          smallDragon.kill();
-        } else {
-          this.sound.play(EnemySoundEffectKeys.EnemyBite1, { volume: 0.4 });
-          player.kill();
-        }
-      },
-    );
+      if (playerBody.touching.down) {
+        playerBody.setVelocityY(-220);
+        smallDragon.kill();
+      } else {
+        this.sound.play(EnemySoundEffectKeys.EnemyBite1, { volume: 0.4 });
+        player.kill();
+      }
+    });
     this.physics.add.collider(this.smallDragons, this.ground);
 
     this.scale.on('resize', this.resize, this);
@@ -283,17 +288,14 @@ export default class CaveScene extends Phaser.Scene {
   };
 
   private throwLavaballs = () => {
-    if (!this.lavaballs) {
-      return;
-    }
-    if (!this.lavaballsLayer) {
+    if (!this.lavaballs || !this.lavaballsLayer) {
       return;
     }
 
     this.lavaballsLayer.objects.forEach((lavaballObject) => {
       const lavaballObjectX = lavaballObject.x;
       const lavaballObjectY = lavaballObject.y;
-      
+
       if (!lavaballObjectX || !lavaballObjectY) {
         return;
       }
@@ -371,7 +373,7 @@ export default class CaveScene extends Phaser.Scene {
   };
 
   public handleCameraFollow = () => {
-    if (!this.redDragon || !this.player || this.cameraFollowing === CameraFollowing.None) {
+    if (!this.redDragon || !this.player.body || this.cameraFollowing === CameraFollowing.None) {
       return;
     }
 

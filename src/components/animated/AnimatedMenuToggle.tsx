@@ -1,10 +1,10 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { Variants, motion } from "framer-motion";
 
 interface PathProps {
   d?: string;
-  variants?: any;
-  transition?: any;
+  variants?: Variants | undefined;
+  transition?: object  | undefined;
 }
 
 const Path = (props: PathProps) => (

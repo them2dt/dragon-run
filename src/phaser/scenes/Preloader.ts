@@ -1,5 +1,4 @@
-import Phaser from 'phaser';
-
+import * as Phaser from 'phaser';
 import TextureKeys from '../../consts/TextureKeys';
 import SceneKeys from '../../consts/SceneKeys';
 import MusicKeys from '../../consts/audio/MusicKeys';

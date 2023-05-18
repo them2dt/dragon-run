@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import AnimationKeys from '../../../consts/AnimationKeys';
 import TextureKeys from '../../../consts/TextureKeys';
 import DefaultEnemyState from '../../../consts/enemies/DefaultEnemyState';
