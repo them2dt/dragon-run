@@ -30,6 +30,6 @@ export const getNfts = async (owner: PublicKey) => {
 
     return nfts;
   } catch (error) {
-    console.log(error);
+    console.log('RPC Error: ',error);
   }
 };

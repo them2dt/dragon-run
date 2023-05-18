@@ -24,8 +24,16 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const [endpoint, setEndpoint] = React.useState('https://api.devnet.solana.com');
+
+  const customEndpoint = import.meta.env.VITE_RPC_URL;
+
+  if (customEndpoint) {
+    setEndpoint(customEndpoint);
+  }
+
   return (
-    <ConnectionProvider endpoint={import.meta.env.VITE_RPC_URL}>
+    <ConnectionProvider endpoint={endpoint}>
       <OverlayProvider>
         <RouterProvider router={router} />
       </OverlayProvider>
