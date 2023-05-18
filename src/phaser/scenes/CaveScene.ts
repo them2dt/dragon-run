@@ -15,8 +15,6 @@ import SoundFade from 'phaser3-rex-plugins/plugins/soundfade.js';
 import EnvironmentSoundEffectKeys from '@consts/audio/EnvironmentSoundEffectKeys';
 import EnemySoundEffectKeys from '@consts/audio/EnemySoundEffectKeys';
 import PlayerSoundEffectKeys from '@consts/audio/PlayerSoundEffectKeys';
-import eventsCenter from '@events-center';
-import EventKeys from '@consts/EventKeys';
 
 export default class CaveScene extends Phaser.Scene {
   private device: Device = Device.Desktop;
