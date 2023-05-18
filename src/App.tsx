@@ -1,12 +1,13 @@
-import buffer from "buffer";
+import React from 'react';
+import buffer from 'buffer';
 globalThis.Buffer = buffer.Buffer;
 //3rd-party
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 //routes
-import ErrorPage from "./pages/ErrorPage";
-import Game from "./pages/Index";
-import { ConnectionProvider } from "@solana/wallet-adapter-react";
-import OverlayProvider from "./context/OverlayProvider";
+import ErrorPage from './pages/ErrorPage';
+import Game from './pages/Index';
+import { ConnectionProvider } from '@solana/wallet-adapter-react';
+import OverlayProvider from './context/OverlayProvider';
 
 declare global {
   interface Window {
@@ -16,7 +17,7 @@ declare global {
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     errorElement: <ErrorPage />,
     children: [{ index: true, element: <Game /> }],
   },

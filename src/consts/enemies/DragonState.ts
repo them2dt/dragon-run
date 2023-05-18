@@ -1,8 +1,8 @@
 enum DragonState {
-    Idle,
-    Chasing,
-    Attacking,
-    Dead
+  Idle,
+  Chasing,
+  Attacking,
+  Dead,
 }
 
-export default DragonState
+export default DragonState;

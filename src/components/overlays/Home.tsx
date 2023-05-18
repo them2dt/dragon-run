@@ -1,9 +1,9 @@
-import logo from "../../assets/logo.png";
-import { useOverlay } from "../../context/useOverlay";
-import OverlayKeys from "../../consts/OverlayKeys";
+import React from 'react';
+import logo from '../../assets/logo.png';
+import { useOverlay } from '../../context/useOverlay';
+import OverlayKeys from '../../consts/OverlayKeys';
 
 export default function Home() {
-
   const { setOverlay } = useOverlay();
 
   return (
@@ -12,7 +12,9 @@ export default function Home() {
         <img src={logo} alt="logo" />
       </div>
       <div className="home-buttons">
-        <button className="home-button" onClick={() => (setOverlay(OverlayKeys.Game))}>Play</button>
+        <button className="home-button" onClick={() => setOverlay(OverlayKeys.Game)}>
+          Play
+        </button>
       </div>
     </div>
   );

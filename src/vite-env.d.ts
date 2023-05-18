@@ -11,4 +11,4 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
-declare module "tw-elements" {}
+declare module 'tw-elements' {}
