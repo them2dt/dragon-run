@@ -1,7 +1,7 @@
 enum Device {
-	MobilePortrait,
-	MobileLandscape,
-	Desktop
+  MobilePortrait,
+  MobileLandscape,
+  Desktop,
 }
 
 export default Device;

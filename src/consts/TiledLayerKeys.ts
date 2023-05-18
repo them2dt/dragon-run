@@ -1,8 +1,7 @@
-enum TiledLayerKeys
-{
-	Player = 'Player',
-	Enemies = 'Enemies',
-	Lavaballs = 'Lavaballs',
+enum TiledLayerKeys {
+  Player = 'Player',
+  Enemies = 'Enemies',
+  Lavaballs = 'Lavaballs',
 }
 
-export default TiledLayerKeys
+export default TiledLayerKeys;

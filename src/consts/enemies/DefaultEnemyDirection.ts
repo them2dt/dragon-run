@@ -1,6 +1,6 @@
 enum DefaultEnemyDirection {
-	Left,
-	Right
+  Left,
+  Right,
 }
 
-export default DefaultEnemyDirection
+export default DefaultEnemyDirection;

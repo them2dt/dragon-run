@@ -1,7 +1,7 @@
 enum PlayerState {
-	Alive,
-	Killed,
-	Dead
+  Alive,
+  Killed,
+  Dead,
 }
 
-export default PlayerState
+export default PlayerState;

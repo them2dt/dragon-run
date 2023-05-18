@@ -1,7 +1,7 @@
 enum CameraFollowing {
-	None,
-	Player,
-	RedDragon
+  None,
+  Player,
+  RedDragon,
 }
 
-export default CameraFollowing
+export default CameraFollowing;

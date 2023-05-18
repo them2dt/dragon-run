@@ -1,6 +1,6 @@
 enum DefaultEnemyState {
-	Alive,
-	Dead
+  Alive,
+  Dead,
 }
 
-export default DefaultEnemyState
+export default DefaultEnemyState;
