@@ -22,7 +22,12 @@ export default class GameOver extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    this.input.keyboard.once('keydown-SPACE', () => {
+    const keyboard = this.input.keyboard;
+
+    if (!keyboard) {
+      return;
+    }
+    keyboard.once('keydown-SPACE', () => {
       this.scene.stop(SceneKeys.GameOver);
       this.scene.start(SceneKeys.CaveScene);
     });

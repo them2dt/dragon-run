@@ -5,7 +5,7 @@ globalThis.Buffer = buffer.Buffer;
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 //routes
 import ErrorPage from './pages/ErrorPage';
-import Game from './pages/Index';
+import Index from './pages/Index';
 import { ConnectionProvider } from '@solana/wallet-adapter-react';
 import OverlayProvider from './context/OverlayProvider';
 
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <Game /> }],
+    children: [{ index: true, element: <Index /> }],
   },
 ]);
 
