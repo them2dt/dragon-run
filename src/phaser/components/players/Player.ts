@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import TextureKeys from '../../../consts/TextureKeys';
 import AnimationKeys from '../../../consts/AnimationKeys';
 import SceneKeys from '../../../consts/SceneKeys';
@@ -12,7 +12,7 @@ import PlayerSoundEffectKeys from '../../../consts/audio/PlayerSoundEffectKeys';
 export default class Player extends Phaser.GameObjects.Container {
   private currentScene!: SceneKeys;
 
-  private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+  private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private fireKeyOne!: Phaser.Input.Keyboard.Key;
   private firekeyTwo!: Phaser.Input.Keyboard.Key;
   private wKey!: Phaser.Input.Keyboard.Key;
@@ -60,13 +60,18 @@ export default class Player extends Phaser.GameObjects.Container {
     body.setFrictionX(0);
     body.setFrictionY(0);
 
-    this.cursors = scene.input.keyboard.createCursorKeys();
-    this.fireKeyOne = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-    this.firekeyTwo = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.PERIOD);
-    this.wKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    this.aKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    this.sKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    this.dKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    const keyboard = scene.input.keyboard;
+    
+    if (!keyboard) {
+      return;
+    }
+    this.cursors = keyboard.createCursorKeys();
+    this.fireKeyOne = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    this.firekeyTwo = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.PERIOD);
+    this.wKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.aKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.sKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.dKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
   }
 
   public setFireballs(fireballs: Phaser.Physics.Arcade.Group) {

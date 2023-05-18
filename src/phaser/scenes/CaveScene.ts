@@ -1,5 +1,4 @@
-import Phaser from 'phaser';
-
+import * as Phaser from 'phaser';
 import TextureKeys from '../../consts/TextureKeys';
 import SceneKeys from '../../consts/SceneKeys';
 import Player from '../components/players/Player';
@@ -293,7 +292,7 @@ export default class CaveScene extends Phaser.Scene {
     this.lavaballsLayer.objects.forEach((lavaballObject) => {
       const lavaballObjectX = lavaballObject.x;
       const lavaballObjectY = lavaballObject.y;
-      
+
       if (!lavaballObjectX || !lavaballObjectY) {
         return;
       }

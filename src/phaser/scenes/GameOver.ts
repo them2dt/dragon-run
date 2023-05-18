@@ -1,5 +1,4 @@
-import Phaser from 'phaser';
-
+import * as Phaser from 'phaser';
 import SceneKeys from '../../consts/SceneKeys';
 
 export default class GameOver extends Phaser.Scene {
