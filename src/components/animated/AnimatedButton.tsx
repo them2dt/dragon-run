@@ -34,7 +34,7 @@ const AnimatedButton = (props: AnimatedButtonProps) => {
       whileHover="hover"
       whileTap="pressed"
       variants={buttonVariants}
-      className={` text-cC ${props.className} bg-cB py-3 px-7 border-4`}
+      className={` text-cC bg-cB py-3 px-2 ${props.className}`}
       onClick={props.onClick}
     >
       {props.text}

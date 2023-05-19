@@ -10,12 +10,17 @@ module.exports = {
         xs: '375px',
       },
       colors: {
-        cA: '#132228',
-        cB: '#ff7a14',
+        cA: '#ff6000',
+        cB: '#ff3c00',
         cC: 'white',
-        cD: '#fcba03',
+        cD: '#ffa600',
+        bg1: '#78777f',
+        bg2: '#212121',
       },
     },
   },
-  plugins: [require('tw-elements/dist/plugin')],
+  variants: {
+    imageRendering: ['responsive'],
+  },
+  plugins: [require('tw-elements/dist/plugin'), require('tailwindcss-image-rendering')],
 };

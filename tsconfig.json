@@ -21,6 +21,7 @@
       "@consts/*": ["consts/*"],
       "@events-center": ["events/eventsCenter.ts"],
       "@context/*": ["context/*"],
+      "@assets/*": ["../assets/*"],
       
     }
   },
