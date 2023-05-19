@@ -8,6 +8,8 @@ import PlayerState from '../../../consts/players/PlayerState';
 import DragonState from '../../../consts/enemies/DragonState';
 import MusicKeys from '../../../consts/audio/MusicKeys';
 import PlayerSoundEffectKeys from '../../../consts/audio/PlayerSoundEffectKeys';
+import eventsCenter from '@events-center';
+import EventKeys from '@consts/EventKeys';
 
 export default class Player extends Phaser.GameObjects.Container {
   private currentScene!: SceneKeys;
@@ -245,7 +247,7 @@ export default class Player extends Phaser.GameObjects.Container {
           this.scene.sound.removeByKey(MusicKeys.CaveScene1);
         }
 
-        this.scene.scene.run(SceneKeys.GameOver);
+        eventsCenter.emit(EventKeys.GoToGameOver);
         break;
       }
     }

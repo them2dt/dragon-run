@@ -1,16 +1,13 @@
 import React from 'react';
-import { useOverlay } from '../../context/useOverlay';
-import OverlayKeys from '../../consts/OverlayKeys';
+import AnimatedButton from 'components/animated/AnimatedButton';
+import eventsCenter from '@events-center';
+import EventKeys from '@consts/EventKeys';
 
 export default function GameOver() {
-  const { setOverlay } = useOverlay();
-
   return (
     <div className="home">
       <div className="home-buttons">
-        <button className="home-button" onClick={() => setOverlay(OverlayKeys.GameOver)}>
-          GameOver
-        </button>
+        <AnimatedButton text="Play Again" onClick={() => eventsCenter.emit(EventKeys.GoToGame)} />
       </div>
     </div>
   );

@@ -1,13 +1,12 @@
 import React from 'react';
+import AnimatedButton from 'components/animated/AnimatedButton';
 
 export default function Loading() {
 
   return (
     <div className="home">
       <div className="home-buttons">
-        <button className="home-button">
-          Loading
-        </button>
+        <AnimatedButton text='Loading...'/>
       </div>
     </div>
   );

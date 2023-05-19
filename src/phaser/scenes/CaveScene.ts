@@ -15,6 +15,8 @@ import SoundFade from 'phaser3-rex-plugins/plugins/soundfade.js';
 import EnvironmentSoundEffectKeys from '@consts/audio/EnvironmentSoundEffectKeys';
 import EnemySoundEffectKeys from '@consts/audio/EnemySoundEffectKeys';
 import PlayerSoundEffectKeys from '@consts/audio/PlayerSoundEffectKeys';
+import eventsCenter from '@events-center';
+import EventKeys from '@consts/EventKeys';
 
 export default class CaveScene extends Phaser.Scene {
   private device: Device = Device.Desktop;
@@ -72,6 +74,7 @@ export default class CaveScene extends Phaser.Scene {
   }
 
   public create() {
+    eventsCenter.emit(EventKeys.GameLoaded);
     this.anims.createFromAseprite(TextureKeys.RedDragon);
     this.anims.createFromAseprite(TextureKeys.SmallDragonOrange);
     this.anims.createFromAseprite(TextureKeys.DefaultCharacter);

@@ -8,6 +8,6 @@ export default class HomeScene extends Phaser.Scene {
     super(SceneKeys.HomeScene);
   }
   create() {
-    eventsCenter.emit(EventKeys.Home);
+    eventsCenter.emit(EventKeys.HomeLoaded);
   }
 }

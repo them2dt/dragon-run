@@ -1,10 +1,10 @@
 import React from 'react';
 import logo from '../../assets/logo.png';
-import { useOverlay } from '../../context/useOverlay';
-import OverlayKeys from '../../consts/OverlayKeys';
+import AnimatedButton from 'components/animated/AnimatedButton';
+import eventsCenter from '@events-center';
+import EventKeys from '@consts/EventKeys';
 
 export default function Home() {
-  const { setOverlay } = useOverlay();
 
   return (
     <div className="home">
@@ -12,9 +12,7 @@ export default function Home() {
         <img src={logo} alt="logo" />
       </div>
       <div className="home-buttons">
-        <button className="home-button" onClick={() => setOverlay(OverlayKeys.Game)}>
-          Play
-        </button>
+        <AnimatedButton text='Play' onClick={() => eventsCenter.emit(EventKeys.GoToGame)}/>
       </div>
     </div>
   );
