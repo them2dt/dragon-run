@@ -1,4 +1,6 @@
 const { fontFamily } = require('tailwindcss/defaultTheme');
+const theme = require('./src/consts/theme/theme');
+
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', './node_modules/tw-elements/dist/js/**/*.js'],
   theme: {
@@ -9,14 +11,7 @@ module.exports = {
       screens: {
         xs: '375px',
       },
-      colors: {
-        cA: '#ff6000',
-        cB: '#ff3c00',
-        cC: 'white',
-        cD: '#ffa600',
-        bg1: '#78777f',
-        bg2: '#212121',
-      },
+      colors: theme.colors,
     },
   },
   variants: {

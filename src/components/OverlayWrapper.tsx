@@ -2,12 +2,13 @@ import React from 'react'
 
 interface OverlayWrapperProps {
     children: React.ReactNode;
+    className?: string;
   }
 
-export default function OverlayWrapper({ children }: OverlayWrapperProps) {
+export default function OverlayWrapper({ children, className }: OverlayWrapperProps) {
 
   return (
-    <main className='w-screen h-screen flex bg-gradient-to-b from-bg1 to-bg2 overflow-hidden'>
+    <main className={`w-screen h-screen flex ${className}`}>
         {children}
     </main>
   )

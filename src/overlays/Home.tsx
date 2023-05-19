@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '@assets/Dragon_Run_Logo.png';
+import logo from '@assets/Dragon_Run_Logo_Cropped.png';
 import AnimatedButton from 'components/animated/AnimatedButton';
 import eventsCenter from '@events-center';
 import EventKeys from '@consts/EventKeys';
@@ -9,12 +9,12 @@ import OverlayWrapper from 'components/OverlayWrapper';
 export default function Home() {
   return (
     <AnimatedPage>
-      <OverlayWrapper>
-        <div className="w-full h-full max-h-screen m-auto flex flex-col py-4 max-w-[1240px]">
-          <div className="h-full max-h-[70%]">
-            <img src={logo} alt="logo" className="m-auto w-auto h-full md:px-20 rendering-pixelated" />
+      <OverlayWrapper className='bg-bg3 overflow-hidden'>
+        <div className="w-full h-full m-auto flex flex-col py-4 max-w-[1240px]">
+          <div className="h-auto my-auto">
+            <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />
           </div>
-          <div className="grid grid-cols-2 gap-4 md:gap-6 p-4">
+          <div className="grid grid-cols-2 gap-4 md:gap-6 p-4 mt-auto">
             <AnimatedButton
               text="Store"
               className="m-auto w-full col-span-1 bg-cD md:text-2xl line-through"
