@@ -4,6 +4,8 @@ import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import GameNavBar from 'components/GameNavBar';
 import GameMenu from 'components/GameMenu';
+import eventsCenter from '@events-center';
+import EventKeys from '@consts/EventKeys';
 
 export default function Game() {
 
@@ -11,10 +13,12 @@ export default function Game() {
 
   const openMenu = () => {
     setMenuOpen(true);
+    eventsCenter.emit(EventKeys.PauseGame);
   };
 
   const closeMenu = () => {
     setMenuOpen(false);
+    eventsCenter.emit(EventKeys.ResumeGame);
   };
 
   return (

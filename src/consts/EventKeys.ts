@@ -4,8 +4,11 @@ enum EventKeys {
   HomeLoaded = 'home-loaded',
   GoToGame = 'go-to-game',
   GameLoaded = 'game-loaded',
-  GoToGamePause = 'go-to-game-pause',
+  PauseGame = 'pause-game',
+  ResumeGame = 'resume-game',
+  CloseGame = 'close-game',
   GoToGameOver = 'go-to-game-over',
   GameOverLoaded = 'game-over-loaded',
+  CloseGameOver = 'close-game-over',
 }
 export default EventKeys;

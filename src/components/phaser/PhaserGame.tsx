@@ -39,10 +39,12 @@ export default function PhaserGame() {
 
     eventsCenter.on(EventKeys.GoToHome, () => {
       if (phaserGame.scene.isActive(SceneKeys.GameOver)) {
-        phaserGame.scene.stop(SceneKeys.GameOver);
-      } else if (phaserGame.scene.isActive(SceneKeys.CaveScene)) {
+        phaserGame.scene.pause(SceneKeys.GameOver);
+      }
+      if (phaserGame.scene.isActive(SceneKeys.CaveScene)) {
         phaserGame.scene.stop(SceneKeys.CaveScene);
       }
+
       console.log('Starting HomeScene');
       phaserGame.scene.start(SceneKeys.HomeScene);
       setOverlay(OverlayKeys.Home);
@@ -67,6 +69,16 @@ export default function PhaserGame() {
       console.log('Starting GameOver');
       phaserGame.scene.start(SceneKeys.GameOver);
       setOverlay(OverlayKeys.GameOver);
+    });
+
+    eventsCenter.on(EventKeys.PauseGame, () => {
+      console.log('Pausing CaveScene');
+      phaserGame.scene.pause(SceneKeys.CaveScene);
+    });
+
+    eventsCenter.on(EventKeys.ResumeGame, () => {
+      console.log('Resuming CaveScene');
+      phaserGame.scene.resume(SceneKeys.CaveScene);
     });
 
     return () => {
