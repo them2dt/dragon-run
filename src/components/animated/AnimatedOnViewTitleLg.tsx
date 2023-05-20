@@ -1,14 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-interface AnimatedOnViewTitleProps {
-  className: string;
+interface AnimatedOnViewTitleLgProps {
   text: string;
-  onClick: () => void;
+  className?: string;
+  onClick?: () => void;
   delay: number;
 }
 
-const AnimatedOnViewTitle = (props: AnimatedOnViewTitleProps) => {
+const AnimatedOnViewTitleLg = (props: AnimatedOnViewTitleLgProps) => {
   const titleAnimations = {
     offscreen: { opacity: 0, scale: 0.7 },
     onscreen: {
@@ -32,4 +32,4 @@ const AnimatedOnViewTitle = (props: AnimatedOnViewTitleProps) => {
   );
 };
 
-export default AnimatedOnViewTitle;
+export default AnimatedOnViewTitleLg;

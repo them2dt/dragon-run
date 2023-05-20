@@ -15,7 +15,7 @@ export default function Index(): JSX.Element {
       {overlay === OverlayKeys.None && null}
       {overlay === OverlayKeys.Preloader ? <Loading /> : null}
       {overlay === OverlayKeys.Home ? <Home /> : null}
-      {overlay === OverlayKeys.Game ? <Game /> : null}
+      {overlay === OverlayKeys.Game || overlay === OverlayKeys.GameOver ? <Game /> : null}
       {overlay === OverlayKeys.GameOver ? <GameOver /> : null}
       <PhaserGame />
     </>

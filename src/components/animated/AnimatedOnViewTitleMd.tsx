@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 interface AnimatedOnViewTitleMdProps {
-  className: string;
+  className?: string;
   text: string;
-  onClick: () => void;
+  onClick?: () => void;
   delay: number;
 }
 
