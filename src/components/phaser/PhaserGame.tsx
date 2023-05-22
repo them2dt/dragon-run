@@ -9,8 +9,6 @@ import eventsCenter from '@events-center';
 import EventKeys from '@consts/EventKeys';
 import SceneKeys from '@consts/SceneKeys';
 import OverlayKeys from '@consts/OverlayKeys';
-import TextureKeys from '@consts/TextureKeys';
-import AnimationKeys from '@consts/AnimationKeys';
 
 export default function PhaserGame() {
   const config: Phaser.Types.Core.GameConfig = {
