@@ -11,7 +11,6 @@ import SceneKeys from '@consts/SceneKeys';
 import OverlayKeys from '@consts/OverlayKeys';
 
 export default function PhaserGame() {
-
   const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     physics: {
@@ -38,12 +37,9 @@ export default function PhaserGame() {
     const phaserGame = new Phaser.Game(config);
 
     eventsCenter.on(EventKeys.GoToHome, () => {
-      if (phaserGame.scene.isActive(SceneKeys.GameOver)) {
-        phaserGame.scene.pause(SceneKeys.GameOver);
-      }
-      if (phaserGame.scene.isActive(SceneKeys.CaveScene)) {
-        phaserGame.scene.stop(SceneKeys.CaveScene);
-      }
+      phaserGame.scene.stop(SceneKeys.GameOver);
+      phaserGame.scene.stop(SceneKeys.CaveScene);
+      phaserGame.sound.stopAll();
 
       console.log('Starting HomeScene');
       phaserGame.scene.start(SceneKeys.HomeScene);
@@ -51,11 +47,9 @@ export default function PhaserGame() {
     });
 
     eventsCenter.on(EventKeys.GoToGame, () => {
-      if (phaserGame.scene.isActive(SceneKeys.GameOver)) {
-        phaserGame.scene.stop(SceneKeys.GameOver);
-      } else if (phaserGame.scene.isActive(SceneKeys.HomeScene)) {
-        phaserGame.scene.stop(SceneKeys.HomeScene);
-      }
+      phaserGame.scene.stop(SceneKeys.HomeScene);
+      phaserGame.scene.stop(SceneKeys.GameOver);
+      phaserGame.sound.stopAll();
       console.log('Starting CaveScene');
       phaserGame.scene.start(SceneKeys.CaveScene);
       setOverlay(OverlayKeys.Game);
@@ -74,11 +68,13 @@ export default function PhaserGame() {
     eventsCenter.on(EventKeys.PauseGame, () => {
       console.log('Pausing CaveScene');
       phaserGame.scene.pause(SceneKeys.CaveScene);
+      phaserGame.sound.pauseAll();
     });
 
     eventsCenter.on(EventKeys.ResumeGame, () => {
       console.log('Resuming CaveScene');
       phaserGame.scene.resume(SceneKeys.CaveScene);
+      phaserGame.sound.resumeAll();
     });
 
     return () => {
