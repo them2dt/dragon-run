@@ -6,7 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ConnectionProvider } from '@solana/wallet-adapter-react';
 import OverlayProvider from './context/OverlayProvider';
 import { ThemeProvider, createTheme } from '@mui/material';
-import muiTheme from '@consts/theme/muiTheme';
+import muiTheme from 'constants/theme/muiTheme';
 //routes
 import ErrorPage from './pages/ErrorPage';
 import Index from './pages/Index';
@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-const themeProviderTheme = createTheme(muiTheme)
+const themeProviderTheme = createTheme(muiTheme);
 
 const router = createBrowserRouter([
   {

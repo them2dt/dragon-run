@@ -18,11 +18,10 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["/*"],
-      "@consts/*": ["consts/*"],
+      "@consts/*": ["constants/*"],
       "@events-center": ["events/eventsCenter.ts"],
       "@context/*": ["context/*"],
-      "@assets/*": ["../assets/*"],
-      
+      "@assets/*": ["../assets/*"]
     }
   },
   "include": ["src"],

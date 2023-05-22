@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useOverlay } from '../../context/useOverlay';
-import OverlayKeys from '../../consts/OverlayKeys';
+import OverlayKeys from '../../constants/OverlayKeys';
 
 interface AnimatedLinkButtonProps {
   className: string;

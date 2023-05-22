@@ -1,12 +1,12 @@
 import * as Phaser from 'phaser';
-import TextureKeys from '../../consts/TextureKeys';
-import SceneKeys from '../../consts/SceneKeys';
-import MusicKeys from '../../consts/audio/MusicKeys';
-import EnemySoundEffectKeys from '../../consts/audio/EnemySoundEffectKeys';
-import PlayerSoundEffectKeys from '../../consts/audio/PlayerSoundEffectKeys';
-import EnvironmentSoundEffectKeys from '../../consts/audio/EnvironmentSoundEffectKeys';
-import eventsCenter from '@events-center';
-import EventKeys from '@consts/EventKeys';
+import TextureKeys from '../../constants/TextureKeys';
+import SceneKeys from '../../constants/SceneKeys';
+import MusicKeys from '../../constants/audio/MusicKeys';
+import EnemySoundEffectKeys from '../../constants/audio/EnemySoundEffectKeys';
+import PlayerSoundEffectKeys from '../../constants/audio/PlayerSoundEffectKeys';
+import EnvironmentSoundEffectKeys from '../../constants/audio/EnvironmentSoundEffectKeys';
+import eventsCenter from 'utils/eventsCenter';
+import EventKeys from 'constants/EventKeys';
 
 export default class Preloader extends Phaser.Scene {
   constructor() {
@@ -86,6 +86,6 @@ export default class Preloader extends Phaser.Scene {
   }
 
   create() {
-    eventsCenter.emit(EventKeys.GoToHome)
+    eventsCenter.emit(EventKeys.GoToHome);
   }
 }

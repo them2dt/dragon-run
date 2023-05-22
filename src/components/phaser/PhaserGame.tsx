@@ -5,10 +5,10 @@ import Preloader from '../../phaser/scenes/Preloader';
 import CaveScene from '../../phaser/scenes/CaveScene';
 import GameOver from '../../phaser/scenes/GameOver';
 import HomeScene from '../../phaser/scenes/HomeScene';
-import eventsCenter from '@events-center';
-import EventKeys from '@consts/EventKeys';
-import SceneKeys from '@consts/SceneKeys';
-import OverlayKeys from '@consts/OverlayKeys';
+import eventsCenter from 'utils/eventsCenter';
+import EventKeys from 'constants/EventKeys';
+import SceneKeys from 'constants/SceneKeys';
+import OverlayKeys from 'constants/OverlayKeys';
 
 export default function PhaserGame() {
   const config: Phaser.Types.Core.GameConfig = {

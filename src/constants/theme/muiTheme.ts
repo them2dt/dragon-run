@@ -1,4 +1,4 @@
-import theme from '@consts/theme/theme';
+import theme from 'constants/theme/theme';
 
 declare module '@mui/material/styles' {
   export interface MuiTheme {

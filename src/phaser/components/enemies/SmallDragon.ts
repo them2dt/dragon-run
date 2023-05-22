@@ -1,9 +1,9 @@
 import * as Phaser from 'phaser';
-import AnimationKeys from '../../../consts/AnimationKeys';
-import TextureKeys from '../../../consts/TextureKeys';
-import DefaultEnemyState from '../../../consts/enemies/DefaultEnemyState';
-import DefaultEnemyDirection from '../../../consts/enemies/DefaultEnemyDirection';
-import EnemySoundEffectKeys from '../../../consts/audio/EnemySoundEffectKeys';
+import AnimationKeys from '../../../constants/AnimationKeys';
+import TextureKeys from '../../../constants/TextureKeys';
+import DefaultEnemyState from '../../../constants/enemies/DefaultEnemyState';
+import DefaultEnemyDirection from '../../../constants/enemies/DefaultEnemyDirection';
+import EnemySoundEffectKeys from '../../../constants/audio/EnemySoundEffectKeys';
 
 export default class SmallDragon extends Phaser.GameObjects.Container {
   private smallDragon!: Phaser.GameObjects.Sprite;

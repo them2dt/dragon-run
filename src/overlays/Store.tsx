@@ -1,8 +1,8 @@
 import React from 'react';
 import logo from '@assets/Dragon_Run_Logo.png';
 import AnimatedButton from 'components/animated/AnimatedButton';
-import eventsCenter from '@events-center';
-import EventKeys from '@consts/EventKeys';
+import eventsCenter from 'utils/eventsCenter';
+import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 

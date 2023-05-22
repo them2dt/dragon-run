@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import OverlayKeys from '../consts/OverlayKeys';
+import OverlayKeys from '../constants/OverlayKeys';
 
 type OverlayContextType = {
   overlay: OverlayKeys;

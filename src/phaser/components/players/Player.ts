@@ -1,15 +1,15 @@
 import * as Phaser from 'phaser';
-import TextureKeys from '../../../consts/TextureKeys';
-import AnimationKeys from '../../../consts/AnimationKeys';
-import SceneKeys from '../../../consts/SceneKeys';
+import TextureKeys from '../../../constants/TextureKeys';
+import AnimationKeys from '../../../constants/AnimationKeys';
+import SceneKeys from '../../../constants/SceneKeys';
 import CaveScene from '../../scenes/CaveScene';
-import CameraFollowing from '../../../consts/CameraFollowing';
-import PlayerState from '../../../consts/players/PlayerState';
-import DragonState from '../../../consts/enemies/DragonState';
-import MusicKeys from '../../../consts/audio/MusicKeys';
-import PlayerSoundEffectKeys from '../../../consts/audio/PlayerSoundEffectKeys';
-import eventsCenter from '@events-center';
-import EventKeys from '@consts/EventKeys';
+import CameraFollowing from '../../../constants/CameraFollowing';
+import PlayerState from '../../../constants/players/PlayerState';
+import DragonState from '../../../constants/enemies/DragonState';
+import MusicKeys from '../../../constants/audio/MusicKeys';
+import PlayerSoundEffectKeys from '../../../constants/audio/PlayerSoundEffectKeys';
+import eventsCenter from 'utils/eventsCenter';
+import EventKeys from 'constants/EventKeys';
 
 export default class Player extends Phaser.GameObjects.Container {
   private currentScene!: SceneKeys;
@@ -63,7 +63,7 @@ export default class Player extends Phaser.GameObjects.Container {
     body.setFrictionY(0);
 
     const keyboard = scene.input.keyboard;
-    
+
     if (!keyboard) {
       return;
     }

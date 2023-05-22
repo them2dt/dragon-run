@@ -1,17 +1,16 @@
 import React from 'react';
-import eventsCenter from '@events-center';
-import EventKeys from '@consts/EventKeys';
+import eventsCenter from 'utils/eventsCenter';
+import EventKeys from 'constants/EventKeys';
 import Dialog from '@mui/material/Dialog';
 import { DialogTitle, ListItem, ListItemButton, ListItemText, useTheme } from '@mui/material';
 
 interface GameMenuProps {
-    menuOpen: boolean;
-    closeMenu: () => void;
+  menuOpen: boolean;
+  closeMenu: () => void;
 }
 
 export default function GameMenu({ menuOpen, closeMenu }: GameMenuProps) {
-
-    const theme = useTheme();
+  const theme = useTheme();
 
   return (
     <Dialog open={menuOpen} onClose={closeMenu}>
@@ -22,26 +21,25 @@ export default function GameMenu({ menuOpen, closeMenu }: GameMenuProps) {
         </ListItemButton>
       </ListItem>
       <ListItem className="text-center">
-        <ListItemButton >
+        <ListItemButton>
           <ListItemText primary="Store" className="text-center line-through" />
         </ListItemButton>
       </ListItem>
       <ListItem className="text-center">
-        <ListItemButton >
+        <ListItemButton>
           <ListItemText primary="Leaderboard" className="text-center line-through" />
         </ListItemButton>
       </ListItem>
       <ListItem className="text-center">
-        <ListItemButton >
+        <ListItemButton>
           <ListItemText primary="Socials" className="text-center line-through" />
         </ListItemButton>
       </ListItem>
-      <ListItem sx={{backgroundColor: theme.palette.secondary.main}} className="text-center">
+      <ListItem sx={{ backgroundColor: theme.palette.secondary.main }} className="text-center">
         <ListItemButton onClick={closeMenu}>
-          <ListItemText sx={{color: theme.palette.text.secondary}} primary="Resume" className="text-center" />
+          <ListItemText sx={{ color: theme.palette.text.secondary }} primary="Resume" className="text-center" />
         </ListItemButton>
       </ListItem>
     </Dialog>
   );
-
 }

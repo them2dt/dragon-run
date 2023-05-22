@@ -1,7 +1,7 @@
 import React from 'react';
 import PhaserGame from '../components/phaser/PhaserGame';
 import { useOverlay } from '../context/useOverlay';
-import OverlayKeys from '../consts/OverlayKeys';
+import OverlayKeys from '../constants/OverlayKeys';
 import Home from '../overlays/Home';
 import Game from '../overlays/Game';
 import GameOver from 'overlays/GameOver';
