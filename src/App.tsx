@@ -4,9 +4,10 @@ globalThis.Buffer = buffer.Buffer;
 //3rd-party
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ConnectionProvider } from '@solana/wallet-adapter-react';
-import OverlayProvider from './context/OverlayProvider';
+import OverlayProvider from '@context/OverlayProvider';
 import { ThemeProvider, createTheme } from '@mui/material';
 import muiTheme from 'constants/theme/muiTheme';
+import FirestoreProvider from '@context/FirestoreProvider';
 //routes
 import ErrorPage from './pages/ErrorPage';
 import Index from './pages/Index';
@@ -39,9 +40,11 @@ function App() {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <ThemeProvider theme={themeProviderTheme}>
-        <OverlayProvider>
-          <RouterProvider router={router} />
-        </OverlayProvider>
+        <FirestoreProvider>
+          <OverlayProvider>
+            <RouterProvider router={router} />
+          </OverlayProvider>
+        </FirestoreProvider>
       </ThemeProvider>
     </ConnectionProvider>
   );
