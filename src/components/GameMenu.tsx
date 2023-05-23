@@ -7,37 +7,38 @@ import { DialogTitle, ListItem, ListItemButton, ListItemText, useTheme } from '@
 interface GameMenuProps {
   menuOpen: boolean;
   closeMenu: () => void;
+  openLeaderboard: () => void;
 }
 
-export default function GameMenu({ menuOpen, closeMenu }: GameMenuProps) {
+export default function GameMenu({ menuOpen, closeMenu, openLeaderboard }: GameMenuProps) {
   const theme = useTheme();
 
   return (
-    <Dialog open={menuOpen} onClose={closeMenu}>
-      <DialogTitle className="text-center">Menu</DialogTitle>
-      <ListItem className="text-center">
+    <Dialog open={menuOpen} onClose={closeMenu} sx={{width: '100%'}}>
+      <DialogTitle align='center'>Menu</DialogTitle>
+      <ListItem  sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
         <ListItemButton onClick={() => eventsCenter.emit(EventKeys.GoToHome)}>
-          <ListItemText primary="Home" className="text-center" />
+          <ListItemText sx={{ textAlign: 'center' }} primary="Home"  />
         </ListItemButton>
       </ListItem>
-      <ListItem className="text-center">
+      <ListItem  sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
         <ListItemButton>
-          <ListItemText primary="Store" className="text-center line-through" />
+          <ListItemText sx={{ textAlign: 'center' }} primary="Store" className=" line-through" />
         </ListItemButton>
       </ListItem>
-      <ListItem className="text-center">
+      <ListItem  sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
+        <ListItemButton onClick={openLeaderboard}>
+          <ListItemText sx={{ textAlign: 'center' }} primary="Leaderboard"  />
+        </ListItemButton>
+      </ListItem>
+      <ListItem  sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
         <ListItemButton>
-          <ListItemText primary="Leaderboard" className="text-center line-through" />
+          <ListItemText sx={{ textAlign: 'center' }} primary="Socials" className=" line-through" />
         </ListItemButton>
       </ListItem>
-      <ListItem className="text-center">
-        <ListItemButton>
-          <ListItemText primary="Socials" className="text-center line-through" />
-        </ListItemButton>
-      </ListItem>
-      <ListItem sx={{ backgroundColor: theme.palette.secondary.main }} className="text-center">
+      <ListItem sx={{ backgroundColor: theme.palette.secondary.main }} >
         <ListItemButton onClick={closeMenu}>
-          <ListItemText sx={{ color: theme.palette.text.secondary }} primary="Resume" className="text-center" />
+          <ListItemText sx={{ color: theme.palette.text.secondary, textAlign: 'center' }} primary="Resume"  />
         </ListItemButton>
       </ListItem>
     </Dialog>

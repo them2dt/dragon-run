@@ -22,6 +22,7 @@ declare module '@mui/material/styles' {
       background: {
         default: string;
         paper: string;
+        light: string;
       };
     };
     typography: {
@@ -51,6 +52,7 @@ const muiTheme = {
     background: {
       default: theme.colors.bg3,
       paper: theme.colors.bg3,
+      light: theme.colors.bg1,
     },
     text: {
       primary: theme.colors.cB,

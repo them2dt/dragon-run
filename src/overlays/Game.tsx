@@ -6,9 +6,12 @@ import GameNavBar from 'components/GameNavBar';
 import GameMenu from 'components/GameMenu';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
+import Leaderboard from 'components/Leaderboard';
 
 export default function Game() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+
 
   const openMenu = () => {
     setMenuOpen(true);
@@ -20,10 +23,19 @@ export default function Game() {
     eventsCenter.emit(EventKeys.ResumeGame);
   };
 
+  const openLeaderboard = () => {
+    setLeaderboardOpen(true);
+  };
+
+  const closeLeaderboard = () => {
+    setLeaderboardOpen(false);
+  };
+
   return (
     <AnimatedPage>
       <OverlayWrapper className="z-50 fixed top-0 left-0 pointer-events-none">
-        <GameMenu menuOpen={menuOpen} closeMenu={closeMenu} />
+        <GameMenu menuOpen={menuOpen} closeMenu={closeMenu} openLeaderboard={openLeaderboard} />
+        <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <GameNavBar>
           <button
             className="w-full mx-auto flex flex-col align-top self-start pointer-events-auto bg-none"
