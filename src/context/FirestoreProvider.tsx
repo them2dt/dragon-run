@@ -1,14 +1,18 @@
 import React, { createContext, useState } from 'react';
-import FirestoreData from '@consts/firestore/FirestoreData';
-import UserData from '@consts/firestore/UserData';
+import FirestoreData from '@firestore/FirestoreData';
+import UserData from '@firestore/UserData';
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import firestore from '../firebase/clientApp';
+import isHighScoresDoc from '@firestore/type-guards/isHighScoresDoc';
+import HighScoresDoc from '@firestore/HighScoresDoc';
+import Leaderboard from '@firestore/Leaderboard';
 
 type FirestoreContextType = {
   firestoreData: FirestoreData | null;
   firestoreFunctions: {
     initializeFirestore: () => void;
     getUserData: (userName: string) => void;
+    getLeaderboard: () => void;
   };
   setFirestoreData: React.Dispatch<React.SetStateAction<FirestoreData>>;
 };
@@ -69,9 +73,45 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     });
   };
 
+  const getLeaderboard = async () => {
+    let db = firestoreData?.firestore;
+    if (!db) {
+      console.log('Firestore is not initialized!');
+      initializeFirestore();
+      db = firestoreData?.firestore;
+    }
+    if (!db) {
+      console.log("Couldn't get Firestore instance!");
+      return;
+    }
+    const highScoresDocRef = doc(db, 'leaderboard', 'highScores');
+    const highScoresDoc = await getDoc(highScoresDocRef);
+    if (!isHighScoresDoc(highScoresDoc.data())) {
+      console.log('highScoresDoc is not a HighScoresDoc!');
+      return;
+    }
+    const highScores: HighScoresDoc = highScoresDoc.data() as HighScoresDoc;
+    const leaderboard: Leaderboard = highScores.highScoresArray;
+    if (!leaderboard) {
+      console.log('highScoresArray does not exist!');
+      return;
+    }
+    if (leaderboard.length === 0) {
+      console.log('highScoresArray is empty!');
+      return;
+    }
+
+    setFirestoreData({
+      firestore: firestoreData?.firestore ?? null,
+      userData: firestoreData?.userData ?? null,
+      leaderboard: leaderboard,
+    });
+  };
+
   const firestoreFunctions = {
     initializeFirestore,
     getUserData,
+    getLeaderboard,
   };
 
   return (

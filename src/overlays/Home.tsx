@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import logo from '@assets/Dragon_Run_Logo_Cropped.png';
 import AnimatedButton from 'components/animated/AnimatedButton';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
-import Leaderboard from 'components/Leaderboard';
+import Leaderboard from 'components/LeaderboardMenu';
 
 export default function Home() {
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
@@ -28,7 +28,11 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-2 gap-4 md:gap-6 p-4 mt-auto">
             <AnimatedButton text="Store" className="m-auto w-full col-span-1 bg-cD md:text-2xl line-through" />
-            <AnimatedButton text="Leaderboard" className="m-auto w-full col-span-1 bg-cD md:text-2xl" onClick={openLeaderboard} />
+            <AnimatedButton
+              text="Leaderboard"
+              className="m-auto w-full col-span-1 bg-cD md:text-2xl"
+              onClick={openLeaderboard}
+            />
             <AnimatedButton
               text="Play"
               className="m-auto w-full col-span-2 py-5 text-3xl md:text-5xl"

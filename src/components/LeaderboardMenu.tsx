@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   TableContainer,
   Table,
@@ -14,31 +14,38 @@ import {
   ListItemText,
   useTheme,
 } from '@mui/material';
+import { useFirestore } from '@context/useFirestore';
+import LeaderboardItem from '@firestore/LeaderboardItem';
+import { getLeaderboardDataFromLeaderboard } from 'utils/leaderboard';
 
-function createData(rank: number, name: string, score: number) {
-  return { rank, name, score };
-}
-
-const rows = [
-  createData(1, 'zombi', 1480),
-  createData(2, 'm2d2', 1360),
-  createData(3, '3', 1200),
-  createData(4, '4', 1000),
-  createData(5, '5', 800),
-  createData(6, '6', 700),
-  createData(7, '7', 600),
-  createData(8, '8', 500),
-  createData(9, '9', 400),
-  createData(10, '10', 300),
-];
-
-interface LeaderboardProps {
+interface LeaderboardMenuProps {
   leaderboardOpen: boolean;
   closeLeaderboard: () => void;
 }
 
-export default function Leaderboard({ leaderboardOpen, closeLeaderboard }: LeaderboardProps) {
+export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: LeaderboardMenuProps) {
   const theme = useTheme();
+  const { firestoreData, firestoreFunctions } = useFirestore();
+  const [leaderboard, setLeaderboard] = React.useState<LeaderboardItem[] | []>([]);
+
+  useEffect(() => {
+    if (leaderboard === null) {
+      firestoreFunctions.getLeaderboard();
+    }
+    const newLeaderboard = firestoreData?.leaderboard;
+    if (newLeaderboard) {
+      const leaderboardData = getLeaderboardDataFromLeaderboard(newLeaderboard);
+      if (leaderboardData !== null) {
+        setLeaderboard(leaderboardData.leaderboardItems);
+      } else {
+        console.log('Error getting leaderboard data');
+        return;
+      }
+    }
+
+    console.log('Leaderboard updated!');
+    console.log(firestoreData?.leaderboard);
+  }, [leaderboardOpen, firestoreData?.leaderboard]);
 
   return (
     <Dialog open={leaderboardOpen} onClose={closeLeaderboard} sx={{ width: '100%' }}>
@@ -49,7 +56,7 @@ export default function Leaderboard({ leaderboardOpen, closeLeaderboard }: Leade
             maxHeight: '50vh',
             minWidth: '30vw',
             [theme.breakpoints.up('lg')]: {
-                maxHeight: 430,
+              maxHeight: 430,
             },
           }}
         >
@@ -68,7 +75,7 @@ export default function Leaderboard({ leaderboardOpen, closeLeaderboard }: Leade
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {leaderboard.map((row) => (
                 <TableRow
                   key={row.name}
                   sx={{
