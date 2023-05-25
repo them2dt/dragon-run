@@ -29,11 +29,14 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
   const [leaderboard, setLeaderboard] = React.useState<LeaderboardItem[] | []>([]);
 
   useEffect(() => {
-    if (leaderboard === null) {
+    if (leaderboard == null) {
       firestoreFunctions.getLeaderboard();
     }
+    console.log('Leaderboard:' + leaderboard);
+    console.log('Firestore Leaderboard: ' + firestoreData?.leaderboard);
     const newLeaderboard = firestoreData?.leaderboard;
     if (newLeaderboard) {
+      console.log('Getting leaderboard data...' + newLeaderboard);
       const leaderboardData = getLeaderboardDataFromLeaderboard(newLeaderboard);
       if (leaderboardData !== null) {
         setLeaderboard(leaderboardData.leaderboardItems);

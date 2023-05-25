@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '@assets/Dragon_Run_Logo_Cropped.png';
 import AnimatedButton from 'components/animated/AnimatedButton';
 import eventsCenter from 'utils/eventsCenter';
@@ -6,9 +6,27 @@ import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import Leaderboard from 'components/LeaderboardMenu';
+import { useFirestore } from '@context/useFirestore';
+import AnimatedOnViewTitleMd from 'components/animated/AnimatedOnViewTitleMd';
 
 export default function Home() {
+  const { firestoreData, firestoreFunctions } = useFirestore();
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [userName, setUserName] = useState('testuser');
+
+  useEffect(() => {
+    if (firestoreData?.leaderboard == null) {
+      firestoreFunctions.getLeaderboard();
+    }
+    if (firestoreData?.userData == null) {
+      firestoreFunctions.initializeUserData(userName);
+    }
+    if (firestoreData?.userData?.userName !== undefined) {
+      setUserName(firestoreData?.userData?.userName);
+    }
+    console.log('Leaderboard: ' + firestoreData?.leaderboard);
+    console.log('Username: ' + userName);
+  }, []);
 
   const openLeaderboard = () => {
     setLeaderboardOpen(true);
@@ -27,6 +45,11 @@ export default function Home() {
             <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />
           </div>
           <div className="grid grid-cols-2 gap-4 md:gap-6 p-4 mt-auto">
+            <AnimatedOnViewTitleMd
+              text={userName}
+              className="m-auto w-full col-span-2 text-5xl md:text-7xl"
+              delay={1000}
+            />
             <AnimatedButton text="Store" className="m-auto w-full col-span-1 bg-cD md:text-2xl line-through" />
             <AnimatedButton
               text="Leaderboard"

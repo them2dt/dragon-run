@@ -109,6 +109,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     }
     const highScores: HighScoresDoc = highScoresDoc.data() as HighScoresDoc;
     const leaderboard: Leaderboard = highScores.highScoresArray;
+    console.log('Leaderboard fetched!' + leaderboard);
     if (!leaderboard) {
       console.log('highScoresArray does not exist!');
       return;
