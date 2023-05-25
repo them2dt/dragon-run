@@ -5,7 +5,6 @@ interface UserData {
   createdAt: Timestamp;
   highScore: number;
   scoredAt: Timestamp;
-  unbanAt: Timestamp;
 }
 
 export default UserData;
