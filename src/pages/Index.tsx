@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import PhaserGame from '../components/phaser/PhaserGame';
 import { useOverlay } from '../context/useOverlay';
 import OverlayKeys from '../constants/OverlayKeys';
