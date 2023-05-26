@@ -15,18 +15,28 @@ export default function Home() {
   const [userName, setUserName] = useState('testuser');
 
   useEffect(() => {
+    if (firestoreData?.firestore == null) {
+      firestoreFunctions.initializeFirestore();
+    }
+  }, []);
+
+  useEffect(() => {
     if (firestoreData?.leaderboard == null) {
       firestoreFunctions.getLeaderboard();
     }
+  }, [firestoreData?.firestore, firestoreData?.leaderboard]);
+
+  useEffect(() => {
     if (firestoreData?.userData == null) {
       firestoreFunctions.initializeUserData(userName);
     }
+  }, [firestoreData?.firestore]);
+
+  useEffect(() => {
     if (firestoreData?.userData?.userName !== undefined) {
       setUserName(firestoreData?.userData?.userName);
     }
-    console.log('Leaderboard: ' + firestoreData?.leaderboard);
-    console.log('Username: ' + userName);
-  }, []);
+  }, [firestoreData?.userData]);
 
   const openLeaderboard = () => {
     setLeaderboardOpen(true);

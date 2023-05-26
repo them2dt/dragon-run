@@ -29,26 +29,28 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
   const [leaderboard, setLeaderboard] = React.useState<LeaderboardItem[] | []>([]);
 
   useEffect(() => {
-    if (leaderboard == null) {
+    if (firestoreData?.firestore == null) {
+      firestoreFunctions.initializeFirestore();
+    }
+  }, [firestoreData?.firestore]);
+
+  useEffect(() => {
+    if (firestoreData?.leaderboard == null) {
       firestoreFunctions.getLeaderboard();
     }
-    console.log('Leaderboard:' + leaderboard);
-    console.log('Firestore Leaderboard: ' + firestoreData?.leaderboard);
-    const newLeaderboard = firestoreData?.leaderboard;
-    if (newLeaderboard) {
-      console.log('Getting leaderboard data...' + newLeaderboard);
-      const leaderboardData = getLeaderboardDataFromLeaderboard(newLeaderboard);
-      if (leaderboardData !== null) {
+  }, [firestoreData?.firestore]);
+
+  useEffect(() => {
+    if (firestoreData?.leaderboard) {
+      const leaderboardData = getLeaderboardDataFromLeaderboard(firestoreData?.leaderboard);
+      if (leaderboardData != null) {
         setLeaderboard(leaderboardData.leaderboardItems);
       } else {
         console.log('Error getting leaderboard data');
         return;
       }
     }
-
-    console.log('Leaderboard updated!');
-    console.log(firestoreData?.leaderboard);
-  }, [leaderboardOpen, firestoreData?.leaderboard]);
+  }, [firestoreData?.leaderboard]);
 
   return (
     <Dialog open={leaderboardOpen} onClose={closeLeaderboard} sx={{ width: '100%' }}>
