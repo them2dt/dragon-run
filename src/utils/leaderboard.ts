@@ -8,19 +8,20 @@ const getLeaderboardDataFromLeaderboard = (
   leaderboard: Leaderboard,
 ): { leaderboardMetadata: LeaderboardMetadata; leaderboardItems: LeaderboardItem[] } | null => {
   if (!isLeaderboardMetadata(leaderboard[0])) {
-    console.log('leaderboard[0] is not LeaderboardMetadata!');
+    console.log('leaderboard[0] is not LeaderboardMetadata: ', leaderboard[0]);
     return null;
   }
-  const leaderboardMetadata: LeaderboardMetadata = leaderboard.shift() as LeaderboardMetadata;
-  const leaderboardItems = leaderboard.map((highScoreData) => {
-    const highScoreItem = highScoreData as HighScoreData;
+  const leaderboardMetadata: LeaderboardMetadata = leaderboard[0] as LeaderboardMetadata;
+  const leaderboardItems: LeaderboardItem[] = [];
+  for (let i = 1; i < leaderboard.length; i++) {
+    const highScoreData = leaderboard[i] as HighScoreData;
     const leaderboardItem: LeaderboardItem = {
-      rank: highScoreItem.rank,
-      name: highScoreItem.userName,
-      score: highScoreItem.highScore,
+      rank: highScoreData.rank,
+      name: highScoreData.userName,
+      score: highScoreData.highScore,
     };
-    return leaderboardItem;
-  });
+    leaderboardItems.push(leaderboardItem);
+  }
   return { leaderboardMetadata, leaderboardItems };
 };
 

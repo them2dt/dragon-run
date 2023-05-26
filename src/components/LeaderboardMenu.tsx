@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useMemo } from 'react';
 import {
   TableContainer,
   Table,
@@ -28,19 +28,16 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
   const { firestoreData, firestoreFunctions } = useFirestore();
   const [leaderboard, setLeaderboard] = React.useState<LeaderboardItem[] | []>([]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (firestoreData?.firestore == null) {
       firestoreFunctions.initializeFirestore();
     }
-  }, [firestoreData?.firestore]);
-
-  useEffect(() => {
     if (firestoreData?.leaderboard == null) {
       firestoreFunctions.getLeaderboard();
     }
   }, [firestoreData?.firestore]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (firestoreData?.leaderboard) {
       const leaderboardData = getLeaderboardDataFromLeaderboard(firestoreData?.leaderboard);
       if (leaderboardData != null) {

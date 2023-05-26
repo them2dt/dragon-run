@@ -94,7 +94,8 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   };
 
   const getLeaderboard = async () => {
-    console.log('Fetching leaderboard...');
+    const previousLeaderboard = firestoreData?.leaderboard;
+    console.log('previousLeaderboard: ' + JSON.stringify(previousLeaderboard));
     const db = firestoreData?.firestore;
     if (db === null) {
       console.log('Firestore is not initialized at getLeaderboard!');
@@ -113,7 +114,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     }
     const highScores: HighScoresDoc = highScoresDoc.data() as HighScoresDoc;
     const leaderboard: Leaderboard = highScores.highScoresArray;
-    console.log('Leaderboard fetched!' + leaderboard);
+    console.log('Leaderboard fetched!' + JSON.stringify(leaderboard));
     if (!leaderboard) {
       console.log('highScoresArray does not exist!');
       return;
