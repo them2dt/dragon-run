@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import PhaserGame from '../components/phaser/PhaserGame';
 import { useOverlay } from '../context/useOverlay';
 import OverlayKeys from '../constants/OverlayKeys';
@@ -11,7 +11,7 @@ import { useFirestore } from '@context/useFirestore';
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
   const { firestoreData, firestoreFunctions } = useFirestore();
-  const [userName, setUserName] = useState('testuser');
+  const [userName, setUserName] = useState('');
 
   useMemo(() => {
     console.log('Initializing firestore');
@@ -31,6 +31,9 @@ export default function Index(): JSX.Element {
 
   useMemo(() => {
     const initializeUserData = async () => {
+      if (userName === '') {
+        return;
+      }
       const currentUserName = firestoreData?.userData?.userName;
       if (userName !== currentUserName) {
         await firestoreFunctions.initializeUserData(userName);
@@ -41,7 +44,19 @@ export default function Index(): JSX.Element {
       }
     };
     initializeUserData();
+    console.log(userName)
   }, [firestoreData?.userData, userName]);
+
+  useEffect(() => {
+    if (window.xnft.metadata == null) {
+      return;
+    }
+    const username = window.xnft.metadata.username
+    if (username != null) {
+      setUserName(username);
+    }
+  }, [window.xnft.metadata]);
+
 
   return (
     <>
