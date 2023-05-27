@@ -12,6 +12,7 @@ export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
   const { firestoreData, firestoreFunctions } = useFirestore();
   const [userName, setUserName] = useState('');
+  const [highScore, setHighScore] = useState<number>(0);
 
   useMemo(() => {
     console.log('Initializing firestore');
@@ -41,22 +42,26 @@ export default function Index(): JSX.Element {
       const newUserName = firestoreData?.userData?.userName;
       if (newUserName != null) {
         setUserName(newUserName);
+        console.log("newUserName: ", newUserName)
+      }
+      const newHighScore = firestoreData?.userData?.highScore;
+      if (newHighScore != undefined) {
+        setHighScore(newHighScore);
+        console.log("newHighScore: ", newHighScore)
       }
     };
     initializeUserData();
-    console.log(userName)
   }, [firestoreData?.userData, userName]);
 
   useEffect(() => {
     if (window.xnft.metadata == null) {
       return;
     }
-    const username = window.xnft.metadata.username
+    const username = window.xnft.metadata.username;
     if (username != null) {
       setUserName(username);
     }
   }, [window.xnft.metadata]);
-
 
   return (
     <>

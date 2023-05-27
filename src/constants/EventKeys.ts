@@ -10,5 +10,6 @@ enum EventKeys {
   GoToGameOver = 'go-to-game-over',
   GameOverLoaded = 'game-over-loaded',
   CloseGameOver = 'close-game-over',
+  NewScore = 'new-score',
 }
 export default EventKeys;
