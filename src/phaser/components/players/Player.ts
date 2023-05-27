@@ -12,6 +12,8 @@ import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 
 export default class Player extends Phaser.GameObjects.Container {
+  public score = 0;
+
   private currentScene!: SceneKeys;
 
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -134,6 +136,8 @@ export default class Player extends Phaser.GameObjects.Container {
 
     this.playerState = PlayerState.Killed;
 
+    eventsCenter.emit(EventKeys.UpdateEndScore, this.score);
+
     this.defaultCharacter.play(AnimationKeys.DefaultCharacterDeadRight, true);
 
     this.scene.sound.play(PlayerSoundEffectKeys.PlayerDeath1, { volume: 0.5 });
@@ -170,6 +174,12 @@ export default class Player extends Phaser.GameObjects.Container {
 
   public preUpdate(t: number) {
     const body = this.body as Phaser.Physics.Arcade.Body;
+
+    this.score = Math.floor(this.x / 10 - 95);
+    if (this.score < 0) {
+      this.score = 0;
+    }
+    eventsCenter.emit(EventKeys.UpdateScore, this.score);
 
     switch (this.playerState) {
       case PlayerState.Alive: {

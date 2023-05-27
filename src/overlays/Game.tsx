@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import menu from '@assets/icons/menu.png';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
@@ -11,6 +11,13 @@ import LeaderboardMenu from 'components/LeaderboardMenu';
 export default function Game() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    eventsCenter.on(EventKeys.UpdateScore, (score: number) => {
+      setScore(score);
+    });
+  }, []);
 
   const openMenu = () => {
     setMenuOpen(true);
@@ -42,6 +49,9 @@ export default function Game() {
           >
             <img src={menu} alt="logo" className="m-auto w-auto h-10 md:h-14 lg:h-16 rendering-pixelated" />
           </button>
+          <div className="flex flex-col align-top pointer-events-auto w-full">
+            <p className="text-white text-sm md:text-lg lg:text-xl font-bold w-full">Score: {score}</p>
+          </div>
         </GameNavBar>
       </OverlayWrapper>
     </AnimatedPage>

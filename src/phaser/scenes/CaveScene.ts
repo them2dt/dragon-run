@@ -75,6 +75,7 @@ export default class CaveScene extends Phaser.Scene {
 
   public create() {
     eventsCenter.emit(EventKeys.GameLoaded);
+
     this.anims.createFromAseprite(TextureKeys.RedDragon);
     this.anims.createFromAseprite(TextureKeys.SmallDragonOrange);
     this.anims.createFromAseprite(TextureKeys.DefaultCharacter);

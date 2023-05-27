@@ -42,12 +42,12 @@ export default function Index(): JSX.Element {
       const newUserName = firestoreData?.userData?.userName;
       if (newUserName != null) {
         setUserName(newUserName);
-        console.log("newUserName: ", newUserName)
+        console.log('newUserName: ', newUserName);
       }
       const newHighScore = firestoreData?.userData?.highScore;
       if (newHighScore != undefined) {
         setHighScore(newHighScore);
-        console.log("newHighScore: ", newHighScore)
+        console.log('newHighScore: ', newHighScore);
       }
     };
     initializeUserData();
