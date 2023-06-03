@@ -43,15 +43,10 @@ export default function Game() {
         <GameMenu menuOpen={menuOpen} closeMenu={closeMenu} openLeaderboard={openLeaderboard} />
         <LeaderboardMenu leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <GameNavBar>
-          <button
-            className="w-full mx-auto flex flex-col align-top self-start pointer-events-auto bg-none"
-            onClick={openMenu}
-          >
-            <img src={menu} alt="logo" className="m-auto w-auto h-10 md:h-14 lg:h-16 rendering-pixelated" />
+          <button className="w-auto flex fixed z-40 left-0 pointer-events-auto bg-none m-3 lg:m-5" onClick={openMenu}>
+            <img src={menu} alt="logo" className="my-auto w-auto h-10 md:h-14 lg:h-16 rendering-pixelated" />
           </button>
-          <div className="flex flex-col align-top pointer-events-auto w-full">
-            <p className="text-white text-sm md:text-lg lg:text-xl font-bold w-full">Score: {score}</p>
-          </div>
+          <h1 className="flex w-max mx-auto my-auto text-cC text-2xl sm:text-2xl md:text-4xl">Score: {score}</h1>
         </GameNavBar>
       </OverlayWrapper>
     </AnimatedPage>

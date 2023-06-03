@@ -7,7 +7,7 @@ interface GameNavBarProps {
 export default function GameNavBar({ children }: GameNavBarProps) {
   return (
     <nav>
-      <div className="flex flex-row w-full justify-between items-center pt-3 pl-3 lg:pt-5 lg:pl-5">{children}</div>
+      <div className="flex flex-row h-auto w-[100vw] text-center items-center p-3 lg:p-5">{children}</div>
     </nav>
   );
 }
