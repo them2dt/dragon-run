@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import menu from '@assets/icons/menu.png';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import GameNavBar from 'components/GameNavBar';
@@ -7,8 +6,10 @@ import GameMenu from 'components/GameMenu';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import LeaderboardMenu from 'components/LeaderboardMenu';
+import { Button, useTheme } from '@mui/material';
 
 export default function Game() {
+  const theme = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [score, setScore] = useState(0);
@@ -43,10 +44,21 @@ export default function Game() {
         <GameMenu menuOpen={menuOpen} closeMenu={closeMenu} openLeaderboard={openLeaderboard} />
         <LeaderboardMenu leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <GameNavBar>
-          <button className="w-auto flex fixed z-40 left-0 pointer-events-auto bg-none m-3 lg:m-5" onClick={openMenu}>
-            <img src={menu} alt="logo" className="my-auto w-auto h-10 md:h-14 lg:h-16 rendering-pixelated" />
-          </button>
-          <h1 className="flex w-max mx-auto my-auto text-cC text-2xl sm:text-2xl md:text-4xl">Score: {score}</h1>
+          <div className="fixed z-40 left-[16px] top-[12px] h-[32px] w-[60px]">
+            <Button
+              sx={{
+                backgroundColor: '#ffffff',
+                borderRadius: 6,
+                color: '#000000',
+                pointerEvents: 'auto',
+                ':hover': { backgroundColor: theme.palette.secondary.main },
+              }}
+              onClick={openMenu}
+            >
+              Menu
+            </Button>
+          </div>
+          <h1 className="flex w-max mx-auto mt-[12px] text-cC text-2xl sm:text-2xl md:text-4xl">Score: {score}</h1>
         </GameNavBar>
       </OverlayWrapper>
     </AnimatedPage>
