@@ -7,12 +7,15 @@ import Game from '../overlays/Game';
 import GameOver from 'overlays/GameOver';
 import Loading from 'overlays/Loading';
 import { useFirestore } from '@context/useFirestore';
+import eventsCenter from 'utils/eventsCenter';
+import EventKeys from '@consts/EventKeys';
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
   const { firestoreData, firestoreFunctions } = useFirestore();
   const [userName, setUserName] = useState('');
   const [highScore, setHighScore] = useState<number>(0);
+  const [newScore, setNewScore] = useState<number>(0);
 
   useMemo(() => {
     console.log('Initializing firestore');
@@ -39,15 +42,15 @@ export default function Index(): JSX.Element {
       if (userName !== currentUserName) {
         await firestoreFunctions.initializeUserData(userName);
       }
-      const newUserName = firestoreData?.userData?.userName;
-      if (newUserName != null) {
-        setUserName(newUserName);
-        console.log('newUserName: ', newUserName);
+      const updatedUserName = firestoreData?.userData?.userName;
+      if (updatedUserName != null) {
+        setUserName(updatedUserName);
+        console.log('updatedUserName: ', updatedUserName);
       }
-      const newHighScore = firestoreData?.userData?.highScore;
-      if (newHighScore != undefined) {
-        setHighScore(newHighScore);
-        console.log('newHighScore: ', newHighScore);
+      const updatedHighScore = firestoreData?.userData?.highScore;
+      if (updatedHighScore != undefined) {
+        setHighScore(updatedHighScore);
+        console.log('updatedHighScore: ', updatedHighScore);
       }
     };
     initializeUserData();
@@ -55,6 +58,7 @@ export default function Index(): JSX.Element {
 
   useEffect(() => {
     if (window.xnft.metadata == null) {
+      console.log('Please open in Backpack!');
       return;
     }
     const username = window.xnft.metadata.username;
@@ -62,6 +66,18 @@ export default function Index(): JSX.Element {
       setUserName(username);
     }
   }, [window.xnft.metadata]);
+
+  useMemo(() => {
+    if (newScore > highScore) {
+      firestoreFunctions.newHighScore(newScore);
+    }
+  }, [newScore]);
+
+  useEffect(() => {
+    eventsCenter.on(EventKeys.UpdateEndScore, (score: number) => {
+      setNewScore(score);
+    });
+  }, []);
 
   return (
     <>

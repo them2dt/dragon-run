@@ -202,18 +202,6 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   };
 
   const newHighScore = async (highScore: number) => {
-    if (!firestoreData?.userData) {
-      console.log('userData is not initialized!');
-      return;
-    }
-    if (!firestoreData?.userData?.userName) {
-      console.log('userName is empty!');
-      return;
-    }
-    if (highScore <= firestoreData?.userData?.highScore) {
-      console.log('highScore is not a new high score!');
-      return;
-    }
     let db = firestoreData?.firestore;
     if (!db) {
       console.log('Firestore is not initialized!');
@@ -222,6 +210,26 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     }
     if (!db) {
       console.log("Couldn't get Firestore instance at newHighscore!");
+      return;
+    }
+    if (!firestoreData?.userData) {
+      console.log('userData is not initialized!');
+      return;
+    }
+    if (!firestoreData?.userData?.userName) {
+      console.log('userName is empty!');
+      return;
+    }
+    if (highScore === 0) {
+      console.log('highScore is 0!');
+      return;
+    }
+    if (firestoreData?.userData?.highScore === null) {
+      console.log('highScore is not initialized!');
+      return;
+    }
+    if (highScore <= firestoreData?.userData?.highScore) {
+      console.log('highScore is not a new high score!');
       return;
     }
     const userName = firestoreData?.userData?.userName;
