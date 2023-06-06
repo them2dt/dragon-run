@@ -9,6 +9,7 @@ import Loading from 'overlays/Loading';
 import { useFirestore } from '@context/useFirestore';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from '@consts/EventKeys';
+import { onSnapshot, doc } from 'firebase/firestore';
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
@@ -79,8 +80,20 @@ export default function Index(): JSX.Element {
     });
     return () => {
       eventsCenter.off(EventKeys.UpdateEndScore);
-    }
+    };
   }, []);
+
+  useEffect(() => {
+    if (firestoreData?.firestore == null) {
+      return;
+    }
+    const unsubscribe = onSnapshot(doc(firestoreData?.firestore, 'leaderboard', 'highScores'), () => {
+      firestoreFunctions.getLeaderboard();
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [firestoreData?.firestore]);
 
   return (
     <>
