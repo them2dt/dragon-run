@@ -77,6 +77,9 @@ export default function Index(): JSX.Element {
     eventsCenter.on(EventKeys.UpdateEndScore, (score: number) => {
       setNewScore(score);
     });
+    return () => {
+      eventsCenter.off(EventKeys.UpdateEndScore);
+    }
   }, []);
 
   return (
