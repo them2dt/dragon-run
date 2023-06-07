@@ -7,17 +7,28 @@ import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import LeaderboardMenu from 'components/LeaderboardMenu';
 import { Button, useTheme } from '@mui/material';
+import AnimatedRunText from 'components/animated/AnimatedRunText';
 
 export default function Game() {
   const theme = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [score, setScore] = useState(0);
+  const [showRun, setShowRun] = useState(false);
 
   useEffect(() => {
     eventsCenter.on(EventKeys.UpdateScore, (score: number) => {
       setScore(score);
     });
+    eventsCenter.on(EventKeys.Run, () => {
+      setShowRun(true);
+      setTimeout(() => {
+        setShowRun(false);
+      } , 2000);
+    });
+    return () => {
+      eventsCenter.off(EventKeys.UpdateScore);
+    };
   }, []);
 
   const openMenu = () => {
@@ -60,6 +71,7 @@ export default function Game() {
           </div>
           <h1 className="flex w-max mx-auto mt-[12px] text-cC text-2xl sm:text-2xl md:text-4xl">Score: {score}</h1>
         </GameNavBar>
+        <div className="fixed z-10 w-full h-full">{showRun && <AnimatedRunText className="" />}</div>
       </OverlayWrapper>
     </AnimatedPage>
   );

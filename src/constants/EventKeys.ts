@@ -13,5 +13,6 @@ enum EventKeys {
   UpdateScore = 'update-score',
   UpdateEndScore = 'update-end-score',
   UpdateHighScore = 'update-high-score',
+  Run = 'run',
 }
 export default EventKeys;

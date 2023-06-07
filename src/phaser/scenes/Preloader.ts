@@ -7,6 +7,7 @@ import PlayerSoundEffectKeys from '../../constants/audio/PlayerSoundEffectKeys';
 import EnvironmentSoundEffectKeys from '../../constants/audio/EnvironmentSoundEffectKeys';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
+import MiscSoundEffectKeys from '@consts/audio/MiscSoundEffectKeys';
 
 export default class Preloader extends Phaser.Scene {
   constructor() {
@@ -80,6 +81,8 @@ export default class Preloader extends Phaser.Scene {
       PlayerSoundEffectKeys.PlayerFireballBurn1,
       'game-assets/sound-effects/players/player-fireball-burn-1.mp3',
     );
+
+    this.load.audio(MiscSoundEffectKeys.Run, 'game-assets/sound-effects/misc/run.mp3');
 
     this.load.audio(MusicKeys.CaveScene1, 'game-assets/music/cave-scene-1.mp3');
     this.load.audio(MusicKeys.HomeScene1, 'game-assets/music/home-scene-1.mp3');

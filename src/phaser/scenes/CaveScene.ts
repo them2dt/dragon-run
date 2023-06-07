@@ -17,6 +17,7 @@ import EnemySoundEffectKeys from 'constants/audio/EnemySoundEffectKeys';
 import PlayerSoundEffectKeys from 'constants/audio/PlayerSoundEffectKeys';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
+import MiscSoundEffectKeys from '@consts/audio/MiscSoundEffectKeys';
 
 export default class CaveScene extends Phaser.Scene {
   private device: Device = Device.Desktop;
@@ -87,6 +88,12 @@ export default class CaveScene extends Phaser.Scene {
     this.sound.play(EnvironmentSoundEffectKeys.LavaBackground1, { loop: true, volume: 0.2 });
 
     this.sound.volume = this.volume;
+
+    this.time.addEvent({
+      delay: 1000, // ms
+      callback: this.runWarning,
+      repeat: 0,
+    });
 
     const width = this.scale.width;
     const height = this.scale.height;
@@ -234,6 +241,11 @@ export default class CaveScene extends Phaser.Scene {
 
     this.handleCameraFollow();
   }
+
+  private runWarning = () => {
+    this.sound.play(MiscSoundEffectKeys.Run, { volume: 0.6 });
+    eventsCenter.emit(EventKeys.Run);
+  };
 
   private createPlayerFireballs = () => {
     this.playerFireballs = this.physics.add.group({
