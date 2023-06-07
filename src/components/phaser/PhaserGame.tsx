@@ -42,6 +42,7 @@ export default function PhaserGame() {
     });
 
     eventsCenter.on(EventKeys.GoToHome, () => {
+      phaserGame.scene.stop(SceneKeys.EnterScene);
       phaserGame.scene.stop(SceneKeys.GameOver);
       phaserGame.scene.stop(SceneKeys.CaveScene);
       phaserGame.sound.stopAll();
