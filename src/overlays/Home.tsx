@@ -22,11 +22,11 @@ export default function Home() {
     <AnimatedPage>
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
-        <div className="w-full h-full m-auto flex flex-col py-4 max-w-[1240px]">
+        <div className="w-full h-full m-auto flex flex-col max-w-[1240px]">
           <div className="h-auto my-auto">
             <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />
           </div>
-          <div className="grid grid-cols-2 gap-4 md:gap-6 p-4 mt-auto">
+          <div className="grid grid-cols-2 gap-4 md:gap-6 p-4 mt-auto mb-0 lg:mb-8">
             <AnimatedButton text="Store" className="m-auto w-full col-span-1 bg-cD md:text-2xl line-through" />
             <AnimatedButton
               text="Leaderboard"
@@ -35,7 +35,7 @@ export default function Home() {
             />
             <AnimatedButton
               text="Play"
-              className="m-auto w-full col-span-2 py-5 text-3xl md:text-5xl"
+              className="m-auto w-full col-span-2 p-5 text-3xl md:text-5xl"
               onClick={() => eventsCenter.emit(EventKeys.GoToGame)}
             />
           </div>
