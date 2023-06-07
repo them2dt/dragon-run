@@ -64,7 +64,7 @@ export default function Index(): JSX.Element {
       console.log('Please open in Backpack!');
       return;
     }
-    const username = window.xnft.metadata.username;
+    const username = window?.xnft?.metadata?.username;
     if (username != null) {
       setUserName(username);
     }
