@@ -10,6 +10,7 @@ import { useFirestore } from '@context/useFirestore';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from '@consts/EventKeys';
 import { onSnapshot, doc } from 'firebase/firestore';
+import Enter from 'overlays/Enter';
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
@@ -105,6 +106,7 @@ export default function Index(): JSX.Element {
     <>
       {overlay === OverlayKeys.None && null}
       {overlay === OverlayKeys.Preloader ? <Loading /> : null}
+      {overlay === OverlayKeys.Enter ? <Enter userName={userName} /> : null}
       {overlay === OverlayKeys.Home ? <Home /> : null}
       {overlay === OverlayKeys.Game || overlay === OverlayKeys.GameOver ? <Game /> : null}
       {overlay === OverlayKeys.GameOver ? <GameOver newHighScore={newHighScore} /> : null}

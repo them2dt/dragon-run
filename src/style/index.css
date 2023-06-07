@@ -7,31 +7,6 @@
 .outline {
   background-color: transparent!important;
 }
-@layer components {
-
-.arrowUp { @apply w-[2.4rem] h-[2.4rem] self-center m-auto
-}
-.scrollToTop-btn { 
-  @apply
-  flex
-  content-center
-  items-center
-  align-middle
-  text-center
-  fixed
-  bottom-[60px]
-  right-[60px]
-  w-[60px]
-  h-[60px]
-  text-[16px]
-  leading-10
-  rounded-full
-  text-white
-  cursor-pointer
-  bg-cB
-}
-}
-
 
 body {
   -webkit-tap-highlight-color:  rgba(232, 150, 58, 0);

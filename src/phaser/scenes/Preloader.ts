@@ -89,6 +89,6 @@ export default class Preloader extends Phaser.Scene {
   }
 
   create() {
-    eventsCenter.emit(EventKeys.GoToHome);
+    eventsCenter.emit(EventKeys.GoToEnter);
   }
 }

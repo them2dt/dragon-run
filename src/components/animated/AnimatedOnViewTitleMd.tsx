@@ -25,7 +25,7 @@ const AnimatedOnViewTitleMd = (props: AnimatedOnViewTitleMdProps) => {
       viewport={{ once: true, amount: 1 }}
       onClick={props.onClick}
       variants={titleMDAnimations}
-      className={` text-4xl sm:text-5xl md:text-7xl font-semibold ${props.className}`}
+      className={` text-4xl sm:text-5xl md:text-7xl ${props.className}`}
     >
       {props.text}
     </motion.h1>

@@ -9,6 +9,7 @@ import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import SceneKeys from 'constants/SceneKeys';
 import OverlayKeys from 'constants/OverlayKeys';
+import EnterScene from 'phaser/scenes/EnterScene';
 
 export default function PhaserGame() {
   const config: Phaser.Types.Core.GameConfig = {
@@ -20,7 +21,7 @@ export default function PhaserGame() {
         debug: false,
       },
     },
-    scene: [Preloader, HomeScene, CaveScene, GameOver],
+    scene: [Preloader, EnterScene, HomeScene, CaveScene, GameOver],
     scale: {
       mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -34,6 +35,11 @@ export default function PhaserGame() {
 
   useEffect(() => {
     const phaserGame = new Phaser.Game(config);
+
+    eventsCenter.on(EventKeys.GoToEnter, () => {
+      phaserGame.scene.start(SceneKeys.EnterScene);
+      setOverlay(OverlayKeys.Enter);
+    });
 
     eventsCenter.on(EventKeys.GoToHome, () => {
       phaserGame.scene.stop(SceneKeys.GameOver);
