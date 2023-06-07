@@ -23,7 +23,7 @@ const LoadingSpinner = (props: LoadingSpinnerProps) => {
       initial="initial"
       animate="animate"
       exit="exit"
-      className={`h-[40px] xs:h-[50px] sm:h-[70px] lg:h-[80px] sm:px-3 md:px-0 cursor-pointer ${props.className}`}
+      className={`h-[40px] xs:h-[50px] sm:h-[70px] lg:h-[80px] sm:px-3 md:px-0 cursor-auto ${props.className}`}
       src={'/loading/Blocks-0.9s-200px.svg'}
       alt=""
     />
