@@ -31,7 +31,7 @@ export default function GameOver({ newHighScore }: GameOverProps): JSX.Element {
               delay={0}
             />
           </div>
-          <div className="grid grid-cols-2 gap-4 md:gap-6 p-4 mb-auto sm:mt-4 md:mt-6 lg:mt-8 mx-auto text-center min-h-[30%] ">
+          <div className="grid grid-cols-2 gap-4 md:gap-6 p-4 mb-auto sm:mt-4 md:mt-4 lg:mt-6 mx-auto text-center min-h-[30%] ">
             <AnimatedButton
               text="Play Again"
               className="m-auto w-full col-span-2 md:py-5 text-xl md:text-5xl px-4 md:px-6"
