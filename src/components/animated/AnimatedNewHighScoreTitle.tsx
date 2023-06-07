@@ -11,7 +11,7 @@ const AnimatedNewHighScoreTitle = (props: AnimatedNewHighScoreTitleProps) => {
     <motion.h1
       animate={{ color: ['#a3e635', '#ffffff', '#ffffff', '#a3e635', '#a3e635', '#a3e635'] }}
       transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
-      className={`py-4 text-2xl xs:text-2xl sm:text-3xl md:text-4xl ${props.className}`}
+      className={`text-2xl xs:text-2xl sm:text-3xl md:text-4xl ${props.className}`}
     >
       {props.text}
     </motion.h1>
