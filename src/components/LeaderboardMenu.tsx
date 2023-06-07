@@ -17,6 +17,7 @@ import {
 import { useFirestore } from '@context/useFirestore';
 import LeaderboardItem from '@firestore/LeaderboardItem';
 import { getLeaderboardDataFromLeaderboard } from 'utils/leaderboard';
+import LeaderboardRow from './LeaderboardRow';
 
 interface LeaderboardMenuProps {
   leaderboardOpen: boolean;
@@ -78,24 +79,7 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
             </TableHead>
             <TableBody>
               {leaderboard.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{
-                    'td, th': { border: 0 },
-                    '&:hover': {
-                      backgroundColor: 'background.light',
-                      cursor: 'pointer',
-                    },
-                  }}
-                >
-                  <TableCell align="center" sx={{ color: theme.palette.text.secondary }}>
-                    {row.rank}
-                  </TableCell>
-                  <TableCell align="center">{row.name}</TableCell>
-                  <TableCell align="center" sx={{ color: theme.palette.text.secondary }}>
-                    {row.score}
-                  </TableCell>
-                </TableRow>
+                <LeaderboardRow key={row.name} rank={row.rank} name={row.name} score={row.score} />
               ))}
             </TableBody>
           </Table>

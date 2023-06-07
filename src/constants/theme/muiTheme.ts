@@ -57,6 +57,7 @@ const muiTheme = {
     text: {
       primary: theme.colors.cB,
       secondary: theme.colors.cC,
+      third: theme.colors.cD,
     },
   },
   typography: {
