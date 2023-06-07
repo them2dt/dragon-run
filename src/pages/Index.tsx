@@ -60,7 +60,7 @@ export default function Index(): JSX.Element {
   }, [firestoreData?.userData, userName]);
 
   useEffect(() => {
-    if (window.xnft.metadata == null) {
+    if (window.xnft == null) {
       console.log('Please open in Backpack!');
       return;
     }
