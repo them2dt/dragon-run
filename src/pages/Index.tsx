@@ -17,6 +17,7 @@ export default function Index(): JSX.Element {
   const [userName, setUserName] = useState('');
   const [highScore, setHighScore] = useState<number>(0);
   const [newScore, setNewScore] = useState<number>(0);
+  const [newHighScore, setNewHighScore] = useState<number>(0);
 
   useMemo(() => {
     console.log('Initializing firestore');
@@ -71,6 +72,7 @@ export default function Index(): JSX.Element {
   useMemo(() => {
     if (newScore > highScore) {
       firestoreFunctions.newHighScore(newScore);
+      setNewHighScore(newScore);
     }
   }, [newScore]);
 
@@ -78,8 +80,12 @@ export default function Index(): JSX.Element {
     eventsCenter.on(EventKeys.UpdateEndScore, (score: number) => {
       setNewScore(score);
     });
+    eventsCenter.on(EventKeys.GoToGame, () => {
+      setNewHighScore(0);
+    });
     return () => {
       eventsCenter.off(EventKeys.UpdateEndScore);
+      eventsCenter.off(EventKeys.GoToGame);
     };
   }, []);
 
@@ -101,7 +107,7 @@ export default function Index(): JSX.Element {
       {overlay === OverlayKeys.Preloader ? <Loading /> : null}
       {overlay === OverlayKeys.Home ? <Home /> : null}
       {overlay === OverlayKeys.Game || overlay === OverlayKeys.GameOver ? <Game /> : null}
-      {overlay === OverlayKeys.GameOver ? <GameOver /> : null}
+      {overlay === OverlayKeys.GameOver ? <GameOver newHighScore={newHighScore} /> : null}
       <PhaserGame />
     </>
   );
