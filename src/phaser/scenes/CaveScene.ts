@@ -22,7 +22,7 @@ import MiscSoundEffectKeys from '@consts/audio/MiscSoundEffectKeys';
 export default class CaveScene extends Phaser.Scene {
   private device: Device = Device.Desktop;
 
-  public volume = 1;
+  public volume = 0.5;
   public music!: Phaser.Sound.BaseSound;
 
   private player!: Player;
