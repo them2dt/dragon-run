@@ -68,7 +68,7 @@ export default function Index(): JSX.Element {
     if (username != null) {
       setUserName(username);
     }
-  }, [window.xnft.metadata]);
+  }, [window?.xnft?.metadata]);
 
   useMemo(() => {
     if (newScore > highScore) {
