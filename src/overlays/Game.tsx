@@ -64,7 +64,7 @@ export default function Game() {
       <OverlayWrapper className="z-50 fixed top-0 left-0 pointer-events-none">
         <GameMenu menuOpen={menuOpen} closeMenu={closeMenu} openLeaderboard={openLeaderboard} openSettings={openSettings} />
         <LeaderboardMenu leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
-        <SettingsMenu menuOpen={settingsOpen} closeMenu={closeSettings} />
+        <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
         <GameNavBar>
           <div className="fixed z-40 left-[16px] top-[12px] h-[32px] w-[60px]">
             <Button

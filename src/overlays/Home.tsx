@@ -6,9 +6,14 @@ import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import Leaderboard from 'components/LeaderboardMenu';
+import SettingsMenu from 'components/SettingsMenu';
+import { IconButton, useTheme } from '@mui/material';
+import { Settings } from '@mui/icons-material';
 
 export default function Home() {
+  const theme = useTheme();
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const openLeaderboard = () => {
     setLeaderboardOpen(true);
@@ -18,10 +23,24 @@ export default function Home() {
     setLeaderboardOpen(false);
   };
 
+  const openSettings = () => {
+    setSettingsOpen(true);
+  };
+
+  const closeSettings = () => {
+    setSettingsOpen(false);
+  };
+
   return (
     <AnimatedPage>
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
+        <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
+        <div className="fixed left-[5px] top-[2px]">
+          <IconButton aria-label="settings" onClick={openSettings}>
+            <Settings sx={{ fill: theme.palette.text.secondary }} fontSize="large" />
+          </IconButton>
+        </div>
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
           <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />
           <div className="grid grid-cols-2 gap-4 md:gap-6 p-4 mb-0 lg:mb-8">

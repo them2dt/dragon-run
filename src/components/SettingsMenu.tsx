@@ -6,11 +6,11 @@ import eventsCenter from 'utils/eventsCenter';
 import EventKeys from '@consts/EventKeys';
 
 interface SettingsMenuProps {
-  menuOpen: boolean;
-  closeMenu: () => void;
+  settingsOpen: boolean;
+  closeSettings: () => void;
 }
 
-export default function SettingsMenu({ menuOpen, closeMenu }: SettingsMenuProps) {
+export default function SettingsMenu({ settingsOpen, closeSettings }: SettingsMenuProps) {
   const theme = useTheme();
   const [volume, setVolume] = useState<number>(50);
 
@@ -23,7 +23,7 @@ export default function SettingsMenu({ menuOpen, closeMenu }: SettingsMenuProps)
   }, [volume]);
 
   return (
-    <Dialog open={menuOpen} onClose={closeMenu} sx={{ width: '100%' }}>
+    <Dialog open={settingsOpen} onClose={closeSettings} sx={{ width: '100%' }}>
       <DialogTitle align="center">Settings</DialogTitle>
       <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
         <Stack spacing={1} direction="row" alignItems="center" sx={{ width: '100%' }}>
@@ -33,7 +33,7 @@ export default function SettingsMenu({ menuOpen, closeMenu }: SettingsMenuProps)
         </Stack>
       </ListItem>
       <ListItem sx={{ backgroundColor: theme.palette.secondary.main }}>
-        <ListItemButton onClick={closeMenu}>
+        <ListItemButton onClick={closeSettings}>
           <ListItemText sx={{ color: theme.palette.text.secondary, textAlign: 'center' }} primary="close" />
         </ListItemButton>
       </ListItem>
