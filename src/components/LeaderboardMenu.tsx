@@ -6,7 +6,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Paper,
   Dialog,
   DialogTitle,
   ListItem,
@@ -25,7 +24,7 @@ interface LeaderboardMenuProps {
 }
 
 export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: LeaderboardMenuProps) {
-  const theme = useTheme();
+  const muiTheme = useTheme();
   const { firestoreData, firestoreFunctions } = useFirestore();
   const [leaderboard, setLeaderboard] = React.useState<LeaderboardItem[] | []>([]);
 
@@ -52,42 +51,48 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
 
   return (
     <Dialog open={leaderboardOpen} onClose={closeLeaderboard} sx={{ width: '100%' }}>
-      <DialogTitle align="center">Leaderboard</DialogTitle>
-      <Paper sx={{ width: '100%' }}>
-        <TableContainer
-          sx={{
-            [theme.breakpoints.up('lg')]: {
-              maxHeight: 430,
-            },
-          }}
-        >
-          <Table aria-label="leaderboard" stickyHeader>
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" sx={{ color: theme.palette.text.secondary }}>
-                  Rank
-                </TableCell>
-                <TableCell align="center" sx={{ color: theme.palette.text.secondary }}>
-                  Player
-                </TableCell>
-                <TableCell align="center" sx={{ color: theme.palette.text.secondary }}>
-                  Score
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {leaderboard.map((row) => (
-                <LeaderboardRow key={row.name} rank={row.rank} name={row.name} score={row.score} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <ListItem sx={{ backgroundColor: theme.palette.secondary.main }}>
-          <ListItemButton onClick={closeLeaderboard}>
-            <ListItemText sx={{ color: theme.palette.text.secondary, textAlign: 'center' }} primary="Close" />
-          </ListItemButton>
-        </ListItem>
-      </Paper>
+      <DialogTitle align="center" color={muiTheme.palette.text.secondary}>Leaderboard</DialogTitle>
+      <TableContainer
+        sx={{
+          minWidth: 200,
+          [muiTheme.breakpoints.up('sm')]: {
+            minWidth: 300,
+          },
+          [muiTheme.breakpoints.up('md')]: {
+            minWidth: 400,
+          },
+          [muiTheme.breakpoints.up('lg')]: {
+            maxHeight: 430,
+            minWidth: 500,
+          },
+        }}
+      >
+        <Table aria-label="leaderboard" stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" sx={{ color: muiTheme.palette.text.secondary }}>
+                Rank
+              </TableCell>
+              <TableCell align="center" sx={{ color: muiTheme.palette.text.secondary }}>
+                Player
+              </TableCell>
+              <TableCell align="center" sx={{ color: muiTheme.palette.text.secondary }}>
+                Score
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {leaderboard.map((row) => (
+              <LeaderboardRow key={row.name} rank={row.rank} name={row.name} score={row.score} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <ListItem sx={{ backgroundColor: muiTheme.palette.secondary.main }}>
+        <ListItemButton onClick={closeLeaderboard}>
+          <ListItemText sx={{ color: muiTheme.palette.text.secondary, textAlign: 'center' }} primary="Close" />
+        </ListItemButton>
+      </ListItem>
     </Dialog>
   );
 }

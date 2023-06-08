@@ -1,6 +1,16 @@
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
-import { DialogTitle, ListItem, ListItemButton, ListItemText, Stack, Slider, useTheme, Switch } from '@mui/material';
+import {
+  DialogTitle,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Stack,
+  Slider,
+  useTheme,
+  Switch,
+  Paper,
+} from '@mui/material';
 import { VolumeDown, VolumeUp } from '@mui/icons-material';
 import { useSettings } from '@context/useSettings';
 
@@ -10,7 +20,7 @@ interface SettingsMenuProps {
 }
 
 export default function SettingsMenu({ settingsOpen, closeSettings }: SettingsMenuProps) {
-  const theme = useTheme();
+  const muiTheme = useTheme();
   const { volume, setVolume, fullscreen, setFullscreen } = useSettings();
 
   const handleVolumeChange = (event: any, newVolume: number | number[]) => {
@@ -30,25 +40,40 @@ export default function SettingsMenu({ settingsOpen, closeSettings }: SettingsMe
 
   return (
     <Dialog open={settingsOpen} onClose={closeSettings} sx={{ width: '100%' }}>
-      <DialogTitle align="center">Settings</DialogTitle>
-      <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
-        <Stack spacing={1} direction="row" alignItems="center" sx={{ width: '100%' }}>
-          <VolumeDown />
-          <Slider aria-label="Volume" value={volume} onChange={handleVolumeChange} />
-          <VolumeUp />
-        </Stack>
-      </ListItem>
-      <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
-        <Stack spacing={1} direction="row" alignItems="center" sx={{ width: '100%' }}>
-          <ListItemText primary="Fullscreen" />
-          <Switch checked={fullscreen} onChange={handleFullscreenChange} />
-        </Stack>
-      </ListItem>
-      <ListItem sx={{ backgroundColor: theme.palette.secondary.main }}>
-        <ListItemButton onClick={closeSettings}>
-          <ListItemText sx={{ color: theme.palette.text.secondary, textAlign: 'center' }} primary="close" />
-        </ListItemButton>
-      </ListItem>
+      <DialogTitle align="center" color={muiTheme.palette.text.secondary}>Settings</DialogTitle>
+      <Paper
+        sx={{
+          minWidth: 200,
+          [muiTheme.breakpoints.up('sm')]: {
+            minWidth: 200,
+          },
+          [muiTheme.breakpoints.up('md')]: {
+            minWidth: 300,
+          },
+          [muiTheme.breakpoints.up('lg')]: {
+            minWidth: 400,
+          },
+        }}
+      >
+        <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
+          <Stack spacing={1} direction="row" alignItems="center" sx={{ width: '100%' }}>
+            <VolumeDown />
+            <Slider aria-label="Volume" value={volume} onChange={handleVolumeChange} />
+            <VolumeUp />
+          </Stack>
+        </ListItem>
+        <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
+          <Stack spacing={1} direction="row" alignItems="center" sx={{ width: '100%' }}>
+            <ListItemText primary="Fullscreen" />
+            <Switch checked={fullscreen} onChange={handleFullscreenChange} />
+          </Stack>
+        </ListItem>
+        <ListItem sx={{ backgroundColor: muiTheme.palette.secondary.main }}>
+          <ListItemButton onClick={closeSettings}>
+            <ListItemText sx={{ color: muiTheme.palette.text.secondary, textAlign: 'center' }} primary="close" />
+          </ListItemButton>
+        </ListItem>
+      </Paper>
     </Dialog>
   );
 }
