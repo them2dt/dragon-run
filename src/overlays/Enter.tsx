@@ -10,7 +10,11 @@ interface EnterProps {
   userName: string;
 }
 
-export default function Enter({userName}: EnterProps) {
+export default function Enter({ userName }: EnterProps) {
+  const handleEnterClick = () => {
+    eventsCenter.emit(EventKeys.GoToHome);
+    document.body.requestFullscreen();
+  };
   return (
     <AnimatedPage>
       <OverlayWrapper className="bg-bg3 overflow-hidden">
@@ -20,7 +24,7 @@ export default function Enter({userName}: EnterProps) {
             <AnimatedButton
               text="Enter"
               className="m-auto w-auto py-3 px-5 md:py-5 md:px-10 text-4xl sm:text-5xl md:text-6xl"
-              onClick={() => eventsCenter.emit(EventKeys.GoToHome)}
+              onClick={() => handleEnterClick()}
             />
           </div>
         </div>
