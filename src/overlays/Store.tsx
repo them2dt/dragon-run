@@ -5,6 +5,7 @@ import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
+import { Button, Grid } from '@mui/material';
 
 export default function Store() {
   return (
@@ -12,12 +13,12 @@ export default function Store() {
       <OverlayWrapper>
         <div className="w-full h-full m-auto flex flex-col py-10 max-w-[1240px]">
           <img src={logo} alt="logo" className="m-auto" />
-          <div className="grid grid-cols-2 gap-4 p-4 h-80">
-            <AnimatedButton
-              text="Store"
-              className="m-auto w-full col-span-1 bg-cA"
-              onClick={() => eventsCenter.emit(EventKeys.GoToGame)}
-            />
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Button variant="contained" color="primary" onClick={() => eventsCenter.emit(EventKeys.GoToGame)}>
+                Play
+              </Button>
+            </Grid>
             <AnimatedButton
               text="Leaderboard"
               className="m-auto w-full col-span-1 bg-cD"
@@ -28,7 +29,7 @@ export default function Store() {
               className="m-auto w-full col-span-2"
               onClick={() => eventsCenter.emit(EventKeys.GoToGame)}
             />
-          </div>
+          </Grid>
         </div>
       </OverlayWrapper>
     </AnimatedPage>
