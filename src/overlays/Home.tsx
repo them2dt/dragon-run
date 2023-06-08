@@ -6,8 +6,8 @@ import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import Leaderboard from 'components/LeaderboardMenu';
 import SettingsMenu from 'components/SettingsMenu';
-import { IconButton, Grid, Button, Typography, useTheme } from '@mui/material';
-import { Settings } from '@mui/icons-material';
+import { Grid, Button, Typography, useTheme } from '@mui/material';
+import HomeNavBar from 'components/HomeNavBar';
 import theme from '@consts/theme/theme';
 
 export default function Home() {
@@ -36,11 +36,7 @@ export default function Home() {
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
-        <div className="fixed left-[5px] top-[2px]">
-          <IconButton aria-label="settings" onClick={openSettings}>
-            <Settings sx={{ fill: muiTheme.palette.text.secondary }} fontSize="large" />
-          </IconButton>
-        </div>
+        <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
           <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />
           <Grid
