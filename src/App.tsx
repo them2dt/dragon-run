@@ -11,6 +11,7 @@ import FirestoreProvider from '@context/FirestoreProvider';
 //routes
 import ErrorPage from './pages/ErrorPage';
 import Index from './pages/Index';
+import SettingsProvider from '@context/SettingsProvider';
 
 declare global {
   interface Window {
@@ -41,9 +42,11 @@ function App() {
     <ConnectionProvider endpoint={endpoint}>
       <ThemeProvider theme={themeProviderTheme}>
         <FirestoreProvider>
-          <OverlayProvider>
-            <RouterProvider router={router} />
-          </OverlayProvider>
+          <SettingsProvider>
+            <OverlayProvider>
+              <RouterProvider router={router} />
+            </OverlayProvider>
+          </SettingsProvider>
         </FirestoreProvider>
       </ThemeProvider>
     </ConnectionProvider>

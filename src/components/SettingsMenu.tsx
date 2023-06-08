@@ -1,9 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import { DialogTitle, ListItem, ListItemButton, ListItemText, Stack, Slider, useTheme } from '@mui/material';
 import { VolumeDown, VolumeUp } from '@mui/icons-material';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from '@consts/EventKeys';
+import { useSettings } from '@context/useSettings';
 
 interface SettingsMenuProps {
   settingsOpen: boolean;
@@ -12,15 +11,11 @@ interface SettingsMenuProps {
 
 export default function SettingsMenu({ settingsOpen, closeSettings }: SettingsMenuProps) {
   const theme = useTheme();
-  const [volume, setVolume] = useState<number>(50);
+  const { volume, setVolume } = useSettings();
 
   const handleChange = (event: any, newVolume: number | number[]) => {
     setVolume(newVolume as number);
   };
-
-  useMemo(() => {
-    eventsCenter.emit(EventKeys.ChangeVolume, volume)
-  }, [volume]);
 
   return (
     <Dialog open={settingsOpen} onClose={closeSettings} sx={{ width: '100%' }}>
