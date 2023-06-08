@@ -56,8 +56,6 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
       <Paper sx={{ width: '100%' }}>
         <TableContainer
           sx={{
-            maxHeight: '50vh',
-            minWidth: '30vw',
             [theme.breakpoints.up('lg')]: {
               maxHeight: 430,
             },
