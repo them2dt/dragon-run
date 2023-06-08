@@ -6,7 +6,6 @@ import MusicKeys from '@consts/audio/MusicKeys';
 import SoundFade from 'phaser3-rex-plugins/plugins/soundfade.js';
 
 export default class HomeScene extends Phaser.Scene {
-  public volume = 0.5;
   public music!: Phaser.Sound.BaseSound;
 
   constructor() {
@@ -31,6 +30,5 @@ export default class HomeScene extends Phaser.Scene {
       this.scene.stop(SceneKeys.HomeScene);
       eventsCenter.emit(EventKeys.GoToGame);
     });
-
   }
 }

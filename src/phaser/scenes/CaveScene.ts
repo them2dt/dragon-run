@@ -22,7 +22,6 @@ import MiscSoundEffectKeys from '@consts/audio/MiscSoundEffectKeys';
 export default class CaveScene extends Phaser.Scene {
   private device: Device = Device.Desktop;
 
-  public volume = 0.5;
   public music!: Phaser.Sound.BaseSound;
 
   private player!: Player;
@@ -86,8 +85,6 @@ export default class CaveScene extends Phaser.Scene {
     SoundFade.fadeIn(this.music, 10000, 0.5);
 
     this.sound.play(EnvironmentSoundEffectKeys.LavaBackground1, { loop: true, volume: 0.2 });
-
-    this.sound.volume = this.volume;
 
     this.time.addEvent({
       delay: 1000, // ms

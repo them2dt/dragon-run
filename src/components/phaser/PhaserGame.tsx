@@ -81,6 +81,10 @@ export default function PhaserGame() {
       phaserGame.sound.resumeAll();
     });
 
+    eventsCenter.on(EventKeys.ChangeVolume, (volume: number) => {
+      phaserGame.sound.volume = volume / 100;
+    });
+
     return () => {
       phaserGame.destroy(true);
       eventsCenter.removeAllListeners();
