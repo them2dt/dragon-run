@@ -57,7 +57,7 @@ export default function Home() {
                   '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: theme.colors.cD },
                 }}
                 fullWidth
-                onClick={() => eventsCenter.emit(EventKeys.GoToGame)}
+                onClick={() => eventsCenter.emit(EventKeys.GoToStore)}
               >
                 <Typography
                   sx={{

@@ -12,6 +12,7 @@ import EventKeys from '@consts/EventKeys';
 import { onSnapshot, doc } from 'firebase/firestore';
 import Enter from 'overlays/Enter';
 import { delay } from 'framer-motion';
+import Store from 'overlays/Store';
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
@@ -119,6 +120,7 @@ export default function Index(): JSX.Element {
       {overlay === OverlayKeys.Preloader ? <Loading /> : null}
       {overlay === OverlayKeys.Enter ? <Enter userName={userName} /> : null}
       {overlay === OverlayKeys.Home ? <Home /> : null}
+      {overlay === OverlayKeys.Store ? <Store /> : null}
       {overlay === OverlayKeys.Game || overlay === OverlayKeys.GameOver ? <Game /> : null}
       {overlay === OverlayKeys.GameOver ? <GameOver newHighScore={newHighScore} /> : null}
       <PhaserGame />

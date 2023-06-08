@@ -51,6 +51,13 @@ export default function PhaserGame() {
       setOverlay(OverlayKeys.Home);
     });
 
+    eventsCenter.on(EventKeys.GoToStore, () => {
+      phaserGame.scene.stop(SceneKeys.GameOver);
+      phaserGame.scene.stop(SceneKeys.CaveScene);
+      
+      setOverlay(OverlayKeys.Store);
+    });
+
     eventsCenter.on(EventKeys.GoToGame, () => {
       phaserGame.scene.stop(SceneKeys.HomeScene);
       phaserGame.scene.stop(SceneKeys.GameOver);

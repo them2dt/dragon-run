@@ -3,6 +3,7 @@ enum OverlayKeys {
   Preloader = 'preloader',
   Enter = 'enter',
   Home = 'home',
+  Store = 'store',
   Game = 'game',
   GameOver = 'game-over',
 }
