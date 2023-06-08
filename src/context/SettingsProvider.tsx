@@ -20,9 +20,18 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
   const [fullscreen, setFullscreen] = useState<boolean>(false);
 
   useMemo(() => {
-    eventsCenter.emit(EventKeys.ChangeVolume, volume)
+    eventsCenter.emit(EventKeys.ChangeVolume, volume);
   }, [volume]);
 
-  return <SettingsContext.Provider value={{ volume, setVolume, fullscreen, setFullscreen }}>{children}</SettingsContext.Provider>;
+  useMemo(() => {
+    if (fullscreen) document.body.requestFullscreen();
+    else document.exitFullscreen();
+  }, [fullscreen]);
+
+  return (
+    <SettingsContext.Provider value={{ volume, setVolume, fullscreen, setFullscreen }}>
+      {children}
+    </SettingsContext.Provider>
+  );
 };
 export default SettingsProvider;

@@ -5,15 +5,17 @@ import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import AnimatedEnterTitle from 'components/animated/AnimatedEnterText';
+import { useSettings } from '@context/useSettings';
 
 interface EnterProps {
   userName: string;
 }
 
 export default function Enter({ userName }: EnterProps) {
+  const { setFullscreen } = useSettings();
   const handleEnterClick = () => {
     eventsCenter.emit(EventKeys.GoToHome);
-    document.body.requestFullscreen();
+    setFullscreen(true);
   };
   return (
     <AnimatedPage>
