@@ -8,11 +8,13 @@ import EventKeys from 'constants/EventKeys';
 import LeaderboardMenu from 'components/LeaderboardMenu';
 import { Button, useTheme } from '@mui/material';
 import AnimatedRunText from 'components/animated/AnimatedRunText';
+import SettingsMenu from 'components/SettingsMenu';
 
 export default function Game() {
   const theme = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [score, setScore] = useState(0);
   const [showRun, setShowRun] = useState(false);
 
@@ -49,11 +51,20 @@ export default function Game() {
     setLeaderboardOpen(false);
   };
 
+  const openSettings = () => {
+    setSettingsOpen(true);
+  };
+
+  const closeSettings = () => {
+    setSettingsOpen(false);
+  };
+
   return (
     <AnimatedPage>
       <OverlayWrapper className="z-50 fixed top-0 left-0 pointer-events-none">
-        <GameMenu menuOpen={menuOpen} closeMenu={closeMenu} openLeaderboard={openLeaderboard} />
+        <GameMenu menuOpen={menuOpen} closeMenu={closeMenu} openLeaderboard={openLeaderboard} openSettings={openSettings} />
         <LeaderboardMenu leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
+        <SettingsMenu menuOpen={settingsOpen} closeMenu={closeSettings} />
         <GameNavBar>
           <div className="fixed z-40 left-[16px] top-[12px] h-[32px] w-[60px]">
             <Button

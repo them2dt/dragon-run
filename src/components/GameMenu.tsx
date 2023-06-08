@@ -8,9 +8,10 @@ interface GameMenuProps {
   menuOpen: boolean;
   closeMenu: () => void;
   openLeaderboard: () => void;
+  openSettings: () => void;
 }
 
-export default function GameMenu({ menuOpen, closeMenu, openLeaderboard }: GameMenuProps) {
+export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSettings }: GameMenuProps) {
   const theme = useTheme();
 
   return (
@@ -34,6 +35,11 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard }: GameM
       <ListItem  sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
         <ListItemButton>
           <ListItemText sx={{ textAlign: 'center' }} primary="Socials" className=" line-through" />
+        </ListItemButton>
+      </ListItem>
+      <ListItem  sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
+        <ListItemButton onClick={openSettings}>
+          <ListItemText sx={{ textAlign: 'center' }} primary="Settings"  />
         </ListItemButton>
       </ListItem>
       <ListItem sx={{ backgroundColor: theme.palette.secondary.main }} >
