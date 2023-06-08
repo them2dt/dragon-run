@@ -43,7 +43,15 @@ export default function Home() {
         </div>
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
           <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />
-          <Grid container spacing={2} marginBottom={2} paddingX={2}>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              marginBottom: 2,
+              paddingX: 2,
+              [muiTheme.breakpoints.up('lg')]: { marginBottom: 10, paddingX: 6 },
+            }}
+          >
             <Grid item xs={6}>
               <Button
                 variant="contained"
