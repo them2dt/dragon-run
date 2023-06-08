@@ -18,7 +18,14 @@ export default function SettingsMenu({ settingsOpen, closeSettings }: SettingsMe
   };
 
   const handleFullscreenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFullscreen(event.target.checked);
+    if (!document || !document.body) return;
+    try {
+      if (event.target.checked) document.body.requestFullscreen();
+      else document.exitFullscreen();
+      setFullscreen(event.target.checked);
+    } catch (e) {
+      console.log('Error toggling fullscreen: ', e);
+    }
   };
 
   return (

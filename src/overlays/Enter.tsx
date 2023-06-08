@@ -15,7 +15,13 @@ export default function Enter({ userName }: EnterProps) {
   const { setFullscreen } = useSettings();
   const handleEnterClick = () => {
     eventsCenter.emit(EventKeys.GoToHome);
-    setFullscreen(true);
+    if (!document || !document.body) return;
+    try {
+      document.body.requestFullscreen();
+      setFullscreen(true);
+    } catch (e) {
+      console.log('Error toggling fullscreen: ', e);
+    }
   };
   return (
     <AnimatedPage>

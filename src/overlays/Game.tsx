@@ -82,7 +82,7 @@ export default function Game() {
           </div>
           <h1 className="flex w-max mx-auto mt-[12px] text-cC text-2xl sm:text-2xl md:text-4xl">Score: {score}</h1>
         </GameNavBar>
-        <div className="fixed z-10 w-full h-full">{showRun && <AnimatedRunText className="" />}</div>
+        <div className="fixed z-10 w-full h-full">{showRun && <AnimatedRunText />}</div>
       </OverlayWrapper>
     </AnimatedPage>
   );
