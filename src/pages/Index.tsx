@@ -105,7 +105,7 @@ export default function Index(): JSX.Element {
 
   useMemo(() => {
     const popWindow = () => {
-      if (window?.xnft?.metadata && window.innerWidth < screen.width - 30) {
+      if (window?.xnft && window.innerWidth < screen.width - 30) {
         window?.xnft?.popout({ fullscreen: true });
       }
     };
