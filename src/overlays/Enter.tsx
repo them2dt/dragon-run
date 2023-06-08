@@ -42,7 +42,7 @@ export default function Enter({ userName }: EnterProps) {
                 fontWeight={400}
                 component="h3"
               >
-                Play
+                Enter
               </Typography>
             </Button>
           </div>
