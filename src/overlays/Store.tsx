@@ -5,9 +5,10 @@ import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import SettingsMenu from 'components/SettingsMenu';
-import { Grid, Button, Typography, useTheme, Box, Paper } from '@mui/material';
+import { Grid, Button, Typography, useTheme, Box, Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import StoreNavBar from 'components/StoreNavBar';
 import theme from '@consts/theme/theme';
+import { Shop } from '@mui/icons-material';
 
 export default function Store() {
   const muiTheme = useTheme();
@@ -25,7 +26,7 @@ export default function Store() {
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
         <StoreNavBar openSettings={openSettings} />
-        <Box sx={{ height: '100%', marginX: 'auto' }}>
+        <Box sx={{ height: '100%', marginX: 'auto', width: '100%', maxWidth: '1240px' }}>
           <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />
           <Grid
             container
@@ -44,6 +45,15 @@ export default function Store() {
               </Paper>
             </Grid>
           </Grid>
+          <Paper sx={{ position: 'fixed', bottom: 0, width: '100%', maxWidth: '1240px',
+        [muiTheme.breakpoints.up('sm')]: { fontSize: '1.2rem' },
+        [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' },}} elevation={3}>
+            <BottomNavigation showLabels sx={{ width: '100%', backgroundColor: 'background.light' }}>
+              <BottomNavigationAction label="Sell" icon={<Shop />} sx={{width: '100%', minWidth: '50%'}} />
+              <BottomNavigationAction label="Buy" icon={<Shop />} sx={{width: '100%', minWidth: '50%'}} />
+            </BottomNavigation>
+          </Paper>
+
         </Box>
       </OverlayWrapper>
     </AnimatedPage>
