@@ -11,7 +11,8 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  useTheme
+  useTheme,
+  Typography
 } from '@mui/material';
 import { useFirestore } from '@context/useFirestore';
 import type LeaderboardItem from '@firestore/LeaderboardItem';
@@ -51,7 +52,7 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
   return (
     <Dialog open={leaderboardOpen} onClose={closeLeaderboard} sx={{ width: '100%' }}>
       <DialogTitle align="center" color={muiTheme.palette.text.secondary}>
-        Leaderboard
+        <Typography variant="h5">Leaderboard</Typography>
       </DialogTitle>
       <TableContainer
         sx={{
@@ -72,13 +73,13 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
           <TableHead>
             <TableRow>
               <TableCell align="center" sx={{ color: muiTheme.palette.text.secondary }}>
-                Rank
+                <Typography variant="subtitle1">Rank</Typography>
               </TableCell>
               <TableCell align="center" sx={{ color: muiTheme.palette.text.secondary }}>
-                Player
+                <Typography variant="subtitle1">Player</Typography>
               </TableCell>
               <TableCell align="center" sx={{ color: muiTheme.palette.text.secondary }}>
-                Score
+                <Typography variant="subtitle1">Score</Typography>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -91,7 +92,9 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
       </TableContainer>
       <ListItem sx={{ backgroundColor: muiTheme.palette.secondary.main }}>
         <ListItemButton onClick={closeLeaderboard}>
-          <ListItemText sx={{ color: muiTheme.palette.text.secondary, textAlign: 'center' }} primary="Close" />
+          <ListItemText sx={{ color: muiTheme.palette.text.secondary, textAlign: 'center' }}>
+            <Typography variant="body1">Close</Typography>
+          </ListItemText>
         </ListItemButton>
       </ListItem>
     </Dialog>

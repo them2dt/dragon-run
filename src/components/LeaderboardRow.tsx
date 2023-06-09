@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableRow, TableCell, useTheme } from '@mui/material';
+import { TableRow, TableCell, useTheme, Typography } from '@mui/material';
 import { useFirestore } from '@context/useFirestore';
 
 interface LeaderboardRowProps {
@@ -24,13 +24,13 @@ export default function LeaderboardRow({ rank, name, score }: LeaderboardRowProp
       }}
     >
       <TableCell align="center" sx={{ color: name === currentUserName ? '#a3e635' : theme.palette.text.secondary }}>
-        {rank}
+        <Typography variant="body1">{rank}</Typography>
       </TableCell>
       <TableCell align="center" sx={{ color: name === currentUserName ? '#a3e635' : theme.palette.text.primary }}>
-        {name}
+        <Typography variant="body2">{name}</Typography>
       </TableCell>
       <TableCell align="center" sx={{ color: name === currentUserName ? '#a3e635' : theme.palette.text.secondary }}>
-        {score}
+        <Typography variant="body1">{score}</Typography>
       </TableCell>
     </TableRow>
   );
