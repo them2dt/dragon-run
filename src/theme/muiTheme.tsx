@@ -5,18 +5,18 @@ declare module '@mui/material/styles' {
   interface Palette {
     third: {
       main: string;
-    },
+    };
     fourth: {
       main: string;
-    },
+    };
   }
   interface PaletteOptions {
     third?: {
       main: string;
-    },
+    };
     fourth?: {
       main: string;
-    },
+    };
   }
   interface Background {
     light: string;
@@ -31,32 +31,32 @@ const muiThemeProps = {
     primary: {
       light: theme.colors.cA,
       main: theme.colors.cA,
-      dark: theme.colors.cA,
+      dark: theme.colors.cA
     },
     secondary: {
       light: theme.colors.cB,
       main: theme.colors.cB,
-      dark: theme.colors.cB,
+      dark: theme.colors.cB
     },
     third: {
-      main: theme.colors.cC,
+      main: theme.colors.cC
     },
     fourth: {
-      main: theme.colors.cD,
+      main: theme.colors.cD
     },
     background: {
       default: theme.colors.bg3,
       paper: theme.colors.bg3,
-      light: theme.colors.bg1,
+      light: theme.colors.bg1
     },
     text: {
       primary: theme.colors.cB,
-      secondary: theme.colors.cC,
-    },
+      secondary: theme.colors.cC
+    }
   },
   typography: {
-    fontFamily: "'Silkscreen', cursive",
-  },
+    fontFamily: "'Silkscreen', cursive"
+  }
 };
 
 const muiTheme = createTheme(muiThemeProps);

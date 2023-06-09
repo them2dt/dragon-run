@@ -1,4 +1,4 @@
-import { DateTime } from '@metaplex-foundation/js';
+import type { DateTime } from '@metaplex-foundation/js';
 
 export function parseNumber(str: string, precision: number) {
   if (str === '.' || str === '') {

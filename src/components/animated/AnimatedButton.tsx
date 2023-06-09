@@ -11,21 +11,21 @@ const AnimatedButton = (props: AnimatedButtonProps) => {
   const transitions = {
     type: 'spring',
     bounce: 0.5,
-    duration: 0.15,
+    duration: 0.15
   };
   const buttonVariants = {
     hover: {
       scale: 1.05,
-      transition: transitions,
+      transition: transitions
     },
     pressed: {
       scale: 0.95,
-      transition: transitions,
+      transition: transitions
     },
     rest: {
       scale: 1,
-      transition: transitions,
-    },
+      transition: transitions
+    }
   };
 
   return (

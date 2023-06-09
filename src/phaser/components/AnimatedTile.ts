@@ -1,4 +1,6 @@
-export type TilesetTileData = { [key: number]: { animation?: TileAnimationData } };
+export interface TilesetTileData {
+  [key: number]: { animation?: TileAnimationData };
+}
 
 export type TileAnimationData = Array<{ duration: number; tileid: number }>;
 

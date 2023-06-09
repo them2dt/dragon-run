@@ -28,14 +28,16 @@ export default function Enter({ userName }: EnterProps) {
                 backgroundColor: muiTheme.palette.secondary.main,
                 '&:hover': {
                   backgroundColor: muiTheme.palette.text.secondary,
-                  color: muiTheme.palette.secondary.main,
+                  color: muiTheme.palette.secondary.main
                 },
                 width: '200px',
                 height: '70px',
                 [muiTheme.breakpoints.up('sm')]: { width: '300px', height: '80px' },
-                [muiTheme.breakpoints.up('md')]: { width: '500px', height: '100px' },
+                [muiTheme.breakpoints.up('md')]: { width: '500px', height: '100px' }
               }}
-              onClick={() => handleEnterClick()}
+              onClick={() => {
+                handleEnterClick();
+              }}
             >
               <Typography
                 sx={{ fontSize: '2.2rem', [muiTheme.breakpoints.up('md')]: { fontSize: '3rem' } }}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useOverlay } from '../../context/useOverlay';
-import OverlayKeys from '../../constants/OverlayKeys';
+import type OverlayKeys from '../../constants/OverlayKeys';
 
 interface AnimatedLinkButtonProps {
   className: string;
@@ -14,20 +14,19 @@ const AnimatedLinkButton = (props: AnimatedLinkButtonProps) => {
 
   const buttonVariants = {
     hover: {
-      scale: 1.1,
+      scale: 1.1
     },
     pressed: {
-      scale: 0.9,
+      scale: 0.9
     },
     rest: {
-      scale: 1,
-    },
+      scale: 1
+    }
   };
 
   const handleButtonClick = (linkOrOverlay: string | OverlayKeys) => {
     if (typeof linkOrOverlay === 'string') {
       window.open(linkOrOverlay, '_blank');
-      return;
     } else {
       setOverlay(linkOrOverlay);
     }
@@ -40,7 +39,9 @@ const AnimatedLinkButton = (props: AnimatedLinkButtonProps) => {
       whileTap="pressed"
       variants={buttonVariants}
       className={`text-xl text-cC ${props.className}`}
-      onClick={() => handleButtonClick(props.linkOrOverlay)}
+      onClick={() => {
+        handleButtonClick(props.linkOrOverlay);
+      }}
     >
       {props.text}
     </motion.button>

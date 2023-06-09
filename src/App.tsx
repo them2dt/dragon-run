@@ -1,17 +1,18 @@
 import React from 'react';
 import buffer from 'buffer';
-globalThis.Buffer = buffer.Buffer;
-//3rd-party
+// 3rd-party
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ConnectionProvider } from '@solana/wallet-adapter-react';
 import OverlayProvider from '@context/OverlayProvider';
 import { ThemeProvider } from '@mui/material';
 import muiTheme from 'theme/muiTheme';
 import FirestoreProvider from '@context/FirestoreProvider';
-//routes
+// routes
 import ErrorPage from './pages/ErrorPage';
 import Index from './pages/Index';
 import SettingsProvider from '@context/SettingsProvider';
+
+globalThis.Buffer = buffer.Buffer;
 
 declare global {
   interface Window {
@@ -23,8 +24,8 @@ const router = createBrowserRouter([
   {
     path: '/',
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <Index /> }],
-  },
+    children: [{ index: true, element: <Index /> }]
+  }
 ]);
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
 
   const customEndpoint = import.meta.env.VITE_RPC_URL;
 
-  if (customEndpoint) {
+  if (customEndpoint !== undefined) {
     setEndpoint(customEndpoint);
   }
 

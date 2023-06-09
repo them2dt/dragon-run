@@ -9,7 +9,7 @@ enum TextureKeys {
   Fireball = 'fireball',
   Lavaball = 'lavaball',
   SmallDragonOrange = 'small-dragon-orange',
-  SmallDragonGreen = 'small-dragon-green',
+  SmallDragonGreen = 'small-dragon-green'
 }
 
 export default TextureKeys;

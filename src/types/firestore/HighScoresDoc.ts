@@ -1,4 +1,4 @@
-import Leaderboard from '@firestore/Leaderboard';
+import type Leaderboard from '@firestore/Leaderboard';
 
 interface HighScoresDoc {
   highScoresArray: Leaderboard;

@@ -1,13 +1,13 @@
-import { PublicKey } from '@solana/web3.js';
+import type { PublicKey } from '@solana/web3.js';
 import axios from 'axios';
 
-export type checkNftRes = {
+export interface checkNftRes {
   mint: string;
   royaltiesPaid: boolean;
   royaltiesToPay: number;
   royaltiesPaidAmount: number;
   status: string;
-};
+}
 
 export const getNfts = async (owner: PublicKey) => {
   const nfts = [];
@@ -30,6 +30,6 @@ export const getNfts = async (owner: PublicKey) => {
 
     return nfts;
   } catch (error) {
-    console.log('RPC Error: ',error);
+    console.log('RPC Error: ', error);
   }
 };

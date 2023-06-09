@@ -32,7 +32,7 @@ export default function Store() {
             sx={{
               marginBottom: 2,
               paddingX: 2,
-              [muiTheme.breakpoints.up('lg')]: { marginBottom: 10, paddingX: 6 },
+              [muiTheme.breakpoints.up('lg')]: { marginBottom: 10, paddingX: 6 }
             }}
           >
             <Grid item xs={6}>
@@ -43,15 +43,22 @@ export default function Store() {
               </Paper>
             </Grid>
           </Grid>
-          <Paper sx={{ position: 'fixed', bottom: 0, width: '100%', maxWidth: '1240px',
-        [muiTheme.breakpoints.up('sm')]: { fontSize: '1.2rem' },
-        [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' },}} elevation={3}>
+          <Paper
+            sx={{
+              position: 'fixed',
+              bottom: 0,
+              width: '100%',
+              maxWidth: '1240px',
+              [muiTheme.breakpoints.up('sm')]: { fontSize: '1.2rem' },
+              [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' }
+            }}
+            elevation={3}
+          >
             <BottomNavigation showLabels sx={{ width: '100%', backgroundColor: 'background.light' }}>
-              <BottomNavigationAction label="Sell" icon={<Shop />} sx={{width: '100%', minWidth: '50%'}} />
-              <BottomNavigationAction label="Buy" icon={<Shop />} sx={{width: '100%', minWidth: '50%'}} />
+              <BottomNavigationAction label="Sell" icon={<Shop />} sx={{ width: '100%', minWidth: '50%' }} />
+              <BottomNavigationAction label="Buy" icon={<Shop />} sx={{ width: '100%', minWidth: '50%' }} />
             </BottomNavigation>
           </Paper>
-
         </Box>
       </OverlayWrapper>
     </AnimatedPage>

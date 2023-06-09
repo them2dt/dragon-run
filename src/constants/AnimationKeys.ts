@@ -8,7 +8,7 @@ enum AnimationKeys {
   SmallDragonOrangeIdleRight = 's_d_o_idle_right',
   SmallDragonOrangeRunningRight = 's_d_o_running_right',
   SmallDragonGreenIdleRight = 's_d_g_idle_right',
-  SmallDragonGreenRunningRight = 's_d_g_running_right',
+  SmallDragonGreenRunningRight = 's_d_g_running_right'
 }
 
 export default AnimationKeys;

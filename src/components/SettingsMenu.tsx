@@ -9,7 +9,7 @@ import {
   Slider,
   useTheme,
   Switch,
-  Paper,
+  Paper
 } from '@mui/material';
 import { VolumeDown, VolumeUp } from '@mui/icons-material';
 import { useSettings } from '@context/useSettings';
@@ -28,10 +28,9 @@ export default function SettingsMenu({ settingsOpen, closeSettings }: SettingsMe
   };
 
   const handleFullscreenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!document || !document.body) return;
     try {
-      if (event.target.checked) document.body.requestFullscreen();
-      else document.exitFullscreen();
+      if (event.target.checked) void document.body.requestFullscreen();
+      else void document.exitFullscreen();
       setFullscreen(event.target.checked);
     } catch (e) {
       console.log('Error toggling fullscreen: ', e);
@@ -40,19 +39,21 @@ export default function SettingsMenu({ settingsOpen, closeSettings }: SettingsMe
 
   return (
     <Dialog open={settingsOpen} onClose={closeSettings} sx={{ width: '100%' }}>
-      <DialogTitle align="center" color={muiTheme.palette.text.secondary}>Settings</DialogTitle>
+      <DialogTitle align="center" color={muiTheme.palette.text.secondary}>
+        Settings
+      </DialogTitle>
       <Paper
         sx={{
           minWidth: 200,
           [muiTheme.breakpoints.up('sm')]: {
-            minWidth: 200,
+            minWidth: 200
           },
           [muiTheme.breakpoints.up('md')]: {
-            minWidth: 300,
+            minWidth: 300
           },
           [muiTheme.breakpoints.up('lg')]: {
-            minWidth: 400,
-          },
+            minWidth: 400
+          }
         }}
       >
         <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>

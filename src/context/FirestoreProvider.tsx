@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
-import FirestoreData from '@firestore/FirestoreData';
-import UserData from '@firestore/UserData';
+import type FirestoreData from '@firestore/FirestoreData';
+import type UserData from '@firestore/UserData';
 import {
   getFirestore,
   getDoc,
@@ -11,14 +11,14 @@ import {
   getDocs,
   setDoc,
   Timestamp,
-  updateDoc,
+  updateDoc
 } from 'firebase/firestore';
 import firestore from '../firebase/clientApp';
 import isHighScoresDoc from '@firestore/type-guards/isHighScoresDoc';
-import HighScoresDoc from '@firestore/HighScoresDoc';
-import Leaderboard from '@firestore/Leaderboard';
+import type HighScoresDoc from '@firestore/HighScoresDoc';
+import type Leaderboard from '@firestore/Leaderboard';
 
-type FirestoreContextType = {
+interface FirestoreContextType {
   firestoreData: FirestoreData | null;
   firestoreFunctions: {
     initializeFirestore: () => void;
@@ -28,16 +28,16 @@ type FirestoreContextType = {
     newHighScore: (score: number) => void;
   };
   setFirestoreData: React.Dispatch<React.SetStateAction<FirestoreData>>;
-};
+}
 
-type FirestoreProviderProps = {
+interface FirestoreProviderProps {
   children: React.ReactNode;
-};
+}
 
 const defaultFirestoreData: FirestoreData = {
   firestore: null,
   userData: null,
-  leaderboard: null,
+  leaderboard: null
 };
 
 export const FirestoreContext = createContext<FirestoreContextType | null>(null);
@@ -46,22 +46,22 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   const [firestoreData, setFirestoreData] = useState<FirestoreData>(defaultFirestoreData);
 
   const initializeFirestore = async () => {
-    if (firestoreData && firestoreData.firestore) {
+    if (firestoreData?.firestore != null) {
       console.log('Firestore is already initialized at initializeFirestore!');
       return;
     }
-    const db = await getFirestore(firestore);
-    if (!db) {
+    const db = getFirestore(firestore);
+    if (db == null) {
       console.log("Couldn't get Firestore instance at initializeFirestore!");
       return;
     }
-    if (firestoreData) {
+    if (firestoreData != null) {
       setFirestoreData({
         firestore: db,
         userData: firestoreData?.userData ?? null,
-        leaderboard: firestoreData?.leaderboard ?? null,
+        leaderboard: firestoreData?.leaderboard ?? null
       });
-      console.log('Firestore initialized: ' + db);
+      console.log('Firestore initialized: ' + JSON.stringify(db));
     }
   };
 
@@ -71,25 +71,25 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       return;
     }
     let db = firestoreData?.firestore;
-    if (!db) {
+    if (db == null) {
       console.log('Firestore is not initialized at getUserData!');
       await initializeFirestore();
       db = firestoreData?.firestore;
     }
-    if (!db) {
+    if (db == null) {
       console.log("Couldn't get Firestore instance at getUserData!");
       return;
     }
     const userDataDoc = doc(db, 'users', userName);
     const userData = await getDoc(userDataDoc);
-    if (!userData) {
+    if (userData == null) {
       console.log('User does not exist!');
       return;
     }
     setFirestoreData({
       firestore: firestoreData?.firestore ?? null,
       userData: userData.data() as UserData,
-      leaderboard: firestoreData?.leaderboard ?? null,
+      leaderboard: firestoreData?.leaderboard ?? null
     });
   };
 
@@ -97,11 +97,11 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     const previousLeaderboard = firestoreData?.leaderboard;
     console.log('previousLeaderboard: ' + JSON.stringify(previousLeaderboard));
     const db = firestoreData?.firestore;
-    if (db === null) {
+    if (db == null) {
       console.log('Firestore is not initialized at getLeaderboard!');
       await initializeFirestore();
     }
-    if (!db) {
+    if (db == null) {
       console.log("Couldn't get Firestore instance at getLeaderboard!");
       return;
     }
@@ -115,7 +115,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     const highScores: HighScoresDoc = highScoresDoc.data() as HighScoresDoc;
     const leaderboard: Leaderboard = highScores.highScoresArray;
     console.log('Leaderboard fetched!' + JSON.stringify(leaderboard));
-    if (!leaderboard) {
+    if (leaderboard == null) {
       console.log('highScoresArray does not exist!');
       return;
     }
@@ -127,7 +127,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     setFirestoreData({
       firestore: firestoreData?.firestore ?? null,
       userData: firestoreData?.userData ?? null,
-      leaderboard: leaderboard,
+      leaderboard
     });
   };
 
@@ -137,12 +137,12 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       return;
     }
     let db = firestoreData?.firestore;
-    if (!db) {
+    if (db == null) {
       console.log('Firestore is not initialized at initializeUserData!');
       await initializeFirestore();
       db = firestoreData?.firestore;
     }
-    if (!db) {
+    if (db == null) {
       console.log("Couldn't get Firestore instance at initializeUserData!");
       return;
     }
@@ -171,12 +171,12 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       return;
     }
     let db = firestoreData?.firestore;
-    if (!db) {
+    if (db == null) {
       console.log('Firestore is not initialized at createUser!');
       await initializeFirestore();
       db = firestoreData?.firestore;
     }
-    if (!db) {
+    if (db == null) {
       console.log("Couldn't get Firestore instance at createUser!");
       return;
     }
@@ -185,14 +185,13 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     const querySnapshot = await getDocs(q);
     if (querySnapshot.size >= 1) {
       console.log('User already exists!');
-      return;
     } else if (querySnapshot.size === 0) {
       console.log('User does not exist!');
       const newUser: UserData = {
-        userName: userName,
+        userName,
         createdAt: Timestamp.now(),
         highScore: 0,
-        scoredAt: Timestamp.now(),
+        scoredAt: Timestamp.now()
       };
 
       await setDoc(doc(db, 'users', userName), newUser);
@@ -203,20 +202,20 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
 
   const newHighScore = async (highScore: number) => {
     let db = firestoreData?.firestore;
-    if (!db) {
+    if (db == null) {
       console.log('Firestore is not initialized!');
-      initializeFirestore();
+      await initializeFirestore();
       db = firestoreData?.firestore;
     }
-    if (!db) {
+    if (db == null) {
       console.log("Couldn't get Firestore instance at newHighscore!");
       return;
     }
-    if (!firestoreData?.userData) {
+    if (firestoreData?.userData == null) {
       console.log('userData is not initialized!');
       return;
     }
-    if (!firestoreData?.userData?.userName) {
+    if (firestoreData?.userData?.userName == null) {
       console.log('userName is empty!');
       return;
     }
@@ -234,8 +233,8 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     }
     const userName = firestoreData?.userData?.userName;
     const updatedData = {
-      highScore: highScore,
-      scoredAt: Timestamp.now(),
+      highScore,
+      scoredAt: Timestamp.now()
     };
     await updateDoc(doc(db, 'users', userName), updatedData);
 
@@ -247,7 +246,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     initializeUserData,
     getUserData,
     getLeaderboard,
-    newHighScore,
+    newHighScore
   };
 
   return (

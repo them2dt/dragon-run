@@ -28,32 +28,32 @@ export default class Preloader extends Phaser.Scene {
     this.load.aseprite(
       TextureKeys.RedDragon,
       'game-assets/characters/red-dragon.png',
-      'game-assets/characters/red-dragon.json',
+      'game-assets/characters/red-dragon.json'
     );
     this.load.aseprite(
       TextureKeys.DefaultCharacter,
       'game-assets/characters/default-character.png',
-      'game-assets/characters/default-character.json',
+      'game-assets/characters/default-character.json'
     );
     this.load.aseprite(
       TextureKeys.SmallDragonOrange,
       'game-assets/characters/small-dragon-orange.png',
-      'game-assets/characters/small-dragon-orange.json',
+      'game-assets/characters/small-dragon-orange.json'
     );
     this.load.aseprite(
       TextureKeys.SmallDragonGreen,
       'game-assets/characters/small-dragon-green.png',
-      'game-assets/characters/small-dragon-green.json',
+      'game-assets/characters/small-dragon-green.json'
     );
 
     this.load.audio(
       EnvironmentSoundEffectKeys.LavaBackground1,
-      'game-assets/sound-effects/environment/lava-background-1.mp3',
+      'game-assets/sound-effects/environment/lava-background-1.mp3'
     );
     this.load.audio(EnvironmentSoundEffectKeys.LavaBurn1, 'game-assets/sound-effects/environment/lava-burn-1.mp3');
     this.load.audio(
       EnvironmentSoundEffectKeys.LavaballThrow1,
-      'game-assets/sound-effects/environment/lavaball-throw-1.mp3',
+      'game-assets/sound-effects/environment/lavaball-throw-1.mp3'
     );
     this.load.audio(EnvironmentSoundEffectKeys.LavaPlop1, 'game-assets/sound-effects/environment/lava-plop-1.mp3');
 
@@ -75,11 +75,11 @@ export default class Preloader extends Phaser.Scene {
     this.load.audio(PlayerSoundEffectKeys.PlayerRun1, 'game-assets/sound-effects/players/player-run-1.mp3');
     this.load.audio(
       PlayerSoundEffectKeys.PlayerFireballThrow1,
-      'game-assets/sound-effects/players/player-fireball-throw-1.mp3',
+      'game-assets/sound-effects/players/player-fireball-throw-1.mp3'
     );
     this.load.audio(
       PlayerSoundEffectKeys.PlayerFireballBurn1,
-      'game-assets/sound-effects/players/player-fireball-burn-1.mp3',
+      'game-assets/sound-effects/players/player-fireball-burn-1.mp3'
     );
 
     this.load.audio(MiscSoundEffectKeys.Run, 'game-assets/sound-effects/misc/run.mp3');

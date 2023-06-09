@@ -5,7 +5,7 @@ enum OverlayKeys {
   Home = 'home',
   Store = 'store',
   Game = 'game',
-  GameOver = 'game-over',
+  GameOver = 'game-over'
 }
 
 export default OverlayKeys;

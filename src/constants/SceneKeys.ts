@@ -3,7 +3,7 @@ enum SceneKeys {
   EnterScene = 'enter-scene',
   HomeScene = 'home-scene',
   CaveScene = 'cave-scene',
-  GameOver = 'game-over',
+  GameOver = 'game-over'
 }
 
 export default SceneKeys;

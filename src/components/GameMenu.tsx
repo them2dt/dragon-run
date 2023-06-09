@@ -20,14 +20,14 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
         sx={{
           minWidth: 200,
           [muiTheme.breakpoints.up('sm')]: {
-            minWidth: 300,
+            minWidth: 300
           },
           [muiTheme.breakpoints.up('md')]: {
-            minWidth: 400,
+            minWidth: 400
           },
           [muiTheme.breakpoints.up('lg')]: {
-            minWidth: 500,
-          },
+            minWidth: 500
+          }
         }}
       >
         <DialogTitle align="center" color={muiTheme.palette.text.secondary}>

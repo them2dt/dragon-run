@@ -4,7 +4,7 @@ import SceneKeys from 'constants/SceneKeys';
 import Player from '../components/players/Player';
 import SmallDragon from '../components/enemies/SmallDragon';
 import RedDragon from '../components/enemies/RedDragon';
-import { AnimatedTile, TilesetTileData } from '../components/AnimatedTile';
+import { AnimatedTile, type TilesetTileData } from '../components/AnimatedTile';
 import Device from '../../constants/Device';
 import CameraFollowing from 'constants/CameraFollowing';
 import TiledLayerKeys from 'constants/TiledLayerKeys';
@@ -89,7 +89,7 @@ export default class CaveScene extends Phaser.Scene {
     this.time.addEvent({
       delay: 1000, // ms
       callback: this.runWarning,
-      repeat: 0,
+      repeat: 0
     });
 
     const width = this.scale.width;
@@ -108,7 +108,7 @@ export default class CaveScene extends Phaser.Scene {
       16,
       16,
       1,
-      2,
+      2
     ) as Phaser.Tilemaps.Tileset;
 
     this.playerLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Player) as Phaser.Tilemaps.ObjectLayer;
@@ -119,7 +119,7 @@ export default class CaveScene extends Phaser.Scene {
       'Ground',
       this.tilemap.getTileset('cave-tileset') as Phaser.Tilemaps.Tileset,
       this.mapOffsetX,
-      this.mapOffsetY,
+      this.mapOffsetY
     ) as Phaser.Tilemaps.TilemapLayer;
     this.ground.setCullPadding(10);
     this.ground.setCollisionByProperty({ collides: true });
@@ -130,7 +130,7 @@ export default class CaveScene extends Phaser.Scene {
       'Lava',
       this.tilemap.getTileset('cave-tileset') as Phaser.Tilemaps.Tileset,
       this.mapOffsetX,
-      this.mapOffsetY,
+      this.mapOffsetY
     ) as Phaser.Tilemaps.TilemapLayer;
     this.lava.setCollisionByProperty({ collides: true });
     this.lava.setCullPadding(10);
@@ -171,7 +171,7 @@ export default class CaveScene extends Phaser.Scene {
     this.time.addEvent({
       delay: 3000, // ms
       callback: this.throwLavaballs,
-      repeat: -1,
+      repeat: -1
     });
 
     this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100);
@@ -180,7 +180,7 @@ export default class CaveScene extends Phaser.Scene {
       -100,
       -100,
       this.tilemap.widthInPixels * this.mainScale,
-      this.tilemap.heightInPixels * this.mainScale,
+      this.tilemap.heightInPixels * this.mainScale
     );
 
     this.cameras.main.removeBounds();
@@ -214,7 +214,9 @@ export default class CaveScene extends Phaser.Scene {
   }
 
   public update(time: number, delta: number): void {
-    this.animatedTiles.forEach((tile) => tile.update(delta / 2));
+    this.animatedTiles.forEach((tile) => {
+      tile.update(delta / 2);
+    });
 
     const playerBody = this.player.body as Phaser.Physics.Arcade.Body;
 
@@ -231,8 +233,10 @@ export default class CaveScene extends Phaser.Scene {
 
       this.time.addEvent({
         delay: 200, // ms
-        callback: () => this.player.kill(),
-        repeat: 0,
+        callback: () => {
+          this.player.kill();
+        },
+        repeat: 0
       });
     }
 
@@ -274,7 +278,7 @@ export default class CaveScene extends Phaser.Scene {
           fireball.destroy();
           smallDragon.kill();
         });
-      },
+      }
     });
 
     this.player.setFireballs(this.playerFireballs);
@@ -296,7 +300,7 @@ export default class CaveScene extends Phaser.Scene {
           this.sound.play(EnvironmentSoundEffectKeys.LavaPlop1, { volume: 0.1 });
           lavaball.destroy();
         });
-      },
+      }
     });
   };
 
@@ -316,7 +320,7 @@ export default class CaveScene extends Phaser.Scene {
       const lavaball = this.lavaballs.get(
         lavaballObjectX * this.mainScale + this.objectsLayerOffsetX,
         lavaballObjectY * 2.4 - 1520,
-        TextureKeys.Fireball,
+        TextureKeys.Fireball
       ) as Phaser.Physics.Arcade.Image;
       if (lavaball) {
         const vec = new Phaser.Math.Vector2(0, 0);
@@ -364,7 +368,7 @@ export default class CaveScene extends Phaser.Scene {
         enemyBody.onCollide = true;
         enemyGo.groundCheckerBody.onCollide = true;
         this.physics.add.collider(enemyGo.groundChecker, this.ground);
-      },
+      }
     });
 
     this.enemiesLayer.objects.forEach((enemyObject) => {
@@ -378,7 +382,7 @@ export default class CaveScene extends Phaser.Scene {
       const enemy = new SmallDragon(
         this,
         enemyObjectX * this.mainScale + this.objectsLayerOffsetX,
-        enemyObjectY * 0.45 - 80,
+        enemyObjectY * 0.45 - 80
       );
       this.add.existing(enemy);
       this.smallDragons.add(enemy);
@@ -396,7 +400,7 @@ export default class CaveScene extends Phaser.Scene {
       this.player.body.position.x,
       0,
       redDragonBody.position.x,
-      0,
+      0
     );
 
     if (
@@ -410,7 +414,7 @@ export default class CaveScene extends Phaser.Scene {
         0.9,
         0.1,
         this.dragonCameraOffset,
-        redDragonBody.height * 0.5,
+        redDragonBody.height * 0.5
       );
     } else if (
       distanceBetweenPlayerAndRedDragonX >= -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10 &&

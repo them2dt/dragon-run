@@ -45,7 +45,7 @@ export default function Home() {
             sx={{
               marginBottom: 2,
               paddingX: 2,
-              [muiTheme.breakpoints.up('lg')]: { marginBottom: 10, paddingX: 6 },
+              [muiTheme.breakpoints.up('lg')]: { marginBottom: 10, paddingX: 6 }
             }}
           >
             <Grid item xs={6}>
@@ -54,7 +54,7 @@ export default function Home() {
                 size="large"
                 sx={{
                   backgroundColor: theme.colors.cD,
-                  '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: theme.colors.cD },
+                  '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: theme.colors.cD }
                 }}
                 fullWidth
                 onClick={() => eventsCenter.emit(EventKeys.GoToStore)}
@@ -63,7 +63,7 @@ export default function Home() {
                   sx={{
                     fontSize: '1rem',
                     [muiTheme.breakpoints.up('sm')]: { fontSize: '1.2rem' },
-                    [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' },
+                    [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' }
                   }}
                   fontWeight={400}
                   component="h5"
@@ -78,16 +78,18 @@ export default function Home() {
                 size="large"
                 sx={{
                   backgroundColor: theme.colors.cD,
-                  '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: theme.colors.cD },
+                  '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: theme.colors.cD }
                 }}
                 fullWidth
-                onClick={() => openLeaderboard()}
+                onClick={() => {
+                  openLeaderboard();
+                }}
               >
                 <Typography
                   sx={{
                     fontSize: '1rem',
                     [muiTheme.breakpoints.up('sm')]: { fontSize: '1.2rem' },
-                    [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' },
+                    [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' }
                   }}
                   fontWeight={400}
                   component="h5"
@@ -104,8 +106,8 @@ export default function Home() {
                   backgroundColor: muiTheme.palette.secondary.main,
                   '&:hover': {
                     backgroundColor: muiTheme.palette.text.secondary,
-                    color: muiTheme.palette.secondary.main,
-                  },
+                    color: muiTheme.palette.secondary.main
+                  }
                 }}
                 fullWidth
                 onClick={() => eventsCenter.emit(EventKeys.GoToGame)}

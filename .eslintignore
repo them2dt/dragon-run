@@ -1,6 +1,13 @@
 node_modules/
 dist/
-.prettierrc.js
-.eslintrc.js
+.gitignore
+.eslintrc.cjs
+package.json
+package-lock.json
+README.md
+tsconfig.json
+tsconfig.node.json
+postcss.config.cjs
+vite.config.ts
 env.d.ts
 .env

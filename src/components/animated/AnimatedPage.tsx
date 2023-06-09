@@ -9,7 +9,7 @@ const AnimatedPage = ({ children }: AnimatedPageProps) => {
   const pageAnimations = {
     initial: { scale: 1, opacity: 0 },
     animate: { scale: 1, opacity: 1 },
-    exit: { scale: 1, opacity: 0, transition: { duration: 0.5 } },
+    exit: { scale: 1, opacity: 0, transition: { duration: 0.5 } }
   };
 
   return (

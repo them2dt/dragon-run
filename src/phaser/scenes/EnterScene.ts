@@ -22,6 +22,5 @@ export default class EnterScene extends Phaser.Scene {
       this.scene.stop(SceneKeys.EnterScene);
       eventsCenter.emit(EventKeys.GoToHome);
     });
-
   }
 }

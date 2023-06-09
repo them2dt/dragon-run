@@ -1,7 +1,7 @@
 enum PlayerState {
   Alive,
   Killed,
-  Dead,
+  Dead
 }
 
 export default PlayerState;

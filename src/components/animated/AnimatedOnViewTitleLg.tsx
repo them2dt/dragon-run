@@ -14,8 +14,8 @@ const AnimatedOnViewTitleLg = (props: AnimatedOnViewTitleLgProps) => {
     onscreen: {
       opacity: 1,
       scale: 1,
-      transition: { type: 'spring', bounce: 0.5, duration: 1.5, delay: 0 + props.delay },
-    },
+      transition: { type: 'spring', bounce: 0.5, duration: 1.5, delay: 0 + props.delay }
+    }
   };
 
   return (

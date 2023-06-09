@@ -6,7 +6,7 @@ enum EnemySoundEffectKeys {
   DragonBurn1 = 'dragon-burn-1',
   EnemyDeath1 = 'enemy-death-1',
   EnemyDeath2 = 'enemy-death-2',
-  EnemyBite1 = 'enemy-bite-1',
+  EnemyBite1 = 'enemy-bite-1'
 }
 
 export default EnemySoundEffectKeys;

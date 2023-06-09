@@ -1,6 +1,6 @@
 enum DefaultEnemyDirection {
   Left,
-  Right,
+  Right
 }
 
 export default DefaultEnemyDirection;

@@ -1,4 +1,4 @@
-import LeaderboardMetadata from '@firestore/LeaderboardMetadata';
+import type LeaderboardMetadata from '@firestore/LeaderboardMetadata';
 
 function isLeaderboardMetadata(data: any): data is LeaderboardMetadata {
   try {

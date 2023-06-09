@@ -24,9 +24,9 @@ export default function Index(): JSX.Element {
 
   useMemo(() => {
     console.log('Initializing firestore');
-    const initializeFirestore = async () => {
+    const initializeFirestore = () => {
       if (firestoreData?.firestore == null) {
-        await firestoreFunctions.initializeFirestore();
+        firestoreFunctions.initializeFirestore();
       }
     };
     initializeFirestore();
@@ -39,13 +39,13 @@ export default function Index(): JSX.Element {
   }, [firestoreData?.firestore, firestoreData?.leaderboard]);
 
   useMemo(() => {
-    const initializeUserData = async () => {
+    const initializeUserData = () => {
       if (userName === '') {
         return;
       }
       const currentUserName = firestoreData?.userData?.userName;
       if (userName !== currentUserName) {
-        await firestoreFunctions.initializeUserData(userName);
+        firestoreFunctions.initializeUserData(userName);
       }
       const updatedUserName = firestoreData?.userData?.userName;
       if (updatedUserName != null) {
@@ -53,7 +53,7 @@ export default function Index(): JSX.Element {
         console.log('updatedUserName: ', updatedUserName);
       }
       const updatedHighScore = firestoreData?.userData?.highScore;
-      if (updatedHighScore != undefined) {
+      if (updatedHighScore !== undefined) {
         setHighScore(updatedHighScore);
         console.log('updatedHighScore: ', updatedHighScore);
       }

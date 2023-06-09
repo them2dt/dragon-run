@@ -1,5 +1,5 @@
-import * as Phaser from 'phaser'
+import * as Phaser from 'phaser';
 
-const eventsCenter = new Phaser.Events.EventEmitter()
+const eventsCenter = new Phaser.Events.EventEmitter();
 
-export default eventsCenter
+export default eventsCenter;

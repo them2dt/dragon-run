@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import TextureKeys from '../../../constants/TextureKeys';
 import AnimationKeys from '../../../constants/AnimationKeys';
 import SceneKeys from '../../../constants/SceneKeys';
-import CaveScene from '../../scenes/CaveScene';
+import type CaveScene from '../../scenes/CaveScene';
 import CameraFollowing from '../../../constants/CameraFollowing';
 import PlayerState from '../../../constants/players/PlayerState';
 import DragonState from '../../../constants/enemies/DragonState';
@@ -55,7 +55,7 @@ export default class Player extends Phaser.GameObjects.Container {
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.setSize(
       this.playerSize * this.defaultCharacter.width * 0.43,
-      this.playerSize * this.defaultCharacter.height * 0.75,
+      this.playerSize * this.defaultCharacter.height * 0.75
     );
     body.setOffset(this.defaultCharacter.width * -0.29, -this.defaultCharacter.height + 1);
     body.setCollideWorldBounds(true);
@@ -92,7 +92,7 @@ export default class Player extends Phaser.GameObjects.Container {
     const fireball = this.fireballs.get(
       this.x,
       this.y - playerBody.height * 0.8,
-      TextureKeys.Fireball,
+      TextureKeys.Fireball
     ) as Phaser.Physics.Arcade.Image;
     if (!fireball) {
       return;
@@ -145,7 +145,7 @@ export default class Player extends Phaser.GameObjects.Container {
     this.scene.time.addEvent({
       delay: 1500, // ms
       callback: () => this.scene.sound.play(PlayerSoundEffectKeys.PlayerDeath2, { volume: 0.6 }),
-      repeat: 0,
+      repeat: 0
     });
 
     if (this.currentScene === SceneKeys.CaveScene) {
@@ -222,7 +222,7 @@ export default class Player extends Phaser.GameObjects.Container {
           this.fireballTimer = t + this.fireballCooldown;
         }
 
-        if (body.blocked.down && body.velocity.x == 0) {
+        if (body.blocked.down && body.velocity.x === 0) {
           this.defaultCharacter.play(AnimationKeys.DefaultCharacterIdleRight, true);
         }
 

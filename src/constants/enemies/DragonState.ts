@@ -2,7 +2,7 @@ enum DragonState {
   Idle,
   Chasing,
   Attacking,
-  Dead,
+  Dead
 }
 
 export default DragonState;

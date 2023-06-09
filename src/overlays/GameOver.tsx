@@ -8,7 +8,6 @@ import AnimatedPageDelayed from 'components/animated/AnimatedPageDelayed';
 import AnimatedNewHighScoreTitle from 'components/animated/AnimatedNewHighScoreTitle';
 import { Button, Typography, useTheme } from '@mui/material';
 
-
 interface GameOverProps {
   newHighScore: number;
 }
@@ -34,12 +33,12 @@ export default function GameOver({ newHighScore }: GameOverProps): JSX.Element {
                 backgroundColor: muiTheme.palette.secondary.main,
                 '&:hover': {
                   backgroundColor: muiTheme.palette.text.secondary,
-                  color: muiTheme.palette.secondary.main,
+                  color: muiTheme.palette.secondary.main
                 },
                 width: '200px',
                 height: '70px',
                 [muiTheme.breakpoints.up('sm')]: { width: '300px', height: '80px' },
-                [muiTheme.breakpoints.up('md')]: { width: '500px', height: '100px' },
+                [muiTheme.breakpoints.up('md')]: { width: '500px', height: '100px' }
               }}
               onClick={() => eventsCenter.emit(EventKeys.GoToGame)}
             >

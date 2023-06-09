@@ -1,14 +1,14 @@
 import React, { createContext, useState } from 'react';
 import OverlayKeys from '../constants/OverlayKeys';
 
-type OverlayContextType = {
+interface OverlayContextType {
   overlay: OverlayKeys;
   setOverlay: React.Dispatch<React.SetStateAction<OverlayKeys>>;
-};
+}
 
-type OverlayProviderProps = {
+interface OverlayProviderProps {
   children: React.ReactNode;
-};
+}
 
 export const OverlayContext = createContext<OverlayContextType | null>(null);
 

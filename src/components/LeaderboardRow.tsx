@@ -19,8 +19,8 @@ export default function LeaderboardRow({ rank, name, score }: LeaderboardRowProp
         backgroundColor: name === currentUserName ? 'background.light' : 'background.default',
         'td, th': { border: 0 },
         '&:hover': {
-          cursor: 'pointer',
-        },
+          cursor: 'pointer'
+        }
       }}
     >
       <TableCell align="center" sx={{ color: name === currentUserName ? '#a3e635' : theme.palette.text.secondary }}>

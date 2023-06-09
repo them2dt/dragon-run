@@ -1,4 +1,4 @@
-import UserData from '@firestore/UserData';
+import type UserData from '@firestore/UserData';
 
 function isUserData(data: any): data is UserData {
   try {

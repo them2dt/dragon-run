@@ -70,7 +70,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
     this.scene.time.addEvent({
       delay: 200, // ms
       callback: () => this.scene.sound.play(EnemySoundEffectKeys.DragonBurn1, { volume: 1 }),
-      repeat: 0,
+      repeat: 0
     });
   }
 

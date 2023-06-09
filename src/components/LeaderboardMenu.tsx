@@ -11,10 +11,10 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  useTheme,
+  useTheme
 } from '@mui/material';
 import { useFirestore } from '@context/useFirestore';
-import LeaderboardItem from '@firestore/LeaderboardItem';
+import type LeaderboardItem from '@firestore/LeaderboardItem';
 import { getLeaderboardDataFromLeaderboard } from 'utils/leaderboard';
 import LeaderboardRow from './LeaderboardRow';
 
@@ -38,33 +38,34 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
   }, [firestoreData?.firestore]);
 
   useMemo(() => {
-    if (firestoreData?.leaderboard) {
+    if (firestoreData?.leaderboard != null) {
       const leaderboardData = getLeaderboardDataFromLeaderboard(firestoreData?.leaderboard);
       if (leaderboardData != null) {
         setLeaderboard(leaderboardData.leaderboardItems);
       } else {
         console.log('Error getting leaderboard data');
-        return;
       }
     }
   }, [firestoreData?.leaderboard]);
 
   return (
     <Dialog open={leaderboardOpen} onClose={closeLeaderboard} sx={{ width: '100%' }}>
-      <DialogTitle align="center" color={muiTheme.palette.text.secondary}>Leaderboard</DialogTitle>
+      <DialogTitle align="center" color={muiTheme.palette.text.secondary}>
+        Leaderboard
+      </DialogTitle>
       <TableContainer
         sx={{
           minWidth: 200,
           [muiTheme.breakpoints.up('sm')]: {
-            minWidth: 300,
+            minWidth: 300
           },
           [muiTheme.breakpoints.up('md')]: {
-            minWidth: 400,
+            minWidth: 400
           },
           [muiTheme.breakpoints.up('lg')]: {
             maxHeight: 430,
-            minWidth: 500,
-          },
+            minWidth: 500
+          }
         }}
       >
         <Table aria-label="leaderboard" stickyHeader>

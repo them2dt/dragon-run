@@ -1,6 +1,6 @@
 enum DefaultEnemyState {
   Alive,
-  Dead,
+  Dead
 }
 
 export default DefaultEnemyState;

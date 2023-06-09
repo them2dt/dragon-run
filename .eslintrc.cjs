@@ -1,32 +1,45 @@
 module.exports = {
-  extends: [
-    // By extending from a plugin config, we can get recommended rules without having to add them manually.
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:import/recommended',
-    'plugin:jsx-a11y/recommended',
-    'plugin:@typescript-eslint/recommended',
-    // This disables the formatting rules in ESLint that Prettier is going to be responsible for handling.
-    // Make sure it's always the last config, so it gets the chance to override other configs.
-    'eslint-config-prettier',
-  ],
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'import'],
+  env: {
+    browser: true,
+    es2021: true
+  },
+  extends: ['standard-with-typescript', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended'],
+  parserOptions: {
+    project: ['tsconfig.json', 'tsconfig.dev.json'],
+    sourceType: 'module'
+  },
+  plugins: ['react', '@typescript-eslint'],
+  rules: {
+    'quotes': ['error', 'single', { avoidEscape: true }],
+    'import/no-unresolved': 0,
+    'indent': ['error', 2],
+    'object-curly-spacing': ['error', 'always'],
+    'require-jsdoc': 0,
+    'max-len': ['error', { code: 120 }],
+    'no-unused-vars': 0,
+    'semi': [2, 'always'],
+    'multiline-ternary': 'off',
+    'indent': 'off',
+    '@typescript-eslint/quotes': ['error', 'single'],
+    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/semi': ['error', 'always'],
+    '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/no-explicit-any': 1,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/quotes': ['error', 'single', { avoidEscape: true }],
+    '@typescript-eslint/member-delimiter-style': ['error', { multiline: { delimiter: 'semi' } }],
+    '@typescript-eslint/explicit-function-return-type': 0,
+    'space-before-function-paren': 'off',
+    '@typescript-eslint/space-before-function-paren': 'off',
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off',
+    '@typescript-eslint/prefer-readonly': 'off',
+    '@typescript-eslint/consistent-indexed-object-style': 'off',
+    '@typescript-eslint/restrict-plus-operands': 'off',
+  },
   settings: {
     react: {
-      // Tells eslint-plugin-react to automatically detect the version of React to use.
-      version: 'detect',
-    },
-    // Tells eslint how to resolve imports
-    'import/resolver': {
-      typescript: {},
-      node: {
-        paths: ['src'],
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      },
-    },
-  },
-  rules: {
-    // Add your own rules here to override ones from the extended configs.
-  },
+      version: 'detect'
+    }
+  }
 };

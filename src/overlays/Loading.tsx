@@ -7,7 +7,7 @@ export default function Loading() {
   return (
     <AnimatedPage>
       <OverlayWrapper className="bg-bg3 overflow-hidden">
-        <LoadingSpinner className='m-auto'/>
+        <LoadingSpinner className="m-auto" />
       </OverlayWrapper>
     </AnimatedPage>
   );

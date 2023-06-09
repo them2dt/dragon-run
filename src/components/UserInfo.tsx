@@ -6,10 +6,9 @@ export default function UserInfo() {
 
   useEffect(() => {
     firestoreFunctions.initializeFirestore();
-    firestoreFunctions.getUserData("zombi");
-    console.log(firestoreData?.userData?.userName)
+    firestoreFunctions.getUserData('zombi');
+    console.log(firestoreData?.userData?.userName);
   }, []);
-
 
   useEffect(() => {
     console.log(firestoreData);

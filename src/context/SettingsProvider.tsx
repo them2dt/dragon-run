@@ -2,16 +2,16 @@ import React, { createContext, useState, useMemo } from 'react';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 
-type SettingsContextType = {
+interface SettingsContextType {
   volume: number;
   setVolume: React.Dispatch<React.SetStateAction<number>>;
   fullscreen: boolean;
   setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
-type SettingsProviderProps = {
+interface SettingsProviderProps {
   children: React.ReactNode;
-};
+}
 
 export const SettingsContext = createContext<SettingsContextType | null>(null);
 

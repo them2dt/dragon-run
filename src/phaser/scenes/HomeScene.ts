@@ -11,6 +11,7 @@ export default class HomeScene extends Phaser.Scene {
   constructor() {
     super(SceneKeys.HomeScene);
   }
+
   create() {
     this.music = this.sound.add(MusicKeys.HomeScene1, { loop: true });
 

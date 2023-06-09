@@ -11,8 +11,8 @@ const AnimatedEnterTitle = ({ userName }: AnimatedEnterTitleProps) => {
     onscreen: {
       opacity: 1,
       scale: 1,
-      transition: { type: 'spring', bounce: 0.5, duration: 1.5 },
-    },
+      transition: { type: 'spring', bounce: 0.5, duration: 1.5 }
+    }
   };
 
   return (
@@ -23,12 +23,12 @@ const AnimatedEnterTitle = ({ userName }: AnimatedEnterTitleProps) => {
         viewport={{ once: true, amount: 1 }}
         variants={titleAnimations}
       >
-        {userName ? (
-          <h1 className={`mx-auto mt-auto mb-20 text-3xl sm:text-3xl md:text-4xl lg:text-6xl text-cC px-2`}>
+        {userName !== '' ? (
+          <h1 className={'mx-auto mt-auto mb-20 text-3xl sm:text-3xl md:text-4xl lg:text-6xl text-cC px-2'}>
             <span className="text-cB">{userName}</span>, are you ready to run?
           </h1>
         ) : (
-          <h1 className={`mx-auto mt-auto mb-20 text-3xl sm:text-3xl md:text-4xl lg:text-6xl text-cC px-2`}>
+          <h1 className={'mx-auto mt-auto mb-20 text-3xl sm:text-3xl md:text-4xl lg:text-6xl text-cC px-2'}>
             Are you ready to run?
           </h1>
         )}

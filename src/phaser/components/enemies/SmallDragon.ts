@@ -63,7 +63,7 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
   }
 
   swapDirection() {
-    if (this.dragonDirection == DefaultEnemyDirection.Left) {
+    if (this.dragonDirection === DefaultEnemyDirection.Left) {
       this.dragonDirection = DefaultEnemyDirection.Right;
     } else {
       this.dragonDirection = DefaultEnemyDirection.Left;
@@ -76,7 +76,7 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
 
     switch (this.dragonState) {
       case DefaultEnemyState.Alive: {
-        if (this.dragonDirection == DefaultEnemyDirection.Left) {
+        if (this.dragonDirection === DefaultEnemyDirection.Left) {
           body.setVelocityX(-this.dragonSpeed);
           this.smallDragon.play(AnimationKeys.SmallDragonOrangeRunningRight, true);
           this.smallDragon.setFlipX(true);
@@ -89,7 +89,7 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
             this.swapDirection();
             this.swapTimer = t + 1000;
           }
-        } else if (this.dragonDirection == DefaultEnemyDirection.Right) {
+        } else if (this.dragonDirection === DefaultEnemyDirection.Right) {
           body.setVelocityX(this.dragonSpeed);
           this.smallDragon.play(AnimationKeys.SmallDragonOrangeRunningRight, true);
           this.smallDragon.setFlipX(false);
@@ -111,7 +111,7 @@ export default class SmallDragon extends Phaser.GameObjects.Container {
           this.smallDragon.setFlipX(true);
         }
 
-        if (body.blocked.down && body.velocity.x == 0) {
+        if (body.blocked.down && body.velocity.x === 0) {
           this.smallDragon.play(AnimationKeys.SmallDragonOrangeIdleRight, true);
         }
 

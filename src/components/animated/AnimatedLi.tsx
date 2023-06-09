@@ -10,14 +10,14 @@ interface AnimatedLiProps {
 const AnimatedLi = (props: AnimatedLiProps) => {
   const liVariants = {
     hover: {
-      scale: 1.1,
+      scale: 1.1
     },
     pressed: {
-      scale: 0.9,
+      scale: 0.9
     },
     rest: {
-      scale: 1,
-    },
+      scale: 1
+    }
   };
 
   return (

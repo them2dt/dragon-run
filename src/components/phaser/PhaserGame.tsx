@@ -18,17 +18,17 @@ export default function PhaserGame() {
       default: 'arcade',
       arcade: {
         gravity: { y: 500 },
-        debug: false,
-      },
+        debug: false
+      }
     },
     scene: [Preloader, EnterScene, HomeScene, CaveScene, GameOver],
     scale: {
       mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.CENTER_BOTH,
       width: '100%',
-      height: '100%',
+      height: '100%'
     },
-    pixelArt: true,
+    pixelArt: true
   };
 
   const { setOverlay } = useOverlay();
@@ -54,7 +54,7 @@ export default function PhaserGame() {
     eventsCenter.on(EventKeys.GoToStore, () => {
       phaserGame.scene.stop(SceneKeys.GameOver);
       phaserGame.scene.stop(SceneKeys.CaveScene);
-      
+
       setOverlay(OverlayKeys.Store);
     });
 

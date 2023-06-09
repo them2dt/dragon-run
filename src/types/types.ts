@@ -1,4 +1,4 @@
-export type Config = {
+export type Config = Array<{
   poolAddress?: string;
   country: string;
   name: string;
@@ -7,4 +7,4 @@ export type Config = {
   racetrack: string;
   status?: string;
   staked?: number;
-}[];
+}>;

@@ -5,45 +5,44 @@
 @tailwind utilities;
 
 .outline {
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
 
 body {
-  -webkit-tap-highlight-color:  rgba(232, 150, 58, 0);
-  @apply bg-cA
+  -webkit-tap-highlight-color: rgba(232, 150, 58, 0);
+  @apply bg-cA;
 }
 
 * {
-  @apply font-primary
+  @apply font-primary;
 }
 
 #root {
-  -webkit-tap-highlight-color:  rgba(232, 150, 58, 0);
+  -webkit-tap-highlight-color: rgba(232, 150, 58, 0);
 }
-
-
 
 @layer base {
   * {
-    @apply font-primary
+    @apply font-primary;
   }
-
 
   li {
-    @apply p-2
+    @apply p-2;
   }
-
 }
 
-
 @keyframes fade-in {
-    from {opacity: 0; transform: scale(.7,.7)}
-    to {opacity: 1;}
+  from {
+    opacity: 0;
+    transform: scale(0.7, 0.7);
   }
-  .fade-in-element {
+  to {
+    opacity: 1;
+  }
+}
+.fade-in-element {
   animation: fade-in 1.4s;
-  }
-
+}
 
 ::-webkit-scrollbar {
   width: 0px;
@@ -90,4 +89,6 @@ canvas {
   z-index: -1;
 }
 
-.rendering-pixelated { image-rendering: pixelated; }
+.rendering-pixelated {
+  image-rendering: pixelated;
+}

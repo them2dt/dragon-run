@@ -26,7 +26,7 @@ export default function Game() {
       setShowRun(true);
       setTimeout(() => {
         setShowRun(false);
-      } , 2000);
+      }, 2000);
     });
     return () => {
       eventsCenter.off(EventKeys.UpdateScore);
@@ -62,7 +62,12 @@ export default function Game() {
   return (
     <AnimatedPage>
       <OverlayWrapper className="z-50 fixed top-0 left-0 pointer-events-none">
-        <GameMenu menuOpen={menuOpen} closeMenu={closeMenu} openLeaderboard={openLeaderboard} openSettings={openSettings} />
+        <GameMenu
+          menuOpen={menuOpen}
+          closeMenu={closeMenu}
+          openLeaderboard={openLeaderboard}
+          openSettings={openSettings}
+        />
         <LeaderboardMenu leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
         <GameNavBar>
@@ -73,7 +78,7 @@ export default function Game() {
                 borderRadius: 6,
                 color: '#000000',
                 pointerEvents: 'auto',
-                ':hover': { backgroundColor: theme.palette.secondary.main },
+                ':hover': { backgroundColor: theme.palette.secondary.main }
               }}
               onClick={openMenu}
             >
