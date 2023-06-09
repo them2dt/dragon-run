@@ -5,8 +5,8 @@ globalThis.Buffer = buffer.Buffer;
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ConnectionProvider } from '@solana/wallet-adapter-react';
 import OverlayProvider from '@context/OverlayProvider';
-import { ThemeProvider, createTheme } from '@mui/material';
-import muiTheme from 'constants/theme/muiTheme';
+import { ThemeProvider } from '@mui/material';
+import muiTheme from 'theme/muiTheme';
 import FirestoreProvider from '@context/FirestoreProvider';
 //routes
 import ErrorPage from './pages/ErrorPage';
@@ -18,8 +18,6 @@ declare global {
     xnft: any;
   }
 }
-
-const themeProviderTheme = createTheme(muiTheme);
 
 const router = createBrowserRouter([
   {
@@ -40,7 +38,7 @@ function App() {
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <ThemeProvider theme={themeProviderTheme}>
+      <ThemeProvider theme={muiTheme}>
         <FirestoreProvider>
           <SettingsProvider>
             <OverlayProvider>

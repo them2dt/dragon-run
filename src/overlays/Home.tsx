@@ -8,7 +8,7 @@ import Leaderboard from 'components/LeaderboardMenu';
 import SettingsMenu from 'components/SettingsMenu';
 import { Grid, Button, Typography, useTheme } from '@mui/material';
 import HomeNavBar from 'components/HomeNavBar';
-import theme from '@consts/theme/theme';
+import theme from 'theme/theme';
 
 export default function Home() {
   const muiTheme = useTheme();

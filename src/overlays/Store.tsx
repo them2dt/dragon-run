@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import logo from '@assets/Dragon_Run_Logo_Cropped.png';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import SettingsMenu from 'components/SettingsMenu';
-import { Grid, Button, Typography, useTheme, Box, Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { Grid, Typography, useTheme, Box, Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import StoreNavBar from 'components/StoreNavBar';
-import theme from '@consts/theme/theme';
+import theme from 'theme/theme';
 import { Shop } from '@mui/icons-material';
 
 export default function Store() {
