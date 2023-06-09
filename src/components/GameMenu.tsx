@@ -2,7 +2,9 @@ import React from 'react';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import Dialog from '@mui/material/Dialog';
-import { DialogTitle, ListItem, ListItemButton, ListItemText, Paper, useTheme } from '@mui/material';
+import { DialogTitle, IconButton, ListItem, ListItemButton, ListItemText, Paper, Stack, useTheme } from '@mui/material';
+import { discord, twitter } from '@consts/Socials';
+import { FaDiscord, FaTwitter } from 'react-icons/fa';
 
 interface GameMenuProps {
   menuOpen: boolean;
@@ -49,14 +51,19 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
           </ListItemButton>
         </ListItem>
         <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
-          <ListItemButton>
-            <ListItemText sx={{ textAlign: 'center' }} primary="Socials" className=" line-through" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
           <ListItemButton onClick={openSettings}>
             <ListItemText sx={{ textAlign: 'center' }} primary="Settings" />
           </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <Stack direction="row" spacing={2} justifyContent="center" width={'100%'}>
+            <IconButton onClick={() => window.open(discord, '_blank')} size="large">
+              <FaDiscord color="#5460E6" />
+            </IconButton>
+            <IconButton onClick={() => window.open(twitter, '_blank')} size="large">
+              <FaTwitter color="#1C98E5" />
+            </IconButton>
+          </Stack>
         </ListItem>
         <ListItem sx={{ backgroundColor: muiTheme.palette.secondary.main }}>
           <ListItemButton onClick={closeMenu}>
