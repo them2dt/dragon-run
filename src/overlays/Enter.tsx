@@ -4,7 +4,8 @@ import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import AnimatedEnterTitle from 'components/animated/AnimatedEnterText';
-import { Button, Typography, useTheme } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
+import { SquareButton } from 'components/styled/SquareButton';
 
 interface EnterProps {
   userName: string;
@@ -21,7 +22,7 @@ export default function Enter({ userName }: EnterProps) {
         <div className="w-full h-full m-auto flex flex-col max-w-[1240px] text-center">
           <div className="h-auto my-auto">
             <AnimatedEnterTitle userName={userName} />
-            <Button
+            <SquareButton
               variant="contained"
               size="large"
               sx={{
@@ -46,7 +47,7 @@ export default function Enter({ userName }: EnterProps) {
               >
                 Enter
               </Typography>
-            </Button>
+            </SquareButton>
           </div>
         </div>
       </OverlayWrapper>

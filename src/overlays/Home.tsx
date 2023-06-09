@@ -6,9 +6,10 @@ import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import Leaderboard from 'components/LeaderboardMenu';
 import SettingsMenu from 'components/SettingsMenu';
-import { Grid, Button, Typography, useTheme } from '@mui/material';
+import { Grid, Typography, useTheme } from '@mui/material';
 import HomeNavBar from 'components/HomeNavBar';
 import theme from 'theme/theme';
+import { SquareButton } from 'components/styled/SquareButton';
 
 export default function Home() {
   const muiTheme = useTheme();
@@ -49,7 +50,7 @@ export default function Home() {
             }}
           >
             <Grid item xs={6}>
-              <Button
+              <SquareButton
                 variant="contained"
                 size="large"
                 sx={{
@@ -70,10 +71,10 @@ export default function Home() {
                 >
                   Store
                 </Typography>
-              </Button>
+              </SquareButton>
             </Grid>
             <Grid item xs={6}>
-              <Button
+              <SquareButton
                 variant="contained"
                 size="large"
                 sx={{
@@ -96,10 +97,10 @@ export default function Home() {
                 >
                   Leaderboard
                 </Typography>
-              </Button>
+              </SquareButton>
             </Grid>
             <Grid item xs={12}>
-              <Button
+              <SquareButton
                 variant="contained"
                 size="large"
                 sx={{
@@ -119,7 +120,7 @@ export default function Home() {
                 >
                   Play
                 </Typography>
-              </Button>
+              </SquareButton>
             </Grid>
           </Grid>
         </div>

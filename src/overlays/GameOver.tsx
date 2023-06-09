@@ -6,7 +6,8 @@ import AnimatedOnViewTitleLg from 'components/animated/AnimatedOnViewTitleLg';
 import AnimatedOnViewTitleMd from 'components/animated/AnimatedOnViewTitleMd';
 import AnimatedPageDelayed from 'components/animated/AnimatedPageDelayed';
 import AnimatedNewHighScoreTitle from 'components/animated/AnimatedNewHighScoreTitle';
-import { Button, Typography, useTheme } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
+import { SquareButton } from 'components/styled/SquareButton';
 
 interface GameOverProps {
   newHighScore: number;
@@ -26,7 +27,7 @@ export default function GameOver({ newHighScore }: GameOverProps): JSX.Element {
               className="mx-auto py-0 mt-6 mb-10 text-3xl xs:text-5xl sm:text-7xl md:text-8xl"
               delay={0}
             />
-            <Button
+            <SquareButton
               variant="contained"
               size="large"
               sx={{
@@ -49,7 +50,7 @@ export default function GameOver({ newHighScore }: GameOverProps): JSX.Element {
               >
                 Play
               </Typography>
-            </Button>
+            </SquareButton>
             <AnimatedOnViewTitleMd
               text="Press SPACE to Play Again"
               className="mx-auto py-0 text-gray-300 text-sm sm:text-xl md:text-xl mt-4 md:mt-8"
