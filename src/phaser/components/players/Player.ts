@@ -45,7 +45,7 @@ export default class Player extends Phaser.GameObjects.Container {
 
     this.defaultCharacter = scene.add
       .sprite(0, 0, TextureKeys.DefaultCharacter)
-      .setOrigin(0.55, 1)
+      .setOrigin(0.5, 1)
       .setScale(this.playerSize * 1.5);
 
     this.add(this.defaultCharacter);
@@ -54,10 +54,10 @@ export default class Player extends Phaser.GameObjects.Container {
 
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.setSize(
-      this.playerSize * this.defaultCharacter.width * 0.43,
-      this.playerSize * this.defaultCharacter.height * 0.75
+      this.playerSize * this.defaultCharacter.width * 0.38,
+      this.playerSize * this.defaultCharacter.height * 0.69
     );
-    body.setOffset(this.defaultCharacter.width * -0.29, -this.defaultCharacter.height + 1);
+    body.setOffset(this.defaultCharacter.width * -0.2, -this.defaultCharacter.height + 1);
     body.setCollideWorldBounds(true);
     body.setDragX(0);
     body.setDragY(0);

@@ -225,7 +225,7 @@ export default class CaveScene extends Phaser.Scene {
         return;
       }
 
-      this.redDragon.followY(playerBody.position.y + playerBody.halfHeight - 37, 100);
+      this.redDragon.followY(playerBody.position.y + playerBody.halfHeight - 31, 100);
     }
 
     if (this.redDragon.x > this.player.x - 140 && this.player.playerState === PlayerState.Alive) {

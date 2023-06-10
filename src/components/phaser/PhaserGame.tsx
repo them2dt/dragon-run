@@ -18,7 +18,7 @@ export default function PhaserGame() {
       default: 'arcade',
       arcade: {
         gravity: { y: 500 },
-        debug: false
+        debug: true
       }
     },
     scene: [Preloader, EnterScene, HomeScene, CaveScene, GameOver],
