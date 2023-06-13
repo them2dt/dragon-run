@@ -82,9 +82,7 @@ export default function Home() {
                   '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: theme.colors.cD }
                 }}
                 fullWidth
-                onClick={() => {
-                  openLeaderboard();
-                }}
+                onClick={openLeaderboard}
               >
                 <Typography
                   sx={{

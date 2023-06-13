@@ -1,11 +1,11 @@
 import React from 'react';
-import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import AnimatedEnterTitle from 'components/animated/AnimatedEnterText';
 import { Typography, useTheme } from '@mui/material';
 import { SquareButton } from 'components/styled/SquareButton';
+import loadCharacter from 'utils/loadCharacter';
 
 interface EnterProps {
   userName: string;
@@ -14,10 +14,9 @@ interface EnterProps {
 export default function Enter({ userName }: EnterProps) {
   const muiTheme = useTheme();
   const handleEnterClick = () => {
-    console.log('Clicked');
-    eventsCenter.emit(
-      EventKeys.LoadCharacter,
-      'https://bafybeiabmrvyz7ibdxc72hyxru5wbw2naix44wwtiqxuno7xf6go3gj5dq.ipfs.nftstorage.link/14.png'
+    loadCharacter(
+      'https://bafybeiabmrvyz7ibdxc72hyxru5wbw2naix44wwtiqxuno7xf6go3gj5dq.ipfs.nftstorage.link/14.png',
+      EventKeys.GoToHome
     );
   };
   return (

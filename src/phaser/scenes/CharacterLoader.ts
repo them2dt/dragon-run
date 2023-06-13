@@ -11,20 +11,34 @@ export default class CharacterLoader extends Phaser.Scene {
   }
 
   preload() {
-    console.log('Actual Data: ', this.sys.getData());
-    if (this.sys.getData().values?.characterLink) {
-      console.log('Got character link: ', this.sys.getData().values?.characterLink);
+    const values = this.sys.getData().values;
+    let characterLink = null;
+    if (values?.characterLink) {
+      characterLink = values.characterLink;
+    }
+    if (this.textures.exists(TextureKeys.Character)) {
       this.load.aseprite(
         TextureKeys.Character,
-        this.sys.getData().values?.characterLink,
+        characterLink || 'game-assets/characters/default-character.png',
         'game-assets/characters/default-character.json'
       );
     } else {
-      console.log('Character link empty');
+      this.load.aseprite(
+        TextureKeys.Character,
+        characterLink || 'game-assets/characters/default-character.png',
+        'game-assets/characters/default-character.json'
+      );
     }
   }
 
   create() {
-    eventsCenter.emit(EventKeys.GoToHome);
+    const values = this.sys.getData().values;
+    if (values?.nextEvent) {
+      const nextEvent = values.nextEvent;
+      eventsCenter.emit(EventKeys.CharacterLoaded);
+      eventsCenter.emit(nextEvent);
+    } else {
+      eventsCenter.emit(EventKeys.CharacterLoaded);
+    }
   }
 }

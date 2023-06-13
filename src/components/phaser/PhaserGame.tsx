@@ -11,6 +11,7 @@ import EventKeys from 'constants/EventKeys';
 import SceneKeys from 'constants/SceneKeys';
 import OverlayKeys from 'constants/OverlayKeys';
 import EnterScene from 'phaser/scenes/EnterScene';
+import type LoadCharacterProps from 'types/LoadCharacterProps';
 
 export default function PhaserGame() {
   const config: Phaser.Types.Core.GameConfig = {
@@ -47,10 +48,11 @@ export default function PhaserGame() {
   useEffect(() => {
     const phaserGame = new Phaser.Game(config);
 
-    eventsCenter.on(EventKeys.LoadCharacter, (characterLink: string) => {
+    eventsCenter.on(EventKeys.LoadCharacter, ({ characterLink, nextEvent }: LoadCharacterProps) => {
       const data = {
         values: {
-          characterLink
+          characterLink,
+          nextEvent
         }
       };
       console.log('Expected Data: ', data);
