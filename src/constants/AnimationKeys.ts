@@ -1,8 +1,8 @@
 enum AnimationKeys {
-  DefaultCharacterIdleRight = 'd_c_idle_right',
-  DefaultCharacterRunningRight = 'd_c_running_right',
-  DefaultCharacterJumpingRight = 'd_c_jumping_right',
-  DefaultCharacterDeadRight = 'd_c_dead_right',
+  CharacterIdleRight = 'c_idle_right',
+  CharacterRunningRight = 'c_running_right',
+  CharacterJumpingRight = 'c_jumping_right',
+  CharacterDeadRight = 'c_dead_right',
   RedDragonFlyingRight = 'r_d_flying_right',
   RedDragonAttackRight = 'r_d_attack_right',
   SmallDragonOrangeIdleRight = 's_d_o_idle_right',

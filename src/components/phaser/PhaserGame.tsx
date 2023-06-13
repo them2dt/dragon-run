@@ -5,6 +5,7 @@ import Preloader from '../../phaser/scenes/Preloader';
 import CaveScene from '../../phaser/scenes/CaveScene';
 import GameOver from '../../phaser/scenes/GameOver';
 import HomeScene from '../../phaser/scenes/HomeScene';
+import CharacterLoader from 'phaser/scenes/CharacterLoader';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import SceneKeys from 'constants/SceneKeys';
@@ -21,12 +22,22 @@ export default function PhaserGame() {
         debug: true
       }
     },
-    scene: [Preloader, EnterScene, HomeScene, CaveScene, GameOver],
+    scene: [Preloader, CharacterLoader, EnterScene, HomeScene, CaveScene, GameOver],
     scale: {
       mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.CENTER_BOTH,
       width: '100%',
       height: '100%'
+    },
+    plugins: {
+      scene: [
+        {
+          key: 'data',
+          plugin: Phaser.Data.DataManagerPlugin,
+          start: true,
+          mapping: 'character'
+        }
+      ]
     },
     pixelArt: true
   };
@@ -35,6 +46,16 @@ export default function PhaserGame() {
 
   useEffect(() => {
     const phaserGame = new Phaser.Game(config);
+
+    eventsCenter.on(EventKeys.LoadCharacter, (characterLink: string) => {
+      const data = {
+        values: {
+          characterLink
+        }
+      };
+      console.log('Expected Data: ', data);
+      phaserGame.scene.start(SceneKeys.CharacterLoader, data);
+    });
 
     eventsCenter.on(EventKeys.GoToEnter, () => {
       phaserGame.scene.start(SceneKeys.EnterScene);
@@ -62,10 +83,12 @@ export default function PhaserGame() {
       phaserGame.scene.stop(SceneKeys.HomeScene);
       phaserGame.scene.stop(SceneKeys.GameOver);
       phaserGame.sound.stopAll();
+      // Fixes animation error
       const phaserAnimations: Phaser.Types.Animations.JSONAnimations = phaserGame.anims.toJSON();
       phaserAnimations.anims.forEach((animation) => {
         phaserGame.anims.remove(animation.key);
       });
+
       phaserGame.scene.start(SceneKeys.CaveScene);
       setOverlay(OverlayKeys.Game);
     });

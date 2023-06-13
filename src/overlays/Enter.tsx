@@ -14,7 +14,11 @@ interface EnterProps {
 export default function Enter({ userName }: EnterProps) {
   const muiTheme = useTheme();
   const handleEnterClick = () => {
-    eventsCenter.emit(EventKeys.GoToHome);
+    console.log('Clicked');
+    eventsCenter.emit(
+      EventKeys.LoadCharacter,
+      'https://bafybeiabmrvyz7ibdxc72hyxru5wbw2naix44wwtiqxuno7xf6go3gj5dq.ipfs.nftstorage.link/14.png'
+    );
   };
   return (
     <AnimatedPage>

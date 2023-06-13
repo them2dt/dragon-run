@@ -31,11 +31,6 @@ export default class Preloader extends Phaser.Scene {
       'game-assets/characters/red-dragon.json'
     );
     this.load.aseprite(
-      TextureKeys.DefaultCharacter,
-      'game-assets/characters/default-character.png',
-      'game-assets/characters/default-character.json'
-    );
-    this.load.aseprite(
       TextureKeys.SmallDragonOrange,
       'game-assets/characters/small-dragon-orange.png',
       'game-assets/characters/small-dragon-orange.json'

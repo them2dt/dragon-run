@@ -78,7 +78,7 @@ export default class CaveScene extends Phaser.Scene {
 
     this.anims.createFromAseprite(TextureKeys.RedDragon);
     this.anims.createFromAseprite(TextureKeys.SmallDragonOrange);
-    this.anims.createFromAseprite(TextureKeys.DefaultCharacter);
+    this.anims.createFromAseprite(TextureKeys.Character);
 
     this.music = this.sound.add(MusicKeys.CaveScene1, { loop: true });
 

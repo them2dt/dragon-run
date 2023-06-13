@@ -44,7 +44,7 @@ export default class Player extends Phaser.GameObjects.Container {
     }
 
     this.defaultCharacter = scene.add
-      .sprite(0, 0, TextureKeys.DefaultCharacter)
+      .sprite(0, 0, TextureKeys.Character)
       .setOrigin(0.5, 1)
       .setScale(this.playerSize * 1.5);
 
@@ -138,7 +138,7 @@ export default class Player extends Phaser.GameObjects.Container {
 
     eventsCenter.emit(EventKeys.UpdateEndScore, this.score);
 
-    this.defaultCharacter.play(AnimationKeys.DefaultCharacterDeadRight, true);
+    this.defaultCharacter.play(AnimationKeys.CharacterDeadRight, true);
 
     this.scene.sound.play(PlayerSoundEffectKeys.PlayerDeath1, { volume: 0.5 });
 
@@ -185,11 +185,11 @@ export default class Player extends Phaser.GameObjects.Container {
       case PlayerState.Alive: {
         if (this.cursors.left.isDown || this.aKey.isDown) {
           body.setVelocityX(-this.playerSpeed);
-          this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
+          this.defaultCharacter.play(AnimationKeys.CharacterRunningRight, true);
           this.defaultCharacter.setFlipX(true);
         } else if (this.cursors.right.isDown || this.dKey.isDown) {
           body.setVelocityX(this.playerSpeed);
-          this.defaultCharacter.play(AnimationKeys.DefaultCharacterRunningRight, true);
+          this.defaultCharacter.play(AnimationKeys.CharacterRunningRight, true);
           this.defaultCharacter.setFlipX(false);
         } else {
           body.setVelocityX(0);
@@ -205,13 +205,13 @@ export default class Player extends Phaser.GameObjects.Container {
         }
 
         if (!body.blocked.down && body.velocity.x < 0) {
-          this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true);
+          this.defaultCharacter.play(AnimationKeys.CharacterJumpingRight, true);
           this.defaultCharacter.setFlipX(true);
         } else if (!body.blocked.down && body.velocity.x > 0) {
-          this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true);
+          this.defaultCharacter.play(AnimationKeys.CharacterJumpingRight, true);
           this.defaultCharacter.setFlipX(false);
         } else if (!body.blocked.down && body.velocity.x === 0) {
-          this.defaultCharacter.play(AnimationKeys.DefaultCharacterJumpingRight, true);
+          this.defaultCharacter.play(AnimationKeys.CharacterJumpingRight, true);
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.fireKeyOne) || Phaser.Input.Keyboard.JustDown(this.firekeyTwo)) {
@@ -223,7 +223,7 @@ export default class Player extends Phaser.GameObjects.Container {
         }
 
         if (body.blocked.down && body.velocity.x === 0) {
-          this.defaultCharacter.play(AnimationKeys.DefaultCharacterIdleRight, true);
+          this.defaultCharacter.play(AnimationKeys.CharacterIdleRight, true);
         }
 
         if (
