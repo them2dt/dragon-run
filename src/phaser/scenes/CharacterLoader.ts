@@ -17,6 +17,8 @@ export default class CharacterLoader extends Phaser.Scene {
       characterLink = values.characterLink;
     }
     if (this.textures.exists(TextureKeys.Character)) {
+      this.cache.json.remove(TextureKeys.Character);
+      this.cache.bitmapFont.remove(TextureKeys.Character);
       this.textures.remove(TextureKeys.Character);
       this.load.aseprite(
         TextureKeys.Character,
