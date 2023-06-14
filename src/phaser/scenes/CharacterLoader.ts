@@ -17,6 +17,7 @@ export default class CharacterLoader extends Phaser.Scene {
       characterLink = values.characterLink;
     }
     if (this.textures.exists(TextureKeys.Character)) {
+      this.textures.remove(TextureKeys.Character);
       this.load.aseprite(
         TextureKeys.Character,
         characterLink || 'game-assets/characters/default-character.png',

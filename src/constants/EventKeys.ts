@@ -6,6 +6,7 @@ enum EventKeys {
   GoToHome = 'go-to-home',
   HomeLoaded = 'home-loaded',
   GoToStore = 'go-to-store',
+  GoToChooseCharacter = 'go-to-choose-character',
   GoToGame = 'go-to-game',
   GameLoaded = 'game-loaded',
   PauseGame = 'pause-game',

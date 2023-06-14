@@ -81,6 +81,10 @@ export default function PhaserGame() {
       setOverlay(OverlayKeys.Store);
     });
 
+    eventsCenter.on(EventKeys.GoToChooseCharacter, () => {
+      setOverlay(OverlayKeys.ChooseCharacter);
+    });
+
     eventsCenter.on(EventKeys.GoToGame, () => {
       phaserGame.scene.stop(SceneKeys.HomeScene);
       phaserGame.scene.stop(SceneKeys.GameOver);

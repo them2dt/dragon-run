@@ -25,11 +25,11 @@ export default class HomeScene extends Phaser.Scene {
     }
     keyboard.once('keydown-ENTER', () => {
       this.scene.stop(SceneKeys.HomeScene);
-      eventsCenter.emit(EventKeys.GoToGame);
+      eventsCenter.emit(EventKeys.GoToChooseCharacter);
     });
     keyboard.once('keydown-SPACE', () => {
       this.scene.stop(SceneKeys.HomeScene);
-      eventsCenter.emit(EventKeys.GoToGame);
+      eventsCenter.emit(EventKeys.GoToChooseCharacter);
     });
   }
 }

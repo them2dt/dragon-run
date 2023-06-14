@@ -109,7 +109,7 @@ export default function Home() {
                   }
                 }}
                 fullWidth
-                onClick={() => eventsCenter.emit(EventKeys.GoToGame)}
+                onClick={() => eventsCenter.emit(EventKeys.GoToChooseCharacter)}
               >
                 <Typography
                   sx={{ fontSize: '1.8rem', [muiTheme.breakpoints.up('md')]: { fontSize: '3rem' } }}
