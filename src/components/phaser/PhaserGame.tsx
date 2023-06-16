@@ -55,7 +55,6 @@ export default function PhaserGame() {
           nextEvent
         }
       };
-      console.log('Expected Data: ', data);
       phaserGame.scene.start(SceneKeys.CharacterLoader, data);
     });
 
@@ -79,10 +78,6 @@ export default function PhaserGame() {
       phaserGame.scene.stop(SceneKeys.CaveScene);
 
       setOverlay(OverlayKeys.Store);
-    });
-
-    eventsCenter.on(EventKeys.GoToChooseCharacter, () => {
-      setOverlay(OverlayKeys.ChooseCharacter);
     });
 
     eventsCenter.on(EventKeys.GoToGame, () => {

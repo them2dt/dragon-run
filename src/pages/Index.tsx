@@ -13,7 +13,6 @@ import { onSnapshot, doc } from 'firebase/firestore';
 import Enter from 'overlays/Enter';
 import { delay } from 'framer-motion';
 import Store from 'overlays/Store';
-import ChooseCharacter from 'overlays/ChooseCharacter';
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
@@ -122,7 +121,6 @@ export default function Index(): JSX.Element {
       {overlay === OverlayKeys.Enter ? <Enter userName={userName} /> : null}
       {overlay === OverlayKeys.Home ? <Home /> : null}
       {overlay === OverlayKeys.Store ? <Store /> : null}
-      {overlay === OverlayKeys.ChooseCharacter ? <ChooseCharacter /> : null}
       {overlay === OverlayKeys.Game || overlay === OverlayKeys.GameOver ? <Game /> : null}
       {overlay === OverlayKeys.GameOver ? <GameOver newHighScore={newHighScore} /> : null}
       <PhaserGame />

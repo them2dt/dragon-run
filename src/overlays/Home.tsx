@@ -10,11 +10,13 @@ import { Grid, Typography, useTheme } from '@mui/material';
 import HomeNavBar from 'components/HomeNavBar';
 import theme from 'theme/theme';
 import { SquareButton } from 'components/styled/SquareButton';
+import ChooseCharacterDialog from 'components/ChooseCharacterDialog';
 
 export default function Home() {
   const muiTheme = useTheme();
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [chooseCharacterOpen, setChooseCharacterOpen] = useState(false);
 
   const openLeaderboard = () => {
     setLeaderboardOpen(true);
@@ -32,11 +34,25 @@ export default function Home() {
     setSettingsOpen(false);
   };
 
+  const openChooseCharacter = () => {
+    setChooseCharacterOpen(true);
+    eventsCenter.emit(EventKeys.GoToChooseCharacter);
+  };
+
+  const closeChooseCharacter = () => {
+    setChooseCharacterOpen(false);
+  };
+
   return (
     <AnimatedPage>
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
+        <ChooseCharacterDialog
+          chooseCharacterOpen={chooseCharacterOpen}
+          closeChooseCharacter={closeChooseCharacter}
+          openSettings={openSettings}
+        />
         <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
           <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />
@@ -109,7 +125,7 @@ export default function Home() {
                   }
                 }}
                 fullWidth
-                onClick={() => eventsCenter.emit(EventKeys.GoToChooseCharacter)}
+                onClick={openChooseCharacter}
               >
                 <Typography
                   sx={{ fontSize: '1.8rem', [muiTheme.breakpoints.up('md')]: { fontSize: '3rem' } }}
