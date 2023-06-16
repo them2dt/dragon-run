@@ -5,6 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import { DialogTitle, IconButton, ListItem, ListItemButton, ListItemText, Paper, Stack, useTheme } from '@mui/material';
 import { discord, twitter } from '@consts/Socials';
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
+import MenuSlideTransition from './MenuSlideTransition';
 
 interface GameMenuProps {
   menuOpen: boolean;
@@ -17,7 +18,7 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
   const muiTheme = useTheme();
 
   return (
-    <Dialog open={menuOpen} onClose={closeMenu} sx={{ width: '100%' }}>
+    <Dialog open={menuOpen} onClose={closeMenu} TransitionComponent={MenuSlideTransition} sx={{ width: '100%' }}>
       <Paper
         sx={{
           minWidth: 200,

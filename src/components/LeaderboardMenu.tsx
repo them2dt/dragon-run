@@ -18,6 +18,7 @@ import { useFirestore } from '@context/useFirestore';
 import type LeaderboardItem from '@firestore/LeaderboardItem';
 import { getLeaderboardDataFromLeaderboard } from 'utils/leaderboard';
 import LeaderboardRow from './LeaderboardRow';
+import MenuSlideTransition from './MenuSlideTransition';
 
 interface LeaderboardMenuProps {
   leaderboardOpen: boolean;
@@ -50,7 +51,12 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
   }, [firestoreData?.leaderboard]);
 
   return (
-    <Dialog open={leaderboardOpen} onClose={closeLeaderboard} sx={{ width: '100%' }}>
+    <Dialog
+      open={leaderboardOpen}
+      onClose={closeLeaderboard}
+      TransitionComponent={MenuSlideTransition}
+      sx={{ width: '100%' }}
+    >
       <DialogTitle align="center" color={muiTheme.palette.text.secondary}>
         <Typography variant="h5">Leaderboard</Typography>
       </DialogTitle>

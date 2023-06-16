@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { VolumeDown, VolumeUp } from '@mui/icons-material';
 import { useSettings } from '@context/useSettings';
+import MenuSlideTransition from './MenuSlideTransition';
 
 interface SettingsMenuProps {
   settingsOpen: boolean;
@@ -38,7 +39,12 @@ export default function SettingsMenu({ settingsOpen, closeSettings }: SettingsMe
   };
 
   return (
-    <Dialog open={settingsOpen} onClose={closeSettings} sx={{ width: '100%' }}>
+    <Dialog
+      open={settingsOpen}
+      onClose={closeSettings}
+      TransitionComponent={MenuSlideTransition}
+      sx={{ width: '100%' }}
+    >
       <DialogTitle align="center" color={muiTheme.palette.text.secondary}>
         Settings
       </DialogTitle>
