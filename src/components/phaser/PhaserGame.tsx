@@ -56,6 +56,7 @@ export default function PhaserGame() {
         }
       };
       phaserGame.scene.start(SceneKeys.CharacterLoader, data);
+      phaserGame.scene.stop(SceneKeys.HomeScene);
     });
 
     eventsCenter.on(EventKeys.GoToEnter, () => {

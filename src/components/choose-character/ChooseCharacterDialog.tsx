@@ -29,9 +29,9 @@ export default function ChooseCharacterDialog({
       sx={{ margin: 10 }}
     >
       <Paper sx={{ background: muiTheme.palette.background.default }}>
-        <DialogTitle align="center" my={2}>
-          <Typography variant="h2">Choose Your Character</Typography>
-        </DialogTitle>
+        <Typography align="center" my={2} variant="h2">
+          Choose Your Character
+        </Typography>
       </Paper>
     </Dialog>
   );

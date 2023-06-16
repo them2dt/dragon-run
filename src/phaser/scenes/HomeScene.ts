@@ -23,13 +23,11 @@ export default class HomeScene extends Phaser.Scene {
     if (!keyboard) {
       return;
     }
-    keyboard.once('keydown-ENTER', () => {
-      this.scene.stop(SceneKeys.HomeScene);
-      eventsCenter.emit(EventKeys.GoToChooseCharacter);
+    keyboard.on('keydown-ENTER', () => {
+      eventsCenter.emit(EventKeys.OpenChooseCharacter);
     });
-    keyboard.once('keydown-SPACE', () => {
-      this.scene.stop(SceneKeys.HomeScene);
-      eventsCenter.emit(EventKeys.GoToChooseCharacter);
+    keyboard.on('keydown-SPACE', () => {
+      eventsCenter.emit(EventKeys.OpenChooseCharacter);
     });
   }
 }

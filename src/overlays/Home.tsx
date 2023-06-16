@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '@assets/Dragon_Run_Logo_Cropped.png';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
@@ -35,13 +35,27 @@ export default function Home() {
   };
 
   const openChooseCharacter = () => {
-    setChooseCharacterOpen(true);
-    eventsCenter.emit(EventKeys.GoToChooseCharacter);
+    if (chooseCharacterOpen) return;
+    eventsCenter.emit(EventKeys.OpenChooseCharacter);
   };
 
   const closeChooseCharacter = () => {
-    setChooseCharacterOpen(false);
+    if (!chooseCharacterOpen) return;
+    eventsCenter.emit(EventKeys.CloseChooseCharacter);
   };
+
+  useEffect(() => {
+    eventsCenter.on(EventKeys.OpenChooseCharacter, () => {
+      setChooseCharacterOpen(true);
+    });
+    eventsCenter.on(EventKeys.CloseChooseCharacter, () => {
+      setChooseCharacterOpen(false);
+    });
+    return () => {
+      eventsCenter.off(EventKeys.OpenChooseCharacter);
+      eventsCenter.off(EventKeys.CloseChooseCharacter);
+    };
+  }, []);
 
   return (
     <AnimatedPage>
