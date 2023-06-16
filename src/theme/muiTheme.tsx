@@ -9,6 +9,11 @@ declare module '@mui/material/styles' {
     fourth: {
       main: string;
     };
+    background: {
+      default: string;
+      paper: string;
+      light: string;
+    };
   }
   interface PaletteOptions {
     third?: {
@@ -18,11 +23,10 @@ declare module '@mui/material/styles' {
       main: string;
     };
   }
-  interface Background {
+  interface TypeBackground {
+    default: string;
+    paper: string;
     light: string;
-  }
-  interface BackgroundOptions {
-    light?: string;
   }
 }
 
