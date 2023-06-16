@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
-import GameNavBar from 'components/GameNavBar';
-import GameMenu from 'components/GameMenu';
+import GameNavBar from 'components/game-menu/GameNavBar';
+import GameMenu from 'components/game-menu/GameMenu';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
-import LeaderboardMenu from 'components/LeaderboardMenu';
+import LeaderboardMenu from 'components/leaderboard/LeaderboardMenu';
 import { Button, useTheme } from '@mui/material';
 import AnimatedRunText from 'components/animated/AnimatedRunText';
 import SettingsMenu from 'components/SettingsMenu';

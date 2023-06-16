@@ -4,13 +4,13 @@ import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
-import Leaderboard from 'components/LeaderboardMenu';
+import Leaderboard from 'components/leaderboard/LeaderboardMenu';
 import SettingsMenu from 'components/SettingsMenu';
 import { Grid, Typography, useTheme } from '@mui/material';
 import HomeNavBar from 'components/HomeNavBar';
 import theme from 'theme/theme';
 import { SquareButton } from 'components/styled/SquareButton';
-import ChooseCharacterDialog from 'components/ChooseCharacterDialog';
+import ChooseCharacterDialog from 'components/choose-character/ChooseCharacterDialog';
 
 export default function Home() {
   const muiTheme = useTheme();

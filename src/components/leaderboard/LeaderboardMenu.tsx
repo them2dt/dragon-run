@@ -18,7 +18,7 @@ import { useFirestore } from '@context/useFirestore';
 import type LeaderboardItem from '@firestore/LeaderboardItem';
 import { getLeaderboardDataFromLeaderboard } from 'utils/leaderboard';
 import LeaderboardRow from './LeaderboardRow';
-import MenuSlideTransition from './MenuSlideTransition';
+import MenuSlideTransition from '../MenuSlideTransition';
 
 interface LeaderboardMenuProps {
   leaderboardOpen: boolean;
