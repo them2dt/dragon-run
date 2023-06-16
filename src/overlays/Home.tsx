@@ -62,11 +62,7 @@ export default function Home() {
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
-        <ChooseCharacterDialog
-          chooseCharacterOpen={chooseCharacterOpen}
-          closeChooseCharacter={closeChooseCharacter}
-          openSettings={openSettings}
-        />
+        <ChooseCharacterDialog chooseCharacterOpen={chooseCharacterOpen} closeChooseCharacter={closeChooseCharacter} />
         <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
           <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />

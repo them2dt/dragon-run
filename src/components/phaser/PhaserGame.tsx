@@ -48,11 +48,11 @@ export default function PhaserGame() {
   useEffect(() => {
     const phaserGame = new Phaser.Game(config);
 
-    eventsCenter.on(EventKeys.LoadCharacter, ({ characterLink, nextEvent }: LoadCharacterProps) => {
+    eventsCenter.on(EventKeys.LoadCharacter, ({ characterLink, nextEventKey }: LoadCharacterProps) => {
       const data = {
         values: {
           characterLink,
-          nextEvent
+          nextEventKey
         }
       };
       phaserGame.scene.start(SceneKeys.CharacterLoader, data);

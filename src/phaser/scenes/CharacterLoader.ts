@@ -36,8 +36,8 @@ export default class CharacterLoader extends Phaser.Scene {
 
   create() {
     const values = this.sys.getData().values;
-    if (values?.nextEvent) {
-      const nextEvent = values.nextEvent;
+    if (values?.nextEventKey) {
+      const nextEvent = values.nextEventKey;
       eventsCenter.emit(EventKeys.CharacterLoaded);
       eventsCenter.emit(nextEvent);
     } else {
