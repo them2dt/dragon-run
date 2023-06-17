@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Typography, useTheme, Paper, Box } from '@mui/material';
+import { Stack, Typography, useTheme, Paper, Box, Skeleton } from '@mui/material';
 import { ChooseCharacterPaper } from 'components/styled/ChooseCharacterPaper';
 import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import { SquareButton } from 'components/styled/SquareButton';
@@ -14,6 +14,8 @@ interface ChooseCharacterCardProps {
 
 export default function ChooseCharacterCard({ name, image, next, previous }: ChooseCharacterCardProps) {
   const muiTheme = useTheme();
+
+  const [imageLoaded, setImageLoaded] = React.useState(false);
 
   return (
     <ChooseCharacterPaper elevation={12}>
@@ -49,7 +51,19 @@ export default function ChooseCharacterCard({ name, image, next, previous }: Cho
             src={image === '' ? defaultCharacter : image}
             alt={name}
             className="w-[240px] max-w-full rendering-pixelated"
+            style={{ display: imageLoaded ? 'block' : 'none' }}
+            onLoad={() => {
+              setImageLoaded(true);
+            }}
           />
+          {!imageLoaded && (
+            <Skeleton
+              variant="rectangular"
+              sx={{ backgroundColor: muiTheme.palette.background.light, borderRadius: 0 }}
+              width={240}
+              height={240}
+            />
+          )}
         </Paper>
         <Box
           sx={{
@@ -62,10 +76,24 @@ export default function ChooseCharacterCard({ name, image, next, previous }: Cho
             }
           }}
         >
-          <SquareButton onClick={previous} variant="contained" sx={{ marginY: 'auto', marginX: 'auto' }}>
+          <SquareButton
+            onClick={() => {
+              setImageLoaded(false);
+              previous();
+            }}
+            variant="contained"
+            sx={{ marginY: 'auto', marginX: 'auto' }}
+          >
             <ChevronLeft fontSize="large" />
           </SquareButton>
-          <SquareButton onClick={next} variant="contained" sx={{ marginY: 'auto', marginX: 'auto' }}>
+          <SquareButton
+            onClick={() => {
+              setImageLoaded(false);
+              next();
+            }}
+            variant="contained"
+            sx={{ marginY: 'auto', marginX: 'auto' }}
+          >
             <ChevronRight fontSize="large" />
           </SquareButton>
         </Box>
