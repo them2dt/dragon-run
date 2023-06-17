@@ -47,12 +47,10 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
 
   const initializeFirestore = async () => {
     if (firestoreData?.firestore != null) {
-      console.log('Firestore is already initialized at initializeFirestore!');
       return;
     }
     const db = getFirestore(firestore);
     if (db == null) {
-      console.log("Couldn't get Firestore instance at initializeFirestore!");
       return;
     }
     if (firestoreData != null) {
@@ -61,29 +59,24 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
         userData: firestoreData?.userData ?? null,
         leaderboard: firestoreData?.leaderboard ?? null
       });
-      console.log('Firestore initialized: ' + JSON.stringify(db));
     }
   };
 
   const getUserData = async (userName: string) => {
     if (userName === '') {
-      console.log('userName is empty!');
       return;
     }
     let db = firestoreData?.firestore;
     if (db == null) {
-      console.log('Firestore is not initialized at getUserData!');
       await initializeFirestore();
       db = firestoreData?.firestore;
     }
     if (db == null) {
-      console.log("Couldn't get Firestore instance at getUserData!");
       return;
     }
     const userDataDoc = doc(db, 'users', userName);
     const userData = await getDoc(userDataDoc);
     if (userData == null) {
-      console.log('User does not exist!');
       return;
     }
     setFirestoreData({
@@ -94,33 +87,24 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   };
 
   const getLeaderboard = async () => {
-    const previousLeaderboard = firestoreData?.leaderboard;
-    console.log('previousLeaderboard: ' + JSON.stringify(previousLeaderboard));
     const db = firestoreData?.firestore;
     if (db == null) {
-      console.log('Firestore is not initialized at getLeaderboard!');
       await initializeFirestore();
     }
     if (db == null) {
-      console.log("Couldn't get Firestore instance at getLeaderboard!");
       return;
     }
-    console.log('Getting leaderboard from Firestore...');
     const highScoresDocRef = doc(db, 'leaderboard', 'highScores');
     const highScoresDoc = await getDoc(highScoresDocRef);
     if (!isHighScoresDoc(highScoresDoc.data())) {
-      console.log('highScoresDoc is not a HighScoresDoc!');
       return;
     }
     const highScores: HighScoresDoc = highScoresDoc.data() as HighScoresDoc;
     const leaderboard: Leaderboard = highScores.highScoresArray;
-    console.log('Leaderboard fetched!' + JSON.stringify(leaderboard));
     if (leaderboard == null) {
-      console.log('highScoresArray does not exist!');
       return;
     }
     if (leaderboard.length === 0) {
-      console.log('highScoresArray is empty!');
       return;
     }
 
@@ -133,32 +117,26 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
 
   const initializeUserData = async (userName: string) => {
     if (userName === '') {
-      console.log('userName is empty!');
       return;
     }
     let db = firestoreData?.firestore;
     if (db == null) {
-      console.log('Firestore is not initialized at initializeUserData!');
       await initializeFirestore();
       db = firestoreData?.firestore;
     }
     if (db == null) {
-      console.log("Couldn't get Firestore instance at initializeUserData!");
       return;
     }
     if (firestoreData?.userData?.userName === userName) {
-      console.log('userData is already initialized!');
       return;
     }
     const usersRef = collection(db, 'users');
     const q = query(usersRef, where('userName', '==', userName));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.size === 0) {
-      console.log('User does not exist!');
       await createUser(userName);
       return;
     } else if (querySnapshot.size > 1) {
-      console.log('More than one user with the same userName!');
       return;
     }
 
@@ -167,17 +145,14 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
 
   const createUser = async (userName: string) => {
     if (userName === '') {
-      console.log('userName is empty!');
       return;
     }
     let db = firestoreData?.firestore;
     if (db == null) {
-      console.log('Firestore is not initialized at createUser!');
       await initializeFirestore();
       db = firestoreData?.firestore;
     }
     if (db == null) {
-      console.log("Couldn't get Firestore instance at createUser!");
       return;
     }
     const usersRef = collection(db, 'users');
@@ -186,7 +161,6 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     if (querySnapshot.size >= 1) {
       console.log('User already exists!');
     } else if (querySnapshot.size === 0) {
-      console.log('User does not exist!');
       const newUser: UserData = {
         userName,
         createdAt: Timestamp.now(),
@@ -203,32 +177,25 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   const newHighScore = async (highScore: number) => {
     let db = firestoreData?.firestore;
     if (db == null) {
-      console.log('Firestore is not initialized!');
       await initializeFirestore();
       db = firestoreData?.firestore;
     }
     if (db == null) {
-      console.log("Couldn't get Firestore instance at newHighscore!");
       return;
     }
     if (firestoreData?.userData == null) {
-      console.log('userData is not initialized!');
       return;
     }
     if (firestoreData?.userData?.userName == null) {
-      console.log('userName is empty!');
       return;
     }
     if (highScore === 0) {
-      console.log('highScore is 0!');
       return;
     }
     if (firestoreData?.userData?.highScore === null) {
-      console.log('highScore is not initialized!');
       return;
     }
     if (highScore <= firestoreData?.userData?.highScore) {
-      console.log('highScore is not a new high score!');
       return;
     }
     const userName = firestoreData?.userData?.userName;
