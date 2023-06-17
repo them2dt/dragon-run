@@ -11,7 +11,6 @@ import eventsCenter from 'utils/eventsCenter';
 import EventKeys from '@consts/EventKeys';
 import { onSnapshot, doc } from 'firebase/firestore';
 import Enter from 'overlays/Enter';
-import { delay } from 'framer-motion';
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
@@ -99,16 +98,6 @@ export default function Index(): JSX.Element {
       unsubscribe();
     };
   }, [firestoreData?.firestore]);
-
-  useMemo(() => {
-    const popWindow = () => {
-      if (window?.xnft && window.innerWidth < screen.width - 30) {
-        window?.xnft?.popout({ fullscreen: true });
-      }
-    };
-
-    delay(popWindow, 1000);
-  }, [screen.width, window?.xnft?.metadata]);
 
   return (
     <>
