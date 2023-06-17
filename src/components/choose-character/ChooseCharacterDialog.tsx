@@ -34,13 +34,21 @@ export default function ChooseCharacterDialog({
   };
 
   return (
-    <FullscreenDialog dialogOpen={chooseCharacterOpen} closeDialog={closeChooseCharacter} title="Choose Your Character">
+    <FullscreenDialog dialogOpen={chooseCharacterOpen} closeDialog={closeChooseCharacter}>
+      <Typography align="center" sx={{ px: 5, py: 3 }} variant="h3" color={muiTheme.palette.text.secondary}>
+        Select character
+      </Typography>
       <Paper
         component={Stack}
-        sx={{ background: muiTheme.palette.background.default, justifyContent: 'center', height: '100%' }}
+        sx={{
+          background: muiTheme.palette.background.default,
+          justifyContent: 'center',
+          height: '100%',
+          maxHeight: '100%'
+        }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'center', height: 'auto' }}>
-          <Stack direction={'column'} spacing={3} sx={{ px: 3, pb: 3, justifyContent: 'center', minHeight: '100%' }}>
+          <Stack direction={'column'} spacing={2} sx={{ px: 3, pb: 3, justifyContent: 'center', height: '100%' }}>
             <ChooseCharacterCard
               name={availableCharacters[characterIndex].name}
               image={availableCharacters[characterIndex].image}
@@ -49,9 +57,11 @@ export default function ChooseCharacterDialog({
             />
             <SquareButton
               sx={{
-                paddingY: 2,
+                paddingY: 1.4,
                 paddingX: 4,
-                marginY: 'auto',
+                [muiTheme.breakpoints.up('lg')]: {
+                  paddingY: 2
+                },
                 color: muiTheme.palette.text.secondary,
                 background: muiTheme.palette.secondary.main,
                 '&:hover': {

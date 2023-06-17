@@ -45,7 +45,11 @@ export default function ChooseCharacterCard({ name, image, next, previous }: Cho
           {name}
         </Typography>
         <Paper elevation={12} sx={{ width: '100%', height: '100%' }}>
-          <img src={image === '' ? defaultCharacter : image} alt={name} className="w-[300px] rendering-pixelated" />
+          <img
+            src={image === '' ? defaultCharacter : image}
+            alt={name}
+            className="w-[240px] max-w-full rendering-pixelated"
+          />
         </Paper>
         <Box
           sx={{
