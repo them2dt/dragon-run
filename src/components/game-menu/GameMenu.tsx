@@ -42,11 +42,6 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
           </ListItemButton>
         </ListItem>
         <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
-          <ListItemButton onClick={() => eventsCenter.emit(EventKeys.GoToStore)}>
-            <ListItemText sx={{ textAlign: 'center' }} primary="Store" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
           <ListItemButton onClick={openLeaderboard}>
             <ListItemText sx={{ textAlign: 'center' }} primary="Leaderboard" />
           </ListItemButton>

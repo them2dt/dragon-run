@@ -6,7 +6,7 @@ import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import Leaderboard from 'components/leaderboard/LeaderboardMenu';
 import SettingsMenu from 'components/SettingsMenu';
-import { Grid, Typography, useTheme } from '@mui/material';
+import { Badge, Grid, Typography, useTheme } from '@mui/material';
 import HomeNavBar from 'components/HomeNavBar';
 import theme from 'theme/theme';
 import { SquareButton } from 'components/styled/SquareButton';
@@ -76,28 +76,40 @@ export default function Home() {
             }}
           >
             <Grid item xs={6}>
-              <SquareButton
-                variant="contained"
-                size="large"
-                sx={{
-                  backgroundColor: theme.colors.cD,
-                  '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: theme.colors.cD }
+              <Badge
+                badgeContent={'Shop'}
+                color="secondary"
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left'
                 }}
-                fullWidth
-                onClick={() => eventsCenter.emit(EventKeys.GoToStore)}
+                sx={{
+                  width: '100%',
+                  height: '100%'
+                }}
               >
-                <Typography
+                <SquareButton
+                  variant="contained"
+                  size="large"
                   sx={{
-                    fontSize: '1rem',
-                    [muiTheme.breakpoints.up('sm')]: { fontSize: '1.2rem' },
-                    [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' }
+                    backgroundColor: theme.colors.cD,
+                    '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: theme.colors.cD }
                   }}
-                  fontWeight={400}
-                  component="h5"
+                  fullWidth
                 >
-                  Store
-                </Typography>
-              </SquareButton>
+                  <Typography
+                    sx={{
+                      fontSize: '1rem',
+                      [muiTheme.breakpoints.up('sm')]: { fontSize: '1.2rem' },
+                      [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' }
+                    }}
+                    fontWeight={400}
+                    component="h5"
+                  >
+                    Inventory
+                  </Typography>
+                </SquareButton>
+              </Badge>
             </Grid>
             <Grid item xs={6}>
               <SquareButton
