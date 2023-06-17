@@ -58,7 +58,7 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
       sx={{ width: '100%' }}
     >
       <DialogTitle align="center" color={muiTheme.palette.text.secondary}>
-        <Typography variant="h5">Leaderboard</Typography>
+        Leaderboard
       </DialogTitle>
       <TableContainer
         sx={{
