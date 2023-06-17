@@ -1,6 +1,7 @@
 import React from 'react';
 import { TableRow, TableCell, useTheme, Typography } from '@mui/material';
 import { useFirestore } from '@context/useFirestore';
+import { blue } from '@mui/material/colors';
 
 interface LeaderboardRowProps {
   rank: number;
@@ -9,7 +10,7 @@ interface LeaderboardRowProps {
 }
 
 export default function LeaderboardRow({ rank, name, score }: LeaderboardRowProps) {
-  const theme = useTheme();
+  const muiTheme = useTheme();
   const { firestoreData } = useFirestore();
   const currentUserName = firestoreData?.userData?.userName;
   return (
@@ -23,13 +24,13 @@ export default function LeaderboardRow({ rank, name, score }: LeaderboardRowProp
         }
       }}
     >
-      <TableCell align="center" sx={{ color: name === currentUserName ? '#a3e635' : theme.palette.text.secondary }}>
+      <TableCell align="center" sx={{ color: name === currentUserName ? blue[500] : muiTheme.palette.text.secondary }}>
         <Typography variant="body1">{rank}</Typography>
       </TableCell>
-      <TableCell align="center" sx={{ color: name === currentUserName ? '#a3e635' : theme.palette.text.primary }}>
+      <TableCell align="center" sx={{ color: name === currentUserName ? blue[500] : muiTheme.palette.text.primary }}>
         <Typography variant="body2">{name}</Typography>
       </TableCell>
-      <TableCell align="center" sx={{ color: name === currentUserName ? '#a3e635' : theme.palette.text.secondary }}>
+      <TableCell align="center" sx={{ color: name === currentUserName ? blue[500] : muiTheme.palette.text.secondary }}>
         <Typography variant="body1">{score}</Typography>
       </TableCell>
     </TableRow>
