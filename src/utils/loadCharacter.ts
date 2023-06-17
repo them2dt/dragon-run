@@ -7,7 +7,6 @@ const loadCharacter = (characterLink: string | null, nextEventKey: EventKeys | n
     characterLink,
     nextEventKey
   };
-  console.log('Clicked');
   eventsCenter.emit(EventKeys.LoadCharacter, loadCharacterProps);
 };
 

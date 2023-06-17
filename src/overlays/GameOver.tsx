@@ -15,7 +15,6 @@ interface GameOverProps {
 
 export default function GameOver({ newHighScore }: GameOverProps): JSX.Element {
   const muiTheme = useTheme();
-  console.log('GameOver: ', newHighScore);
   return (
     <AnimatedPageDelayed>
       <OverlayWrapper className=" bg-black overflow-hidden">
