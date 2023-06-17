@@ -22,8 +22,7 @@ export default function Index(): JSX.Element {
   const [newScore, setNewScore] = useState<number>(0);
   const [newHighScore, setNewHighScore] = useState<number>(0);
 
-  useMemo(() => {
-    console.log('Initializing firestore');
+  useEffect(() => {
     const initializeFirestore = () => {
       if (firestoreData?.firestore == null) {
         firestoreFunctions.initializeFirestore();
@@ -32,7 +31,7 @@ export default function Index(): JSX.Element {
     initializeFirestore();
   }, [firestoreData?.firestore]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (firestoreData?.leaderboard == null) {
       firestoreFunctions.getLeaderboard();
     }
@@ -50,12 +49,10 @@ export default function Index(): JSX.Element {
       const updatedUserName = firestoreData?.userData?.userName;
       if (updatedUserName != null) {
         setUserName(updatedUserName);
-        console.log('updatedUserName: ', updatedUserName);
       }
       const updatedHighScore = firestoreData?.userData?.highScore;
       if (updatedHighScore !== undefined) {
         setHighScore(updatedHighScore);
-        console.log('updatedHighScore: ', updatedHighScore);
       }
     };
     initializeUserData();
