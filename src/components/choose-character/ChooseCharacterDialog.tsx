@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import EventKeys from 'constants/EventKeys';
 import { Paper, Stack, Typography, useTheme, Box } from '@mui/material';
-import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import FullscreenDialog from 'components/FullscreenDialog';
 import { SquareButton } from 'components/styled/SquareButton';
 import loadCharacter from 'utils/loadCharacter';
 import ChooseCharacterCard from './ChooseCharacterCard';
+import availableCharacters from './availableCharacters';
 
 interface ChooseCharacterDialogProps {
   chooseCharacterOpen: boolean;
@@ -18,27 +18,35 @@ export default function ChooseCharacterDialog({
 }: ChooseCharacterDialogProps) {
   const muiTheme = useTheme();
 
-  const [characterLink, setCharacterLink] = useState('');
+  const [characterIndex, setCharacterIndex] = useState(0);
+
+  const handleNextCharacterClick = () => {
+    setCharacterIndex((prevIndex) => (prevIndex + 1) % availableCharacters.length);
+  };
+
+  const handlePreviousCharacterClick = () => {
+    setCharacterIndex((prevIndex) => (prevIndex - 1 + availableCharacters.length) % availableCharacters.length);
+  };
 
   const handleConfirm = () => {
-    loadCharacter(characterLink, EventKeys.GoToGame);
+    loadCharacter(availableCharacters[characterIndex].spritesheet, EventKeys.GoToGame);
     closeChooseCharacter();
   };
 
   return (
     <FullscreenDialog dialogOpen={chooseCharacterOpen} closeDialog={closeChooseCharacter} title="Choose Your Character">
-      <Paper sx={{ background: muiTheme.palette.background.default, justifyContent: 'center', minHeight: '100%' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Stack direction={'column'} spacing={3} sx={{ py: 5, px: 7, justifyContent: 'center', minHeight: '100%' }}>
-            <ChooseCharacterCard characterName="Knight #1" />
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <SquareButton variant="contained" sx={{ marginY: 'auto', marginX: 7 }}>
-                <ChevronLeft fontSize="large" />
-              </SquareButton>
-              <SquareButton variant="contained" sx={{ marginY: 'auto', marginX: 7 }}>
-                <ChevronRight fontSize="large" />
-              </SquareButton>
-            </Box>
+      <Paper
+        component={Stack}
+        sx={{ background: muiTheme.palette.background.default, justifyContent: 'center', height: '100%' }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'center', height: 'auto' }}>
+          <Stack direction={'column'} spacing={3} sx={{ px: 3, pb: 3, justifyContent: 'center', minHeight: '100%' }}>
+            <ChooseCharacterCard
+              name={availableCharacters[characterIndex].name}
+              image={availableCharacters[characterIndex].image}
+              next={handleNextCharacterClick}
+              previous={handlePreviousCharacterClick}
+            />
             <SquareButton
               sx={{
                 paddingY: 2,
@@ -53,7 +61,7 @@ export default function ChooseCharacterDialog({
               }}
               onClick={handleConfirm}
             >
-              <Typography variant="h3">Confirm</Typography>
+              <Typography variant="h4">Confirm</Typography>
             </SquareButton>
           </Stack>
         </Box>
