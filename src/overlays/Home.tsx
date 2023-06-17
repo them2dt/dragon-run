@@ -6,9 +6,8 @@ import AnimatedPage from 'components/animated/AnimatedPage';
 import OverlayWrapper from 'components/OverlayWrapper';
 import Leaderboard from 'components/leaderboard/LeaderboardMenu';
 import SettingsMenu from 'components/SettingsMenu';
-import { Badge, Grid, Typography, useTheme } from '@mui/material';
+import { Grid, Typography, useTheme } from '@mui/material';
 import HomeNavBar from 'components/HomeNavBar';
-import theme from 'theme/theme';
 import { SquareButton } from 'components/styled/SquareButton';
 import ChooseCharacterDialog from 'components/choose-character/ChooseCharacterDialog';
 
@@ -76,63 +75,30 @@ export default function Home() {
             }}
           >
             <Grid item xs={6}>
-              <Badge
-                badgeContent={'Shop'}
-                color="secondary"
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left'
-                }}
+              <SquareButton
+                variant="contained"
+                size="large"
                 sx={{
-                  width: '100%',
-                  height: '100%'
+                  backgroundColor: muiTheme.palette.fourth.main,
+                  '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: muiTheme.palette.fourth.main }
                 }}
+                fullWidth
               >
-                <SquareButton
-                  variant="contained"
-                  size="large"
-                  sx={{
-                    backgroundColor: theme.colors.cD,
-                    '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: theme.colors.cD }
-                  }}
-                  fullWidth
-                >
-                  <Typography
-                    sx={{
-                      fontSize: '1rem',
-                      [muiTheme.breakpoints.up('sm')]: { fontSize: '1.2rem' },
-                      [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' }
-                    }}
-                    fontWeight={400}
-                    component="h5"
-                  >
-                    Inventory
-                  </Typography>
-                </SquareButton>
-              </Badge>
+                <Typography variant="h6">Inventory</Typography>
+              </SquareButton>
             </Grid>
             <Grid item xs={6}>
               <SquareButton
                 variant="contained"
                 size="large"
                 sx={{
-                  backgroundColor: theme.colors.cD,
-                  '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: theme.colors.cD }
+                  backgroundColor: muiTheme.palette.fourth.main,
+                  '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: muiTheme.palette.fourth.main }
                 }}
                 fullWidth
                 onClick={openLeaderboard}
               >
-                <Typography
-                  sx={{
-                    fontSize: '1rem',
-                    [muiTheme.breakpoints.up('sm')]: { fontSize: '1.2rem' },
-                    [muiTheme.breakpoints.up('md')]: { fontSize: '2rem' }
-                  }}
-                  fontWeight={400}
-                  component="h5"
-                >
-                  Leaderboard
-                </Typography>
+                <Typography variant="h6">Leaderboard</Typography>
               </SquareButton>
             </Grid>
             <Grid item xs={12}>
@@ -149,13 +115,7 @@ export default function Home() {
                 fullWidth
                 onClick={openChooseCharacter}
               >
-                <Typography
-                  sx={{ fontSize: '1.8rem', [muiTheme.breakpoints.up('md')]: { fontSize: '3rem' } }}
-                  fontWeight={400}
-                  component="h3"
-                >
-                  Play
-                </Typography>
+                <Typography variant="h3">Play</Typography>
               </SquareButton>
             </Grid>
           </Grid>
