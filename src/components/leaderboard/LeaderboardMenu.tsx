@@ -89,7 +89,7 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody sx={{ overflow: 'scroll' }}>
             {leaderboard.map((row) => (
               <LeaderboardRow key={row.name} rank={row.rank} name={row.name} score={row.score} />
             ))}
