@@ -44,6 +44,19 @@ body {
   animation: fade-in 1.4s;
 }
 
+::-webkit-scrollbar {
+  background-color: #212121;
+  width: 0.2rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #212121;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+}
+
 :root {
   --black: rgb(10, 10, 10);
   --black-faded: rgba(0, 0, 0, 0.5);
