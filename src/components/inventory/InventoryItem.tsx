@@ -35,8 +35,7 @@ export default function InventoryItem({ name, image, children }: InventoryItemPr
       >
         <Paper
           sx={{
-            borderRadius: '0',
-            background: muiTheme.palette.background.light
+            borderRadius: '0'
           }}
           elevation={16}
         >
