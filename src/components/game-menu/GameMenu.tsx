@@ -59,10 +59,18 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
         </ListItem>
         <ListItem>
           <Stack direction="row" spacing={2} justifyContent="center" width={'100%'}>
-            <IconButton onClick={() => window.open(discord, '_blank')} size="large">
+            <IconButton
+              onClick={() => window.open(discord, '_blank')}
+              size="large"
+              sx={{ '&:hover': { backgroundColor: muiTheme.palette.background.light } }}
+            >
               <FaDiscord color="#5460E6" />
             </IconButton>
-            <IconButton onClick={() => window.open(twitter, '_blank')} size="large">
+            <IconButton
+              onClick={() => window.open(twitter, '_blank')}
+              size="large"
+              sx={{ '&:hover': { backgroundColor: muiTheme.palette.background.light } }}
+            >
               <FaTwitter color="#1C98E5" />
             </IconButton>
           </Stack>

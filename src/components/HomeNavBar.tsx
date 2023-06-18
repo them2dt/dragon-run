@@ -13,13 +13,25 @@ export default function HomeNavBar({ openSettings }: HomeNavBarProps) {
   return (
     <Box className="fixed left-[5px] top-[2px]">
       <Stack direction="row" spacing={0} justifyContent="center" width={'100%'} height={'100%'}>
-        <IconButton aria-label="settings" onClick={openSettings}>
+        <IconButton
+          aria-label="settings"
+          onClick={openSettings}
+          sx={{ '&:hover': { backgroundColor: muiTheme.palette.background.light } }}
+        >
           <Settings sx={{ fill: muiTheme.palette.text.secondary }} fontSize="large" />
         </IconButton>
-        <IconButton onClick={() => window.open(twitter, '_blank')} size="small">
+        <IconButton
+          onClick={() => window.open(twitter, '_blank')}
+          size="small"
+          sx={{ my: 'auto', '&:hover': { backgroundColor: muiTheme.palette.background.light } }}
+        >
           <FaTwitter fontSize={'1.6rem'} color="#1C98E5" />
         </IconButton>
-        <IconButton onClick={() => window.open(discord, '_blank')} size="small">
+        <IconButton
+          onClick={() => window.open(discord, '_blank')}
+          size="small"
+          sx={{ my: 'auto', '&:hover': { backgroundColor: muiTheme.palette.background.light } }}
+        >
           <FaDiscord fontSize={'1.9rem'} color="#5460E6" />
         </IconButton>
       </Stack>
