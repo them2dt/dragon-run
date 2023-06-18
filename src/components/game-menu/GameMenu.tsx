@@ -12,9 +12,10 @@ interface GameMenuProps {
   closeMenu: () => void;
   openLeaderboard: () => void;
   openSettings: () => void;
+  openInventory: () => void;
 }
 
-export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSettings }: GameMenuProps) {
+export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSettings, openInventory }: GameMenuProps) {
   const muiTheme = useTheme();
 
   return (
@@ -39,6 +40,11 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
         <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
           <ListItemButton onClick={() => eventsCenter.emit(EventKeys.GoToHome)}>
             <ListItemText sx={{ textAlign: 'center' }} primary="Home" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
+          <ListItemButton onClick={openInventory}>
+            <ListItemText sx={{ textAlign: 'center' }} primary="Inventory" />
           </ListItemButton>
         </ListItem>
         <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>

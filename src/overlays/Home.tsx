@@ -10,17 +10,18 @@ import { Grid, Typography, useTheme } from '@mui/material';
 import HomeNavBar from 'components/HomeNavBar';
 import { SquareButton } from 'components/styled/SquareButton';
 import ChooseCharacterDialog from 'components/choose-character/ChooseCharacterDialog';
+import InventoryDialog from 'components/inventory/InventoryDialog';
 
 export default function Home() {
   const muiTheme = useTheme();
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [chooseCharacterOpen, setChooseCharacterOpen] = useState(false);
+  const [inventoryOpen, setInventoryOpen] = useState(false);
 
   const openLeaderboard = () => {
     setLeaderboardOpen(true);
   };
-
   const closeLeaderboard = () => {
     setLeaderboardOpen(false);
   };
@@ -28,7 +29,6 @@ export default function Home() {
   const openSettings = () => {
     setSettingsOpen(true);
   };
-
   const closeSettings = () => {
     setSettingsOpen(false);
   };
@@ -37,10 +37,16 @@ export default function Home() {
     if (chooseCharacterOpen) return;
     eventsCenter.emit(EventKeys.OpenChooseCharacter);
   };
-
   const closeChooseCharacter = () => {
     if (!chooseCharacterOpen) return;
     eventsCenter.emit(EventKeys.CloseChooseCharacter);
+  };
+
+  const openInventory = () => {
+    setInventoryOpen(true);
+  };
+  const closeInventory = () => {
+    setInventoryOpen(false);
   };
 
   useEffect(() => {
@@ -62,6 +68,7 @@ export default function Home() {
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
         <ChooseCharacterDialog chooseCharacterOpen={chooseCharacterOpen} closeChooseCharacter={closeChooseCharacter} />
+        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} />
         <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
           <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />
@@ -83,6 +90,7 @@ export default function Home() {
                   '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: muiTheme.palette.fourth.main }
                 }}
                 fullWidth
+                onClick={openInventory}
               >
                 <Typography variant="h6">Inventory</Typography>
               </SquareButton>

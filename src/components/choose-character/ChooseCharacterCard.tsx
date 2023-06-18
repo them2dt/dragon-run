@@ -1,6 +1,5 @@
 import React from 'react';
 import { Stack, Typography, useTheme, Paper, Box, Skeleton } from '@mui/material';
-import { ChooseCharacterPaper } from 'components/styled/ChooseCharacterPaper';
 import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import { SquareButton } from 'components/styled/SquareButton';
 import defaultCharacter from '@assets/default-character-still.png';
@@ -18,7 +17,7 @@ export default function ChooseCharacterCard({ name, image, next, previous }: Cho
   const [imageLoaded, setImageLoaded] = React.useState(false);
 
   return (
-    <ChooseCharacterPaper elevation={12}>
+    <Paper sx={{ borderRadius: '0', background: muiTheme.palette.background.light }} elevation={12}>
       <Stack
         direction={'column'}
         spacing={0}
@@ -98,6 +97,6 @@ export default function ChooseCharacterCard({ name, image, next, previous }: Cho
           </SquareButton>
         </Box>
       </Stack>
-    </ChooseCharacterPaper>
+    </Paper>
   );
 }

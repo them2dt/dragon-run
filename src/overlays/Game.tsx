@@ -9,12 +9,14 @@ import LeaderboardMenu from 'components/leaderboard/LeaderboardMenu';
 import { Button, useTheme } from '@mui/material';
 import AnimatedRunText from 'components/animated/AnimatedRunText';
 import SettingsMenu from 'components/SettingsMenu';
+import InventoryDialog from 'components/inventory/InventoryDialog';
 
 export default function Game() {
   const theme = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [inventoryOpen, setInventoryOpen] = useState(false);
   const [score, setScore] = useState(0);
   const [showRun, setShowRun] = useState(false);
 
@@ -37,7 +39,6 @@ export default function Game() {
     setMenuOpen(true);
     eventsCenter.emit(EventKeys.PauseGame);
   };
-
   const closeMenu = () => {
     setMenuOpen(false);
     eventsCenter.emit(EventKeys.ResumeGame);
@@ -46,7 +47,6 @@ export default function Game() {
   const openLeaderboard = () => {
     setLeaderboardOpen(true);
   };
-
   const closeLeaderboard = () => {
     setLeaderboardOpen(false);
   };
@@ -54,9 +54,15 @@ export default function Game() {
   const openSettings = () => {
     setSettingsOpen(true);
   };
-
   const closeSettings = () => {
     setSettingsOpen(false);
+  };
+
+  const openInventory = () => {
+    setInventoryOpen(true);
+  };
+  const closeInventory = () => {
+    setInventoryOpen(false);
   };
 
   return (
@@ -67,9 +73,11 @@ export default function Game() {
           closeMenu={closeMenu}
           openLeaderboard={openLeaderboard}
           openSettings={openSettings}
+          openInventory={openInventory}
         />
         <LeaderboardMenu leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
+        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} />
         <GameNavBar>
           <div className="fixed z-40 left-[16px] top-[12px] h-[32px] w-[60px]">
             <Button
