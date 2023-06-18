@@ -57,6 +57,24 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
             >
               <InventoryItem name={character.name} image={character.image}>
                 <Typography variant="h5">{character.name}</Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    pb: 0.5,
+                    pt: 1,
+                    [muiTheme.breakpoints.up('md')]: {
+                      pb: 1,
+                      pt: 2
+                    }
+                  }}
+                  color={muiTheme.palette.text.secondary}
+                >
+                  Traits:
+                </Typography>
+                <Typography color={muiTheme.palette.text.secondary}>Head: Default</Typography>
+                <Typography color={muiTheme.palette.text.secondary}>Arms: Default</Typography>
+                <Typography color={muiTheme.palette.text.secondary}>Torso: Default</Typography>
+                <Typography color={muiTheme.palette.text.secondary}>Legs: Default</Typography>
               </InventoryItem>
             </Grid>
           ))}
