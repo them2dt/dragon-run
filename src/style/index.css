@@ -44,23 +44,6 @@ body {
   animation: fade-in 1.4s;
 }
 
-::-webkit-scrollbar {
-  width: 0px;
-  display: none;
-}
-
-::-webkit-scrollbar-track {
-  display: none;
-}
-
-::-webkit-scrollbar-thumb {
-  display: none;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  display: none;
-}
-
 :root {
   --black: rgb(10, 10, 10);
   --black-faded: rgba(0, 0, 0, 0.5);
