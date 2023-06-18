@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Stack, Typography, useTheme, Box } from '@mui/material';
+import { Typography, useTheme, Grid, Box, Card } from '@mui/material';
 import FullscreenDialog from 'components/FullscreenDialog';
 import availableCharacters from '../choose-character/availableCharacters';
 import InventoryItem from './InventoryItem';
@@ -14,30 +14,54 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
 
   return (
     <FullscreenDialog dialogOpen={inventoryOpen} closeDialog={closeInventory}>
-      <Typography align="center" sx={{ px: 5, py: 3 }} variant="h3" color={muiTheme.palette.text.secondary}>
+      <Typography align="center" sx={{ px: 5, my: 3 }} variant="h3" color={muiTheme.palette.text.secondary}>
         Inventory
       </Typography>
-      <Paper
-        component={Stack}
+      <Box
         sx={{
-          background: muiTheme.palette.background.default,
-          justifyContent: 'center',
-          height: '100%',
-          maxHeight: '100%'
+          overflowY: 'scroll',
+          my: 'auto',
+          [muiTheme.breakpoints.up('xl')]: {
+            maxWidth: 1300,
+            mx: 'auto'
+          }
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'center', height: 'auto' }}>
-          <Stack direction={'column'} spacing={2} sx={{ px: 3, pb: 3, justifyContent: 'center', height: '100%' }}>
-            {availableCharacters.map((character) => (
-              <InventoryItem name={character.name} image={character.image} key={character.name}>
-                <Typography variant="h4" sx={{ pb: 2 }}>
-                  This is a character
-                </Typography>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          component={Card}
+          elevation={0}
+          sx={{
+            mx: 'auto',
+            mt: 3,
+            mb: 10,
+            [muiTheme.breakpoints.up('lg')]: {
+              mb: 16
+            }
+          }}
+        >
+          {availableCharacters.map((character) => (
+            <Grid
+              item
+              xs={10}
+              sm={5}
+              md={5}
+              key={character.name}
+              sx={{
+                m: 2,
+                width: 'fit-content'
+              }}
+            >
+              <InventoryItem name={character.name} image={character.image}>
+                <Typography variant="h5">{character.name}</Typography>
               </InventoryItem>
-            ))}
-          </Stack>
-        </Box>
-      </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </FullscreenDialog>
   );
 }
