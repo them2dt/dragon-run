@@ -52,7 +52,12 @@ export default function InventoryItem({ name, image, children }: InventoryItemPr
           {!imageLoaded && (
             <Skeleton
               variant="rectangular"
-              sx={{ backgroundColor: muiTheme.palette.background.light, borderRadius: 0 }}
+              sx={{
+                backgroundColor: muiTheme.palette.background.light,
+                width: 1,
+                pt: '100%',
+                borderRadius: 0
+              }}
             />
           )}
         </Paper>
