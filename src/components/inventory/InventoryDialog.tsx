@@ -20,11 +20,7 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
       <Box
         sx={{
           overflowY: 'scroll',
-          my: 'auto',
-          [muiTheme.breakpoints.up('xl')]: {
-            maxWidth: 1300,
-            mx: 'auto'
-          }
+          my: 'auto'
         }}
       >
         <Grid
@@ -38,8 +34,10 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
             mx: 'auto',
             mt: 3,
             mb: 10,
-            [muiTheme.breakpoints.up('lg')]: {
-              mb: 16
+            [muiTheme.breakpoints.up('xl')]: {
+              mb: 16,
+              maxWidth: 1300,
+              mx: 'auto'
             }
           }}
         >
@@ -60,9 +58,9 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
                 <Typography
                   variant="h6"
                   sx={{
-                    pb: 0.5,
-                    pt: 1,
-                    [muiTheme.breakpoints.up('md')]: {
+                    pb: 0.2,
+                    pt: 0.3,
+                    [muiTheme.breakpoints.up('lg')]: {
                       pb: 1,
                       pt: 2
                     }
