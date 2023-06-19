@@ -32,9 +32,9 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
           elevation={0}
           sx={{
             mx: 'auto',
-            mt: 3,
             mb: 10,
             [muiTheme.breakpoints.up('xl')]: {
+              mt: 6,
               mb: 16,
               maxWidth: 1300,
               mx: 'auto'
