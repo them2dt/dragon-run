@@ -1,7 +1,8 @@
 import React from 'react';
-import { useTheme, Grid, Card, Typography, Zoom } from '@mui/material';
-import KnightItem from './KnightItem';
-import availableCharacters from '../fake-data/availableCharacters';
+import { useTheme, Grid, Card, Typography, Zoom, Box } from '@mui/material';
+import CrateItem from './CrateItem';
+import { SquareButton } from 'components/styled/SquareButton';
+import shopItems from 'components/fake-data/shopItems';
 
 interface ShopSectionProps {
   active: boolean;
@@ -24,33 +25,129 @@ export default function ShopSection({ active }: ShopSectionProps) {
           [muiTheme.breakpoints.up('xl')]: {
             mt: 6,
             mb: 16,
-            maxWidth: 1300,
-            mx: 'auto'
+            maxWidth: 1300
           }
         }}
       >
-        {availableCharacters.map((character) => (
-          <KnightItem name={character.name} image={character.image} key={'shop' + character.name}>
-            <Typography variant="h5">{character.name}</Typography>
-            <Typography
-              variant="h6"
+        <Grid item xs={12}>
+          <Typography align="center" sx={{ px: 5, my: 3 }} variant="h3">
+            Knights
+          </Typography>
+        </Grid>
+        {shopItems.knights.map((knight) => (
+          <CrateItem name={knight.name} image={knight.image} key={knight.name}>
+            <Box
               sx={{
-                pb: 0.2,
-                pt: 0.3,
-                [muiTheme.breakpoints.up('lg')]: {
-                  pb: 1,
-                  pt: 2
+                width: '100%',
+                pt: '90%',
+                position: 'relative',
+                [muiTheme.breakpoints.up('md')]: {
+                  pt: '100%'
                 }
               }}
-              color={muiTheme.palette.text.secondary}
             >
-              Traits:
-            </Typography>
-            <Typography color={muiTheme.palette.text.secondary}>Head: Default</Typography>
-            <Typography color={muiTheme.palette.text.secondary}>Arms: Default</Typography>
-            <Typography color={muiTheme.palette.text.secondary}>Torso: Default</Typography>
-            <Typography color={muiTheme.palette.text.secondary}>Legs: Default</Typography>
-          </KnightItem>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  maxHeight: '100%',
+                  margin: 2.5,
+                  mt: 0,
+                  [muiTheme.breakpoints.up('md')]: {
+                    mt: 0.5,
+                    mr: 2,
+                    mb: 3,
+                    ml: 0
+                  }
+                }}
+              >
+                <Typography variant="body1" color={muiTheme.palette.text.secondary}>
+                  Description:
+                </Typography>
+                <Typography variant="body2" pb={0.4} color={muiTheme.palette.text.secondary}>
+                  {knight.description}
+                </Typography>
+                <Typography variant="body2" color={muiTheme.palette.text.secondary}>
+                  Expires: {knight.expiry}
+                </Typography>
+                <Typography variant="body2" color={muiTheme.palette.text.secondary}>
+                  Price: {knight.price}
+                </Typography>
+                <SquareButton
+                  sx={{ position: 'absolute', bottom: 0 }}
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                >
+                  <Typography variant="h6">Buy</Typography>
+                </SquareButton>
+              </Box>
+            </Box>
+          </CrateItem>
+        ))}
+        <Grid item xs={12}>
+          <Typography align="center" sx={{ px: 5, my: 3 }} variant="h3">
+            Crates
+          </Typography>
+        </Grid>
+        {shopItems.crates.map((crate) => (
+          <CrateItem name={crate.name} image={crate.image} key={crate.name}>
+            <Box
+              sx={{
+                width: '100%',
+                pt: '90%',
+                position: 'relative',
+                [muiTheme.breakpoints.up('md')]: {
+                  pt: '100%'
+                }
+              }}
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  maxHeight: '100%',
+                  margin: 2.5,
+                  mt: 0,
+                  [muiTheme.breakpoints.up('md')]: {
+                    mt: 0.5,
+                    mr: 2,
+                    mb: 3,
+                    ml: 0
+                  }
+                }}
+              >
+                <Typography variant="body1" color={muiTheme.palette.text.secondary}>
+                  Description:
+                </Typography>
+                <Typography variant="body2" pb={0.4} color={muiTheme.palette.text.secondary}>
+                  {crate.description}
+                </Typography>
+                <Typography variant="body2" color={muiTheme.palette.text.secondary}>
+                  Expires: {crate.expiry}
+                </Typography>
+                <Typography variant="body2" color={muiTheme.palette.text.secondary}>
+                  Price: {crate.price}
+                </Typography>
+                <SquareButton
+                  sx={{ position: 'absolute', bottom: 0 }}
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                >
+                  <Typography variant="h6">Buy</Typography>
+                </SquareButton>
+              </Box>
+            </Box>
+          </CrateItem>
         ))}
       </Grid>
     </Zoom>

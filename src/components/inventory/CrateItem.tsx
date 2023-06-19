@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme, Paper, Skeleton, Grid, Typography, Box, Card } from '@mui/material';
 import defaultCharacter from '@assets/default-character-still.png';
 
@@ -11,19 +11,10 @@ interface CrateItemProps {
 export default function CrateItem({ name, image, children }: CrateItemProps) {
   const muiTheme = useTheme();
 
-  const [imageLoaded, setImageLoaded] = React.useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <Grid
-      item
-      xs={10}
-      sm={5}
-      md={10}
-      lg={5}
-      sx={{
-        m: 2
-      }}
-    >
+    <Grid item xs={10} sm={5} md={10} lg={5} m={2}>
       <Grid
         spacing={0}
         component={Card}

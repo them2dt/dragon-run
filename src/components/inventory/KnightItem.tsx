@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme, Paper, Skeleton, Grid } from '@mui/material';
 import defaultCharacter from '@assets/default-character-still.png';
 
@@ -11,7 +11,7 @@ interface KnightItemProps {
 export default function KnightItem({ name, image, children }: KnightItemProps) {
   const muiTheme = useTheme();
 
-  const [imageLoaded, setImageLoaded] = React.useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <Grid
