@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Typography, useTheme, Box, Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -11,11 +11,12 @@ import CratesSection from './CreatesSection';
 interface InventoryDialogProps {
   inventoryOpen: boolean;
   closeInventory: () => void;
+  defaultTab?: number;
 }
 
-export default function InventoryDialog({ inventoryOpen, closeInventory }: InventoryDialogProps) {
+export default function InventoryDialog({ inventoryOpen, closeInventory, defaultTab }: InventoryDialogProps) {
   const muiTheme = useTheme();
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(defaultTab ?? 0);
   const [cratesActive, setCratesActive] = useState(false);
   const [knightsActive, setKnightsActive] = useState(false);
   const [shopActive, setShopActive] = useState(false);
@@ -54,6 +55,10 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
   useEffect(() => {
     handleValueChange(value);
   }, []);
+
+  useMemo(() => {
+    handleValueChange(defaultTab ?? 0);
+  }, [defaultTab, inventoryOpen]);
 
   return (
     <FullscreenDialog dialogOpen={inventoryOpen} closeDialog={closeInventory}>

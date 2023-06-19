@@ -18,6 +18,7 @@ export default function Home() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [chooseCharacterOpen, setChooseCharacterOpen] = useState(false);
   const [inventoryOpen, setInventoryOpen] = useState(false);
+  const [defaultTab, setDefaultTab] = useState<number | undefined>(undefined); // 0 = Knights, 1 = Crates, 2 = Shop
 
   const openLeaderboard = () => {
     setLeaderboardOpen(true);
@@ -43,10 +44,16 @@ export default function Home() {
   };
 
   const openInventory = () => {
+    setDefaultTab(undefined);
     setInventoryOpen(true);
   };
   const closeInventory = () => {
     setInventoryOpen(false);
+  };
+
+  const openShop = () => {
+    setDefaultTab(2);
+    setInventoryOpen(true);
   };
 
   useEffect(() => {
@@ -67,8 +74,12 @@ export default function Home() {
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
-        <ChooseCharacterDialog chooseCharacterOpen={chooseCharacterOpen} closeChooseCharacter={closeChooseCharacter} />
-        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} />
+        <ChooseCharacterDialog
+          chooseCharacterOpen={chooseCharacterOpen}
+          closeChooseCharacter={closeChooseCharacter}
+          openShop={openShop}
+        />
+        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} defaultTab={defaultTab} />
         <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
           <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />

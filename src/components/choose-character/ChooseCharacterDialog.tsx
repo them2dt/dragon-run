@@ -10,11 +10,13 @@ import availableCharacters from '../fake-data/availableCharacters';
 interface ChooseCharacterDialogProps {
   chooseCharacterOpen: boolean;
   closeChooseCharacter: () => void;
+  openShop: () => void;
 }
 
 export default function ChooseCharacterDialog({
   chooseCharacterOpen,
-  closeChooseCharacter
+  closeChooseCharacter,
+  openShop
 }: ChooseCharacterDialogProps) {
   const muiTheme = useTheme();
 
@@ -61,12 +63,12 @@ export default function ChooseCharacterDialog({
         <Box
           sx={{
             display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%'
+            alignItems: 'center'
           }}
         >
-          <Stack direction={'column'} spacing={2} sx={{ px: 3, pb: 3, pt: 1, justifyContent: 'center', my: 'auto' }}>
+          <Stack direction={'column'} spacing={2} sx={{ px: 3, pb: 3, pt: 1, mt: 5 }}>
             <ChooseCharacterCard
               name={availableCharacters[characterIndex].name}
               image={availableCharacters[characterIndex].image}
@@ -90,6 +92,14 @@ export default function ChooseCharacterDialog({
               onClick={handleConfirm}
             >
               <Typography variant="h4">Confirm</Typography>
+            </SquareButton>
+          </Stack>
+          <Typography align="center" sx={{ px: 5, my: 3 }} variant="h2" color={muiTheme.palette.text.secondary}>
+            Get More
+          </Typography>
+          <Stack direction="row" spacing={2} sx={{ justifyContent: 'center', mb: 8 }}>
+            <SquareButton sx={{ my: 3, px: 4, py: 2 }} onClick={openShop}>
+              <Typography variant="h3">Shop</Typography>
             </SquareButton>
           </Stack>
         </Box>
