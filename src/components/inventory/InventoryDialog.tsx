@@ -1,5 +1,8 @@
-import React from 'react';
-import { Typography, useTheme, Grid, Box, Card } from '@mui/material';
+import React, { useState } from 'react';
+import { Typography, useTheme, Grid, Box, Card, Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import StoreIcon from '@mui/icons-material/Store';
 import FullscreenDialog from 'components/FullscreenDialog';
 import availableCharacters from '../choose-character/availableCharacters';
 import InventoryItem from './InventoryItem';
@@ -11,6 +14,7 @@ interface InventoryDialogProps {
 
 export default function InventoryDialog({ inventoryOpen, closeInventory }: InventoryDialogProps) {
   const muiTheme = useTheme();
+  const [value, setValue] = useState(1);
 
   return (
     <FullscreenDialog dialogOpen={inventoryOpen} closeDialog={closeInventory}>
@@ -78,6 +82,22 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
           ))}
         </Grid>
       </Box>
+      <Paper sx={{}} elevation={3}>
+        <BottomNavigation
+          showLabels
+          value={value}
+          sx={{
+            height: 70
+          }}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+        >
+          <BottomNavigationAction label="Crates" icon={<InventoryIcon />} />
+          <BottomNavigationAction label="Knights" icon={<DirectionsRunIcon />} />
+          <BottomNavigationAction label="Store" icon={<StoreIcon />} />
+        </BottomNavigation>
+      </Paper>
     </FullscreenDialog>
   );
 }
