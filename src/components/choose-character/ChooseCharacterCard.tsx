@@ -54,7 +54,13 @@ export default function ChooseCharacterCard({ name, image, next, previous }: Cho
           xs={12}
           elevation={12}
           sx={{
-            width: 220,
+            width: 150,
+            [muiTheme.breakpoints.up('xs')]: {
+              width: 220
+            },
+            [muiTheme.breakpoints.up('sm')]: {
+              width: 230
+            },
             [muiTheme.breakpoints.up('xl')]: {
               width: 340
             }
@@ -75,10 +81,15 @@ export default function ChooseCharacterCard({ name, image, next, previous }: Cho
               sx={{
                 backgroundColor: muiTheme.palette.background.light,
                 borderRadius: 0,
-                height: 220,
-                width: 220,
+                pt: '100%',
+                width: 150,
+                [muiTheme.breakpoints.up('xs')]: {
+                  width: 220
+                },
+                [muiTheme.breakpoints.up('sm')]: {
+                  width: 230
+                },
                 [muiTheme.breakpoints.up('xl')]: {
-                  height: 340,
                   width: 340
                 }
               }}

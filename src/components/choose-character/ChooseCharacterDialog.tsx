@@ -35,21 +35,38 @@ export default function ChooseCharacterDialog({
 
   return (
     <FullscreenDialog dialogOpen={chooseCharacterOpen} closeDialog={closeChooseCharacter}>
-      <Typography align="center" sx={{ px: 5, py: 3 }} variant="h3" color={muiTheme.palette.text.secondary}>
+      <Typography
+        align="center"
+        sx={{
+          px: 5,
+          py: 1.5,
+          [muiTheme.breakpoints.up('md')]: {
+            py: 3
+          }
+        }}
+        variant="h4"
+        color={muiTheme.palette.text.secondary}
+      >
         Select character
       </Typography>
       <Paper
         component={Stack}
         sx={{
           background: muiTheme.palette.background.default,
-          justifyContent: 'center',
-          height: '100%',
           overflowY: 'scroll',
+          height: '100%',
           overflowX: 'hidden'
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginY: 7, pt: 7 }}>
-          <Stack direction={'column'} spacing={2} sx={{ px: 3, pb: 3, justifyContent: 'center', height: '100%' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%'
+          }}
+        >
+          <Stack direction={'column'} spacing={2} sx={{ px: 3, pb: 3, pt: 1, justifyContent: 'center', my: 'auto' }}>
             <ChooseCharacterCard
               name={availableCharacters[characterIndex].name}
               image={availableCharacters[characterIndex].image}
