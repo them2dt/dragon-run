@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme, Grid, Card, Typography, Zoom } from '@mui/material';
 import KnightItem from './KnightItem';
-import availableCharacters from '../choose-character/availableCharacters';
+import availableCharacters from '../fake-data/availableCharacters';
 
 interface KnightsSectionProps {
   active: boolean;

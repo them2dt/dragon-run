@@ -59,12 +59,13 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
           <ShopSection active={shopActive} />
         </Box>
       </Box>
-      <Paper sx={{}} elevation={3}>
+      <Paper sx={{}} elevation={20}>
         <BottomNavigation
           showLabels
           value={value}
           sx={{
-            height: 70
+            height: 70,
+            background: muiTheme.palette.background.light
           }}
           onChange={(event, newValue) => {
             handleValueChange(newValue);

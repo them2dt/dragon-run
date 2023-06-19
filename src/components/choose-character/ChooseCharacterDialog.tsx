@@ -5,7 +5,7 @@ import FullscreenDialog from 'components/FullscreenDialog';
 import { SquareButton } from 'components/styled/SquareButton';
 import loadCharacter from 'utils/loadCharacter';
 import ChooseCharacterCard from './ChooseCharacterCard';
-import availableCharacters from './availableCharacters';
+import availableCharacters from '../fake-data/availableCharacters';
 
 interface ChooseCharacterDialogProps {
   chooseCharacterOpen: boolean;
