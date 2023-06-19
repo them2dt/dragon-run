@@ -43,7 +43,7 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
       setTitle('Crates');
       setCratesActive(true);
     } else if (newValue === 2) {
-      setTitle('Store');
+      setTitle('Shop');
       setShopActive(true);
     }
   };
@@ -93,7 +93,7 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
         >
           <BottomNavigationAction label="Knights" icon={<DirectionsRunIcon />} />
           <BottomNavigationAction label="Crates" icon={<InventoryIcon />} />
-          <BottomNavigationAction label="Store" icon={<StoreIcon />} />
+          <BottomNavigationAction label="Shop" icon={<StoreIcon />} />
         </BottomNavigation>
       </Paper>
     </FullscreenDialog>
