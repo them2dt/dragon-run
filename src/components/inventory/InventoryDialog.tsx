@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Typography, useTheme, Grid, Box, Card, Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import React, { useEffect, useState, useRef } from 'react';
+import { Typography, useTheme, Box, Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import StoreIcon from '@mui/icons-material/Store';
 import FullscreenDialog from 'components/FullscreenDialog';
-import availableCharacters from '../choose-character/availableCharacters';
-import InventoryItem from './InventoryItem';
+import KnightsSection from './KnightsSection';
+import ShopSection from './ShopSection';
+import CratesSection from './CreatesSection';
 
 interface InventoryDialogProps {
   inventoryOpen: boolean;
@@ -14,7 +15,30 @@ interface InventoryDialogProps {
 
 export default function InventoryDialog({ inventoryOpen, closeInventory }: InventoryDialogProps) {
   const muiTheme = useTheme();
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
+  const [cratesActive, setCratesActive] = useState(false);
+  const [knightsActive, setKnightsActive] = useState(false);
+  const [shopActive, setShopActive] = useState(false);
+
+  const scrollBoxRef = useRef<HTMLDivElement>(null);
+
+  const scrollToTop = () => {
+    scrollBoxRef.current?.scrollTo({
+      top: 0
+    });
+  };
+
+  const handleValueChange = (newValue: number) => {
+    setValue(newValue);
+    newValue === 0 ? setKnightsActive(true) : setKnightsActive(false);
+    newValue === 1 ? setCratesActive(true) : setCratesActive(false);
+    newValue === 2 ? setShopActive(true) : setShopActive(false);
+    scrollToTop();
+  };
+
+  useEffect(() => {
+    handleValueChange(value);
+  }, []);
 
   return (
     <FullscreenDialog dialogOpen={inventoryOpen} closeDialog={closeInventory}>
@@ -22,65 +46,18 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
         Inventory
       </Typography>
       <Box
+        ref={scrollBoxRef}
         sx={{
           overflowY: 'scroll',
+          overflowX: 'hidden',
           my: 'auto'
         }}
       >
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          component={Card}
-          elevation={0}
-          sx={{
-            mx: 'auto',
-            mb: 10,
-            [muiTheme.breakpoints.up('xl')]: {
-              mt: 6,
-              mb: 16,
-              maxWidth: 1300,
-              mx: 'auto'
-            }
-          }}
-        >
-          {availableCharacters.map((character) => (
-            <Grid
-              item
-              xs={10}
-              sm={5}
-              md={5}
-              key={character.name}
-              sx={{
-                m: 2,
-                width: 'fit-content'
-              }}
-            >
-              <InventoryItem name={character.name} image={character.image}>
-                <Typography variant="h5">{character.name}</Typography>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    pb: 0.2,
-                    pt: 0.3,
-                    [muiTheme.breakpoints.up('lg')]: {
-                      pb: 1,
-                      pt: 2
-                    }
-                  }}
-                  color={muiTheme.palette.text.secondary}
-                >
-                  Traits:
-                </Typography>
-                <Typography color={muiTheme.palette.text.secondary}>Head: Default</Typography>
-                <Typography color={muiTheme.palette.text.secondary}>Arms: Default</Typography>
-                <Typography color={muiTheme.palette.text.secondary}>Torso: Default</Typography>
-                <Typography color={muiTheme.palette.text.secondary}>Legs: Default</Typography>
-              </InventoryItem>
-            </Grid>
-          ))}
-        </Grid>
+        <Box sx={{ minHeight: '100vh' }}>
+          <KnightsSection active={knightsActive} />
+          <CratesSection active={cratesActive} />
+          <ShopSection active={shopActive} />
+        </Box>
       </Box>
       <Paper sx={{}} elevation={3}>
         <BottomNavigation
@@ -90,11 +67,11 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
             height: 70
           }}
           onChange={(event, newValue) => {
-            setValue(newValue);
+            handleValueChange(newValue);
           }}
         >
-          <BottomNavigationAction label="Crates" icon={<InventoryIcon />} />
           <BottomNavigationAction label="Knights" icon={<DirectionsRunIcon />} />
+          <BottomNavigationAction label="Crates" icon={<InventoryIcon />} />
           <BottomNavigationAction label="Store" icon={<StoreIcon />} />
         </BottomNavigation>
       </Paper>
