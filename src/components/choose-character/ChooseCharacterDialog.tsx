@@ -44,10 +44,11 @@ export default function ChooseCharacterDialog({
           background: muiTheme.palette.background.default,
           justifyContent: 'center',
           height: '100%',
-          overflowY: 'scroll'
+          overflowY: 'scroll',
+          overflowX: 'hidden'
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginY: 7, pt: 7 }}>
           <Stack direction={'column'} spacing={2} sx={{ px: 3, pb: 3, justifyContent: 'center', height: '100%' }}>
             <ChooseCharacterCard
               name={availableCharacters[characterIndex].name}

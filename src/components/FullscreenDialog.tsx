@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { IconButton, Paper, useTheme } from '@mui/material';
 import MenuSlideTransition from './MenuSlideTransition';
@@ -13,6 +13,14 @@ interface FullscreenDialogProps {
 export default function FullscreenDialog({ dialogOpen, closeDialog, children }: FullscreenDialogProps) {
   const muiTheme = useTheme();
 
+  const [mobileMT, setMobileMT] = React.useState(2);
+
+  useEffect(() => {
+    if (window?.xnft?.metadata) {
+      setMobileMT(7);
+    }
+  }, []);
+
   return (
     <Dialog
       open={dialogOpen}
@@ -21,6 +29,7 @@ export default function FullscreenDialog({ dialogOpen, closeDialog, children }: 
       fullScreen
       sx={{
         margin: 2,
+        marginTop: mobileMT,
         [muiTheme.breakpoints.up('sm')]: {
           margin: 3
         },
