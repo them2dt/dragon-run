@@ -19,6 +19,7 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
   const [cratesActive, setCratesActive] = useState(false);
   const [knightsActive, setKnightsActive] = useState(false);
   const [shopActive, setShopActive] = useState(false);
+  const [title, setTitle] = useState('Inventory');
 
   const scrollBoxRef = useRef<HTMLDivElement>(null);
 
@@ -29,11 +30,21 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
   };
 
   const handleValueChange = (newValue: number) => {
-    setValue(newValue);
-    newValue === 0 ? setKnightsActive(true) : setKnightsActive(false);
-    newValue === 1 ? setCratesActive(true) : setCratesActive(false);
-    newValue === 2 ? setShopActive(true) : setShopActive(false);
     scrollToTop();
+    setValue(newValue);
+    setCratesActive(false);
+    setKnightsActive(false);
+    setShopActive(false);
+    if (newValue === 0) {
+      setTitle('Knights');
+      setKnightsActive(true);
+    } else if (newValue === 1) {
+      setTitle('Crates');
+      setCratesActive(true);
+    } else if (newValue === 2) {
+      setTitle('Store');
+      setShopActive(true);
+    }
   };
 
   useEffect(() => {
@@ -43,7 +54,7 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
   return (
     <FullscreenDialog dialogOpen={inventoryOpen} closeDialog={closeInventory}>
       <Typography align="center" sx={{ px: 5, my: 3 }} variant="h3" color={muiTheme.palette.text.secondary}>
-        Inventory
+        {title}
       </Typography>
       <Box
         ref={scrollBoxRef}
