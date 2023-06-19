@@ -47,6 +47,10 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
     }
   };
 
+  const goToShop = () => {
+    handleValueChange(2);
+  };
+
   useEffect(() => {
     handleValueChange(value);
   }, []);
@@ -65,8 +69,8 @@ export default function InventoryDialog({ inventoryOpen, closeInventory }: Inven
         }}
       >
         <Box sx={{ minHeight: '100vh' }}>
-          <KnightsSection active={knightsActive} />
-          <CratesSection active={cratesActive} />
+          <KnightsSection active={knightsActive} goToShop={goToShop} />
+          <CratesSection active={cratesActive} goToShop={goToShop} />
           <ShopSection active={shopActive} />
         </Box>
       </Box>
