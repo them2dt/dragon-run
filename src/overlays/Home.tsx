@@ -82,7 +82,7 @@ export default function Home() {
         <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} defaultTab={defaultTab} />
         <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
-          <img src={logo} alt="logo" className="m-auto lg:w-[600px] h-auto rendering-pixelated" />
+          <img src={logo} alt="logo" className="m-auto px-5 lg:w-[560px] h-auto rendering-pixelated" />
           <Grid
             container
             spacing={2}
@@ -122,7 +122,6 @@ export default function Home() {
             </Grid>
             <Grid item xs={12}>
               <SquareButton
-                variant="contained"
                 size="large"
                 sx={{
                   backgroundColor: muiTheme.palette.secondary.main,
