@@ -11,6 +11,7 @@ import FirestoreProvider from '@context/FirestoreProvider';
 import ErrorPage from './pages/ErrorPage';
 import Index from './pages/Index';
 import SettingsProvider from '@context/SettingsProvider';
+import { clusterApiUrl } from '@solana/web3.js';
 
 globalThis.Buffer = buffer.Buffer;
 
@@ -29,13 +30,10 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [endpoint, setEndpoint] = React.useState('https://api.devnet.solana.com');
+  const endpoint="https://rpc.helius.xyz/?api-key=256baa19-0d74-4b32-a403-bbf83037df6a";
 
   const customEndpoint = import.meta.env.VITE_RPC_URL;
 
-  if (customEndpoint !== undefined) {
-    setEndpoint(customEndpoint);
-  }
 
   return (
     <ConnectionProvider endpoint={endpoint}>
