@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo from '@assets/Dragon_Run_Logo_Cropped.png';
+import logo from '@assets/Dragon_Run_Logo_Transparent.png';
 import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import AnimatedPage from 'components/animated/AnimatedPage';
