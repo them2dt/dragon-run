@@ -42,19 +42,33 @@ export default function GameOver({ newHighScore }: GameOverProps): JSX.Element {
               }}
               onClick={() => eventsCenter.emit(EventKeys.GoToGame)}
             >
-              <Typography
-                sx={{ fontSize: '2.2rem', [muiTheme.breakpoints.up('md')]: { fontSize: '3rem' } }}
-                fontWeight={400}
-                component="h3"
-              >
-                Play
-              </Typography>
+              <Typography variant="h3">Play</Typography>
             </SquareButton>
             <AnimatedOnViewTitleMd
               text="Press SPACE to Play Again"
               className="mx-auto py-0 text-gray-300 text-sm sm:text-xl md:text-xl mt-4 md:mt-8"
               delay={0}
             />
+          </div>
+          <div className="mx-auto mb-4">
+            <SquareButton
+              variant="contained"
+              size="large"
+              sx={{
+                backgroundColor: muiTheme.palette.background.light,
+                '&:hover': {
+                  backgroundColor: muiTheme.palette.text.secondary,
+                  color: muiTheme.palette.background.light
+                },
+                width: '160px',
+                height: '40px',
+                [muiTheme.breakpoints.up('sm')]: { width: '200px', height: '50px' },
+                [muiTheme.breakpoints.up('md')]: { width: '300px', height: '60px' }
+              }}
+              onClick={() => eventsCenter.emit(EventKeys.GoToHome)}
+            >
+              <Typography variant="h4">Home</Typography>
+            </SquareButton>
           </div>
         </div>
       </OverlayWrapper>
