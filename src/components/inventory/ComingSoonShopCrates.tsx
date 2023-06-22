@@ -6,12 +6,12 @@ export default function ComingSoonShopCrates() {
   return (
     <>
       <Grid item xs={12}>
-        <Typography align="center" sx={{ px: 5, my: 3 }} variant="h3">
+        <Typography align="center" sx={{ px: 5, mt: 7 }} variant="h3">
           Crates
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography align="center" color={muiTheme.palette.text.secondary} sx={{ px: 5, my: 4 }} variant="h1">
+        <Typography align="center" color={muiTheme.palette.text.secondary} sx={{ px: 5, my: 3 }} variant="h1">
           ???
         </Typography>
       </Grid>
