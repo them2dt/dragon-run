@@ -6,7 +6,7 @@ import StoreIcon from '@mui/icons-material/Store';
 import FullscreenDialog from 'components/FullscreenDialog';
 import KnightsSection from './KnightsSection';
 import ShopSection from './ShopSection';
-import CratesSection from './CreatesSection';
+import ComingSoonCratesSection from './ComingSoonCratesSection';
 
 interface InventoryDialogProps {
   inventoryOpen: boolean;
@@ -75,7 +75,7 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
       >
         <Box sx={{ minHeight: '100vh' }}>
           <KnightsSection active={knightsActive} goToShop={goToShop} />
-          <CratesSection active={cratesActive} goToShop={goToShop} />
+          <ComingSoonCratesSection active={cratesActive} goToShop={goToShop} />
           <ShopSection active={shopActive} />
         </Box>
       </Box>
