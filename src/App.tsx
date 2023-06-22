@@ -11,6 +11,7 @@ import FirestoreProvider from '@context/FirestoreProvider';
 import ErrorPage from './pages/ErrorPage';
 import Index from './pages/Index';
 import SettingsProvider from '@context/SettingsProvider';
+import SolanaProvider from '@context/SolanaProvider';
 
 globalThis.Buffer = buffer.Buffer;
 
@@ -33,14 +34,18 @@ function App() {
 
   // const customEndpoint = import.meta.env.VITE_RPC_URL;
 
+  console.log(window?.xnft);
+
   return (
     <ConnectionProvider endpoint={endpoint}>
       <ThemeProvider theme={muiTheme}>
         <FirestoreProvider>
           <SettingsProvider>
-            <OverlayProvider>
-              <RouterProvider router={router} />
-            </OverlayProvider>
+            <SolanaProvider>
+              <OverlayProvider>
+                <RouterProvider router={router} />
+              </OverlayProvider>
+            </SolanaProvider>
           </SettingsProvider>
         </FirestoreProvider>
       </ThemeProvider>
