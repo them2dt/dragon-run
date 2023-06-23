@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, IconButton, Stack, useTheme } from '@mui/material';
 import { Settings } from '@mui/icons-material';
-import { discord, twitter } from '@consts/Socials';
+import { discord, twitter } from '@consts/Links';
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
 
 interface HomeNavBarProps {

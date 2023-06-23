@@ -3,7 +3,7 @@ import eventsCenter from 'utils/eventsCenter';
 import EventKeys from 'constants/EventKeys';
 import Dialog from '@mui/material/Dialog';
 import { DialogTitle, IconButton, ListItem, ListItemButton, ListItemText, Paper, Stack, useTheme } from '@mui/material';
-import { discord, twitter } from '@consts/Socials';
+import { discord, twitter } from '@consts/Links';
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
 import MenuSlideTransition from '../MenuSlideTransition';
 

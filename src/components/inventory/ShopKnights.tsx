@@ -4,17 +4,17 @@ import { SquareButton } from 'components/styled/SquareButton';
 import shopItems from 'components/fake-data/shopItems';
 import ShopItem from './ShopItem';
 
-export default function ShopCrates() {
+export default function ShopKnights() {
   const muiTheme = useTheme();
   return (
     <>
       <Grid item xs={12}>
         <Typography align="center" sx={{ px: 5, my: 3 }} variant="h3">
-          Crates
+          Knights
         </Typography>
       </Grid>
-      {shopItems.crates.map((crate) => (
-        <ShopItem name={crate.name} image={crate.image} key={crate.name}>
+      {shopItems.knights.map((knight) => (
+        <ShopItem name={knight.name} image={knight.image} key={knight.name}>
           <Box
             sx={{
               width: '100%',
@@ -47,13 +47,13 @@ export default function ShopCrates() {
                 Description:
               </Typography>
               <Typography variant="body2" pb={0.4} color={muiTheme.palette.text.secondary}>
-                {crate.description}
+                {knight.description}
               </Typography>
               <Typography variant="body2" color={muiTheme.palette.text.secondary}>
-                Expires: {crate.expiry}
+                Expires: {knight.expiry}
               </Typography>
               <Typography variant="body2" color={muiTheme.palette.text.secondary}>
-                Price: {crate.price}
+                Price: {knight.price}
               </Typography>
               <SquareButton
                 sx={{ position: 'absolute', bottom: 0 }}
