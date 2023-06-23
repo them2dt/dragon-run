@@ -4,9 +4,9 @@ import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import StoreIcon from '@mui/icons-material/Store';
 import FullscreenDialog from 'components/FullscreenDialog';
-import KnightsSection from './KnightsSection';
-import ShopSection from './ShopSection';
-import ComingSoonCratesSection from './ComingSoonCratesSection';
+import KnightsSection from './knights/KnightsSection';
+import ShopSection from './shop/ShopSection';
+import ComingSoonCratesSection from './crates/ComingSoonCratesSection';
 
 interface InventoryDialogProps {
   inventoryOpen: boolean;

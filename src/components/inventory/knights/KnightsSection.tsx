@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from '@mui/material';
 import KnightItem from './KnightItem';
-import availableCharacters from '../fake-data/availableCharacters';
+import availableCharacters from '../../fake-data/availableCharacters';
 import { SquareButton } from 'components/styled/SquareButton';
 
 interface KnightsSectionProps {
