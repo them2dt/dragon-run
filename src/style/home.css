@@ -1,0 +1,109 @@
+.home-background-image {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  opacity: 0.75;
+}
+
+.home-navigation {
+  z-index: 20;
+
+  position: fixed;
+  top: 20px;
+  left: 20px;
+
+  color: #ff3c00;
+  font-size: 24px;
+}
+
+.home-navigation a {
+  margin-right: 20px;
+}
+.home-navigation a:first-child {
+  margin-right: 20px;
+  color: white;
+}
+
+.home-navigation a:hover {
+  color: white;
+  transition-duration: 0.2s;
+}
+
+.home-navigation a:not(:hover) {
+  transition-duration: 0.2s;
+}
+.home {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  width: 100vw;
+  height: 100vh;
+
+  margin: 0;
+  padding: 0;
+}
+
+.home-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-image img {
+  z-index: 10;
+  height: 15vh;
+  margin-bottom: 20vh;
+}
+
+.home-secondary-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;
+}
+.home-secondary-buttons button {
+  z-index: 10;
+
+  width: calc((80vw - 40px) / 3);
+  height: 10vh;
+
+  margin-bottom: 20px;
+
+  color: white;
+  font-size: 24px;
+  background-color: black;
+}
+.home-secondary-buttons button:first-child {
+  margin-right: 20px;
+}
+.home-secondary-buttons button:last-child {
+  margin-left: 20px;
+}
+
+.home-play-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-play-button button {
+  z-index: 10;
+
+  width: calc(80vw);
+  height: 10vh;
+
+  margin-bottom: 10vw;
+
+  color: white;
+  background-color: #ff3c00;
+  font-size: 24px;
+}
+
+.home button:hover {
+  color: black;
+  background-color: white;
+  transition-duration: 0.2s;
+}
+.home button:not(:hover) {
+  transition-duration: 0.2s;
+}
