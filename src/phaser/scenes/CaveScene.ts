@@ -80,6 +80,9 @@ export default class CaveScene extends Phaser.Scene {
   }
 
   public resize() {
+    if (!this.scale) {
+      return;
+    }
     this.handleZoom();
 
     this.bg1.scale = 4 * (this.defaultZoom + this.zoom);
@@ -224,7 +227,9 @@ export default class CaveScene extends Phaser.Scene {
     });
     this.physics.add.collider(this.smallDragons, this.ground);
 
-    this.scale.on('resize', this.resize, this);
+    onresize = () => {
+      this.resize();
+    };
 
     eventsCenter.on(EventKeys.StartGame, () => {
       SoundFade.fadeIn(this.music, 10000, 0.5);
@@ -534,6 +539,8 @@ export default class CaveScene extends Phaser.Scene {
         this.dragonCameraOffset = -(width * 0.3) + (-200 + 210 * (this.defaultZoom + this.zoom));
     }
 
-    this.cameras.main.setZoom(this.defaultZoom + this.zoom);
+    if (this.cameras.main) {
+      this.cameras.main.setZoom(this.defaultZoom + this.zoom);
+    }
   };
 }

@@ -293,6 +293,7 @@ export default class Player extends Phaser.GameObjects.Container {
         }
 
         if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
+          this.currentScene = SceneKeys.CaveScene;
           this.scene.sound.removeByKey(MusicKeys.CaveScene1);
         }
 
