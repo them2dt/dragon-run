@@ -17,6 +17,8 @@ export default class GameOver extends Phaser.Scene {
       return;
     }
     keyboard.once('keydown-SPACE', () => {
+      this.sound.stopAll();
+      this.sound.removeAll();
       this.scene.stop(SceneKeys.GameOver);
       eventsCenter.emit(EventKeys.GoToGame);
     });

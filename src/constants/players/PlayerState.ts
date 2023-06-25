@@ -1,4 +1,5 @@
 enum PlayerState {
+  Idle,
   Alive,
   Killed,
   Dead

@@ -31,7 +31,7 @@ export default class Player extends Phaser.GameObjects.Container {
   private fireballCooldown = 200;
   private fireballTimer = 0;
 
-  public playerState: PlayerState = PlayerState.Alive;
+  public playerState: PlayerState = PlayerState.Idle;
   private playerSpeed = 210;
   private playerJump = -300;
   private playerSize = 1.0;
@@ -76,6 +76,11 @@ export default class Player extends Phaser.GameObjects.Container {
     this.aKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.sKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.dKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+  }
+
+  public start() {
+    eventsCenter.emit(EventKeys.StartGame);
+    this.playerState = PlayerState.Alive;
   }
 
   public setFireballs(fireballs: Phaser.Physics.Arcade.Group) {
@@ -182,6 +187,28 @@ export default class Player extends Phaser.GameObjects.Container {
     eventsCenter.emit(EventKeys.UpdateScore, this.score);
 
     switch (this.playerState) {
+      case PlayerState.Idle: {
+        if (body.blocked.down && body.velocity.x === 0) {
+          this.defaultCharacter.play(AnimationKeys.CharacterIdleRight, true);
+        } else {
+          this.defaultCharacter.play(AnimationKeys.CharacterJumpingRight, true);
+        }
+        if (
+          this.cursors.left.isDown ||
+          this.aKey.isDown ||
+          this.cursors.right.isDown ||
+          this.dKey.isDown ||
+          this.cursors.up.isDown ||
+          this.wKey.isDown ||
+          this.cursors.space.isDown ||
+          this.sKey.isDown ||
+          this.cursors.down.isDown
+        ) {
+          this.start();
+        }
+        break;
+      }
+
       case PlayerState.Alive: {
         if (this.cursors.left.isDown || this.aKey.isDown) {
           body.setVelocityX(-this.playerSpeed);

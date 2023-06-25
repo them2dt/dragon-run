@@ -3,8 +3,11 @@ import TextureKeys from '../../../constants/TextureKeys';
 import AnimationKeys from '../../../constants/AnimationKeys';
 import DragonState from '../../../constants/enemies/DragonState';
 import EnemySoundEffectKeys from '../../../constants/audio/EnemySoundEffectKeys';
+import SceneKeys from '../../../constants/SceneKeys';
+import type CaveScene from '../../scenes/CaveScene';
 
 export default class RedDragon extends Phaser.GameObjects.Container {
+  private currentScene!: SceneKeys;
   private redDragon: Phaser.GameObjects.Sprite;
   public redDragonBody!: Phaser.Physics.Arcade.Body;
 
@@ -14,6 +17,10 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);
+
+    if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
+      this.currentScene = SceneKeys.CaveScene;
+    }
 
     this.redDragon = scene.add
       .sprite(0, 0, TextureKeys.RedDragon)
@@ -37,8 +44,24 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
   public start() {
     this.dragonState = DragonState.Chasing;
-    this.scene.sound.play(EnemySoundEffectKeys.DragonRoar1, { volume: 0.7 });
     this.scene.sound.play(EnemySoundEffectKeys.DragonWings1, { loop: true, volume: 0.6 });
+    this.scene.time.addEvent({
+      delay: 1000, // ms
+      callback: this.roar,
+      callbackScope: this,
+      repeat: 0
+    });
+  }
+
+  public roar() {
+    if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
+      this.currentScene = SceneKeys.CaveScene;
+    }
+    this.scene.sound.play(EnemySoundEffectKeys.DragonRoar1, { volume: 0.9 });
+    if (this.currentScene === SceneKeys.CaveScene) {
+      const caveScene = this.scene as CaveScene;
+      caveScene.handleCameraShake(800, 0.4);
+    }
   }
 
   public kill() {
@@ -93,7 +116,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
     switch (this.dragonState) {
       case DragonState.Idle: {
-        body.setVelocityX(50);
+        body.setVelocityX(0);
 
         body.setVelocityY(0);
 

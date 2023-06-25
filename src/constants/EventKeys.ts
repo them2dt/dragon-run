@@ -8,6 +8,7 @@ enum EventKeys {
   LoadCharacter = 'load-character',
   CharacterLoaded = 'character-loaded',
   GoToGame = 'go-to-game',
+  StartGame = 'start-game',
   GameLoaded = 'game-loaded',
   PauseGame = 'pause-game',
   ResumeGame = 'resume-game',

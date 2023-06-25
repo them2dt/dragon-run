@@ -80,17 +80,7 @@ export default class CaveScene extends Phaser.Scene {
     this.anims.createFromAseprite(TextureKeys.SmallDragonOrange);
     this.anims.createFromAseprite(TextureKeys.Character);
 
-    this.music = this.sound.add(MusicKeys.CaveScene1, { loop: true });
-
-    SoundFade.fadeIn(this.music, 10000, 0.5);
-
     this.sound.play(EnvironmentSoundEffectKeys.LavaBackground1, { loop: true, volume: 0.2 });
-
-    this.time.addEvent({
-      delay: 1000, // ms
-      callback: this.runWarning,
-      repeat: 0
-    });
 
     const width = this.scale.width;
     const height = this.scale.height;
@@ -155,9 +145,7 @@ export default class CaveScene extends Phaser.Scene {
     }
 
     this.spawnRedDragon();
-    this.redDragon.depth = 1000;
-    this.redDragon.dragonSpeed = this.redDragonSpeed;
-    this.redDragon.start();
+    this.redDragon.depth = -1000;
 
     this.spawnEnemies();
 
@@ -211,6 +199,15 @@ export default class CaveScene extends Phaser.Scene {
     this.physics.add.collider(this.smallDragons, this.ground);
 
     this.scale.on('resize', this.resize, this);
+
+    eventsCenter.on(EventKeys.StartGame, () => {
+      this.music = this.sound.add(MusicKeys.CaveScene1, { loop: true });
+      SoundFade.fadeIn(this.music, 10000, 0.5);
+      this.redDragon.depth = 1000;
+      this.redDragon.dragonSpeed = this.redDragonSpeed;
+      this.runWarning();
+      this.redDragon.start();
+    });
   }
 
   public update(time: number, delta: number): void {
@@ -423,6 +420,10 @@ export default class CaveScene extends Phaser.Scene {
       this.cameraFollowing = CameraFollowing.Player;
       this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100);
     }
+  };
+
+  public handleCameraShake = (duration: number, intensity: number) => {
+    this.cameras.main.shake(duration, intensity * 0.01);
   };
 
   public handleZoom = () => {
