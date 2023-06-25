@@ -10,6 +10,7 @@ import { Button, useTheme } from '@mui/material';
 import AnimatedRunText from 'components/animated/AnimatedRunText';
 import SettingsMenu from 'components/SettingsMenu';
 import InventoryDialog from 'components/inventory/InventoryDialog';
+import ControlsTutorial from 'components/ControlsTutorial';
 
 export default function Game() {
   const theme = useTheme();
@@ -18,11 +19,18 @@ export default function Game() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [inventoryOpen, setInventoryOpen] = useState(false);
   const [score, setScore] = useState(0);
+  const [showControls, setShowControls] = useState(true);
   const [showRun, setShowRun] = useState(false);
 
   useEffect(() => {
     eventsCenter.on(EventKeys.UpdateScore, (score: number) => {
       setScore(score);
+    });
+    eventsCenter.on(EventKeys.StartGame, () => {
+      setShowControls(false);
+    });
+    eventsCenter.on(EventKeys.GoToGame, () => {
+      setShowControls(true);
     });
     eventsCenter.on(EventKeys.Run, () => {
       setShowRun(true);
@@ -96,6 +104,7 @@ export default function Game() {
           <h1 className="flex w-max mx-auto mt-[12px] text-cC text-2xl sm:text-2xl md:text-4xl">Score: {score}</h1>
         </GameNavBar>
         <div className="fixed z-10 w-full h-full">{showRun && <AnimatedRunText />}</div>
+        {showControls && <ControlsTutorial />}
       </OverlayWrapper>
     </AnimatedPage>
   );
