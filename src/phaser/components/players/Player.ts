@@ -14,6 +14,12 @@ import EventKeys from 'constants/EventKeys';
 export default class Player extends Phaser.GameObjects.Container {
   public score = 0;
 
+  private playerFireballThrow1Sound!: Phaser.Sound.BaseSound;
+  private playerJump1Sound!: Phaser.Sound.BaseSound;
+  private playerDeath1Sound!: Phaser.Sound.BaseSound;
+  private playerDeath2Sound!: Phaser.Sound.BaseSound;
+  private playerRun1Sound!: Phaser.Sound.BaseSound;
+
   private currentScene!: SceneKeys;
 
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -42,6 +48,12 @@ export default class Player extends Phaser.GameObjects.Container {
     if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
       this.currentScene = SceneKeys.CaveScene;
     }
+
+    this.playerFireballThrow1Sound = this.scene.sound.add(PlayerSoundEffectKeys.PlayerFireballThrow1);
+    this.playerJump1Sound = this.scene.sound.add(PlayerSoundEffectKeys.PlayerJump1);
+    this.playerDeath1Sound = this.scene.sound.add(PlayerSoundEffectKeys.PlayerDeath1);
+    this.playerDeath2Sound = this.scene.sound.add(PlayerSoundEffectKeys.PlayerDeath2);
+    this.playerRun1Sound = this.scene.sound.add(PlayerSoundEffectKeys.PlayerRun1);
 
     this.defaultCharacter = scene.add
       .sprite(0, 0, TextureKeys.Character)
@@ -127,7 +139,7 @@ export default class Player extends Phaser.GameObjects.Container {
     fireball.y += vec.y * 16;
     fireball.setVelocity(vec.x * this.fireballSpeed, vec.y * this.fireballSpeed);
 
-    this.scene.sound.play(PlayerSoundEffectKeys.PlayerFireballThrow1, { volume: 0.5 });
+    this.playerFireballThrow1Sound.play({ volume: 0.5 });
   }
 
   public kill() {
@@ -145,11 +157,11 @@ export default class Player extends Phaser.GameObjects.Container {
 
     this.defaultCharacter.play(AnimationKeys.CharacterDeadRight, true);
 
-    this.scene.sound.play(PlayerSoundEffectKeys.PlayerDeath1, { volume: 0.5 });
+    this.playerDeath1Sound.play({ volume: 0.5 });
 
     this.scene.time.addEvent({
       delay: 1500, // ms
-      callback: () => this.scene.sound.play(PlayerSoundEffectKeys.PlayerDeath2, { volume: 0.6 }),
+      callback: () => this.playerDeath2Sound.play({ volume: 0.6 }),
       repeat: 0
     });
 
@@ -228,7 +240,7 @@ export default class Player extends Phaser.GameObjects.Container {
           (this.cursors.space.isDown && body.blocked.down)
         ) {
           body.setVelocityY(this.playerJump);
-          this.scene.sound.play(PlayerSoundEffectKeys.PlayerJump1, { volume: 0.8 });
+          this.playerJump1Sound.play({ volume: 0.8 });
         }
 
         if (!body.blocked.down && body.velocity.x < 0) {
@@ -260,7 +272,7 @@ export default class Player extends Phaser.GameObjects.Container {
           (this.dKey.isDown && body.velocity.x > 0 && body.blocked.down)
         ) {
           if (!this.scene.sound.get(PlayerSoundEffectKeys.PlayerRun1)) {
-            this.scene.sound.play(PlayerSoundEffectKeys.PlayerRun1, { rate: 1.2, volume: 0.2 });
+            this.playerRun1Sound.play(PlayerSoundEffectKeys.PlayerRun1, { rate: 1.2, volume: 0.2 });
           }
         }
 

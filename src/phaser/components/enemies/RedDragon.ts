@@ -15,12 +15,18 @@ export default class RedDragon extends Phaser.GameObjects.Container {
   private dragonSize = 1.0;
   public dragonSpeed = 0;
 
+  private dragonRoar1Sound!: Phaser.Sound.BaseSound;
+  private dragonWings1Sound!: Phaser.Sound.BaseSound;
+
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);
 
     if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
       this.currentScene = SceneKeys.CaveScene;
     }
+
+    this.dragonRoar1Sound = this.scene.sound.add(EnemySoundEffectKeys.DragonRoar1);
+    this.dragonWings1Sound = this.scene.sound.add(EnemySoundEffectKeys.DragonWings1);
 
     this.redDragon = scene.add
       .sprite(0, 0, TextureKeys.RedDragon)
@@ -44,7 +50,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
   public start() {
     this.dragonState = DragonState.Chasing;
-    this.scene.sound.play(EnemySoundEffectKeys.DragonWings1, { loop: true, volume: 0.6 });
+    this.dragonWings1Sound.play({ loop: true, volume: 0.6 });
     this.scene.time.addEvent({
       delay: 1000, // ms
       callback: this.roar,
@@ -57,10 +63,10 @@ export default class RedDragon extends Phaser.GameObjects.Container {
     if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
       this.currentScene = SceneKeys.CaveScene;
     }
-    this.scene.sound.play(EnemySoundEffectKeys.DragonRoar1, { volume: 0.9 });
     if (this.currentScene === SceneKeys.CaveScene) {
+      this.dragonRoar1Sound.play();
       const caveScene = this.scene as CaveScene;
-      caveScene.handleCameraShake(800, 0.4);
+      caveScene.handleCameraShake(800, 0.1);
     }
   }
 

@@ -23,6 +23,18 @@ export default class CaveScene extends Phaser.Scene {
   private device: Device = Device.Desktop;
 
   public music!: Phaser.Sound.BaseSound;
+  private lavaBackground1Sound!: Phaser.Sound.BaseSound;
+  private lavaBurn1Sound!: Phaser.Sound.BaseSound;
+  private lavaballThrow1Sound!: Phaser.Sound.BaseSound;
+  private lavaPlop1Sound!: Phaser.Sound.BaseSound;
+  private runSound!: Phaser.Sound.BaseSound;
+  private dragonWingsSound!: Phaser.Sound.BaseSound;
+  private dragonRoar1Sound!: Phaser.Sound.BaseSound;
+  private dragonRoar2Sound!: Phaser.Sound.BaseSound;
+  private dragonRoar3Sound!: Phaser.Sound.BaseSound;
+  private enemyBite1Sound!: Phaser.Sound.BaseSound;
+  private playerFireballBurn1Sound!: Phaser.Sound.BaseSound;
+  private dragonBurn1Sound!: Phaser.Sound.BaseSound;
 
   private player!: Player;
   private smallDragons!: Phaser.GameObjects.Group;
@@ -80,7 +92,21 @@ export default class CaveScene extends Phaser.Scene {
     this.anims.createFromAseprite(TextureKeys.SmallDragonOrange);
     this.anims.createFromAseprite(TextureKeys.Character);
 
-    this.sound.play(EnvironmentSoundEffectKeys.LavaBackground1, { loop: true, volume: 0.2 });
+    this.music = this.sound.add(MusicKeys.CaveScene1, { loop: true });
+    this.lavaBackground1Sound = this.sound.add(EnvironmentSoundEffectKeys.LavaBackground1);
+    this.lavaBurn1Sound = this.sound.add(EnvironmentSoundEffectKeys.LavaBurn1);
+    this.lavaballThrow1Sound = this.sound.add(EnvironmentSoundEffectKeys.LavaballThrow1);
+    this.lavaPlop1Sound = this.sound.add(EnvironmentSoundEffectKeys.LavaPlop1);
+    this.runSound = this.sound.add(MiscSoundEffectKeys.Run);
+    this.dragonWingsSound = this.sound.add(EnemySoundEffectKeys.DragonWings1);
+    this.enemyBite1Sound = this.sound.add(EnemySoundEffectKeys.EnemyBite1);
+    this.playerFireballBurn1Sound = this.sound.add(PlayerSoundEffectKeys.PlayerFireballBurn1);
+    this.dragonBurn1Sound = this.sound.add(EnemySoundEffectKeys.DragonBurn1);
+    this.dragonRoar1Sound = this.sound.add(EnemySoundEffectKeys.DragonRoar1);
+    this.dragonRoar2Sound = this.sound.add(EnemySoundEffectKeys.DragonRoar2);
+    this.dragonRoar3Sound = this.sound.add(EnemySoundEffectKeys.DragonRoar3);
+
+    this.lavaBackground1Sound.play({ loop: true, volume: 0.2 });
 
     const width = this.scale.width;
     const height = this.scale.height;
@@ -176,7 +202,7 @@ export default class CaveScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, this.ground);
     this.physics.add.collider(this.player, this.lava, () => {
-      this.sound.play(EnvironmentSoundEffectKeys.LavaBurn1, { volume: 0.4 });
+      this.lavaBurn1Sound.play({ volume: 0.4 });
       this.player.kill();
     });
 
@@ -192,7 +218,7 @@ export default class CaveScene extends Phaser.Scene {
         playerBody.setVelocityY(-220);
         smallDragon.kill();
       } else {
-        this.sound.play(EnemySoundEffectKeys.EnemyBite1, { volume: 0.4 });
+        this.enemyBite1Sound.play({ volume: 0.4 });
         player.kill();
       }
     });
@@ -201,7 +227,6 @@ export default class CaveScene extends Phaser.Scene {
     this.scale.on('resize', this.resize, this);
 
     eventsCenter.on(EventKeys.StartGame, () => {
-      this.music = this.sound.add(MusicKeys.CaveScene1, { loop: true });
       SoundFade.fadeIn(this.music, 10000, 0.5);
       this.redDragon.depth = 1000;
       this.redDragon.dragonSpeed = this.redDragonSpeed;
@@ -241,7 +266,7 @@ export default class CaveScene extends Phaser.Scene {
   }
 
   private runWarning = () => {
-    this.sound.play(MiscSoundEffectKeys.Run, { volume: 0.6 });
+    this.runSound.play({ volume: 0.6 });
     eventsCenter.emit(EventKeys.Run);
   };
 
@@ -253,7 +278,7 @@ export default class CaveScene extends Phaser.Scene {
         const fireballBody = go.body as Phaser.Physics.Arcade.Body;
         fireballBody.onCollide = true;
         go.on('destroy', () => {
-          this.sound.play(PlayerSoundEffectKeys.PlayerFireballBurn1, { volume: 0.6 });
+          this.playerFireballBurn1Sound.play({ volume: 0.6 });
         });
         this.physics.add.collider(go, this.ground, (object1) => {
           const fireball = object1 as Phaser.Physics.Arcade.Image;
@@ -289,12 +314,12 @@ export default class CaveScene extends Phaser.Scene {
         lavaballBody.onCollide = true;
         lavaballBody.pushable = false;
         this.physics.add.collider(go, this.player, () => {
-          this.sound.play(EnvironmentSoundEffectKeys.LavaBurn1, { volume: 0.3 });
+          this.lavaBurn1Sound.play({ volume: 0.3 });
           this.player.kill();
         });
         this.physics.add.collider(go, this.lava, (object1) => {
           const lavaball = object1 as Phaser.Physics.Arcade.Image;
-          this.sound.play(EnvironmentSoundEffectKeys.LavaPlop1, { volume: 0.1 });
+          this.lavaPlop1Sound.play({ volume: 0.1 });
           lavaball.destroy();
         });
       }
@@ -334,7 +359,7 @@ export default class CaveScene extends Phaser.Scene {
       }
     });
 
-    this.sound.play(EnvironmentSoundEffectKeys.LavaballThrow1, { volume: 0.3 });
+    this.lavaballThrow1Sound.play({ volume: 0.3 });
   };
 
   public spawnRedDragon = () => {
