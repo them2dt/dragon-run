@@ -1,13 +1,34 @@
-import logo from "@assets/Dragon_Run_Logo_Transparent.png";
+import React, { useEffect, useState } from "react";
+//
 import hell from "@assets/Hell.png";
+import logo from "@assets/Dragon_Run_Logo_Transparent.png";
+//
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGear,
-  faBox,
-  faRankingStar,
-  faCartShopping,
-} from "@fortawesome/free-solid-svg-icons";
-import { faTwitter, faDiscord } from "@fortawesome/free-brands-svg-icons";
+//
+import { faBox } from "@fortawesome/free-solid-svg-icons";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { faRankingStar } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+//
+import { faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+//
+import { Grid } from "@mui/material";
+import { useTheme } from "@mui/material";
+import { Typography } from "@mui/material";
+//
+import eventsCenter from "utils/eventsCenter";
+//
+import EventKeys from "constants/EventKeys";
+import HomeNavBar from "components/HomeNavBar";
+import SettingsMenu from "components/SettingsMenu";
+import OverlayWrapper from "components/OverlayWrapper";
+import AnimatedPage from "components/animated/AnimatedPage";
+import { SquareButton } from "components/styled/SquareButton";
+import Leaderboard from "components/leaderboard/LeaderboardMenu";
+import InventoryDialog from "components/inventory/InventoryDialog";
+import ChooseCharacterDialog from "components/choose-character/ChooseCharacterDialog";
+
 export default function Home() {
   return (
     <div className="home">
