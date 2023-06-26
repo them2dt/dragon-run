@@ -5,7 +5,7 @@ import FullscreenDialog from 'components/FullscreenDialog';
 import { SquareButton } from 'components/styled/SquareButton';
 import loadCharacter from 'utils/loadCharacter';
 import ChooseCharacterCard from './ChooseCharacterCard';
-import availableCharacters from '../fake-data/availableCharacters';
+import { useSolana } from '@context/useSolana';
 
 interface ChooseCharacterDialogProps {
   chooseCharacterOpen: boolean;
@@ -19,19 +19,20 @@ export default function ChooseCharacterDialog({
   openShop
 }: ChooseCharacterDialogProps) {
   const muiTheme = useTheme();
+  const { solana } = useSolana();
 
   const [characterIndex, setCharacterIndex] = useState(0);
 
   const handleNextCharacterClick = () => {
-    setCharacterIndex((prevIndex) => (prevIndex + 1) % availableCharacters.length);
+    setCharacterIndex((prevIndex) => (prevIndex + 1) % solana.ownedKnights.length);
   };
 
   const handlePreviousCharacterClick = () => {
-    setCharacterIndex((prevIndex) => (prevIndex - 1 + availableCharacters.length) % availableCharacters.length);
+    setCharacterIndex((prevIndex) => (prevIndex - 1 + solana.ownedKnights.length) % solana.ownedKnights.length);
   };
 
   const handleConfirm = () => {
-    loadCharacter(availableCharacters[characterIndex].spritesheet, EventKeys.GoToGame);
+    loadCharacter(solana.ownedKnights[characterIndex].spritesheet, EventKeys.GoToGame);
     closeChooseCharacter();
   };
 
@@ -70,8 +71,8 @@ export default function ChooseCharacterDialog({
         >
           <Stack direction={'column'} spacing={2} sx={{ px: 3, pb: 3, pt: 1, mt: 5 }}>
             <ChooseCharacterCard
-              name={availableCharacters[characterIndex].name}
-              image={availableCharacters[characterIndex].image}
+              name={solana.ownedKnights[characterIndex].name}
+              image={solana.ownedKnights[characterIndex].image}
               next={handleNextCharacterClick}
               previous={handlePreviousCharacterClick}
             />

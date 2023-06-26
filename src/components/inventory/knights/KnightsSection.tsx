@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from '@mui/material';
 import KnightItem from './KnightItem';
-import availableCharacters from '../../fake-data/availableCharacters';
 import { SquareButton } from 'components/styled/SquareButton';
+import { useSolana } from '@context/useSolana';
+import type KnightNFT from 'types/KnightNFT';
 
 interface KnightsSectionProps {
   active: boolean;
@@ -11,6 +12,7 @@ interface KnightsSectionProps {
 
 export default function KnightsSection({ active, goToShop }: KnightsSectionProps) {
   const muiTheme = useTheme();
+  const { solana } = useSolana();
   return (
     <Zoom in={active} style={{ transitionDelay: active ? '200ms' : '0ms' }} unmountOnExit>
       <Grid
@@ -36,7 +38,7 @@ export default function KnightsSection({ active, goToShop }: KnightsSectionProps
             Owned
           </Typography>
         </Grid>
-        {availableCharacters.map((character) => (
+        {solana.ownedKnights.map((character: KnightNFT) => (
           <KnightItem name={character.name} image={character.image} key={'knights' + character.name}>
             <Typography variant="h5">{character.name}</Typography>
             <Typography

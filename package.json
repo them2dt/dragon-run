@@ -41,6 +41,7 @@
     "react-lazyload": "^3.2.0",
     "react-router-dom": "^6.8.1",
     "react-toastify": "^9.1.2",
+    "react-xnft": "^0.2.0-latest.3375",
     "stream-browserify": "^3.0.0",
     "tw-elements": "^1.0.0-alpha13",
     "vite-tsconfig-paths": "^4.2.0"

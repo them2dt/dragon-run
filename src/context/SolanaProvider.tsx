@@ -1,14 +1,16 @@
-import React, { createContext, useState, useMemo } from 'react';
-import { Metaplex, bundlrStorage, keypairIdentity } from '@metaplex-foundation/js';
+import React, { createContext, useState, useMemo, useEffect } from 'react';
+import { Metaplex, type Metadata } from '@metaplex-foundation/js';
+import type KnightNFT from 'types/KnightNFT';
+import axios from 'axios';
 
 export interface Solana {
   metaplex: Metaplex | null;
-  ownedNFTs: null;
+  ownedKnights: KnightNFT[] | [];
 }
 
 interface SolanaContextType {
-  solana: Solana | null;
-  setSolana: React.Dispatch<React.SetStateAction<Solana | null>>;
+  solana: Solana;
+  setSolana: React.Dispatch<React.SetStateAction<Solana>>;
 }
 
 interface SolanaProviderProps {
@@ -19,44 +21,85 @@ export const SolanaContext = createContext<SolanaContextType | null>(null);
 
 export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   const [metaplex, setMetaplex] = useState<Metaplex | null>(null);
+  const [ownedKnights, setOwnedKnights] = useState<KnightNFT[] | []>([]);
+  const [solana, setSolana] = useState<Solana>({
+    metaplex,
+    ownedKnights
+  });
 
-  useMemo(() => {
+  const candyMachineCollection = import.meta.env.VITE_CM_COLLECTION;
+
+  const getMetaplex = () => {
     const xnftSolana = window?.xnft?.solana;
     if (!xnftSolana) {
-      console.log('xnft Solana not found');
       return;
     }
     const connection = xnftSolana?.connection;
     if (!connection) {
-      console.log('xnft Solana connection not found');
       return;
     }
     const pubkey = xnftSolana?.publicKey?.toString();
     if (!pubkey) {
-      console.log('xnft Solana pubkey not found');
       return;
     }
     console.log('xnft Solana pubkey: ', pubkey);
-    const metaplex = Metaplex.make(connection).use(keypairIdentity(pubkey)).use(bundlrStorage());
+    const metaplex = Metaplex.make(connection);
     if (!metaplex) {
-      console.log('Unable to create Metaplex instance');
       return;
     }
-    console.log('Metaplex instance created: ', metaplex);
     setMetaplex(metaplex);
-  }, [window?.xnft?.solana?.isConnected, window?.xnft?.solana?.publicKey]);
+  };
 
-  const [solana, setSolana] = useState<Solana | null>({
-    metaplex,
-    ownedNFTs: null
-  });
+  const getOwnedKnights = async () => {
+    if (!metaplex) {
+      return;
+    }
+    const xnftSolana = window?.xnft?.solana;
+    if (!xnftSolana) {
+      return;
+    }
+    const pubkey = xnftSolana?.publicKey?.toString();
+    if (!pubkey) {
+      return;
+    }
+    let ownedNFTs = await metaplex.nfts().findAllByOwner({
+      owner: pubkey
+    });
+    ownedNFTs = ownedNFTs.filter((nft) => nft.collection?.address.toBase58() === candyMachineCollection) as Metadata[];
+    const nfts: KnightNFT[] = [];
+    ownedNFTs.map(async (nft) => {
+      await axios.get(nft.uri).then((res) => {
+        const data: KnightNFT = {
+          name: res.data?.name,
+          image: res.data?.properties?.files[0]?.uri,
+          spritesheet: res.data?.properties?.files[1]?.uri
+        };
+        nfts.push(data);
+      });
+    });
+    setOwnedKnights(nfts);
+  };
 
   useMemo(() => {
-    setSolana({
-      metaplex,
-      ownedNFTs: null
+    if (!metaplex) return;
+    getOwnedKnights().catch((err) => {
+      console.log('Unable to get owned NFTs: ', err);
     });
   }, [metaplex]);
+
+  useMemo(() => {
+    if (!metaplex) return;
+    setSolana({
+      metaplex,
+      ownedKnights
+    });
+  }, [metaplex, ownedKnights]);
+
+  useEffect(() => {
+    window?.xnft?.solana?.on('connect', () => {
+      getMetaplex();
+    });
+  }, []);
 
   return <SolanaContext.Provider value={{ solana, setSolana }}>{children}</SolanaContext.Provider>;
 };

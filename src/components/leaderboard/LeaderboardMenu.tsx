@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   TableContainer,
   Table,
@@ -28,7 +28,7 @@ interface LeaderboardMenuProps {
 export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: LeaderboardMenuProps) {
   const muiTheme = useTheme();
   const { firestoreData, firestoreFunctions } = useFirestore();
-  const [leaderboard, setLeaderboard] = React.useState<LeaderboardItem[] | []>([]);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardItem[] | []>([]);
 
   useMemo(() => {
     if (firestoreData?.firestore == null) {
