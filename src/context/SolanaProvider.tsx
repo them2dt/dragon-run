@@ -19,11 +19,16 @@ interface SolanaProviderProps {
 
 export const SolanaContext = createContext<SolanaContextType | null>(null);
 
+const defaultKnight: KnightNFT = {
+  name: 'Default',
+  image: '',
+  spritesheet: '',
+  traits: { head: '', arms: '', torso: '', legs: '' }
+};
+
 export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   const [metaplex, setMetaplex] = useState<Metaplex | null>(null);
-  const [ownedKnights, setOwnedKnights] = useState<KnightNFT[]>([
-    { name: 'Default', image: '', spritesheet: '', traits: { head: '', arms: '', torso: '', legs: '' } }
-  ]);
+  const [ownedKnights, setOwnedKnights] = useState<KnightNFT[]>([defaultKnight]);
   const [solana, setSolana] = useState<Solana>({
     metaplex,
     ownedKnights
@@ -68,7 +73,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
       owner: pubkey
     });
     ownedNFTs = ownedNFTs.filter((nft) => nft.collection?.address.toBase58() === candyMachineCollection) as Metadata[];
-    const nfts: KnightNFT[] = [];
+    const nfts: KnightNFT[] = [defaultKnight];
     ownedNFTs.map(async (nft) => {
       await axios.get(nft.uri).then((res) => {
         console.log('NFT data: ', res.data);
