@@ -1,11 +1,11 @@
-import React from 'react';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from 'constants/EventKeys';
-import Dialog from '@mui/material/Dialog';
-import { DialogTitle, IconButton, ListItem, ListItemButton, ListItemText, Paper, Stack, useTheme } from '@mui/material';
-import { discord, twitter } from '@consts/Links';
-import { FaDiscord, FaTwitter } from 'react-icons/fa';
-import MenuSlideTransition from '../MenuSlideTransition';
+import React from "react";
+import eventsCenter from "utils/eventsCenter";
+import EventKeys from "constants/EventKeys";
+import Dialog from "@mui/material/Dialog";
+import { DialogTitle, IconButton, ListItem, ListItemButton, ListItemText, Paper, Stack, useTheme } from "@mui/material";
+import { discord, twitter } from "@consts/Links";
+import { FaDiscord, FaTwitter } from "react-icons/fa";
+import MenuSlideTransition from "../MenuSlideTransition";
 
 interface GameMenuProps {
   menuOpen: boolean;
@@ -19,17 +19,17 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
   const muiTheme = useTheme();
 
   return (
-    <Dialog open={menuOpen} onClose={closeMenu} TransitionComponent={MenuSlideTransition} sx={{ width: '100%' }}>
+    <Dialog open={menuOpen} onClose={closeMenu} TransitionComponent={MenuSlideTransition} sx={{ width: "100%" }}>
       <Paper
         sx={{
           minWidth: 200,
-          [muiTheme.breakpoints.up('sm')]: {
+          [muiTheme.breakpoints.up("sm")]: {
             minWidth: 300
           },
-          [muiTheme.breakpoints.up('md')]: {
+          [muiTheme.breakpoints.up("md")]: {
             minWidth: 400
           },
-          [muiTheme.breakpoints.up('lg')]: {
+          [muiTheme.breakpoints.up("lg")]: {
             minWidth: 500
           }
         }}
@@ -37,39 +37,39 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
         <DialogTitle align="center" color={muiTheme.palette.text.secondary}>
           Menu
         </DialogTitle>
-        <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
+        <ListItem sx={{ "&:hover": { backgroundColor: "background.light" } }}>
           <ListItemButton onClick={() => eventsCenter.emit(EventKeys.GoToHome)}>
-            <ListItemText sx={{ textAlign: 'center' }} primary="Home" />
+            <ListItemText sx={{ textAlign: "center" }} primary="Home" />
           </ListItemButton>
         </ListItem>
-        <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
+        <ListItem sx={{ "&:hover": { backgroundColor: "background.light" } }}>
           <ListItemButton onClick={openInventory}>
-            <ListItemText sx={{ textAlign: 'center' }} primary="Inventory" />
+            <ListItemText sx={{ textAlign: "center" }} primary="Inventory" />
           </ListItemButton>
         </ListItem>
-        <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
+        <ListItem sx={{ "&:hover": { backgroundColor: "background.light" } }}>
           <ListItemButton onClick={openLeaderboard}>
-            <ListItemText sx={{ textAlign: 'center' }} primary="Leaderboard" />
+            <ListItemText sx={{ textAlign: "center" }} primary="Leaderboard" />
           </ListItemButton>
         </ListItem>
-        <ListItem sx={{ '&:hover': { backgroundColor: 'background.light' } }}>
+        <ListItem sx={{ "&:hover": { backgroundColor: "background.light" } }}>
           <ListItemButton onClick={openSettings}>
-            <ListItemText sx={{ textAlign: 'center' }} primary="Settings" />
+            <ListItemText sx={{ textAlign: "center" }} primary="Settings" />
           </ListItemButton>
         </ListItem>
         <ListItem>
-          <Stack direction="row" spacing={2} justifyContent="center" width={'100%'}>
+          <Stack direction="row" spacing={2} justifyContent="center" width={"100%"}>
             <IconButton
-              onClick={() => window.open(discord, '_blank')}
+              onClick={() => window.open(discord, "_blank")}
               size="large"
-              sx={{ '&:hover': { backgroundColor: muiTheme.palette.background.light } }}
+              sx={{ "&:hover": { backgroundColor: muiTheme.palette.background.light } }}
             >
               <FaDiscord color="#5460E6" />
             </IconButton>
             <IconButton
-              onClick={() => window.open(twitter, '_blank')}
+              onClick={() => window.open(twitter, "_blank")}
               size="large"
-              sx={{ '&:hover': { backgroundColor: muiTheme.palette.background.light } }}
+              sx={{ "&:hover": { backgroundColor: muiTheme.palette.background.light } }}
             >
               <FaTwitter color="#1C98E5" />
             </IconButton>
@@ -77,7 +77,7 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
         </ListItem>
         <ListItem sx={{ backgroundColor: muiTheme.palette.secondary.main }}>
           <ListItemButton onClick={closeMenu}>
-            <ListItemText sx={{ color: muiTheme.palette.text.secondary, textAlign: 'center' }} primary="Resume" />
+            <ListItemText sx={{ color: muiTheme.palette.text.secondary, textAlign: "center" }} primary="Resume" />
           </ListItemButton>
         </ListItem>
       </Paper>

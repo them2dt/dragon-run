@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState } from "react";
 import {
   TableContainer,
   Table,
@@ -13,12 +13,12 @@ import {
   ListItemText,
   useTheme,
   Typography
-} from '@mui/material';
-import { useFirestore } from '@context/useFirestore';
-import type LeaderboardItem from '@firestore/LeaderboardItem';
-import { getLeaderboardDataFromLeaderboard } from 'utils/leaderboard';
-import LeaderboardRow from './LeaderboardRow';
-import MenuSlideTransition from '../MenuSlideTransition';
+} from "@mui/material";
+import { useFirestore } from "@context/useFirestore";
+import type LeaderboardItem from "@firestore/LeaderboardItem";
+import { getLeaderboardDataFromLeaderboard } from "utils/leaderboard";
+import LeaderboardRow from "./LeaderboardRow";
+import MenuSlideTransition from "../MenuSlideTransition";
 
 interface LeaderboardMenuProps {
   leaderboardOpen: boolean;
@@ -45,7 +45,7 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
       if (leaderboardData != null) {
         setLeaderboard(leaderboardData.leaderboardItems);
       } else {
-        console.log('Error getting leaderboard data');
+        console.log("Error getting leaderboard data");
       }
     }
   }, [firestoreData?.leaderboard]);
@@ -55,7 +55,7 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
       open={leaderboardOpen}
       onClose={closeLeaderboard}
       TransitionComponent={MenuSlideTransition}
-      sx={{ width: '100%' }}
+      sx={{ width: "100%" }}
     >
       <DialogTitle align="center" color={muiTheme.palette.text.secondary}>
         Leaderboard
@@ -63,13 +63,13 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
       <TableContainer
         sx={{
           minWidth: 200,
-          [muiTheme.breakpoints.up('sm')]: {
+          [muiTheme.breakpoints.up("sm")]: {
             minWidth: 300
           },
-          [muiTheme.breakpoints.up('md')]: {
+          [muiTheme.breakpoints.up("md")]: {
             minWidth: 400
           },
-          [muiTheme.breakpoints.up('lg')]: {
+          [muiTheme.breakpoints.up("lg")]: {
             maxHeight: 430,
             minWidth: 500
           }
@@ -89,7 +89,7 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody sx={{ overflow: 'scroll' }}>
+          <TableBody sx={{ overflow: "scroll" }}>
             {leaderboard.map((row) => (
               <LeaderboardRow key={row.name} rank={row.rank} name={row.name} score={row.score} />
             ))}
@@ -98,7 +98,7 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
       </TableContainer>
       <ListItem sx={{ backgroundColor: muiTheme.palette.secondary.main }}>
         <ListItemButton onClick={closeLeaderboard}>
-          <ListItemText sx={{ color: muiTheme.palette.text.secondary, textAlign: 'center' }}>
+          <ListItemText sx={{ color: muiTheme.palette.text.secondary, textAlign: "center" }}>
             <Typography variant="body1">Close</Typography>
           </ListItemText>
         </ListItemButton>

@@ -1,7 +1,7 @@
-import theme from 'theme/theme';
-import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import theme from "theme/theme";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
   interface Palette {
     third: {
       main: string;

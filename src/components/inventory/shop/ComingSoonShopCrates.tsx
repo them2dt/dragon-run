@@ -1,5 +1,5 @@
-import React from 'react';
-import { useTheme, Grid, Typography } from '@mui/material';
+import React from "react";
+import { useTheme, Grid, Typography } from "@mui/material";
 
 export default function ComingSoonShopCrates() {
   const muiTheme = useTheme();

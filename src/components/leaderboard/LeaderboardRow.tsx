@@ -1,7 +1,7 @@
-import React from 'react';
-import { TableRow, TableCell, useTheme, Typography } from '@mui/material';
-import { useFirestore } from '@context/useFirestore';
-import { blue } from '@mui/material/colors';
+import React from "react";
+import { TableRow, TableCell, useTheme, Typography } from "@mui/material";
+import { useFirestore } from "@context/useFirestore";
+import { blue } from "@mui/material/colors";
 
 interface LeaderboardRowProps {
   rank: number;
@@ -17,10 +17,10 @@ export default function LeaderboardRow({ rank, name, score }: LeaderboardRowProp
     <TableRow
       key={name}
       sx={{
-        backgroundColor: name === currentUserName ? 'background.light' : 'background.default',
-        'td, th': { border: 0 },
-        '&:hover': {
-          cursor: 'pointer'
+        backgroundColor: name === currentUserName ? "background.light" : "background.default",
+        "td, th": { border: 0 },
+        "&:hover": {
+          cursor: "pointer"
         }
       }}
     >

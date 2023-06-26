@@ -1,9 +1,9 @@
-import * as Phaser from 'phaser';
-import SceneKeys from 'constants/SceneKeys';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from 'constants/EventKeys';
-import MusicKeys from '@consts/audio/MusicKeys';
-import SoundFade from 'phaser3-rex-plugins/plugins/soundfade.js';
+import * as Phaser from "phaser";
+import SceneKeys from "constants/SceneKeys";
+import eventsCenter from "utils/eventsCenter";
+import EventKeys from "constants/EventKeys";
+import MusicKeys from "@consts/audio/MusicKeys";
+import SoundFade from "phaser3-rex-plugins/plugins/soundfade.js";
 
 export default class HomeScene extends Phaser.Scene {
   public music!: Phaser.Sound.BaseSound;
@@ -23,10 +23,10 @@ export default class HomeScene extends Phaser.Scene {
     if (!keyboard) {
       return;
     }
-    keyboard.on('keydown-ENTER', () => {
+    keyboard.on("keydown-ENTER", () => {
       eventsCenter.emit(EventKeys.OpenChooseCharacter);
     });
-    keyboard.on('keydown-SPACE', () => {
+    keyboard.on("keydown-SPACE", () => {
       eventsCenter.emit(EventKeys.OpenChooseCharacter);
     });
   }

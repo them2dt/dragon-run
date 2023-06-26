@@ -1,8 +1,8 @@
-import * as Phaser from 'phaser';
-import TextureKeys from '../../constants/TextureKeys';
-import SceneKeys from '../../constants/SceneKeys';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from 'constants/EventKeys';
+import * as Phaser from "phaser";
+import TextureKeys from "../../constants/TextureKeys";
+import SceneKeys from "../../constants/SceneKeys";
+import eventsCenter from "utils/eventsCenter";
+import EventKeys from "constants/EventKeys";
 
 export default class CharacterLoader extends Phaser.Scene {
   // "https://bafybeiabmrvyz7ibdxc72hyxru5wbw2naix44wwtiqxuno7xf6go3gj5dq.ipfs.nftstorage.link/14.png"
@@ -22,14 +22,14 @@ export default class CharacterLoader extends Phaser.Scene {
       this.textures.remove(TextureKeys.Character);
       this.load.aseprite(
         TextureKeys.Character,
-        characterLink || 'game-assets/characters/default-character.png',
-        'game-assets/characters/default-character.json'
+        characterLink || "game-assets/characters/default-character.png",
+        "game-assets/characters/default-character.json"
       );
     } else {
       this.load.aseprite(
         TextureKeys.Character,
-        characterLink || 'game-assets/characters/default-character.png',
-        'game-assets/characters/default-character.json'
+        characterLink || "game-assets/characters/default-character.png",
+        "game-assets/characters/default-character.json"
       );
     }
   }

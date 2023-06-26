@@ -1,4 +1,4 @@
-import type Leaderboard from '@firestore/Leaderboard';
+import type Leaderboard from "@firestore/Leaderboard";
 
 function isLeaderboard(data: any[]): data is Leaderboard {
   try {

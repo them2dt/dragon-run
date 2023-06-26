@@ -1,10 +1,10 @@
-import * as Phaser from 'phaser';
-import TextureKeys from '../../../constants/TextureKeys';
-import AnimationKeys from '../../../constants/AnimationKeys';
-import DragonState from '../../../constants/enemies/DragonState';
-import EnemySoundEffectKeys from '../../../constants/audio/EnemySoundEffectKeys';
-import SceneKeys from '../../../constants/SceneKeys';
-import type CaveScene from '../../scenes/CaveScene';
+import * as Phaser from "phaser";
+import TextureKeys from "../../../constants/TextureKeys";
+import AnimationKeys from "../../../constants/AnimationKeys";
+import DragonState from "../../../constants/enemies/DragonState";
+import EnemySoundEffectKeys from "../../../constants/audio/EnemySoundEffectKeys";
+import SceneKeys from "../../../constants/SceneKeys";
+import type CaveScene from "../../scenes/CaveScene";
 
 export default class RedDragon extends Phaser.GameObjects.Container {
   private currentScene!: SceneKeys;

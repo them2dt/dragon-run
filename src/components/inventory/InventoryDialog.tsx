@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { Typography, useTheme, Box, Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import StoreIcon from '@mui/icons-material/Store';
-import FullscreenDialog from 'components/FullscreenDialog';
-import KnightsSection from './knights/KnightsSection';
-import ShopSection from './shop/ShopSection';
-import ComingSoonCratesSection from './crates/ComingSoonCratesSection';
+import React, { useEffect, useState, useRef, useMemo } from "react";
+import { Typography, useTheme, Box, Paper, BottomNavigation, BottomNavigationAction } from "@mui/material";
+import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import StoreIcon from "@mui/icons-material/Store";
+import FullscreenDialog from "components/FullscreenDialog";
+import KnightsSection from "./knights/KnightsSection";
+import ShopSection from "./shop/ShopSection";
+import ComingSoonCratesSection from "./crates/ComingSoonCratesSection";
 
 interface InventoryDialogProps {
   inventoryOpen: boolean;
@@ -20,7 +20,7 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
   const [cratesActive, setCratesActive] = useState(false);
   const [knightsActive, setKnightsActive] = useState(false);
   const [shopActive, setShopActive] = useState(false);
-  const [title, setTitle] = useState('Inventory');
+  const [title, setTitle] = useState("Inventory");
 
   const scrollBoxRef = useRef<HTMLDivElement>(null);
 
@@ -37,13 +37,13 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
     setKnightsActive(false);
     setShopActive(false);
     if (newValue === 0) {
-      setTitle('Knights');
+      setTitle("Knights");
       setKnightsActive(true);
     } else if (newValue === 1) {
-      setTitle('Crates');
+      setTitle("Crates");
       setCratesActive(true);
     } else if (newValue === 2) {
-      setTitle('Shop');
+      setTitle("Shop");
       setShopActive(true);
     }
   };
@@ -68,12 +68,12 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
       <Box
         ref={scrollBoxRef}
         sx={{
-          overflowY: 'scroll',
-          overflowX: 'hidden',
-          my: 'auto'
+          overflowY: "scroll",
+          overflowX: "hidden",
+          my: "auto"
         }}
       >
-        <Box sx={{ minHeight: '100vh' }}>
+        <Box sx={{ minHeight: "100vh" }}>
           <KnightsSection active={knightsActive} goToShop={goToShop} />
           <ComingSoonCratesSection active={cratesActive} goToShop={goToShop} />
           <ShopSection active={shopActive} />

@@ -1,4 +1,4 @@
-import type EventKeys from '@consts/EventKeys';
+import type EventKeys from "@consts/EventKeys";
 
 interface LoadCharacterProps {
   characterLink: string | null;

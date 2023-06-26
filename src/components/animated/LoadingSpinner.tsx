@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 interface LoadingSpinnerProps {
   className?: string;
@@ -24,7 +24,7 @@ const LoadingSpinner = (props: LoadingSpinnerProps) => {
       animate="animate"
       exit="exit"
       className={`h-[40px] xs:h-[50px] sm:h-[70px] lg:h-[80px] sm:px-3 md:px-0 cursor-auto ${props.className}`}
-      src={'/loading/Blocks-0.9s-200px.svg'}
+      src={"/loading/Blocks-0.9s-200px.svg"}
       alt=""
     />
   );

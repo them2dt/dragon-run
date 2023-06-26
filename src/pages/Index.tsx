@@ -1,21 +1,21 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import PhaserGame from '../components/phaser/PhaserGame';
-import { useOverlay } from '../context/useOverlay';
-import OverlayKeys from '../constants/OverlayKeys';
-import Home from '../overlays/Home';
-import Game from '../overlays/Game';
-import GameOver from 'overlays/GameOver';
-import Loading from 'overlays/Loading';
-import { useFirestore } from '@context/useFirestore';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from '@consts/EventKeys';
-import { onSnapshot, doc } from 'firebase/firestore';
-import Enter from 'overlays/Enter';
+import React, { useState, useMemo, useEffect } from "react";
+import PhaserGame from "../components/phaser/PhaserGame";
+import { useOverlay } from "../context/useOverlay";
+import OverlayKeys from "../constants/OverlayKeys";
+import Home from "../overlays/Home";
+import Game from "../overlays/Game";
+import GameOver from "overlays/GameOver";
+import Loading from "overlays/Loading";
+import { useFirestore } from "@context/useFirestore";
+import eventsCenter from "utils/eventsCenter";
+import EventKeys from "@consts/EventKeys";
+import { onSnapshot, doc } from "firebase/firestore";
+import Enter from "overlays/Enter";
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
   const { firestoreData, firestoreFunctions } = useFirestore();
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState("");
   const [highScore, setHighScore] = useState<number>(0);
   const [newScore, setNewScore] = useState<number>(0);
   const [newHighScore, setNewHighScore] = useState<number>(0);
@@ -37,7 +37,7 @@ export default function Index(): JSX.Element {
 
   useMemo(() => {
     const initializeUserData = () => {
-      if (userName === '') {
+      if (userName === "") {
         return;
       }
       const currentUserName = firestoreData?.userData?.userName;
@@ -58,7 +58,7 @@ export default function Index(): JSX.Element {
 
   useEffect(() => {
     if (window?.xnft == null || window?.xnft?.metadata == null || window?.xnft?.metadata?.username == null) {
-      console.log('Please open in Backpack!');
+      console.log("Please open in Backpack!");
       return;
     }
     const username = window?.xnft?.metadata?.username;
@@ -91,7 +91,7 @@ export default function Index(): JSX.Element {
     if (firestoreData?.firestore == null) {
       return;
     }
-    const unsubscribe = onSnapshot(doc(firestoreData?.firestore, 'leaderboard', 'highScores'), () => {
+    const unsubscribe = onSnapshot(doc(firestoreData?.firestore, "leaderboard", "highScores"), () => {
       firestoreFunctions.getLeaderboard();
     });
     return () => {

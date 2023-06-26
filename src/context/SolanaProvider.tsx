@@ -1,7 +1,7 @@
-import React, { createContext, useState, useMemo, useEffect } from 'react';
-import { Metaplex, type Metadata } from '@metaplex-foundation/js';
-import type KnightNFT from 'types/KnightNFT';
-import axios from 'axios';
+import React, { createContext, useState, useMemo, useEffect } from "react";
+import { Metaplex, type Metadata } from "@metaplex-foundation/js";
+import type KnightNFT from "types/KnightNFT";
+import axios from "axios";
 
 export interface Solana {
   metaplex: Metaplex | null;
@@ -20,10 +20,10 @@ interface SolanaProviderProps {
 export const SolanaContext = createContext<SolanaContextType | null>(null);
 
 const defaultKnight: KnightNFT = {
-  name: 'Default',
-  image: '',
-  spritesheet: '',
-  traits: { head: '', arms: '', torso: '', legs: '' }
+  name: "Default",
+  image: "",
+  spritesheet: "",
+  traits: { head: "", arms: "", torso: "", legs: "" }
 };
 
 export const SolanaProvider = ({ children }: SolanaProviderProps) => {
@@ -49,7 +49,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     if (!pubkey) {
       return;
     }
-    console.log('xnft Solana pubkey: ', pubkey);
+    console.log("xnft Solana pubkey: ", pubkey);
     const metaplex = Metaplex.make(connection);
     if (!metaplex) {
       return;
@@ -76,7 +76,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     const nfts: KnightNFT[] = [defaultKnight];
     ownedNFTs.map(async (nft) => {
       await axios.get(nft.uri).then((res) => {
-        console.log('NFT data: ', res.data);
+        console.log("NFT data: ", res.data);
         const data: KnightNFT = {
           name: res.data?.name,
           image: res.data?.properties?.files[0]?.uri,
@@ -97,7 +97,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   useMemo(() => {
     if (!metaplex) return;
     getOwnedKnights().catch((err) => {
-      console.log('Unable to get owned NFTs: ', err);
+      console.log("Unable to get owned NFTs: ", err);
     });
   }, [metaplex]);
 
@@ -110,7 +110,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   }, [metaplex, ownedKnights]);
 
   useEffect(() => {
-    window?.xnft?.solana?.on('connect', () => {
+    window?.xnft?.solana?.on("connect", () => {
       getMetaplex();
     });
   }, []);

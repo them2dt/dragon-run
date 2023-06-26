@@ -1,15 +1,15 @@
-import * as Phaser from 'phaser';
-import TextureKeys from '../../../constants/TextureKeys';
-import AnimationKeys from '../../../constants/AnimationKeys';
-import SceneKeys from '../../../constants/SceneKeys';
-import type CaveScene from '../../scenes/CaveScene';
-import CameraFollowing from '../../../constants/CameraFollowing';
-import PlayerState from '../../../constants/players/PlayerState';
-import DragonState from '../../../constants/enemies/DragonState';
-import MusicKeys from '../../../constants/audio/MusicKeys';
-import PlayerSoundEffectKeys from '../../../constants/audio/PlayerSoundEffectKeys';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from 'constants/EventKeys';
+import * as Phaser from "phaser";
+import TextureKeys from "../../../constants/TextureKeys";
+import AnimationKeys from "../../../constants/AnimationKeys";
+import SceneKeys from "../../../constants/SceneKeys";
+import type CaveScene from "../../scenes/CaveScene";
+import CameraFollowing from "../../../constants/CameraFollowing";
+import PlayerState from "../../../constants/players/PlayerState";
+import DragonState from "../../../constants/enemies/DragonState";
+import MusicKeys from "../../../constants/audio/MusicKeys";
+import PlayerSoundEffectKeys from "../../../constants/audio/PlayerSoundEffectKeys";
+import eventsCenter from "utils/eventsCenter";
+import EventKeys from "constants/EventKeys";
 
 export default class Player extends Phaser.GameObjects.Container {
   public score = 0;

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useTheme, Paper, Skeleton, Grid, Typography, Box, Card } from '@mui/material';
-import defaultCharacter from '@assets/default-character-still.png';
+import React, { useState } from "react";
+import { useTheme, Paper, Skeleton, Grid, Typography, Box, Card } from "@mui/material";
+import defaultCharacter from "@assets/default-character-still.png";
 
 interface CrateItemProps {
   name: string;
@@ -21,12 +21,12 @@ export default function CrateItem({ name, image, children }: CrateItemProps) {
         container
         direction="row"
         sx={{
-          borderRadius: '0',
+          borderRadius: "0",
           background: muiTheme.palette.background.light
         }}
         elevation={12}
       >
-        <Grid item xs={12} sx={{ textAlign: 'center', pt: 1 }}>
+        <Grid item xs={12} sx={{ textAlign: "center", pt: 1 }}>
           <Typography variant="h5">{name}</Typography>
         </Grid>
 
@@ -41,15 +41,15 @@ export default function CrateItem({ name, image, children }: CrateItemProps) {
         >
           <Paper
             sx={{
-              borderRadius: '0'
+              borderRadius: "0"
             }}
             elevation={16}
           >
             <img
-              src={image === '' ? defaultCharacter : image}
+              src={image === "" ? defaultCharacter : image}
               alt={name}
               className="w-full rendering-pixelated"
-              style={{ display: imageLoaded ? 'block' : 'none' }}
+              style={{ display: imageLoaded ? "block" : "none" }}
               onLoad={() => {
                 setImageLoaded(true);
               }}
@@ -60,7 +60,7 @@ export default function CrateItem({ name, image, children }: CrateItemProps) {
                 sx={{
                   backgroundColor: muiTheme.palette.background.light,
                   width: 1,
-                  pt: '100%',
+                  pt: "100%",
                   borderRadius: 0
                 }}
               />

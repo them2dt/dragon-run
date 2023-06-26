@@ -1,5 +1,5 @@
-import type { PublicKey } from '@solana/web3.js';
-import axios from 'axios';
+import type { PublicKey } from "@solana/web3.js";
+import axios from "axios";
 
 export interface checkNftRes {
   mint: string;
@@ -15,8 +15,8 @@ export const getNfts = async (owner: PublicKey) => {
   try {
     let RPC = import.meta.env.VITE_RPC_URL;
     if (!RPC) {
-      RPC = 'https://api.devnet.solana.com';
-      console.log('RPC not found in .env, using devnet');
+      RPC = "https://api.devnet.solana.com";
+      console.log("RPC not found in .env, using devnet");
     }
     const url = `${RPC}/v0/addresses/${owner.toBase58()}/nfts?pageNumber=1`;
 
@@ -30,6 +30,6 @@ export const getNfts = async (owner: PublicKey) => {
 
     return nfts;
   } catch (error) {
-    console.log('RPC Error: ', error);
+    console.log("RPC Error: ", error);
   }
 };

@@ -1,6 +1,6 @@
-import { type FirebaseApp, initializeApp } from 'firebase/app';
-import 'firebase/firestore';
-import { type Analytics, getAnalytics } from 'firebase/analytics';
+import { type FirebaseApp, initializeApp } from "firebase/app";
+import "firebase/firestore";
+import { type Analytics, getAnalytics } from "firebase/analytics";
 
 const jsonClientCredentials = import.meta.env.VITE_FIREBASE_CONFIG as unknown as string;
 

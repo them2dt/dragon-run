@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { useFirestore } from '@context/useFirestore';
+import React, { useEffect } from "react";
+import { useFirestore } from "@context/useFirestore";
 
 export default function UserInfo() {
   const { firestoreData, firestoreFunctions } = useFirestore();
 
   useEffect(() => {
     firestoreFunctions.initializeFirestore();
-    firestoreFunctions.getUserData('zombi');
+    firestoreFunctions.getUserData("zombi");
     console.log(firestoreData?.userData?.userName);
   }, []);
 

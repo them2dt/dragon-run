@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useTheme, Paper, Skeleton, Grid, Typography, Box, Card } from '@mui/material';
-import { SquareButton } from 'components/styled/SquareButton';
+import React, { useState } from "react";
+import { useTheme, Paper, Skeleton, Grid, Typography, Box, Card } from "@mui/material";
+import { SquareButton } from "components/styled/SquareButton";
 
 interface ExchangeItemProps {
   name: string;
@@ -32,7 +32,7 @@ export default function ExchangeItem({ name, image, link, primaryColor, secondar
         container
         direction="row"
         sx={{
-          borderRadius: '0',
+          borderRadius: "0",
           background: muiTheme.palette.background.light
         }}
         elevation={12}
@@ -47,7 +47,7 @@ export default function ExchangeItem({ name, image, link, primaryColor, secondar
         >
           <Paper
             sx={{
-              borderRadius: '0'
+              borderRadius: "0"
             }}
             elevation={16}
           >
@@ -55,9 +55,9 @@ export default function ExchangeItem({ name, image, link, primaryColor, secondar
               src={image}
               alt={name}
               className="w-full rendering-pixelated"
-              style={{ display: imageLoaded ? 'block' : 'none' }}
+              style={{ display: imageLoaded ? "block" : "none" }}
               onClick={() => {
-                window.open(link, '_blank');
+                window.open(link, "_blank");
               }}
               onLoad={() => {
                 setImageLoaded(true);
@@ -69,7 +69,7 @@ export default function ExchangeItem({ name, image, link, primaryColor, secondar
                 sx={{
                   backgroundColor: muiTheme.palette.background.light,
                   width: 1,
-                  pt: '100%',
+                  pt: "100%",
                   borderRadius: 0
                 }}
               />
@@ -79,26 +79,26 @@ export default function ExchangeItem({ name, image, link, primaryColor, secondar
         <Grid item component={Box} xs={12} md={6}>
           <Box
             sx={{
-              width: '100%',
-              pt: '70%',
-              position: 'relative',
-              [muiTheme.breakpoints.up('md')]: {
-                pt: '100%'
+              width: "100%",
+              pt: "70%",
+              position: "relative",
+              [muiTheme.breakpoints.up("md")]: {
+                pt: "100%"
               }
             }}
           >
             <Box
               sx={{
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 left: 0,
                 bottom: 0,
                 right: 0,
-                maxHeight: '100%',
+                maxHeight: "100%",
                 margin: 2.5,
                 mt: 0,
-                display: 'flex',
-                [muiTheme.breakpoints.up('md')]: {
+                display: "flex",
+                [muiTheme.breakpoints.up("md")]: {
                   mt: 1.5,
                   mr: 2,
                   mb: 2,
@@ -111,11 +111,11 @@ export default function ExchangeItem({ name, image, link, primaryColor, secondar
                 variant="h2"
                 color={muiTheme.palette.text.secondary}
                 sx={{
-                  my: 'auto',
-                  pb: '55px',
-                  fontSize: '2rem',
-                  [muiTheme.breakpoints.up('sm')]: {
-                    fontSize: '2.2rem'
+                  my: "auto",
+                  pb: "55px",
+                  fontSize: "2rem",
+                  [muiTheme.breakpoints.up("sm")]: {
+                    fontSize: "2.2rem"
                   }
                 }}
               >
@@ -123,12 +123,12 @@ export default function ExchangeItem({ name, image, link, primaryColor, secondar
               </Typography>
               <SquareButton
                 sx={{
-                  mt: 'auto',
-                  position: 'absolute',
+                  mt: "auto",
+                  position: "absolute",
                   bottom: 0,
                   background: primaryColor ?? muiTheme.palette.secondary.main,
                   color: secondaryColor ?? muiTheme.palette.text.secondary,
-                  '&:hover': {
+                  "&:hover": {
                     color: primaryColor ?? muiTheme.palette.secondary.main
                   }
                 }}
@@ -136,7 +136,7 @@ export default function ExchangeItem({ name, image, link, primaryColor, secondar
                 variant="contained"
                 size="large"
                 onClick={() => {
-                  window.open(link, '_blank');
+                  window.open(link, "_blank");
                 }}
               >
                 <Typography variant="h6">Trade</Typography>

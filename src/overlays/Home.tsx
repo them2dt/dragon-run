@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-//3rd-parties
+// 3rd-parties
 import { Grid, Typography, useTheme } from "@mui/material";
 //
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +7,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBox } from "@fortawesome/free-solid-svg-icons";
 import { faRankingStar } from "@fortawesome/free-solid-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-//local copmonents
+//
+import { faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+// locals
 import EventKeys from "constants/EventKeys";
 import eventsCenter from "utils/eventsCenter";
 import OverlayWrapper from "components/OverlayWrapper";
@@ -129,8 +132,8 @@ export default function Home() {
               paddingX: 2,
               [muiTheme.breakpoints.up("lg")]: {
                 marginBottom: 10,
-                paddingX: 6,
-              },
+                paddingX: 6
+              }
             }}
           >
             <Grid item xs={4}>
@@ -141,8 +144,8 @@ export default function Home() {
                   backgroundColor: muiTheme.palette.fourth.main,
                   "&:hover": {
                     backgroundColor: muiTheme.palette.text.secondary,
-                    color: muiTheme.palette.fourth.main,
-                  },
+                    color: muiTheme.palette.fourth.main
+                  }
                 }}
                 fullWidth
                 onClick={openLeaderboard}
@@ -160,8 +163,8 @@ export default function Home() {
                   backgroundColor: muiTheme.palette.fourth.main,
                   "&:hover": {
                     backgroundColor: muiTheme.palette.text.secondary,
-                    color: muiTheme.palette.fourth.main,
-                  },
+                    color: muiTheme.palette.fourth.main
+                  }
                 }}
                 fullWidth
                 onClick={openInventory}
@@ -179,8 +182,8 @@ export default function Home() {
                   backgroundColor: muiTheme.palette.fourth.main,
                   "&:hover": {
                     backgroundColor: muiTheme.palette.text.secondary,
-                    color: muiTheme.palette.fourth.main,
-                  },
+                    color: muiTheme.palette.fourth.main
+                  }
                 }}
                 fullWidth
                 onClick={openMint}
@@ -197,8 +200,8 @@ export default function Home() {
                   backgroundColor: muiTheme.palette.secondary.main,
                   "&:hover": {
                     backgroundColor: muiTheme.palette.text.secondary,
-                    color: muiTheme.palette.secondary.main,
-                  },
+                    color: muiTheme.palette.secondary.main
+                  }
                 }}
                 fullWidth
                 onClick={openChooseCharacter}
