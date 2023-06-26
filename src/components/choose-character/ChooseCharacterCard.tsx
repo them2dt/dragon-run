@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Typography, useTheme, Paper, Box, Skeleton, Grid } from '@mui/material';
 import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import { SquareButton } from 'components/styled/SquareButton';
@@ -9,12 +9,19 @@ interface ChooseCharacterCardProps {
   image: string;
   next: () => void;
   previous: () => void;
+  charactersAmount: number;
 }
 
-export default function ChooseCharacterCard({ name, image, next, previous }: ChooseCharacterCardProps) {
+export default function ChooseCharacterCard({
+  name,
+  image,
+  next,
+  previous,
+  charactersAmount
+}: ChooseCharacterCardProps) {
   const muiTheme = useTheme();
 
-  const [imageLoaded, setImageLoaded] = React.useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <Paper sx={{ borderRadius: '0', background: muiTheme.palette.background.light }} elevation={16}>
@@ -112,6 +119,7 @@ export default function ChooseCharacterCard({ name, image, next, previous }: Cho
         >
           <SquareButton
             onClick={() => {
+              if (charactersAmount === 1) return;
               setImageLoaded(false);
               previous();
             }}
@@ -122,6 +130,7 @@ export default function ChooseCharacterCard({ name, image, next, previous }: Cho
           </SquareButton>
           <SquareButton
             onClick={() => {
+              if (charactersAmount === 1) return;
               setImageLoaded(false);
               next();
             }}
