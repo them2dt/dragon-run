@@ -1,43 +1,36 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 //3rd-parties
 import { Grid, Typography, useTheme } from "@mui/material";
 //
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //
 import { faBox } from "@fortawesome/free-solid-svg-icons";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { faRankingStar } from "@fortawesome/free-solid-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-//
-import { faDiscord } from "@fortawesome/free-brands-svg-icons";
-import { faTwitter } from "@fortawesome/free-brands-svg-icons";
-//locals
+//local copmonents
 import EventKeys from "constants/EventKeys";
 import eventsCenter from "utils/eventsCenter";
-import HomeNavBar from "components/HomeNavBar";
-import SettingsMenu from "components/SettingsMenu";
 import OverlayWrapper from "components/OverlayWrapper";
 import logo from "@assets/Dragon_Run_Logo_Transparent.png";
 import AnimatedPage from "components/animated/AnimatedPage";
+//ui-components
+import HomeNavBar from "components/HomeNavBar";
+import SettingsMenu from "components/SettingsMenu";
 import { SquareButton } from "components/styled/SquareButton";
 import Leaderboard from "components/leaderboard/LeaderboardMenu";
+//dialogs
+import ShopDialog from "components/shop/ShopDialog";
 import InventoryDialog from "components/inventory/InventoryDialog";
 import ChooseCharacterDialog from "components/choose-character/ChooseCharacterDialog";
 
 export default function Home() {
   const muiTheme = useTheme();
-  const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [mintOpen, setMintOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [chooseCharacterOpen, setChooseCharacterOpen] = useState(false);
   const [inventoryOpen, setInventoryOpen] = useState(false);
-  const [defaultTab, setDefaultTab] = useState<number | undefined>(undefined); // 0 = Knights, 1 = Crates, 2 = Shop
-
-  const openLeaderboard = () => {
-    setLeaderboardOpen(true);
-  };
-  const closeLeaderboard = () => {
-    setLeaderboardOpen(false);
-  };
+  const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [chooseCharacterOpen, setChooseCharacterOpen] = useState(false);
+  const [defaultTab, setDefaultTab] = useState<number | undefined>(undefined); // 0 = Knights, 1 = Crates, 2 = Shop, 3 = mint
 
   const openSettings = () => {
     setSettingsOpen(true);
@@ -55,6 +48,20 @@ export default function Home() {
     eventsCenter.emit(EventKeys.CloseChooseCharacter);
   };
 
+  const openLeaderboard = () => {
+    setLeaderboardOpen(true);
+  };
+  const closeLeaderboard = () => {
+    setLeaderboardOpen(false);
+  };
+
+  const openMint = () => {
+    setDefaultTab(undefined);
+    setMintOpen(true);
+  };
+  const closeMint = () => {
+    setMintOpen(false);
+  };
   const openInventory = () => {
     setDefaultTab(undefined);
     setInventoryOpen(true);
@@ -102,6 +109,11 @@ export default function Home() {
           closeInventory={closeInventory}
           defaultTab={defaultTab}
         />
+        <ShopDialog
+          mintOpen={mintOpen}
+          closeMint={closeMint}
+          defaultTab={defaultTab}
+        />
         <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
           <img
@@ -133,7 +145,7 @@ export default function Home() {
                   },
                 }}
                 fullWidth
-                onClick={openInventory}
+                onClick={openLeaderboard}
               >
                 <Typography variant="h6">
                   <FontAwesomeIcon icon={faRankingStar} />
@@ -152,7 +164,7 @@ export default function Home() {
                   },
                 }}
                 fullWidth
-                onClick={openLeaderboard}
+                onClick={openInventory}
               >
                 <Typography variant="h6">
                   <FontAwesomeIcon icon={faBox} />
@@ -171,7 +183,7 @@ export default function Home() {
                   },
                 }}
                 fullWidth
-                onClick={openLeaderboard}
+                onClick={openMint}
               >
                 <Typography variant="h6">
                   <FontAwesomeIcon icon={faCartShopping} />
