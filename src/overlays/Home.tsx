@@ -1,16 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import logo from '@assets/Dragon_Run_Logo_Transparent.png';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from 'constants/EventKeys';
-import AnimatedPage from 'components/animated/AnimatedPage';
-import OverlayWrapper from 'components/OverlayWrapper';
-import Leaderboard from 'components/leaderboard/LeaderboardMenu';
-import SettingsMenu from 'components/SettingsMenu';
-import { Grid, Typography, useTheme } from '@mui/material';
-import HomeNavBar from 'components/HomeNavBar';
-import { SquareButton } from 'components/styled/SquareButton';
-import ChooseCharacterDialog from 'components/choose-character/ChooseCharacterDialog';
-import InventoryDialog from 'components/inventory/InventoryDialog';
+import React, { useEffect, useState } from "react";
+//3rd-parties
+import { Grid, Typography, useTheme } from "@mui/material";
+//
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//
+import { faBox } from "@fortawesome/free-solid-svg-icons";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { faRankingStar } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+//
+import { faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+//locals
+import EventKeys from "constants/EventKeys";
+import eventsCenter from "utils/eventsCenter";
+import HomeNavBar from "components/HomeNavBar";
+import SettingsMenu from "components/SettingsMenu";
+import OverlayWrapper from "components/OverlayWrapper";
+import logo from "@assets/Dragon_Run_Logo_Transparent.png";
+import AnimatedPage from "components/animated/AnimatedPage";
+import { SquareButton } from "components/styled/SquareButton";
+import Leaderboard from "components/leaderboard/LeaderboardMenu";
+import InventoryDialog from "components/inventory/InventoryDialog";
+import ChooseCharacterDialog from "components/choose-character/ChooseCharacterDialog";
 
 export default function Home() {
   const muiTheme = useTheme();
@@ -72,52 +84,98 @@ export default function Home() {
   return (
     <AnimatedPage>
       <OverlayWrapper className="bg-bg3 overflow-hidden">
-        <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
-        <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
+        <Leaderboard
+          leaderboardOpen={leaderboardOpen}
+          closeLeaderboard={closeLeaderboard}
+        />
+        <SettingsMenu
+          settingsOpen={settingsOpen}
+          closeSettings={closeSettings}
+        />
         <ChooseCharacterDialog
           chooseCharacterOpen={chooseCharacterOpen}
           closeChooseCharacter={closeChooseCharacter}
           openShop={openShop}
         />
-        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} defaultTab={defaultTab} />
+        <InventoryDialog
+          inventoryOpen={inventoryOpen}
+          closeInventory={closeInventory}
+          defaultTab={defaultTab}
+        />
         <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
-          <img src={logo} alt="logo" className="m-auto px-5 lg:w-[560px] h-auto rendering-pixelated" />
+          <img
+            src={logo}
+            alt="logo"
+            className="m-auto px-5 lg:w-[560px] h-auto rendering-pixelated"
+          />
           <Grid
             container
             spacing={2}
             sx={{
               marginBottom: 2,
               paddingX: 2,
-              [muiTheme.breakpoints.up('lg')]: { marginBottom: 10, paddingX: 6 }
+              [muiTheme.breakpoints.up("lg")]: {
+                marginBottom: 10,
+                paddingX: 6,
+              },
             }}
           >
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <SquareButton
                 variant="contained"
                 size="large"
                 sx={{
                   backgroundColor: muiTheme.palette.fourth.main,
-                  '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: muiTheme.palette.fourth.main }
+                  "&:hover": {
+                    backgroundColor: muiTheme.palette.text.secondary,
+                    color: muiTheme.palette.fourth.main,
+                  },
                 }}
                 fullWidth
                 onClick={openInventory}
               >
-                <Typography variant="h6">Inventory</Typography>
+                <Typography variant="h6">
+                  <FontAwesomeIcon icon={faRankingStar} />
+                </Typography>
               </SquareButton>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <SquareButton
                 variant="contained"
                 size="large"
                 sx={{
                   backgroundColor: muiTheme.palette.fourth.main,
-                  '&:hover': { backgroundColor: muiTheme.palette.text.secondary, color: muiTheme.palette.fourth.main }
+                  "&:hover": {
+                    backgroundColor: muiTheme.palette.text.secondary,
+                    color: muiTheme.palette.fourth.main,
+                  },
                 }}
                 fullWidth
                 onClick={openLeaderboard}
               >
-                <Typography variant="h6">Leaderboard</Typography>
+                <Typography variant="h6">
+                  <FontAwesomeIcon icon={faBox} />
+                </Typography>
+              </SquareButton>
+            </Grid>
+            <Grid item xs={4}>
+              <SquareButton
+                variant="contained"
+                size="large"
+                sx={{
+                  backgroundColor: muiTheme.palette.fourth.main,
+                  "&:hover": {
+                    backgroundColor: muiTheme.palette.text.secondary,
+                    color: muiTheme.palette.fourth.main,
+                  },
+                }}
+                fullWidth
+                onClick={openLeaderboard}
+              >
+                <Typography variant="h6">
+                  <FontAwesomeIcon icon={faCartShopping} />
+                </Typography>
               </SquareButton>
             </Grid>
             <Grid item xs={12}>
@@ -125,10 +183,10 @@ export default function Home() {
                 size="large"
                 sx={{
                   backgroundColor: muiTheme.palette.secondary.main,
-                  '&:hover': {
+                  "&:hover": {
                     backgroundColor: muiTheme.palette.text.secondary,
-                    color: muiTheme.palette.secondary.main
-                  }
+                    color: muiTheme.palette.secondary.main,
+                  },
                 }}
                 fullWidth
                 onClick={openChooseCharacter}
