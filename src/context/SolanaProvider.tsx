@@ -49,7 +49,6 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     if (!pubkey) {
       return;
     }
-    console.log("xnft Solana pubkey: ", pubkey);
     const metaplex = Metaplex.make(connection);
     if (!metaplex) {
       return;
@@ -76,7 +75,6 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     const nfts: KnightNFT[] = [defaultKnight];
     ownedNFTs.map(async (nft) => {
       await axios.get(nft.uri).then((res) => {
-        console.log("NFT data: ", res.data);
         const data: KnightNFT = {
           name: res.data?.name,
           image: res.data?.properties?.files[0]?.uri,
