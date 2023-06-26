@@ -73,6 +73,7 @@ export default function ChooseCharacterDialog({
             <ChooseCharacterCard
               name={solana.ownedKnights[characterIndex].name}
               image={solana.ownedKnights[characterIndex].image}
+              charactersAmount={solana.ownedKnights.length}
               next={handleNextCharacterClick}
               previous={handlePreviousCharacterClick}
             />
