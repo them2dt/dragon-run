@@ -21,7 +21,9 @@ export const SolanaContext = createContext<SolanaContextType | null>(null);
 
 export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   const [metaplex, setMetaplex] = useState<Metaplex | null>(null);
-  const [ownedKnights, setOwnedKnights] = useState<KnightNFT[] | []>([]);
+  const [ownedKnights, setOwnedKnights] = useState<KnightNFT[]>([
+    { name: 'Default', image: '', spritesheet: '', traits: { head: '', arms: '', torso: '', legs: '' } }
+  ]);
   const [solana, setSolana] = useState<Solana>({
     metaplex,
     ownedKnights
@@ -69,10 +71,17 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     const nfts: KnightNFT[] = [];
     ownedNFTs.map(async (nft) => {
       await axios.get(nft.uri).then((res) => {
+        console.log('NFT data: ', res.data);
         const data: KnightNFT = {
           name: res.data?.name,
           image: res.data?.properties?.files[0]?.uri,
-          spritesheet: res.data?.properties?.files[1]?.uri
+          spritesheet: res.data?.properties?.files[1]?.uri,
+          traits: {
+            head: res.data?.attributes[2]?.value,
+            arms: res.data?.attributes[0]?.value,
+            torso: res.data?.attributes[5]?.value,
+            legs: res.data?.attributes[3]?.value
+          }
         };
         nfts.push(data);
       });

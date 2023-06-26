@@ -55,10 +55,18 @@ export default function KnightsSection({ active, goToShop }: KnightsSectionProps
             >
               Traits:
             </Typography>
-            <Typography color={muiTheme.palette.text.secondary}>Head: Default</Typography>
-            <Typography color={muiTheme.palette.text.secondary}>Arms: Default</Typography>
-            <Typography color={muiTheme.palette.text.secondary}>Torso: Default</Typography>
-            <Typography color={muiTheme.palette.text.secondary}>Legs: Default</Typography>
+            <Typography color={muiTheme.palette.text.secondary}>
+              Head: {character.traits.head === '' ? 'Default' : character.traits.head}
+            </Typography>
+            <Typography color={muiTheme.palette.text.secondary}>
+              Arms: {character.traits.arms === '' ? 'Default' : character.traits.arms}
+            </Typography>
+            <Typography color={muiTheme.palette.text.secondary}>
+              Torso: {character.traits.torso === '' ? 'Default' : character.traits.torso}
+            </Typography>
+            <Typography color={muiTheme.palette.text.secondary}>
+              Legs: {character.traits.legs === '' ? 'Default' : character.traits.legs}
+            </Typography>
           </KnightItem>
         ))}
         <Grid component={Box} item xs={12} sx={{ alignItems: 'center', justifyContent: 'center', width: 1 }}>
