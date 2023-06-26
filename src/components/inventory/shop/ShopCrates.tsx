@@ -1,8 +1,8 @@
-import React from 'react';
-import { useTheme, Grid, Typography, Box } from '@mui/material';
-import { SquareButton } from 'components/styled/SquareButton';
-import shopItems from 'components/fake-data/shopItems';
-import ShopItem from './ShopItem';
+import React from "react";
+import { useTheme, Grid, Typography, Box } from "@mui/material";
+import { SquareButton } from "components/styled/SquareButton";
+import shopItems from "components/fake-data/shopItems";
+import ShopItem from "./ShopItem";
 
 export default function ShopCrates() {
   const muiTheme = useTheme();
@@ -17,25 +17,25 @@ export default function ShopCrates() {
         <ShopItem name={crate.name} image={crate.image} key={crate.name}>
           <Box
             sx={{
-              width: '100%',
-              pt: '90%',
-              position: 'relative',
-              [muiTheme.breakpoints.up('md')]: {
-                pt: '100%'
+              width: "100%",
+              pt: "90%",
+              position: "relative",
+              [muiTheme.breakpoints.up("md")]: {
+                pt: "100%"
               }
             }}
           >
             <Box
               sx={{
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 left: 0,
                 bottom: 0,
                 right: 0,
-                maxHeight: '100%',
+                maxHeight: "100%",
                 margin: 2.5,
                 mt: 0,
-                [muiTheme.breakpoints.up('md')]: {
+                [muiTheme.breakpoints.up("md")]: {
                   mt: 0.5,
                   mr: 2,
                   mb: 3,
@@ -56,7 +56,7 @@ export default function ShopCrates() {
                 Price: {crate.price}
               </Typography>
               <SquareButton
-                sx={{ position: 'absolute', bottom: 0 }}
+                sx={{ position: "absolute", bottom: 0 }}
                 fullWidth
                 variant="contained"
                 color="secondary"

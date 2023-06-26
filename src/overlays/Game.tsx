@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import AnimatedPage from 'components/animated/AnimatedPage';
-import OverlayWrapper from 'components/OverlayWrapper';
-import GameNavBar from 'components/game-menu/GameNavBar';
-import GameMenu from 'components/game-menu/GameMenu';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from 'constants/EventKeys';
-import LeaderboardMenu from 'components/leaderboard/LeaderboardMenu';
-import { Button, useTheme } from '@mui/material';
-import AnimatedRunText from 'components/animated/AnimatedRunText';
-import SettingsMenu from 'components/SettingsMenu';
-import InventoryDialog from 'components/inventory/InventoryDialog';
-import ControlsTutorial from 'components/ControlsTutorial';
+import React, { useEffect, useState } from "react";
+import AnimatedPage from "components/animated/AnimatedPage";
+import OverlayWrapper from "components/OverlayWrapper";
+import GameNavBar from "components/game-menu/GameNavBar";
+import GameMenu from "components/game-menu/GameMenu";
+import eventsCenter from "utils/eventsCenter";
+import EventKeys from "constants/EventKeys";
+import LeaderboardMenu from "components/leaderboard/LeaderboardMenu";
+import { Button, useTheme } from "@mui/material";
+import AnimatedRunText from "components/animated/AnimatedRunText";
+import SettingsMenu from "components/SettingsMenu";
+import InventoryDialog from "components/inventory/InventoryDialog";
+import ControlsTutorial from "components/ControlsTutorial";
 
 export default function Game() {
   const theme = useTheme();
@@ -90,11 +90,11 @@ export default function Game() {
           <div className="fixed z-40 left-[16px] top-[12px] h-[32px] w-[60px]">
             <Button
               sx={{
-                backgroundColor: '#ffffff',
+                backgroundColor: "#ffffff",
                 borderRadius: 6,
-                color: '#000000',
-                pointerEvents: 'auto',
-                ':hover': { backgroundColor: theme.palette.secondary.main }
+                color: "#000000",
+                pointerEvents: "auto",
+                ":hover": { backgroundColor: theme.palette.secondary.main }
               }}
               onClick={openMenu}
             >

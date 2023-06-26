@@ -1,13 +1,13 @@
-import React from 'react';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from 'constants/EventKeys';
-import OverlayWrapper from 'components/OverlayWrapper';
-import AnimatedOnViewTitleLg from 'components/animated/AnimatedOnViewTitleLg';
-import AnimatedOnViewTitleMd from 'components/animated/AnimatedOnViewTitleMd';
-import AnimatedPageDelayed from 'components/animated/AnimatedPageDelayed';
-import AnimatedNewHighScoreTitle from 'components/animated/AnimatedNewHighScoreTitle';
-import { Typography, useTheme } from '@mui/material';
-import { SquareButton } from 'components/styled/SquareButton';
+import React from "react";
+import eventsCenter from "utils/eventsCenter";
+import EventKeys from "constants/EventKeys";
+import OverlayWrapper from "components/OverlayWrapper";
+import AnimatedOnViewTitleLg from "components/animated/AnimatedOnViewTitleLg";
+import AnimatedOnViewTitleMd from "components/animated/AnimatedOnViewTitleMd";
+import AnimatedPageDelayed from "components/animated/AnimatedPageDelayed";
+import AnimatedNewHighScoreTitle from "components/animated/AnimatedNewHighScoreTitle";
+import { Typography, useTheme } from "@mui/material";
+import { SquareButton } from "components/styled/SquareButton";
 
 interface GameOverProps {
   newHighScore: number;
@@ -31,14 +31,14 @@ export default function GameOver({ newHighScore }: GameOverProps): JSX.Element {
               size="large"
               sx={{
                 backgroundColor: muiTheme.palette.secondary.main,
-                '&:hover': {
+                "&:hover": {
                   backgroundColor: muiTheme.palette.text.secondary,
                   color: muiTheme.palette.secondary.main
                 },
-                width: '200px',
-                height: '70px',
-                [muiTheme.breakpoints.up('sm')]: { width: '300px', height: '80px' },
-                [muiTheme.breakpoints.up('md')]: { width: '500px', height: '100px' }
+                width: "200px",
+                height: "70px",
+                [muiTheme.breakpoints.up("sm")]: { width: "300px", height: "80px" },
+                [muiTheme.breakpoints.up("md")]: { width: "500px", height: "100px" }
               }}
               onClick={() => eventsCenter.emit(EventKeys.GoToGame)}
             >
@@ -56,14 +56,14 @@ export default function GameOver({ newHighScore }: GameOverProps): JSX.Element {
               size="large"
               sx={{
                 backgroundColor: muiTheme.palette.background.light,
-                '&:hover': {
+                "&:hover": {
                   backgroundColor: muiTheme.palette.text.secondary,
                   color: muiTheme.palette.background.light
                 },
-                width: '160px',
-                height: '40px',
-                [muiTheme.breakpoints.up('sm')]: { width: '200px', height: '50px' },
-                [muiTheme.breakpoints.up('md')]: { width: '300px', height: '60px' }
+                width: "160px",
+                height: "40px",
+                [muiTheme.breakpoints.up("sm")]: { width: "200px", height: "50px" },
+                [muiTheme.breakpoints.up("md")]: { width: "300px", height: "60px" }
               }}
               onClick={() => eventsCenter.emit(EventKeys.GoToHome)}
             >

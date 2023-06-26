@@ -1,6 +1,6 @@
-import React, { createContext, useState, useMemo } from 'react';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from 'constants/EventKeys';
+import React, { createContext, useState, useMemo } from "react";
+import eventsCenter from "utils/eventsCenter";
+import EventKeys from "constants/EventKeys";
 
 interface SettingsContextType {
   volume: number;

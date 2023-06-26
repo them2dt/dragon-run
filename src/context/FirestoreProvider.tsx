@@ -1,6 +1,6 @@
-import React, { createContext, useState } from 'react';
-import type FirestoreData from '@firestore/FirestoreData';
-import type UserData from '@firestore/UserData';
+import React, { createContext, useState } from "react";
+import type FirestoreData from "@firestore/FirestoreData";
+import type UserData from "@firestore/UserData";
 import {
   getFirestore,
   getDoc,
@@ -12,11 +12,11 @@ import {
   setDoc,
   Timestamp,
   updateDoc
-} from 'firebase/firestore';
-import firestore from '../firebase/clientApp';
-import isHighScoresDoc from '@firestore/type-guards/isHighScoresDoc';
-import type HighScoresDoc from '@firestore/HighScoresDoc';
-import type Leaderboard from '@firestore/Leaderboard';
+} from "firebase/firestore";
+import firestore from "../firebase/clientApp";
+import isHighScoresDoc from "@firestore/type-guards/isHighScoresDoc";
+import type HighScoresDoc from "@firestore/HighScoresDoc";
+import type Leaderboard from "@firestore/Leaderboard";
 
 interface FirestoreContextType {
   firestoreData: FirestoreData | null;
@@ -63,7 +63,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   };
 
   const getUserData = async (userName: string) => {
-    if (userName === '') {
+    if (userName === "") {
       return;
     }
     let db = firestoreData?.firestore;
@@ -74,7 +74,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     if (db == null) {
       return;
     }
-    const userDataDoc = doc(db, 'users', userName);
+    const userDataDoc = doc(db, "users", userName);
     const userData = await getDoc(userDataDoc);
     if (userData == null) {
       return;
@@ -94,7 +94,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     if (db == null) {
       return;
     }
-    const highScoresDocRef = doc(db, 'leaderboard', 'highScores');
+    const highScoresDocRef = doc(db, "leaderboard", "highScores");
     const highScoresDoc = await getDoc(highScoresDocRef);
     if (!isHighScoresDoc(highScoresDoc.data())) {
       return;
@@ -116,7 +116,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   };
 
   const initializeUserData = async (userName: string) => {
-    if (userName === '') {
+    if (userName === "") {
       return;
     }
     let db = firestoreData?.firestore;
@@ -130,8 +130,8 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     if (firestoreData?.userData?.userName === userName) {
       return;
     }
-    const usersRef = collection(db, 'users');
-    const q = query(usersRef, where('userName', '==', userName));
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("userName", "==", userName));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.size === 0) {
       await createUser(userName);
@@ -144,7 +144,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   };
 
   const createUser = async (userName: string) => {
-    if (userName === '') {
+    if (userName === "") {
       return;
     }
     let db = firestoreData?.firestore;
@@ -155,11 +155,11 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     if (db == null) {
       return;
     }
-    const usersRef = collection(db, 'users');
-    const q = query(usersRef, where('userName', '==', userName));
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("userName", "==", userName));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.size >= 1) {
-      console.log('User already exists!');
+      console.log("User already exists!");
     } else if (querySnapshot.size === 0) {
       const newUser: UserData = {
         userName,
@@ -168,7 +168,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
         scoredAt: Timestamp.now()
       };
 
-      await setDoc(doc(db, 'users', userName), newUser);
+      await setDoc(doc(db, "users", userName), newUser);
 
       await getUserData(userName);
     }
@@ -203,7 +203,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       highScore,
       scoredAt: Timestamp.now()
     };
-    await updateDoc(doc(db, 'users', userName), updatedData);
+    await updateDoc(doc(db, "users", userName), updatedData);
 
     await getUserData(userName);
   };

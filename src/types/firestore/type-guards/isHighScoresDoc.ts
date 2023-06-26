@@ -1,4 +1,4 @@
-import type HighScoresDoc from '@firestore/HighScoresDoc';
+import type HighScoresDoc from "@firestore/HighScoresDoc";
 
 function isHighScoresDoc(data: any): data is HighScoresDoc {
   try {

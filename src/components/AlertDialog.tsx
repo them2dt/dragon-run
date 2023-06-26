@@ -1,9 +1,9 @@
-import React from 'react';
-import Dialog from '@mui/material/Dialog';
-import { IconButton, Paper, Stack, Typography, useTheme } from '@mui/material';
-import MenuSlideTransition from './MenuSlideTransition';
-import CloseIcon from '@mui/icons-material/Close';
-import { SquareButton } from './styled/SquareButton';
+import React from "react";
+import Dialog from "@mui/material/Dialog";
+import { IconButton, Paper, Stack, Typography, useTheme } from "@mui/material";
+import MenuSlideTransition from "./MenuSlideTransition";
+import CloseIcon from "@mui/icons-material/Close";
+import { SquareButton } from "./styled/SquareButton";
 
 interface AlertDialogProps {
   dialogOpen: boolean;
@@ -33,7 +33,7 @@ export default function AlertDialog({
           background: muiTheme.palette.background.default,
           px: 0,
           py: 3,
-          [muiTheme.breakpoints.up('md')]: {
+          [muiTheme.breakpoints.up("md")]: {
             py: 5
           }
         }}
@@ -42,10 +42,10 @@ export default function AlertDialog({
           aria-label="close"
           onClick={closeDialog}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             top: 4,
             right: 4,
-            [muiTheme.breakpoints.up('lg')]: {
+            [muiTheme.breakpoints.up("lg")]: {
               top: 8,
               right: 10
             }
@@ -57,7 +57,7 @@ export default function AlertDialog({
           align="center"
           sx={{
             px: 2,
-            [muiTheme.breakpoints.up('md')]: {
+            [muiTheme.breakpoints.up("md")]: {
               px: 10
             }
           }}
@@ -67,15 +67,15 @@ export default function AlertDialog({
           {title}
         </Typography>
         <Stack
-          direction={'row'}
+          direction={"row"}
           spacing={3}
           sx={{
             pt: 3,
             px: 5,
-            justifyContent: 'center',
-            textAlign: 'center',
-            minWidth: '100%',
-            [muiTheme.breakpoints.up('md')]: {
+            justifyContent: "center",
+            textAlign: "center",
+            minWidth: "100%",
+            [muiTheme.breakpoints.up("md")]: {
               pt: 6,
               px: 10
             }
@@ -87,10 +87,10 @@ export default function AlertDialog({
               closeDialog();
             }}
             variant="contained"
-            sx={{ marginY: 'auto' }}
+            sx={{ marginY: "auto" }}
             fullWidth
           >
-            <Typography variant="h5">{acceptText ?? 'Accept'}</Typography>
+            <Typography variant="h5">{acceptText ?? "Accept"}</Typography>
           </SquareButton>
           <SquareButton
             onClick={() => {
@@ -98,10 +98,10 @@ export default function AlertDialog({
               closeDialog();
             }}
             variant="contained"
-            sx={{ marginY: 'auto' }}
+            sx={{ marginY: "auto" }}
             fullWidth
           >
-            <Typography variant="h5">{denyText ?? 'Deny'}</Typography>
+            <Typography variant="h5">{denyText ?? "Deny"}</Typography>
           </SquareButton>
         </Stack>
       </Paper>

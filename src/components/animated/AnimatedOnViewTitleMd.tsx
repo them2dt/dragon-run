@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 interface AnimatedOnViewTitleMdProps {
   className?: string;
@@ -14,14 +14,14 @@ const AnimatedOnViewTitleMd = (props: AnimatedOnViewTitleMdProps) => {
     onscreen: {
       opacity: 1,
       scale: 1,
-      transition: { type: 'spring', bounce: 0.5, duration: 1.5, delay: 0 + props.delay }
+      transition: { type: "spring", bounce: 0.5, duration: 1.5, delay: 0 + props.delay }
     }
   };
 
   return (
     <motion.h1
-      initial={'offscreen'}
-      whileInView={'onscreen'}
+      initial={"offscreen"}
+      whileInView={"onscreen"}
       viewport={{ once: true, amount: 1 }}
       onClick={props.onClick}
       variants={titleMDAnimations}

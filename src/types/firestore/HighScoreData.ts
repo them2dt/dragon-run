@@ -1,4 +1,4 @@
-import type { Timestamp } from '@firebase/firestore-types';
+import type { Timestamp } from "@firebase/firestore-types";
 
 interface HighScoreData {
   updatedAt: Timestamp;

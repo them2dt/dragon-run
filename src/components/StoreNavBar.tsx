@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, IconButton, useTheme } from '@mui/material';
-import { Settings } from '@mui/icons-material';
+import React from "react";
+import { Box, IconButton, useTheme } from "@mui/material";
+import { Settings } from "@mui/icons-material";
 
 interface StoreNavBarProps {
   openSettings: () => void;

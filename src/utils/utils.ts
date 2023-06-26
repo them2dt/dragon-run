@@ -1,10 +1,10 @@
-import type { DateTime } from '@metaplex-foundation/js';
+import type { DateTime } from "@metaplex-foundation/js";
 
 export function parseNumber(str: string, precision: number) {
-  if (str === '.' || str === '') {
+  if (str === "." || str === "") {
     return str;
   }
-  const numberSegments = str.split('.');
+  const numberSegments = str.split(".");
   if (numberSegments.length !== 2) {
     return str;
   }
@@ -15,7 +15,7 @@ export function parseNumber(str: string, precision: number) {
 }
 
 export const prettyFormatPrice = (price: number, decimals = 4): string => {
-  return `$${(price >= 0.1 ? price.toFixed(2) : price.toFixed(decimals)).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+  return `$${(price >= 0.1 ? price.toFixed(2) : price.toFixed(decimals)).replace(/\d(?=(\d{3})+\.)/g, "$&,")}`;
 };
 
 export function msToTimeLeft(duration: number) {

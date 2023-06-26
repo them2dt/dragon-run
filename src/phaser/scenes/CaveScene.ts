@@ -1,23 +1,23 @@
-import * as Phaser from 'phaser';
-import TextureKeys from 'constants/TextureKeys';
-import SceneKeys from 'constants/SceneKeys';
-import Player from '../components/players/Player';
-import SmallDragon from '../components/enemies/SmallDragon';
-import RedDragon from '../components/enemies/RedDragon';
-import { AnimatedTile, type TilesetTileData } from '../components/AnimatedTile';
-import Device from '../../constants/Device';
-import CameraFollowing from 'constants/CameraFollowing';
-import TiledLayerKeys from 'constants/TiledLayerKeys';
-import PlayerState from 'constants/players/PlayerState';
-import DragonState from 'constants/enemies/DragonState';
-import MusicKeys from 'constants/audio/MusicKeys';
-import SoundFade from 'phaser3-rex-plugins/plugins/soundfade.js';
-import EnvironmentSoundEffectKeys from 'constants/audio/EnvironmentSoundEffectKeys';
-import EnemySoundEffectKeys from 'constants/audio/EnemySoundEffectKeys';
-import PlayerSoundEffectKeys from 'constants/audio/PlayerSoundEffectKeys';
-import eventsCenter from 'utils/eventsCenter';
-import EventKeys from 'constants/EventKeys';
-import MiscSoundEffectKeys from '@consts/audio/MiscSoundEffectKeys';
+import * as Phaser from "phaser";
+import TextureKeys from "constants/TextureKeys";
+import SceneKeys from "constants/SceneKeys";
+import Player from "../components/players/Player";
+import SmallDragon from "../components/enemies/SmallDragon";
+import RedDragon from "../components/enemies/RedDragon";
+import { AnimatedTile, type TilesetTileData } from "../components/AnimatedTile";
+import Device from "../../constants/Device";
+import CameraFollowing from "constants/CameraFollowing";
+import TiledLayerKeys from "constants/TiledLayerKeys";
+import PlayerState from "constants/players/PlayerState";
+import DragonState from "constants/enemies/DragonState";
+import MusicKeys from "constants/audio/MusicKeys";
+import SoundFade from "phaser3-rex-plugins/plugins/soundfade.js";
+import EnvironmentSoundEffectKeys from "constants/audio/EnvironmentSoundEffectKeys";
+import EnemySoundEffectKeys from "constants/audio/EnemySoundEffectKeys";
+import PlayerSoundEffectKeys from "constants/audio/PlayerSoundEffectKeys";
+import eventsCenter from "utils/eventsCenter";
+import EventKeys from "constants/EventKeys";
+import MiscSoundEffectKeys from "@consts/audio/MiscSoundEffectKeys";
 
 export default class CaveScene extends Phaser.Scene {
   private device: Device = Device.Desktop;
@@ -122,7 +122,7 @@ export default class CaveScene extends Phaser.Scene {
 
     this.tilemap = this.make.tilemap({ key: TextureKeys.CaveMap });
     this.tileset = this.tilemap.addTilesetImage(
-      'cave-tileset',
+      "cave-tileset",
       TextureKeys.CaveTiles,
       16,
       16,
@@ -135,8 +135,8 @@ export default class CaveScene extends Phaser.Scene {
     this.lavaballsLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Lavaballs) as Phaser.Tilemaps.ObjectLayer;
 
     this.ground = this.tilemap.createLayer(
-      'Ground',
-      this.tilemap.getTileset('cave-tileset') as Phaser.Tilemaps.Tileset,
+      "Ground",
+      this.tilemap.getTileset("cave-tileset") as Phaser.Tilemaps.Tileset,
       this.mapOffsetX,
       this.mapOffsetY
     ) as Phaser.Tilemaps.TilemapLayer;
@@ -146,8 +146,8 @@ export default class CaveScene extends Phaser.Scene {
     this.ground.scale = 2.4;
 
     this.lava = this.tilemap.createLayer(
-      'Lava',
-      this.tilemap.getTileset('cave-tileset') as Phaser.Tilemaps.Tileset,
+      "Lava",
+      this.tilemap.getTileset("cave-tileset") as Phaser.Tilemaps.Tileset,
       this.mapOffsetX,
       this.mapOffsetY
     ) as Phaser.Tilemaps.TilemapLayer;
@@ -159,7 +159,7 @@ export default class CaveScene extends Phaser.Scene {
     const tileData = this.tileset.tileData as TilesetTileData;
     for (const tileid in tileData) {
       this.tilemap.layers.forEach((layer) => {
-        if (layer.tilemapLayer.type === 'StaticTilemapLayer') return;
+        if (layer.tilemapLayer.type === "StaticTilemapLayer") return;
         layer.data.forEach((tileRow) => {
           tileRow.forEach((tile) => {
             if (tile.index - this.tileset.firstgid === parseInt(tileid, 10)) {
@@ -282,7 +282,7 @@ export default class CaveScene extends Phaser.Scene {
       createCallback: (go) => {
         const fireballBody = go.body as Phaser.Physics.Arcade.Body;
         fireballBody.onCollide = true;
-        go.on('destroy', () => {
+        go.on("destroy", () => {
           this.playerFireballBurn1Sound.play({ volume: 0.6 });
         });
         this.physics.add.collider(go, this.ground, (object1) => {

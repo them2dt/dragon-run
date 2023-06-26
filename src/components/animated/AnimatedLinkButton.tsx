@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useOverlay } from '../../context/useOverlay';
-import type OverlayKeys from '../../constants/OverlayKeys';
+import React from "react";
+import { motion } from "framer-motion";
+import { useOverlay } from "../../context/useOverlay";
+import type OverlayKeys from "../../constants/OverlayKeys";
 
 interface AnimatedLinkButtonProps {
   className: string;
@@ -25,8 +25,8 @@ const AnimatedLinkButton = (props: AnimatedLinkButtonProps) => {
   };
 
   const handleButtonClick = (linkOrOverlay: string | OverlayKeys) => {
-    if (typeof linkOrOverlay === 'string') {
-      window.open(linkOrOverlay, '_blank');
+    if (typeof linkOrOverlay === "string") {
+      window.open(linkOrOverlay, "_blank");
     } else {
       setOverlay(linkOrOverlay);
     }

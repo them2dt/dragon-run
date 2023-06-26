@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 interface AnimatedOnViewPProps {
   className: string;
@@ -12,14 +12,14 @@ const AnimatedOnViewP = (props: AnimatedOnViewPProps) => {
     onscreen: {
       opacity: 1,
       scale: 1,
-      transition: { type: 'spring', bounce: 0.4, duration: 1.5 }
+      transition: { type: "spring", bounce: 0.4, duration: 1.5 }
     }
   };
 
   return (
     <motion.p
-      initial={'offscreen'}
-      whileInView={'onscreen'}
+      initial={"offscreen"}
+      whileInView={"onscreen"}
       viewport={{ once: true, amount: 0.5 }}
       variants={pAnimations}
       className={`py-4 text-xl ${props.className}`}

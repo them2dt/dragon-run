@@ -1,25 +1,25 @@
-import React from 'react';
-import { Grid, Typography } from '@mui/material';
-import { magicEden, tensor } from '@consts/Links';
-import magicedenLogo from '@assets/magiceden.png';
-import tensorLogo from '@assets/tensor.png';
-import ExchangeItem from './ExchangeItem';
+import React from "react";
+import { Grid, Typography } from "@mui/material";
+import { magicEden, tensor } from "@consts/Links";
+import magicedenLogo from "@assets/magiceden.png";
+import tensorLogo from "@assets/tensor.png";
+import ExchangeItem from "./ExchangeItem";
 
 export default function TradeOnSection() {
   const exchanges = [
     {
-      name: 'Tensor',
+      name: "Tensor",
       link: tensor,
       logo: tensorLogo,
-      primaryColor: '#8EE3FB',
-      secondaryColor: '#1C1C1C'
+      primaryColor: "#8EE3FB",
+      secondaryColor: "#1C1C1C"
     },
     {
-      name: 'MagicEden',
+      name: "MagicEden",
       link: magicEden,
       logo: magicedenLogo,
-      primaryColor: '#E42575',
-      secondaryColor: '#1C1C1C'
+      primaryColor: "#E42575",
+      secondaryColor: "#1C1C1C"
     }
   ];
   return (

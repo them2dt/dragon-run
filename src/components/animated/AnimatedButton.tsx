@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 interface AnimatedButtonProps {
   className?: string;
@@ -9,7 +9,7 @@ interface AnimatedButtonProps {
 
 const AnimatedButton = (props: AnimatedButtonProps) => {
   const transitions = {
-    type: 'spring',
+    type: "spring",
     bounce: 0.5,
     duration: 0.15
   };

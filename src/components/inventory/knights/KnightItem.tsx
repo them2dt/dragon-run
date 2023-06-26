@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useTheme, Paper, Skeleton, Grid } from '@mui/material';
-import defaultCharacter from '@assets/default-character-still.png';
+import React, { useState } from "react";
+import { useTheme, Paper, Skeleton, Grid } from "@mui/material";
+import defaultCharacter from "@assets/default-character-still.png";
 
 interface KnightItemProps {
   name: string;
@@ -21,7 +21,7 @@ export default function KnightItem({ name, image, children }: KnightItemProps) {
       md={5}
       sx={{
         m: 2,
-        width: 'fit-content'
+        width: "fit-content"
       }}
     >
       <Grid
@@ -30,7 +30,7 @@ export default function KnightItem({ name, image, children }: KnightItemProps) {
         container
         direction="row"
         sx={{
-          borderRadius: '0',
+          borderRadius: "0",
           background: muiTheme.palette.background.light
         }}
         elevation={12}
@@ -45,15 +45,15 @@ export default function KnightItem({ name, image, children }: KnightItemProps) {
         >
           <Paper
             sx={{
-              borderRadius: '0'
+              borderRadius: "0"
             }}
             elevation={16}
           >
             <img
-              src={image === '' ? defaultCharacter : image}
+              src={image === "" ? defaultCharacter : image}
               alt={name}
               className="w-full rendering-pixelated"
-              style={{ display: imageLoaded ? 'block' : 'none' }}
+              style={{ display: imageLoaded ? "block" : "none" }}
               onLoad={() => {
                 setImageLoaded(true);
               }}
@@ -64,7 +64,7 @@ export default function KnightItem({ name, image, children }: KnightItemProps) {
                 sx={{
                   backgroundColor: muiTheme.palette.background.light,
                   width: 1,
-                  pt: '100%',
+                  pt: "100%",
                   borderRadius: 0
                 }}
               />
@@ -79,7 +79,7 @@ export default function KnightItem({ name, image, children }: KnightItemProps) {
             p: 2,
             pl: 2.4,
             pt: 0,
-            [muiTheme.breakpoints.up('md')]: {
+            [muiTheme.breakpoints.up("md")]: {
               pl: 0,
               pt: 2
             }

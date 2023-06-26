@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Typography, useTheme, Paper, Box, Skeleton, Grid } from '@mui/material';
-import { ChevronRight, ChevronLeft } from '@mui/icons-material';
-import { SquareButton } from 'components/styled/SquareButton';
-import defaultCharacter from '@assets/default-character-still.png';
+import React, { useState } from "react";
+import { Typography, useTheme, Paper, Box, Skeleton, Grid } from "@mui/material";
+import { ChevronRight, ChevronLeft } from "@mui/icons-material";
+import { SquareButton } from "components/styled/SquareButton";
+import defaultCharacter from "@assets/default-character-still.png";
 
 interface ChooseCharacterCardProps {
   name: string;
@@ -24,18 +24,18 @@ export default function ChooseCharacterCard({
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <Paper sx={{ borderRadius: '0', background: muiTheme.palette.background.light }} elevation={16}>
+    <Paper sx={{ borderRadius: "0", background: muiTheme.palette.background.light }} elevation={16}>
       <Grid
-        direction={'column'}
+        direction={"column"}
         container
         sx={{
           pt: 1,
           pb: 2,
           px: 3,
-          textAlign: 'center',
-          justifyContent: 'center',
-          alignItems: 'center',
-          [muiTheme.breakpoints.up('xl')]: {
+          textAlign: "center",
+          justifyContent: "center",
+          alignItems: "center",
+          [muiTheme.breakpoints.up("xl")]: {
             pt: 3,
             pb: 3,
             px: 6
@@ -47,7 +47,7 @@ export default function ChooseCharacterCard({
             variant="h4"
             sx={{
               pb: 1,
-              [muiTheme.breakpoints.up('xl')]: {
+              [muiTheme.breakpoints.up("xl")]: {
                 pb: 3
               }
             }}
@@ -62,22 +62,22 @@ export default function ChooseCharacterCard({
           elevation={12}
           sx={{
             width: 150,
-            [muiTheme.breakpoints.up('xs')]: {
+            [muiTheme.breakpoints.up("xs")]: {
               width: 220
             },
-            [muiTheme.breakpoints.up('sm')]: {
+            [muiTheme.breakpoints.up("sm")]: {
               width: 230
             },
-            [muiTheme.breakpoints.up('xl')]: {
+            [muiTheme.breakpoints.up("xl")]: {
               width: 340
             }
           }}
         >
           <img
-            src={image === '' ? defaultCharacter : image}
+            src={image === "" ? defaultCharacter : image}
             alt={name}
             className="w-full rendering-pixelated"
-            style={{ display: imageLoaded ? 'block' : 'none' }}
+            style={{ display: imageLoaded ? "block" : "none" }}
             onLoad={() => {
               setImageLoaded(true);
             }}
@@ -88,15 +88,15 @@ export default function ChooseCharacterCard({
               sx={{
                 backgroundColor: muiTheme.palette.background.light,
                 borderRadius: 0,
-                pt: '100%',
+                pt: "100%",
                 width: 150,
-                [muiTheme.breakpoints.up('xs')]: {
+                [muiTheme.breakpoints.up("xs")]: {
                   width: 220
                 },
-                [muiTheme.breakpoints.up('sm')]: {
+                [muiTheme.breakpoints.up("sm")]: {
                   width: 230
                 },
-                [muiTheme.breakpoints.up('xl')]: {
+                [muiTheme.breakpoints.up("xl")]: {
                   width: 340
                 }
               }}
@@ -108,11 +108,11 @@ export default function ChooseCharacterCard({
           xs={12}
           component={Box}
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            minWidth: '100%',
+            display: "flex",
+            justifyContent: "center",
+            minWidth: "100%",
             pt: 2,
-            [muiTheme.breakpoints.up('xl')]: {
+            [muiTheme.breakpoints.up("xl")]: {
               pt: 3
             }
           }}
@@ -124,7 +124,7 @@ export default function ChooseCharacterCard({
               previous();
             }}
             variant="contained"
-            sx={{ marginY: 'auto', marginX: 'auto' }}
+            sx={{ marginY: "auto", marginX: "auto" }}
           >
             <ChevronLeft fontSize="large" />
           </SquareButton>
@@ -135,7 +135,7 @@ export default function ChooseCharacterCard({
               next();
             }}
             variant="contained"
-            sx={{ marginY: 'auto', marginX: 'auto' }}
+            sx={{ marginY: "auto", marginX: "auto" }}
           >
             <ChevronRight fontSize="large" />
           </SquareButton>

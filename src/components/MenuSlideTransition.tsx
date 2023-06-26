@@ -1,6 +1,6 @@
-import React from 'react';
-import { Slide } from '@mui/material';
-import type { TransitionProps } from '@mui/material/transitions';
+import React from "react";
+import { Slide } from "@mui/material";
+import type { TransitionProps } from "@mui/material/transitions";
 
 const MenuSlideTransition = React.forwardRef(function Transition(
   props: TransitionProps & {

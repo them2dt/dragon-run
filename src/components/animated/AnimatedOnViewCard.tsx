@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 interface AnimatedOnViewCardProps {
   icon: React.ReactNode;
@@ -14,15 +14,15 @@ const AnimatedOnViewCard = (props: AnimatedOnViewCardProps) => {
       x: 0,
       opacity: 1,
       scale: 1,
-      transition: { type: 'spring', bounce: 0.4, duration: 3 }
+      transition: { type: "spring", bounce: 0.4, duration: 3 }
     }
   };
 
   return (
     <motion.div
       className="flex"
-      initial={'offscreen'}
-      whileInView={'onscreen'}
+      initial={"offscreen"}
+      whileInView={"onscreen"}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ staggerChildren: 0.5 }}
     >

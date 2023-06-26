@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import EventKeys from 'constants/EventKeys';
-import { Paper, Stack, Typography, useTheme, Box } from '@mui/material';
-import FullscreenDialog from 'components/FullscreenDialog';
-import { SquareButton } from 'components/styled/SquareButton';
-import loadCharacter from 'utils/loadCharacter';
-import ChooseCharacterCard from './ChooseCharacterCard';
-import { useSolana } from '@context/useSolana';
+import React, { useState } from "react";
+import EventKeys from "constants/EventKeys";
+import { Paper, Stack, Typography, useTheme, Box } from "@mui/material";
+import FullscreenDialog from "components/FullscreenDialog";
+import { SquareButton } from "components/styled/SquareButton";
+import loadCharacter from "utils/loadCharacter";
+import ChooseCharacterCard from "./ChooseCharacterCard";
+import { useSolana } from "@context/useSolana";
 
 interface ChooseCharacterDialogProps {
   chooseCharacterOpen: boolean;
@@ -43,7 +43,7 @@ export default function ChooseCharacterDialog({
         sx={{
           px: 5,
           py: 1.5,
-          [muiTheme.breakpoints.up('md')]: {
+          [muiTheme.breakpoints.up("md")]: {
             py: 3
           }
         }}
@@ -56,20 +56,20 @@ export default function ChooseCharacterDialog({
         component={Stack}
         sx={{
           background: muiTheme.palette.background.default,
-          overflowY: 'scroll',
-          height: '100%',
-          overflowX: 'hidden'
+          overflowY: "scroll",
+          height: "100%",
+          overflowX: "hidden"
         }}
       >
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center'
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
           }}
         >
-          <Stack direction={'column'} spacing={2} sx={{ px: 3, pb: 3, pt: 1, mt: 5 }}>
+          <Stack direction={"column"} spacing={2} sx={{ px: 3, pb: 3, pt: 1, mt: 5 }}>
             <ChooseCharacterCard
               name={solana.ownedKnights[characterIndex].name}
               image={solana.ownedKnights[characterIndex].image}
@@ -81,12 +81,12 @@ export default function ChooseCharacterDialog({
               sx={{
                 paddingY: 1.4,
                 paddingX: 4,
-                [muiTheme.breakpoints.up('lg')]: {
+                [muiTheme.breakpoints.up("lg")]: {
                   paddingY: 2
                 },
                 color: muiTheme.palette.text.secondary,
                 background: muiTheme.palette.secondary.main,
-                '&:hover': {
+                "&:hover": {
                   backgroundColor: muiTheme.palette.text.secondary,
                   color: muiTheme.palette.secondary.main
                 }
@@ -99,7 +99,7 @@ export default function ChooseCharacterDialog({
           <Typography align="center" sx={{ px: 5, my: 3 }} variant="h2" color={muiTheme.palette.text.secondary}>
             Get More
           </Typography>
-          <Stack direction="row" spacing={2} sx={{ justifyContent: 'center', mb: 8 }}>
+          <Stack direction="row" spacing={2} sx={{ justifyContent: "center", mb: 8 }}>
             <SquareButton sx={{ my: 3, px: 4, py: 2 }} onClick={openShop}>
               <Typography variant="h3">Shop</Typography>
             </SquareButton>
