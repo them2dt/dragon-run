@@ -25,14 +25,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <Index /> }]
-  }
+    children: [{ index: true, element: <Index /> }],
+  },
 ]);
 
 function App() {
-  const endpoint = "https://rpc.helius.xyz/?api-key=256baa19-0d74-4b32-a403-bbf83037df6a";
-
-  // const customEndpoint = import.meta.env.VITE_RPC_URL;
+  const endpoint = import.meta.env.VITE_RPC_URL;
 
   console.log(window?.xnft);
 
