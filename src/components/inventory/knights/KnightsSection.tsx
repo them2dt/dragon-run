@@ -1,16 +1,13 @@
-import React from "react";
-import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from "@mui/material";
+import { useTheme, Grid, Card, Typography, Zoom } from "@mui/material";
 import KnightItem from "./KnightItem";
-import { SquareButton } from "components/styled/SquareButton";
 import { useSolana } from "@context/useSolana";
 import type KnightNFT from "types/KnightNFT";
 
 interface KnightsSectionProps {
   active: boolean;
-  goToShop: () => void;
 }
 
-export default function KnightsSection({ active, goToShop }: KnightsSectionProps) {
+export default function KnightsSection({ active }: KnightsSectionProps) {
   const muiTheme = useTheme();
   const { solana } = useSolana();
   return (
@@ -69,16 +66,6 @@ export default function KnightsSection({ active, goToShop }: KnightsSectionProps
             </Typography>
           </KnightItem>
         ))}
-        <Grid component={Box} item xs={12} sx={{ alignItems: "center", justifyContent: "center", width: 1 }}>
-          <Typography align="center" sx={{ px: 5, my: 3 }} variant="h2" color={muiTheme.palette.text.secondary}>
-            Get More
-          </Typography>
-          <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-            <SquareButton sx={{ my: 3, px: 4, py: 2 }} onClick={goToShop}>
-              <Typography variant="h3">Shop</Typography>
-            </SquareButton>
-          </Stack>
-        </Grid>
       </Grid>
     </Zoom>
   );

@@ -19,7 +19,6 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
   const [value, setValue] = useState(defaultTab ?? 0);
   const [cratesActive, setCratesActive] = useState(false);
   const [knightsActive, setKnightsActive] = useState(false);
-  const [shopActive, setShopActive] = useState(false);
   const [title, setTitle] = useState("Inventory");
 
   const scrollBoxRef = useRef<HTMLDivElement>(null);
@@ -35,22 +34,15 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
     setValue(newValue);
     setCratesActive(false);
     setKnightsActive(false);
-    setShopActive(false);
     if (newValue === 0) {
       setTitle("Knights");
       setKnightsActive(true);
     } else if (newValue === 1) {
       setTitle("Crates");
       setCratesActive(true);
-    } else if (newValue === 2) {
-      setTitle("Shop");
-      setShopActive(true);
     }
   };
 
-  const goToShop = () => {
-    handleValueChange(2);
-  };
 
   useEffect(() => {
     handleValueChange(value);
@@ -74,9 +66,8 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
         }}
       >
         <Box sx={{ minHeight: "100vh" }}>
-          <KnightsSection active={knightsActive} goToShop={goToShop} />
-          <ComingSoonCratesSection active={cratesActive} goToShop={goToShop} />
-          <ShopSection active={shopActive} />
+          <KnightsSection active={knightsActive} goToShop={()=>{}} />
+          <ComingSoonCratesSection active={cratesActive} goToShop={()=>{}} />
         </Box>
       </Box>
       <Paper sx={{}} elevation={20}>
@@ -93,7 +84,6 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
         >
           <BottomNavigationAction label="Knights" icon={<DirectionsRunIcon />} />
           <BottomNavigationAction label="Crates" icon={<InventoryIcon />} />
-          <BottomNavigationAction label="Shop" icon={<StoreIcon />} />
         </BottomNavigation>
       </Paper>
     </FullscreenDialog>

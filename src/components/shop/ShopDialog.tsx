@@ -11,7 +11,7 @@ import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import StoreIcon from "@mui/icons-material/Store";
 import FullscreenDialog from "components/FullscreenDialog";
-import MintSection from "./knights/MintSection";
+import MintSection from "./mint/MintSection";
 import ShopSection from "./shop/ShopSection";
 
 interface ShopDialogProps {

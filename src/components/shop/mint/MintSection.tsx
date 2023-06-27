@@ -7,7 +7,6 @@ import {
   Box,
   Stack,
 } from "@mui/material";
-import { SquareButton } from "components/styled/SquareButton";
 
 import unrevealed from "@assets/Knights_unrevealed.gif";
 
