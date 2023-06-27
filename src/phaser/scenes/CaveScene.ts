@@ -63,7 +63,7 @@ export default class CaveScene extends Phaser.Scene {
   private objectsLayerOffsetX = -80;
   private objectsLayerOffsetY = 0;
 
-  private bg1!: Phaser.GameObjects.Image;
+  private bg1!: Phaser.GameObjects.TileSprite;
   private bg2!: Phaser.GameObjects.Image;
   private bg3!: Phaser.GameObjects.Image;
 
@@ -80,12 +80,9 @@ export default class CaveScene extends Phaser.Scene {
   }
 
   public resize() {
-    if (!this.scale) {
-      return;
-    }
     this.handleZoom();
 
-    this.bg1.scale = 4 * (this.defaultZoom + this.zoom);
+    this.handleBGScale();
   }
 
   public create() {
@@ -114,11 +111,9 @@ export default class CaveScene extends Phaser.Scene {
     const width = this.scale.width;
     const height = this.scale.height;
 
-    this.bg1 = this.add.image(0, -10, TextureKeys.Background1);
-    this.bg1.setSize(width, height);
+    this.bg1 = this.add.tileSprite(0, -10, 2400, 160, TextureKeys.Background1);
     this.bg1.setOrigin(0, 0);
     this.bg1.setScrollFactor(0.2, 0.1);
-    this.bg1.scale = 4 * (this.defaultZoom + this.zoom);
 
     this.tilemap = this.make.tilemap({ key: TextureKeys.CaveMap });
     this.tileset = this.tilemap.addTilesetImage(
@@ -202,6 +197,8 @@ export default class CaveScene extends Phaser.Scene {
 
     this.cameras.main.removeBounds();
     this.handleZoom();
+
+    this.handleBGScale();
 
     this.physics.add.collider(this.player, this.ground);
     this.physics.add.collider(this.player, this.lava, () => {
@@ -454,6 +451,11 @@ export default class CaveScene extends Phaser.Scene {
 
   public handleCameraShake = (duration: number, intensity: number) => {
     this.cameras.main.shake(duration, intensity * 0.01);
+  };
+
+  private handleBGScale = () => {
+    const height = this.scale.height;
+    this.bg1.scale = height * 0.011;
   };
 
   public handleZoom = () => {
