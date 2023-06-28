@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import {
   useTheme,
   Grid,
@@ -26,10 +25,9 @@ import unrevealed from "@assets/Knights_unrevealed.gif";
 
 interface MintSectionProps {
   active: boolean;
-  goToShop: () => void;
 }
 
-export default function MintSection({ active, goToShop }: MintSectionProps) {
+export default function MintSection({ active }: MintSectionProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [minted, setMinted] = useState(false);
   const [mintFailed, setMintFailed] = useState(false);
@@ -144,236 +142,262 @@ export default function MintSection({ active, goToShop }: MintSectionProps) {
         }}
       >
         {!isLoading && !minted && !mintFailed && (
-          <Grid
-            component={Box}
-            item
-            xs={12}
-            sx={{
-              alignItems: "center",
-              justifyContent: "center",
-              width: 1,
-            }}
+          <Zoom
+            in={active}
+            style={{ transitionDelay: active ? "200ms" : "0ms" }}
+            unmountOnExit
           >
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
+            <Grid
+              component={Box}
+              item
+              xs={12}
+              sx={{
+                alignItems: "center",
+                justifyContent: "center",
+                width: 1,
+              }}
             >
-              <img
-                src={unrevealed}
-                style={{
-                  width: "50vw",
-                  borderRadius: "20px",
-                }}
-              />
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
-              style={{ marginTop: "10px" }}
-            >
-              <Typography variant="h5" color={"white"}>
-                5 SOL
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
-              style={{ marginTop: "10px" }}
-            >
-              <Typography variant="h5" color={"white"}>
-                {candyMachine?.itemsMinted.toNumber()}/
-                {candyMachine?.itemsLoaded}
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
-            >
-              <button
-                style={{
-                  width: "50vw",
-                  marginTop: "10px",
-                  padding: "10px",
-                  backgroundColor: "#ff3c00",
-                  borderRadius: "20px",
-                }}
-                onClick={executeMint}
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
               >
-                <Typography variant="h4" color={"white"}>
-                  Mint
+                <img
+                  src={unrevealed}
+                  style={{
+                    width: "50vw",
+                    borderRadius: "20px",
+                  }}
+                />
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
+                style={{ marginTop: "10px" }}
+              >
+                <Typography variant="h5" color={"white"}>
+                  5 SOL
                 </Typography>
-              </button>
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
-            >
-              <Typography
-                variant="body1"
-                color={"white"}
-                style={{
-                  width: "60vw",
-                  textAlign: "center",
-                  marginTop: "40px",
-                }}
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
+                style={{ marginTop: "10px" }}
               >
-                Be the hero of your own story.
-                <br />
-                <br />
-                Emptea Knights is a collection of 2000 brave knights, forged to
-                achieve greatness.
-              </Typography>
-            </Stack>
-          </Grid>
+                <Typography variant="h5" color={"white"}>
+                  {candyMachine?.itemsMinted.toNumber()}/
+                  {candyMachine?.itemsLoaded}
+                </Typography>
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
+              >
+                <button
+                  style={{
+                    width: "50vw",
+                    marginTop: "10px",
+                    padding: "10px",
+                    backgroundColor: "#ff3c00",
+                    borderRadius: "20px",
+                  }}
+                  onClick={executeMint}
+                >
+                  <Typography variant="h4" color={"white"}>
+                    Mint
+                  </Typography>
+                </button>
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
+              >
+                <Typography
+                  variant="body1"
+                  color={"white"}
+                  style={{
+                    width: "60vw",
+                    textAlign: "center",
+                    marginTop: "40px",
+                  }}
+                >
+                  Be the hero of your own story.
+                  <br />
+                  <br />
+                  Emptea Knights is a collection of 2000 brave knights, forged
+                  to achieve greatness.
+                </Typography>
+              </Stack>
+            </Grid>
+          </Zoom>
         )}
+
         {isLoading && !minted && !mintFailed && (
-          <Grid
-            component={Box}
-            item
-            xs={12}
-            sx={{
-              alignItems: "center",
-              justifyContent: "center",
-              width: 1,
-            }}
+          <Zoom
+            in={active}
+            style={{ transitionDelay: active ? "200ms" : "0ms" }}
+            unmountOnExit
           >
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
+            <Grid
+              component={Box}
+              item
+              xs={12}
+              sx={{
+                alignItems: "center",
+                justifyContent: "center",
+                width: 1,
+              }}
             >
-              <img
-                src={loading}
-                style={{
-                  width: "50vw",
-                  borderRadius: "20px",
-                }}
-              />
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
-              style={{ marginTop: "10px" }}
-            >
-              <Typography variant="h5" color={"white"}>
-                loading...
-              </Typography>
-            </Stack>
-          </Grid>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
+              >
+                <img
+                  src={loading}
+                  style={{
+                    width: "50vw",
+                    borderRadius: "20px",
+                  }}
+                />
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
+                style={{ marginTop: "10px" }}
+              >
+                <Typography variant="h5" color={"white"}>
+                  loading...
+                </Typography>
+              </Stack>
+            </Grid>
+          </Zoom>
         )}
         {minted && (
-          <Grid
-            component={Box}
-            item
-            xs={12}
-            sx={{
-              alignItems: "center",
-              justifyContent: "center",
-              width: 1,
-            }}
+          <Zoom
+            in={active}
+            style={{ transitionDelay: active ? "200ms" : "0ms" }}
+            unmountOnExit
           >
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
+            <Grid
+              component={Box}
+              item
+              xs={12}
+              sx={{
+                alignItems: "center",
+                justifyContent: "center",
+                width: 1,
+              }}
             >
-              <img
-                src={
-                  metadata?.image ||
-                  unrevealed
-                }
-                style={{
-                  width: "50vw",
-                  borderRadius: "20px",
-                }}
-              />
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
-            >
-              <Typography variant="h5" color={"white"} style={{textAlign:"center",marginTop:"10px"}}>
-                {metadata?.name || ""} Minted successfully!
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
-            >
-              <button
-                style={{
-                  width: "50vw",
-                  marginTop: "10px",
-                  padding: "10px",
-                  backgroundColor: "#ff3c00",
-                  borderRadius: "20px",
-                }}
-                onClick={() => {
-                  setIsLoading(false);
-                  setMinted(false);
-                  setMintFailed(false);
-                }}
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
               >
-                <Typography variant="h4" color={"white"}>
-                  close
+                <img
+                  src={metadata?.image || unrevealed}
+                  style={{
+                    width: "50vw",
+                    borderRadius: "20px",
+                  }}
+                />
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
+              >
+                <Typography
+                  variant="h5"
+                  color={"white"}
+                  style={{ textAlign: "center", marginTop: "10px" }}
+                >
+                  {metadata?.name || ""} Minted successfully!
                 </Typography>
-              </button>
-            </Stack>
-          </Grid>
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
+              >
+                <button
+                  style={{
+                    width: "50vw",
+                    marginTop: "10px",
+                    padding: "10px",
+                    backgroundColor: "#ff3c00",
+                    borderRadius: "20px",
+                  }}
+                  onClick={() => {
+                    setIsLoading(false);
+                    setMinted(false);
+                    setMintFailed(false);
+                  }}
+                >
+                  <Typography variant="h4" color={"white"}>
+                    close
+                  </Typography>
+                </button>
+              </Stack>
+            </Grid>
+          </Zoom>
         )}
         {mintFailed && (
-          <Grid
-            component={Box}
-            item
-            xs={12}
-            sx={{
-              alignItems: "center",
-              justifyContent: "center",
-              width: 1,
-            }}
+          <Zoom
+            in={active}
+            style={{ transitionDelay: active ? "200ms" : "0ms" }}
+            unmountOnExit
           >
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
+            <Grid
+              component={Box}
+              item
+              xs={12}
+              sx={{
+                alignItems: "center",
+                justifyContent: "center",
+                width: 1,
+              }}
             >
-              <Typography variant="h5" color={"white"}>
-                Minting failed.
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ justifyContent: "center" }}
-            >
-              <button
-                style={{
-                  width: "50vw",
-                  marginTop: "10px",
-                  padding: "10px",
-                  backgroundColor: "#ff3c00",
-                  borderRadius: "20px",
-                }}
-                onClick={() => {
-                  setIsLoading(false);
-                  setMinted(false);
-                  setMintFailed(false);
-                }}
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
               >
-                <Typography variant="h4" color={"white"}>
-                  close
+                <Typography variant="h5" color={"white"}>
+                  Minting failed.
                 </Typography>
-              </button>
-            </Stack>
-          </Grid>
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
+              >
+                <button
+                  style={{
+                    width: "50vw",
+                    marginTop: "10px",
+                    padding: "10px",
+                    backgroundColor: "#ff3c00",
+                    borderRadius: "20px",
+                  }}
+                  onClick={() => {
+                    setIsLoading(false);
+                    setMinted(false);
+                    setMintFailed(false);
+                  }}
+                >
+                  <Typography variant="h4" color={"white"}>
+                    close
+                  </Typography>
+                </button>
+              </Stack>
+            </Grid>
+          </Zoom>
         )}
       </Grid>
     </Zoom>
