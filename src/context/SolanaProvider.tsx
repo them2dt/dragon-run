@@ -92,6 +92,26 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     setOwnedKnights(nfts);
   };
 
+  const getSigniature = async () => {
+    const xnftSolana = window?.xnft?.solana;
+    if (!xnftSolana) {
+      return;
+    }
+    const connection = xnftSolana?.connection;
+    if (!connection) {
+      return;
+    }
+    const pubkey = xnftSolana?.publicKey;
+    if (!pubkey) {
+      return;
+    }
+    const message = Buffer.from("Sign in with Backpack");
+    const signiature = await xnftSolana?.signMessage(message, pubkey).catch((err: any) => {
+      console.log("Unable to sign message: ", err);
+    });
+    console.log("signiature: ", signiature);
+  };
+
   useMemo(() => {
     if (!metaplex) return;
     getOwnedKnights().catch((err) => {
@@ -109,6 +129,15 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
 
   useEffect(() => {
     window?.xnft?.solana?.on("connect", () => {
+      getMetaplex();
+      getSigniature().catch((err) => {
+        console.log("Unable to get signiature: ", err);
+      });
+    });
+    window?.xnft?.solana?.on("publicKeyUpdate", () => {
+      getMetaplex();
+    });
+    window?.xnft?.solana?.on("connectionUpdate", () => {
       getMetaplex();
     });
   }, []);
