@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState, useEffect } from "react";
 import type FirestoreData from "@firestore/FirestoreData";
 import type UserData from "@firestore/UserData";
 import {
@@ -13,6 +13,7 @@ import {
   Timestamp,
   updateDoc
 } from "firebase/firestore";
+import { type Functions, getFunctions, httpsCallable } from "firebase/functions";
 import firestore from "../firebase/clientApp";
 import isHighScoresDoc from "@firestore/type-guards/isHighScoresDoc";
 import type HighScoresDoc from "@firestore/HighScoresDoc";
@@ -26,6 +27,7 @@ interface FirestoreContextType {
     getUserData: (userName: string) => void;
     getLeaderboard: () => void;
     newHighScore: (score: number) => void;
+    getAuthMessage: (() => void) | null;
   };
   setFirestoreData: React.Dispatch<React.SetStateAction<FirestoreData>>;
 }
@@ -44,6 +46,8 @@ export const FirestoreContext = createContext<FirestoreContextType | null>(null)
 
 export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   const [firestoreData, setFirestoreData] = useState<FirestoreData>(defaultFirestoreData);
+  const [firestoreCallableFunctions, setFirestoreCallableFunctions] = useState<Functions | null>(null);
+  const [getAuthMessage, setGetAuthMessage] = useState<(() => Promise<void>) | null>(null);
 
   const initializeFirestore = async () => {
     if (firestoreData?.firestore != null) {
@@ -208,12 +212,56 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     await getUserData(userName);
   };
 
+  useMemo(() => {
+    const functions = getFunctions();
+    if (functions == null) {
+      return;
+    }
+    setFirestoreCallableFunctions(functions);
+  }, []);
+
+  useMemo(() => {
+    if (firestoreCallableFunctions == null) {
+      return;
+    }
+    const getAuthMessageCallable = httpsCallable(firestoreCallableFunctions, "getAuthMessage");
+    if (getAuthMessageCallable == null) {
+      console.log("getAuthMessageCallable is null");
+      return;
+    }
+    const getAuthMessage = async () => {
+      await getAuthMessageCallable()
+        .then((result) => {
+          console.log("Auth Message: ", result.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    setGetAuthMessage(getAuthMessage);
+  }, [firestoreCallableFunctions]);
+
+  useEffect(() => {
+    if (firestoreData?.firestore == null) {
+      return;
+    }
+    if (firestoreCallableFunctions == null) {
+      return;
+    }
+    if (getAuthMessage !== null) {
+      getAuthMessage().catch((error) => {
+        console.log(error);
+      });
+    }
+  }, [getAuthMessage]);
+
   const firestoreFunctions = {
     initializeFirestore,
     initializeUserData,
     getUserData,
     getLeaderboard,
-    newHighScore
+    newHighScore,
+    getAuthMessage
   };
 
   return (
