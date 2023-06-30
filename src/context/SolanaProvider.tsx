@@ -1,6 +1,7 @@
 import React, { createContext, useState, useMemo, useEffect } from "react";
 import { Metaplex, type Metadata } from "@metaplex-foundation/js";
 import type KnightNFT from "types/KnightNFT";
+import { useFirestore } from "./useFirestore";
 import axios from "axios";
 
 export interface Solana {
@@ -11,6 +12,10 @@ export interface Solana {
 interface SolanaContextType {
   solana: Solana;
   setSolana: React.Dispatch<React.SetStateAction<Solana>>;
+  solanaFunctions: {
+    getSignature: (message: string) => void;
+    getAuthSignature: (username: string, pubkey: string) => Promise<void>;
+  };
 }
 
 interface SolanaProviderProps {
@@ -33,6 +38,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     metaplex,
     ownedKnights
   });
+  const { firestoreCallableFunctions } = useFirestore();
 
   const candyMachineCollection = import.meta.env.VITE_CM_COLLECTION;
 
@@ -92,7 +98,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     setOwnedKnights(nfts);
   };
 
-  const getSigniature = async () => {
+  const getSignature = async (message: string) => {
     const xnftSolana = window?.xnft?.solana;
     if (!xnftSolana) {
       return;
@@ -105,11 +111,22 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     if (!pubkey) {
       return;
     }
-    const message = Buffer.from("Sign in with Backpack");
-    const signiature = await xnftSolana?.signMessage(message, pubkey).catch((err: any) => {
+    const messageBuffer = Buffer.from(message);
+    const signature = await xnftSolana?.signMessage(messageBuffer, pubkey).catch((err: any) => {
       console.log("Unable to sign message: ", err);
     });
-    console.log("signiature: ", signiature);
+    console.log("signature: ", signature);
+  };
+
+  const getAuthSignature = async (username: string, pubkey: string) => {
+    firestoreCallableFunctions
+      ?.getAuthMessage(username, pubkey)
+      .then((res: any) => {
+        console.log("res: ", res);
+      })
+      .catch((err: any) => {
+        console.log("err: ", err);
+      });
   };
 
   useMemo(() => {
@@ -130,9 +147,6 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   useEffect(() => {
     window?.xnft?.solana?.on("connect", () => {
       getMetaplex();
-      getSigniature().catch((err) => {
-        console.log("Unable to get signiature: ", err);
-      });
     });
     window?.xnft?.solana?.on("publicKeyUpdate", () => {
       getMetaplex();
@@ -142,6 +156,11 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     });
   }, []);
 
-  return <SolanaContext.Provider value={{ solana, setSolana }}>{children}</SolanaContext.Provider>;
+  const solanaFunctions = {
+    getSignature,
+    getAuthSignature
+  };
+
+  return <SolanaContext.Provider value={{ solana, setSolana, solanaFunctions }}>{children}</SolanaContext.Provider>;
 };
 export default SolanaProvider;
