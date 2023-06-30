@@ -122,7 +122,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     firestoreCallableFunctions
       ?.getAuthMessage(username, pubkey)
       .then((res: any) => {
-        console.log("res: ", res);
+        console.log(res.message);
       })
       .catch((err: any) => {
         console.log("err: ", err);
