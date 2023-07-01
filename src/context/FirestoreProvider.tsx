@@ -34,6 +34,7 @@ interface FirestoreContextType {
     getLeaderboard: () => void;
     newHighScore: (score: number) => void;
     signInWithToken: (token: string) => void;
+    signOut: () => void;
   };
   firestoreCallableFunctions: FirestoreCallableFunctions | null;
   setFirestoreData: React.Dispatch<React.SetStateAction<FirestoreData>>;
@@ -88,6 +89,13 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const signOut = async () => {
+    const auth = getAuth();
+    auth.signOut().catch((error) => {
+      console.log(error);
+    });
   };
 
   const getUserData = async (userName: string) => {
@@ -282,7 +290,8 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     getUserData,
     getLeaderboard,
     newHighScore,
-    signInWithToken
+    signInWithToken,
+    signOut
   };
 
   return (
