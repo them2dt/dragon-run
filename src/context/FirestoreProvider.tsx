@@ -33,7 +33,7 @@ interface FirestoreContextType {
     getUserData: (userName: string) => void;
     getLeaderboard: () => void;
     newHighScore: (score: number) => void;
-    signInWithToken: (token: string) => void;
+    signInWithToken: (token: string) => Promise<void>;
     signOut: () => void;
   };
   firestoreCallableFunctions: FirestoreCallableFunctions | null;
@@ -76,25 +76,28 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   const signInWithToken = async (token: string) => {
     const auth = getAuth();
     setPersistence(auth, browserLocalPersistence)
-      .then(() => {
-        signInWithCustomToken(auth, token)
+      .then(async () => {
+        await signInWithCustomToken(auth, token)
           .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
+            const userName = userCredential.user.uid;
+            console.log("Signed in as: " + userName);
+            initializeUserData(userName).catch((err) => {
+              throw new Error(err.message);
+            });
           })
-          .catch((error) => {
-            console.log(error);
+          .catch((err) => {
+            throw new Error(err.message);
           });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        throw new Error(err.message);
       });
   };
 
   const signOut = async () => {
     const auth = getAuth();
-    auth.signOut().catch((error) => {
-      console.log(error);
+    auth.signOut().catch((err) => {
+      throw new Error(err.message);
     });
   };
 
@@ -172,8 +175,6 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     if (querySnapshot.size === 0) {
       await createUser(userName);
       return;
-    } else if (querySnapshot.size > 1) {
-      return;
     }
 
     await getUserData(userName);
@@ -191,6 +192,21 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     if (db == null) {
       return;
     }
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user == null) {
+      console.log("User is not signed in!");
+      return;
+    }
+    const uid = user.uid;
+    if (uid === "") {
+      console.log("User is not signed in!");
+      return;
+    } else if (uid !== userName) {
+      console.log("Signed in user does not match user name!");
+      await signOut();
+      return;
+    }
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("userName", "==", userName));
     const querySnapshot = await getDocs(q);
@@ -203,7 +219,6 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
         highScore: 0,
         scoredAt: Timestamp.now()
       };
-
       await setDoc(doc(db, "users", userName), newUser);
 
       await getUserData(userName);
@@ -235,6 +250,21 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       return;
     }
     const userName = firestoreData?.userData?.userName;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user == null) {
+      console.log("User is not signed in!");
+      return;
+    }
+    const uid = user.uid;
+    if (uid === "") {
+      console.log("User is not signed in!");
+      return;
+    } else if (uid !== userName) {
+      console.log("Signed in user does not match user name!");
+      await signOut();
+      return;
+    }
     const updatedData = {
       highScore,
       scoredAt: Timestamp.now()

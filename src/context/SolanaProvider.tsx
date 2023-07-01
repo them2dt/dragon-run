@@ -15,7 +15,7 @@ interface SolanaContextType {
   setSolana: React.Dispatch<React.SetStateAction<Solana>>;
   solanaFunctions: {
     getSignature: (message: string) => void;
-    getAuthSignature: (userName: string, pubkey: string) => Promise<void>;
+    getAuthSignature: (userName: string) => Promise<void>;
   };
 }
 
@@ -114,12 +114,12 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     }
     const messageBuffer = Buffer.from(message);
     const signature = await xnftSolana?.signMessage(messageBuffer, pubkey).catch((err: any) => {
-      console.log("Unable to sign message: ", err);
+      console.log("Signature error: ", JSON.stringify(err));
     });
     return signature;
   };
 
-  const getAuthSignature = async (userName: string, pubkey: string) => {
+  const getAuthSignature = async (userName: string) => {
     const xnftSolana = window?.xnft?.solana;
     if (!xnftSolana) {
       return;
@@ -128,28 +128,31 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     if (!connection) {
       return;
     }
-    firestoreCallableFunctions
+    const pubkey = xnftSolana?.publicKey?.toString();
+    if (!pubkey) {
+      return;
+    }
+    await firestoreCallableFunctions
       ?.getAuthMessage(userName, pubkey)
-      .then((messageData: any) => {
-        getSignature(messageData.message)
-          .then((signature) => {
+      .then(async (messageData: any) => {
+        await getSignature(messageData.message)
+          .then(async (signature) => {
             signature = encode(signature);
-            console.log("Signature: ", signature);
-            firestoreCallableFunctions
+            await firestoreCallableFunctions
               ?.getAuthToken(userName, pubkey, signature, messageData.signatureID)
-              .then((token: any) => {
-                firestoreFunctions?.signInWithToken(token);
+              .then(async (token: any) => {
+                await firestoreFunctions?.signInWithToken(token);
               })
               .catch((err: any) => {
-                console.log("Unable to get auth token: ", err);
+                throw new Error(err.message);
               });
           })
           .catch((err) => {
-            console.log("Unable to sign message: ", err);
+            throw new Error(err.message);
           });
       })
       .catch((err: any) => {
-        console.log("err: ", err);
+        throw new Error("Auth error: " + err.message);
       });
   };
 

@@ -7,7 +7,6 @@ import Game from "../overlays/Game";
 import GameOver from "overlays/GameOver";
 import Loading from "overlays/Loading";
 import { useFirestore } from "@context/useFirestore";
-import { useSolana } from "@context/useSolana";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "@consts/EventKeys";
 import { onSnapshot, doc } from "firebase/firestore";
@@ -16,7 +15,6 @@ import Enter from "overlays/Enter";
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
   const { firestoreData, firestoreFunctions } = useFirestore();
-  const { solanaFunctions } = useSolana();
   const [userName, setUserName] = useState("");
   const [highScore, setHighScore] = useState<number>(0);
   const [newScore, setNewScore] = useState<number>(0);
@@ -58,24 +56,6 @@ export default function Index(): JSX.Element {
     initializeUserData();
   }, [firestoreData?.userData, userName]);
 
-  useEffect(() => {
-    const getAuthSignature = async (username: string, pubkey: string) => {
-      if (username != null && pubkey != null) {
-        await solanaFunctions.getAuthSignature(username, pubkey);
-        setUserName(username);
-      }
-    };
-    if (window?.xnft == null || window?.xnft?.metadata == null || window?.xnft?.metadata?.username == null) {
-      console.log("Please open in Backpack!");
-      return;
-    }
-    const username = window?.xnft?.metadata?.username;
-    const pubkey = window?.xnft?.solana.publicKey?.toString();
-    getAuthSignature(username, pubkey).catch((error) => {
-      console.log(error);
-    });
-  }, [window?.xnft?.metadata]);
-
   useMemo(() => {
     if (newScore > highScore) {
       firestoreFunctions.newHighScore(newScore);
@@ -107,6 +87,17 @@ export default function Index(): JSX.Element {
       unsubscribe();
     };
   }, [firestoreData?.firestore]);
+
+  useEffect(() => {
+    if (window?.xnft == null || window?.xnft?.metadata == null || window?.xnft?.metadata?.username == null) {
+      console.log("Please open in Backpack!");
+      return;
+    }
+    const username = window?.xnft?.metadata?.username;
+    if (username != null) {
+      setUserName(username);
+    }
+  }, [window?.xnft?.metadata]);
 
   return (
     <>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSolana } from "context/useSolana";
 import EventKeys from "constants/EventKeys";
 import AnimatedPage from "components/animated/AnimatedPage";
 import OverlayWrapper from "components/OverlayWrapper";
@@ -14,6 +15,7 @@ interface EnterProps {
 
 export default function Enter({ userName }: EnterProps) {
   const muiTheme = useTheme();
+  const { solanaFunctions } = useSolana();
 
   const [fullScreenDialogOpen, setFullScreenDialogOpen] = useState(false);
 
@@ -25,8 +27,14 @@ export default function Enter({ userName }: EnterProps) {
     setFullScreenDialogOpen(false);
   };
 
-  const handleEnterClick = () => {
-    eventsCenter.emit(EventKeys.GoToHome);
+  const handleEnterClick = async () => {
+    if (!userName) {
+      eventsCenter.emit(EventKeys.GoToHome);
+      return;
+    }
+    await solanaFunctions.getAuthSignature(userName).then(() => {
+      eventsCenter.emit(EventKeys.GoToHome);
+    });
   };
 
   const enterFullScreen = () => {
@@ -66,7 +74,9 @@ export default function Enter({ userName }: EnterProps) {
                 [muiTheme.breakpoints.up("md")]: { width: "500px", height: "100px" }
               }}
               onClick={() => {
-                handleEnterClick();
+                handleEnterClick().catch((error) => {
+                  console.log(error);
+                });
               }}
             >
               <Typography
