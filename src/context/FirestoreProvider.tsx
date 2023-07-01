@@ -20,7 +20,8 @@ import type HighScoresDoc from "@firestore/HighScoresDoc";
 import type Leaderboard from "@firestore/Leaderboard";
 
 interface FirestoreCallableFunctions {
-  getAuthMessage: (username: string, pubkey: string) => any;
+  getAuthMessage: (userName: string, pubkey: string) => any;
+  getAuthToken: (userName: string, pubkey: string, signature: string, signatureID: string) => any;
 }
 
 interface FirestoreContextType {
@@ -225,17 +226,32 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       console.log("getAuthMessageCallable is null");
       return;
     }
-    const getAuthMessage = async (username: string, pubkey: string) => {
-      return await getAuthMessageCallable({ username, pubkey })
+    const getAuthMessage = async (userName: string, pubkey: string) => {
+      return await getAuthMessageCallable({ userName, pubkey })
         .then((result) => {
           return result.data;
         })
         .catch((error) => {
-          return error;
+          throw error;
+        });
+    };
+    const getAuthTokenCallable = httpsCallable(functions, "getAuthToken");
+    if (getAuthTokenCallable == null) {
+      console.log("getAuthTokenCallable is null");
+      return;
+    }
+    const getAuthToken = async (userName: string, pubkey: string, signature: string, signatureID: string) => {
+      return await getAuthTokenCallable({ userName, pubkey, signature, signatureID })
+        .then((result) => {
+          return result.data;
+        })
+        .catch((error) => {
+          throw error;
         });
     };
     const firestoreFunctions = {
-      getAuthMessage
+      getAuthMessage,
+      getAuthToken
     };
     setFirestoreCallableFunctions(firestoreFunctions);
   }, []);

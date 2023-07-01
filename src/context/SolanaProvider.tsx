@@ -15,7 +15,7 @@ interface SolanaContextType {
   setSolana: React.Dispatch<React.SetStateAction<Solana>>;
   solanaFunctions: {
     getSignature: (message: string) => void;
-    getAuthSignature: (username: string, pubkey: string) => Promise<void>;
+    getAuthSignature: (userName: string, pubkey: string) => Promise<void>;
   };
 }
 
@@ -119,7 +119,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     return signature;
   };
 
-  const getAuthSignature = async (username: string, pubkey: string) => {
+  const getAuthSignature = async (userName: string, pubkey: string) => {
     const xnftSolana = window?.xnft?.solana;
     if (!xnftSolana) {
       return;
@@ -129,12 +129,20 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
       return;
     }
     firestoreCallableFunctions
-      ?.getAuthMessage(username, pubkey)
-      .then((res: any) => {
-        getSignature(res.message)
+      ?.getAuthMessage(userName, pubkey)
+      .then((messageData: any) => {
+        getSignature(messageData.message)
           .then((signature) => {
             signature = encode(signature);
             console.log("Signature: ", signature);
+            firestoreCallableFunctions
+              ?.getAuthToken(userName, pubkey, signature, messageData.signatureID)
+              .then((res: any) => {
+                console.log("Auth token: ", res);
+              })
+              .catch((err: any) => {
+                console.log("Unable to get auth token: ", err);
+              });
           })
           .catch((err) => {
             console.log("Unable to sign message: ", err);
