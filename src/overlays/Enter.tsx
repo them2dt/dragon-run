@@ -8,6 +8,8 @@ import { Typography, useTheme } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
 import eventsCenter from "utils/eventsCenter";
 import AlertDialog from "components/AlertDialog";
+import { useFirestore } from "@context/useFirestore";
+import { getAuth } from "firebase/auth";
 
 interface EnterProps {
   userName: string;
@@ -16,6 +18,7 @@ interface EnterProps {
 export default function Enter({ userName }: EnterProps) {
   const muiTheme = useTheme();
   const { solanaFunctions } = useSolana();
+  const { firestoreData } = useFirestore();
 
   const [fullScreenDialogOpen, setFullScreenDialogOpen] = useState(false);
 
@@ -29,6 +32,16 @@ export default function Enter({ userName }: EnterProps) {
 
   const handleEnterClick = async () => {
     if (!userName) {
+      eventsCenter.emit(EventKeys.GoToHome);
+      return;
+    }
+    if (firestoreData?.firestore?.app == null) {
+      console.log("Firestore not initialized");
+      return;
+    }
+    const auth = getAuth(firestoreData?.firestore?.app);
+    if (auth.currentUser?.uid === userName) {
+      console.log("User already signed in");
       eventsCenter.emit(EventKeys.GoToHome);
       return;
     }

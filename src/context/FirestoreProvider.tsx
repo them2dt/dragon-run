@@ -113,6 +113,18 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     if (db == null) {
       return;
     }
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user == null) {
+      return;
+    }
+    const uid = user.uid;
+    if (uid === "") {
+      console.log("User is not signed in!");
+    } else if (uid !== userName) {
+      console.log("Signed in user does not match user name!");
+      await signOut();
+    }
     const userDataDoc = doc(db, "users", userName);
     const userData = await getDoc(userDataDoc);
     if (userData == null) {
@@ -312,6 +324,20 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       getAuthToken
     };
     setFirestoreCallableFunctions(firestoreFunctions);
+  }, []);
+
+  useMemo(() => {
+    getAuth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log("User is signed in");
+        const userName = user.uid;
+        getUserData(userName).catch((err) => {
+          console.log("Error getting user data: ", err.message);
+        });
+      } else {
+        console.log("User is signed out");
+      }
+    });
   }, []);
 
   const firestoreFunctions = {

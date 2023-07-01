@@ -135,7 +135,11 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     await firestoreCallableFunctions
       ?.getAuthMessage(userName, pubkey)
       .then(async (messageData: any) => {
-        await getSignature(messageData.message)
+        const message = messageData.message;
+        if (!message) {
+          throw new Error("No message found");
+        }
+        await getSignature(message)
           .then(async (signature) => {
             signature = encode(signature);
             await firestoreCallableFunctions
