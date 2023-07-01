@@ -2,6 +2,7 @@ import React, { createContext, useState, useMemo, useEffect } from "react";
 import { Metaplex, type Metadata } from "@metaplex-foundation/js";
 import type KnightNFT from "types/KnightNFT";
 import { useFirestore } from "./useFirestore";
+import { encode } from "bs58";
 import axios from "axios";
 
 export interface Solana {
@@ -115,14 +116,29 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     const signature = await xnftSolana?.signMessage(messageBuffer, pubkey).catch((err: any) => {
       console.log("Unable to sign message: ", err);
     });
-    console.log("signature: ", signature);
+    return signature;
   };
 
   const getAuthSignature = async (username: string, pubkey: string) => {
+    const xnftSolana = window?.xnft?.solana;
+    if (!xnftSolana) {
+      return;
+    }
+    const connection = xnftSolana?.connection;
+    if (!connection) {
+      return;
+    }
     firestoreCallableFunctions
       ?.getAuthMessage(username, pubkey)
       .then((res: any) => {
-        console.log(res.message);
+        getSignature(res.message)
+          .then((signature) => {
+            signature = encode(signature);
+            console.log("Signature: ", signature);
+          })
+          .catch((err) => {
+            console.log("Unable to sign message: ", err);
+          });
       })
       .catch((err: any) => {
         console.log("err: ", err);
