@@ -39,7 +39,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     metaplex,
     ownedKnights
   });
-  const { firestoreCallableFunctions } = useFirestore();
+  const { firestoreCallableFunctions, firestoreFunctions } = useFirestore();
 
   const candyMachineCollection = import.meta.env.VITE_CM_COLLECTION;
 
@@ -137,8 +137,8 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
             console.log("Signature: ", signature);
             firestoreCallableFunctions
               ?.getAuthToken(userName, pubkey, signature, messageData.signatureID)
-              .then((res: any) => {
-                console.log("Auth token: ", res);
+              .then((token: any) => {
+                firestoreFunctions?.signInWithToken(token);
               })
               .catch((err: any) => {
                 console.log("Unable to get auth token: ", err);

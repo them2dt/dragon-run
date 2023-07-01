@@ -13,6 +13,7 @@ import {
   Timestamp,
   updateDoc
 } from "firebase/firestore";
+import { browserLocalPersistence, getAuth, setPersistence, signInWithCustomToken } from "firebase/auth";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import firestore from "../firebase/clientApp";
 import isHighScoresDoc from "@firestore/type-guards/isHighScoresDoc";
@@ -32,6 +33,7 @@ interface FirestoreContextType {
     getUserData: (userName: string) => void;
     getLeaderboard: () => void;
     newHighScore: (score: number) => void;
+    signInWithToken: (token: string) => void;
   };
   firestoreCallableFunctions: FirestoreCallableFunctions | null;
   setFirestoreData: React.Dispatch<React.SetStateAction<FirestoreData>>;
@@ -68,6 +70,24 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
         leaderboard: firestoreData?.leaderboard ?? null
       });
     }
+  };
+
+  const signInWithToken = async (token: string) => {
+    const auth = getAuth();
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        signInWithCustomToken(auth, token)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            console.log(user);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const getUserData = async (userName: string) => {
@@ -261,7 +281,8 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     initializeUserData,
     getUserData,
     getLeaderboard,
-    newHighScore
+    newHighScore,
+    signInWithToken
   };
 
   return (
