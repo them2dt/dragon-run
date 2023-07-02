@@ -10,6 +10,7 @@ import eventsCenter from "utils/eventsCenter";
 import AlertDialog from "components/AlertDialog";
 import { useFirestore } from "@context/useFirestore";
 import { getAuth } from "firebase/auth";
+import Loading from "./Loading";
 
 interface EnterProps {
   userName: string;
@@ -20,6 +21,7 @@ export default function Enter({ userName }: EnterProps) {
   const { solanaFunctions } = useSolana();
   const { firestoreData } = useFirestore();
 
+  const [loading, setLoading] = useState(false);
   const [fullScreenDialogOpen, setFullScreenDialogOpen] = useState(false);
 
   const openFullScreenDialog = () => {
@@ -31,6 +33,7 @@ export default function Enter({ userName }: EnterProps) {
   };
 
   const handleEnterClick = async () => {
+    setLoading(true);
     if (!userName) {
       eventsCenter.emit(EventKeys.GoToHome);
       return;
@@ -45,9 +48,27 @@ export default function Enter({ userName }: EnterProps) {
       eventsCenter.emit(EventKeys.GoToHome);
       return;
     }
-    await solanaFunctions.getAuthSignature(userName).then(() => {
-      eventsCenter.emit(EventKeys.GoToHome);
-    });
+    const xnftSolana = window?.xnft?.solana;
+    if (!xnftSolana) {
+      return;
+    }
+    const pubkey = xnftSolana?.publicKey?.toString();
+    if (!pubkey) {
+      return;
+    }
+    if (pubkey == null) {
+      console.log("Pubkey not found");
+      return;
+    }
+    await solanaFunctions
+      .getAuthSignature(userName)
+      .then(() => {
+        eventsCenter.emit(EventKeys.GoToHome);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setLoading(false);
   };
 
   const enterFullScreen = () => {
@@ -102,6 +123,11 @@ export default function Enter({ userName }: EnterProps) {
             </SquareButton>
           </div>
         </div>
+        {loading && (
+          <div className="absolute top-0 left-0 w-full h-full bg-bg3">
+            <Loading />
+          </div>
+        )}
       </OverlayWrapper>
     </AnimatedPage>
   );

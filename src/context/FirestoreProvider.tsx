@@ -297,6 +297,13 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       return;
     }
     const getAuthMessage = async (userName: string, pubkey: string) => {
+      if (userName === "" || userName == null) {
+        throw new Error("userName is empty");
+      }
+      if (pubkey === "" || pubkey == null) {
+        throw new Error("pubkey is empty");
+      }
+      console.log("getAuthMessage ", userName, pubkey);
       return await getAuthMessageCallable({ userName, pubkey })
         .then((result) => {
           return result.data;

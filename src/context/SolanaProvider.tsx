@@ -102,16 +102,17 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   const getSignature = async (message: string) => {
     const xnftSolana = window?.xnft?.solana;
     if (!xnftSolana) {
-      return;
+      throw new Error("No solana provider found");
     }
     const connection = xnftSolana?.connection;
     if (!connection) {
-      return;
+      throw new Error("No connection found");
     }
     const pubkey = xnftSolana?.publicKey;
     if (!pubkey) {
-      return;
+      throw new Error("No public key found");
     }
+    console.log("Message: ", message);
     const messageBuffer = Buffer.from(message);
     const signature = await xnftSolana?.signMessage(messageBuffer, pubkey).catch((err: any) => {
       console.log("Signature error: ", JSON.stringify(err));
