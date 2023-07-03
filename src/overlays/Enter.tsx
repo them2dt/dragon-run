@@ -76,7 +76,7 @@ export default function Enter({ userName }: EnterProps) {
   };
 
   useEffect(() => {
-    if (window?.xnft && window.innerWidth < screen.width - 30) {
+    if (window?.xnft?.metadata != null && window.innerWidth < screen.width - 30) {
       openFullScreenDialog();
     }
   }, []);

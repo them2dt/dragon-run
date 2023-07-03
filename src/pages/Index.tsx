@@ -11,10 +11,12 @@ import eventsCenter from "utils/eventsCenter";
 import EventKeys from "@consts/EventKeys";
 import { onSnapshot, doc } from "firebase/firestore";
 import Enter from "overlays/Enter";
+import { useSolana } from "@context/useSolana";
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
   const { firestoreData, firestoreFunctions } = useFirestore();
+  const { solanaFunctions } = useSolana();
   const [userName, setUserName] = useState("");
   const [highScore, setHighScore] = useState<number>(0);
   const [newScore, setNewScore] = useState<number>(0);
@@ -97,6 +99,7 @@ export default function Index(): JSX.Element {
     if (username != null) {
       setUserName(username);
     }
+    solanaFunctions.getPublicKey();
   }, [window?.xnft?.metadata]);
 
   return (

@@ -3,9 +3,11 @@ import { Metaplex, type Metadata } from "@metaplex-foundation/js";
 import type KnightNFT from "types/KnightNFT";
 import { useFirestore } from "./useFirestore";
 import { encode } from "bs58";
+import { PublicKey } from "@solana/web3.js";
 import axios from "axios";
 
 export interface Solana {
+  publicKey: string | null;
   metaplex: Metaplex | null;
   ownedKnights: KnightNFT[] | [];
 }
@@ -14,6 +16,7 @@ interface SolanaContextType {
   solana: Solana;
   setSolana: React.Dispatch<React.SetStateAction<Solana>>;
   solanaFunctions: {
+    getPublicKey: () => void;
     getSignature: (message: string) => void;
     getAuthSignature: (userName: string) => Promise<void>;
   };
@@ -33,15 +36,51 @@ const defaultKnight: KnightNFT = {
 };
 
 export const SolanaProvider = ({ children }: SolanaProviderProps) => {
+  const [publicKey, setPublicKey] = useState<string | null>(null);
   const [metaplex, setMetaplex] = useState<Metaplex | null>(null);
   const [ownedKnights, setOwnedKnights] = useState<KnightNFT[]>([defaultKnight]);
   const [solana, setSolana] = useState<Solana>({
+    publicKey,
     metaplex,
     ownedKnights
   });
   const { firestoreCallableFunctions, firestoreFunctions } = useFirestore();
 
   const candyMachineCollection = import.meta.env.VITE_CM_COLLECTION;
+
+  const getPublicKey = () => {
+    const xnft = window?.xnft;
+    if (!xnft) {
+      return;
+    }
+    const userName = xnft?.metadata?.userId;
+    if (userName === "" || userName == null) {
+      return;
+    }
+    axios
+      .get("https://xnft-api-server.xnfts.dev/v1/users", { params: { user_id: userName } })
+      .then((res) => {
+        console.log("Response: ", res);
+        const data = res.data;
+        if (data?.user?.publicKeys == null) {
+          throw new Error("No public key found");
+        }
+        const solanaPubkey = data?.user?.publicKeys?.map((publicKey: any) => {
+          if (publicKey.blockchain === "solana") {
+            return publicKey.publicKey;
+          }
+          return null;
+        });
+        if (solanaPubkey == null) {
+          throw new Error("No public key found");
+        } else {
+          setPublicKey(solanaPubkey[0]);
+        }
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+  };
 
   const getMetaplex = () => {
     const xnftSolana = window?.xnft?.solana;
@@ -52,8 +91,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     if (!connection) {
       return;
     }
-    const pubkey = xnftSolana?.publicKey?.toString();
-    if (!pubkey) {
+    if (!publicKey) {
       return;
     }
     const metaplex = Metaplex.make(connection);
@@ -71,10 +109,10 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     if (!xnftSolana) {
       return;
     }
-    const pubkey = xnftSolana?.publicKey?.toString();
-    if (!pubkey) {
+    if (!publicKey) {
       return;
     }
+    const pubkey = new PublicKey(publicKey);
     let ownedNFTs = await metaplex.nfts().findAllByOwner({
       owner: pubkey
     });
@@ -108,11 +146,10 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     if (!connection) {
       throw new Error("No connection found");
     }
-    const pubkey = xnftSolana?.publicKey;
-    if (!pubkey) {
-      throw new Error("No public key found");
+    if (!publicKey) {
+      return;
     }
-    console.log("Message: ", message);
+    const pubkey = new PublicKey(publicKey);
     const messageBuffer = Buffer.from(message);
     const signature = await xnftSolana?.signMessage(messageBuffer, pubkey).catch((err: any) => {
       console.log("Signature error: ", JSON.stringify(err));
@@ -129,12 +166,11 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     if (!connection) {
       return;
     }
-    const pubkey = xnftSolana?.publicKey?.toString();
-    if (!pubkey) {
+    if (!publicKey) {
       return;
     }
     await firestoreCallableFunctions
-      ?.getAuthMessage(userName, pubkey)
+      ?.getAuthMessage(userName, publicKey)
       .then(async (messageData: any) => {
         const message = messageData.message;
         if (!message) {
@@ -144,7 +180,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
           .then(async (signature) => {
             signature = encode(signature);
             await firestoreCallableFunctions
-              ?.getAuthToken(userName, pubkey, signature, messageData.signatureID)
+              ?.getAuthToken(userName, publicKey, signature, messageData.signatureID)
               .then(async (token: any) => {
                 await firestoreFunctions?.signInWithToken(token);
               })
@@ -162,6 +198,16 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   };
 
   useMemo(() => {
+    if (!metaplex) {
+      getMetaplex();
+    } else {
+      getOwnedKnights().catch((err) => {
+        console.log("Unable to get owned NFTs: ", err);
+      });
+    }
+  }, [metaplex, publicKey]);
+
+  useMemo(() => {
     if (!metaplex) return;
     getOwnedKnights().catch((err) => {
       console.log("Unable to get owned NFTs: ", err);
@@ -171,24 +217,20 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   useMemo(() => {
     if (!metaplex) return;
     setSolana({
+      publicKey,
       metaplex,
       ownedKnights
     });
-  }, [metaplex, ownedKnights]);
+  }, [publicKey, metaplex, ownedKnights]);
 
   useEffect(() => {
     window?.xnft?.solana?.on("connect", () => {
       getMetaplex();
     });
-    window?.xnft?.solana?.on("publicKeyUpdate", () => {
-      getMetaplex();
-    });
-    window?.xnft?.solana?.on("connectionUpdate", () => {
-      getMetaplex();
-    });
   }, []);
 
   const solanaFunctions = {
+    getPublicKey,
     getSignature,
     getAuthSignature
   };
