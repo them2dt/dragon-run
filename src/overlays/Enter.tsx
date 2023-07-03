@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSolana } from "context/useSolana";
 import EventKeys from "constants/EventKeys";
 import AnimatedPage from "components/animated/AnimatedPage";
 import OverlayWrapper from "components/OverlayWrapper";
-import AnimatedEnterTitle from "components/animated/AnimatedEnterText";
+import AnimatedEnterTitle from "components/animated/AnimatedEnterTitle";
 import { Typography, useTheme } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
 import eventsCenter from "utils/eventsCenter";
@@ -22,6 +22,8 @@ export default function Enter({ userName }: EnterProps) {
   const { firestoreData } = useFirestore();
 
   const [loading, setLoading] = useState(false);
+  const [authorised, setAuthorised] = useState(false);
+  const [needsSignIn, setNeedsSignIn] = useState(false);
   const [fullScreenDialogOpen, setFullScreenDialogOpen] = useState(false);
 
   const openFullScreenDialog = () => {
@@ -44,6 +46,7 @@ export default function Enter({ userName }: EnterProps) {
     }
     const auth = getAuth(firestoreData?.firestore?.app);
     if (auth.currentUser?.uid === userName) {
+      setAuthorised(true);
       console.log("User already signed in");
       eventsCenter.emit(EventKeys.GoToHome);
       return;
@@ -63,7 +66,7 @@ export default function Enter({ userName }: EnterProps) {
     await solanaFunctions
       .getAuthSignature(userName)
       .then(() => {
-        eventsCenter.emit(EventKeys.GoToHome);
+        setAuthorised(true);
       })
       .catch((error) => {
         console.log(error);
@@ -74,6 +77,23 @@ export default function Enter({ userName }: EnterProps) {
   const enterFullScreen = () => {
     window?.xnft?.popout({ fullscreen: true });
   };
+
+  useEffect(() => {
+    const auth = getAuth(firestoreData?.firestore?.app);
+    if (auth.currentUser?.uid === userName) {
+      setAuthorised(true);
+    } else {
+      setAuthorised(false);
+    }
+  }, [firestoreData?.userData?.userName]);
+
+  useMemo(() => {
+    if (userName && !authorised) {
+      setNeedsSignIn(true);
+    } else {
+      setNeedsSignIn(false);
+    }
+  }, [userName, authorised]);
 
   useEffect(() => {
     if (window?.xnft?.metadata != null && window.innerWidth < screen.width - 30) {
@@ -92,7 +112,7 @@ export default function Enter({ userName }: EnterProps) {
         />
         <div className="w-full h-full m-auto flex flex-col max-w-[1240px] text-center">
           <div className="h-auto my-auto">
-            <AnimatedEnterTitle userName={userName} />
+            <AnimatedEnterTitle userName={userName} signedIn={!needsSignIn} />
             <SquareButton
               variant="contained"
               size="large"
@@ -103,9 +123,9 @@ export default function Enter({ userName }: EnterProps) {
                   color: muiTheme.palette.secondary.main
                 },
                 width: "200px",
-                height: "70px",
-                [muiTheme.breakpoints.up("sm")]: { width: "300px", height: "80px" },
-                [muiTheme.breakpoints.up("md")]: { width: "500px", height: "100px" }
+                py: "10px",
+                [muiTheme.breakpoints.up("sm")]: { width: "300px", py: "14px" },
+                [muiTheme.breakpoints.up("md")]: { width: "500px", py: "18px" }
               }}
               onClick={() => {
                 handleEnterClick().catch((error) => {
@@ -117,8 +137,9 @@ export default function Enter({ userName }: EnterProps) {
                 sx={{ fontSize: "2.2rem", [muiTheme.breakpoints.up("md")]: { fontSize: "3rem" } }}
                 fontWeight={400}
                 component="h3"
+                lineHeight="1.1"
               >
-                Enter
+                {needsSignIn ? "Sign In" : "Enter"}
               </Typography>
             </SquareButton>
           </div>
