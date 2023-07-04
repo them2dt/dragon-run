@@ -17,7 +17,7 @@ import ChooseCharacterDialog from "components/choose-character/ChooseCharacterDi
 
 export default function Home() {
   const muiTheme = useTheme();
-  const [mintOpen, setMintOpen] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [inventoryOpen, setInventoryOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
@@ -48,12 +48,12 @@ export default function Home() {
     setLeaderboardOpen(false);
   };
 
-  const openMint = () => {
+  const openShop = () => {
     setDefaultTab(undefined);
-    setMintOpen(true);
+    setShopOpen(true);
   };
-  const closeMint = () => {
-    setMintOpen(false);
+  const closeShop = () => {
+    setShopOpen(false);
   };
   const openInventory = () => {
     setDefaultTab(undefined);
@@ -63,9 +63,9 @@ export default function Home() {
     setInventoryOpen(false);
   };
 
-  const openShop = () => {
+  const goToShop = () => {
     setDefaultTab(1);
-    setInventoryOpen(true);
+    setShopOpen(true);
   };
 
   useEffect(() => {
@@ -89,10 +89,10 @@ export default function Home() {
         <ChooseCharacterDialog
           chooseCharacterOpen={chooseCharacterOpen}
           closeChooseCharacter={closeChooseCharacter}
-          openShop={openShop}
+          openShop={goToShop}
         />
-        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} openShop={openShop} />
-        <ShopDialog mintOpen={mintOpen} closeMint={closeMint} defaultTab={defaultTab} />
+        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} openShop={goToShop} />
+        <ShopDialog shopOpen={shopOpen} closeShop={closeShop} defaultTab={defaultTab} />
         <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
           <img src={logo} alt="logo" className="m-auto px-5 lg:w-[560px] h-auto rendering-pixelated" />
@@ -158,7 +158,7 @@ export default function Home() {
                   }
                 }}
                 fullWidth
-                onClick={openMint}
+                onClick={openShop}
               >
                 <Typography variant="h6">
                   <FontAwesomeIcon icon={faCartShopping} />

@@ -24,10 +24,10 @@ export default function KnightsSection({ active, goToShop }: KnightsSectionProps
           elevation={0}
           sx={{
             mx: "auto",
-            mb: 10,
+            mb: 4,
             [muiTheme.breakpoints.up("xl")]: {
               mt: 6,
-              mb: 16,
+              mb: 6,
               maxWidth: 1300,
               mx: "auto"
             }
@@ -75,7 +75,11 @@ export default function KnightsSection({ active, goToShop }: KnightsSectionProps
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
+            mb: 6,
+            [muiTheme.breakpoints.up("xl")]: {
+              mb: 10
+            }
           }}
         >
           <Typography align="center" sx={{ px: 5, my: 3 }} variant="h2" color={muiTheme.palette.text.secondary}>

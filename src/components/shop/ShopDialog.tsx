@@ -7,12 +7,12 @@ import MintSection from "./mint/MintSection";
 import ShopSection from "./shop/ShopSection";
 
 interface ShopDialogProps {
-  mintOpen: boolean;
-  closeMint: () => void;
+  shopOpen: boolean;
+  closeShop: () => void;
   defaultTab?: number;
 }
 
-export default function ShopDialog({ mintOpen, closeMint, defaultTab }: ShopDialogProps) {
+export default function ShopDialog({ shopOpen, closeShop, defaultTab }: ShopDialogProps) {
   const muiTheme = useTheme();
   const [value, setValue] = useState(defaultTab ?? 0);
   const [knightsActive, setKnightsActive] = useState(false);
@@ -43,15 +43,14 @@ export default function ShopDialog({ mintOpen, closeMint, defaultTab }: ShopDial
 
   useEffect(() => {
     handleValueChange(value);
-    console.log("Opened shopDialog");
   }, []);
 
   useMemo(() => {
     handleValueChange(defaultTab ?? 0);
-  }, [defaultTab, mintOpen]);
+  }, [defaultTab, shopOpen]);
 
   return (
-    <FullscreenDialog dialogOpen={mintOpen} closeDialog={closeMint}>
+    <FullscreenDialog dialogOpen={shopOpen} closeDialog={closeShop}>
       <Typography align="center" sx={{ px: 5, my: 3 }} variant="h3" color={muiTheme.palette.text.secondary}>
         {title}
       </Typography>

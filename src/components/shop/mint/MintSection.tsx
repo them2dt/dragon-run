@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from "@mui/material";
-//web3
 import axios from "axios";
 import {
   type CandyMachine,
@@ -42,9 +41,11 @@ export default function MintSection({ active }: MintSectionProps) {
   const { connection } = useConnection();
   const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet));
   //
-  //function to print out the wallet, which is being used at the moment
+  // function to print out the wallet, which is being used at the moment
   const logWallet = () => {
-    if (!wallet.publicKey) {
+    if (wallet.publicKey) {
+      console.log("Using Wallet: " + wallet.publicKey.toBase58());
+    } else {
       console.log("Wallet couldn't be found.");
     }
   };
@@ -56,6 +57,8 @@ export default function MintSection({ active }: MintSectionProps) {
   };
   // function to execute the mint
   const executeMint = async () => {
+    console.log("launching mint-process...");
+
     setIsLoading(true);
     const cm = await metaplex.candyMachines().findByAddress({ address: new PublicKey(import.meta.env.VITE_CM) });
 
@@ -72,6 +75,7 @@ export default function MintSection({ active }: MintSectionProps) {
         setMintResult(res.tokenAddress);
         setMinted(true);
       });
+      console.log("Minted successfully.");
     } catch (e) {
       setMintFailed(true);
       console.log("Mint Failed.");
@@ -110,7 +114,6 @@ export default function MintSection({ active }: MintSectionProps) {
         elevation={0}
         sx={{
           mx: "auto",
-          mt: 4,
           mb: 10,
           [muiTheme.breakpoints.up("xl")]: {
             mt: 6,
@@ -129,19 +132,22 @@ export default function MintSection({ active }: MintSectionProps) {
               sx={{
                 alignItems: "center",
                 justifyContent: "center",
-                width: 1
+                width: 1,
+                mt: 6
               }}
             >
               <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-                <img
-                  src={unrevealed}
-                  style={{
-                    width: "50vw",
-                    borderRadius: "20px"
-                  }}
-                />
+                <Card elevation={18} sx={{ borderRadius: "0", width: "50vw" }}>
+                  <img
+                    src={unrevealed}
+                    style={{
+                      width: "50vw",
+                      borderRadius: "0"
+                    }}
+                  />
+                </Card>
               </Stack>
-              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }} style={{ marginTop: "10px" }}>
+              <Stack direction="row" sx={{ justifyContent: "center" }} style={{ marginTop: "16px" }}>
                 <Typography variant="h5" color={"white"}>
                   1 SOL
                 </Typography>
@@ -158,7 +164,12 @@ export default function MintSection({ active }: MintSectionProps) {
                     marginTop: "10px",
                     padding: "10px",
                     backgroundColor: "#ff3c00",
-                    borderRadius: "20px"
+                    borderRadius: "0"
+                  }}
+                  onClick={() => {
+                    executeMint().catch((e) => {
+                      console.log(e);
+                    });
                   }}
                 >
                   <Typography variant="h4" color={"white"}>
@@ -203,7 +214,7 @@ export default function MintSection({ active }: MintSectionProps) {
                   src={loading}
                   style={{
                     width: "50vw",
-                    borderRadius: "20px"
+                    borderRadius: "0"
                   }}
                 />
               </Stack>
@@ -232,7 +243,7 @@ export default function MintSection({ active }: MintSectionProps) {
                   src={metadata?.image ?? unrevealed}
                   style={{
                     width: "50vw",
-                    borderRadius: "20px"
+                    borderRadius: "0"
                   }}
                 />
               </Stack>
@@ -248,7 +259,7 @@ export default function MintSection({ active }: MintSectionProps) {
                     marginTop: "10px",
                     padding: "10px",
                     backgroundColor: "#ff3c00",
-                    borderRadius: "20px"
+                    borderRadius: "0"
                   }}
                   onClick={() => {
                     setIsLoading(false);
@@ -288,7 +299,7 @@ export default function MintSection({ active }: MintSectionProps) {
                     marginTop: "10px",
                     padding: "10px",
                     backgroundColor: "#ff3c00",
-                    borderRadius: "20px"
+                    borderRadius: "0"
                   }}
                   onClick={() => {
                     setIsLoading(false);
