@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from "@mui/material";
+//web3
 import axios from "axios";
 import {
   type CandyMachine,
@@ -41,11 +42,9 @@ export default function MintSection({ active }: MintSectionProps) {
   const { connection } = useConnection();
   const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet));
   //
-  // function to print out the wallet, which is being used at the moment
+  //function to print out the wallet, which is being used at the moment
   const logWallet = () => {
-    if (wallet.publicKey) {
-      console.log("Using Wallet: " + wallet.publicKey.toBase58());
-    } else {
+    if (!wallet.publicKey) {
       console.log("Wallet couldn't be found.");
     }
   };
@@ -57,8 +56,6 @@ export default function MintSection({ active }: MintSectionProps) {
   };
   // function to execute the mint
   const executeMint = async () => {
-    console.log("launching mint-process...");
-
     setIsLoading(true);
     const cm = await metaplex.candyMachines().findByAddress({ address: new PublicKey(import.meta.env.VITE_CM) });
 
@@ -75,7 +72,6 @@ export default function MintSection({ active }: MintSectionProps) {
         setMintResult(res.tokenAddress);
         setMinted(true);
       });
-      console.log("Minted successfully.");
     } catch (e) {
       setMintFailed(true);
       console.log("Mint Failed.");
@@ -114,6 +110,7 @@ export default function MintSection({ active }: MintSectionProps) {
         elevation={0}
         sx={{
           mx: "auto",
+          mt: 4,
           mb: 10,
           [muiTheme.breakpoints.up("xl")]: {
             mt: 6,
@@ -146,7 +143,7 @@ export default function MintSection({ active }: MintSectionProps) {
               </Stack>
               <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }} style={{ marginTop: "10px" }}>
                 <Typography variant="h5" color={"white"}>
-                  5 SOL
+                  1 SOL
                 </Typography>
               </Stack>
               <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }} style={{ marginTop: "10px" }}>
@@ -162,11 +159,6 @@ export default function MintSection({ active }: MintSectionProps) {
                     padding: "10px",
                     backgroundColor: "#ff3c00",
                     borderRadius: "20px"
-                  }}
-                  onClick={() => {
-                    executeMint().catch((e) => {
-                      console.log(e);
-                    });
                   }}
                 >
                   <Typography variant="h4" color={"white"}>

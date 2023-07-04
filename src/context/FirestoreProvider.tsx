@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 import type FirestoreData from "@firestore/FirestoreData";
 import type UserData from "@firestore/UserData";
 import {
@@ -13,10 +13,17 @@ import {
   Timestamp,
   updateDoc
 } from "firebase/firestore";
+import { browserLocalPersistence, getAuth, setPersistence, signInWithCustomToken } from "firebase/auth";
+import { getFunctions, httpsCallable } from "firebase/functions";
 import firestore from "../firebase/clientApp";
 import isHighScoresDoc from "@firestore/type-guards/isHighScoresDoc";
 import type HighScoresDoc from "@firestore/HighScoresDoc";
 import type Leaderboard from "@firestore/Leaderboard";
+
+interface FirestoreCallableFunctions {
+  getAuthMessage: (userName: string, pubkey: string) => any;
+  getAuthToken: (userName: string, pubkey: string, signature: string, signatureID: string) => any;
+}
 
 interface FirestoreContextType {
   firestoreData: FirestoreData | null;
@@ -26,7 +33,10 @@ interface FirestoreContextType {
     getUserData: (userName: string) => void;
     getLeaderboard: () => void;
     newHighScore: (score: number) => void;
+    signInWithToken: (token: string) => Promise<void>;
+    signOut: () => void;
   };
+  firestoreCallableFunctions: FirestoreCallableFunctions | null;
   setFirestoreData: React.Dispatch<React.SetStateAction<FirestoreData>>;
 }
 
@@ -44,6 +54,7 @@ export const FirestoreContext = createContext<FirestoreContextType | null>(null)
 
 export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   const [firestoreData, setFirestoreData] = useState<FirestoreData>(defaultFirestoreData);
+  const [firestoreCallableFunctions, setFirestoreCallableFunctions] = useState<FirestoreCallableFunctions | null>(null);
 
   const initializeFirestore = async () => {
     if (firestoreData?.firestore != null) {
@@ -62,6 +73,34 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     }
   };
 
+  const signInWithToken = async (token: string) => {
+    const auth = getAuth();
+    setPersistence(auth, browserLocalPersistence)
+      .then(async () => {
+        await signInWithCustomToken(auth, token)
+          .then((userCredential) => {
+            const userName = userCredential.user.uid;
+            console.log("Signed in as: " + userName);
+            initializeUserData(userName).catch((err) => {
+              throw new Error(err.message);
+            });
+          })
+          .catch((err) => {
+            throw new Error(err.message);
+          });
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  };
+
+  const signOut = async () => {
+    const auth = getAuth();
+    auth.signOut().catch((err) => {
+      throw new Error(err.message);
+    });
+  };
+
   const getUserData = async (userName: string) => {
     if (userName === "") {
       return;
@@ -73,6 +112,18 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     }
     if (db == null) {
       return;
+    }
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user == null) {
+      return;
+    }
+    const uid = user.uid;
+    if (uid === "") {
+      console.log("User is not signed in!");
+    } else if (uid !== userName) {
+      console.log("Signed in user does not match user name!");
+      await signOut();
     }
     const userDataDoc = doc(db, "users", userName);
     const userData = await getDoc(userDataDoc);
@@ -136,8 +187,6 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     if (querySnapshot.size === 0) {
       await createUser(userName);
       return;
-    } else if (querySnapshot.size > 1) {
-      return;
     }
 
     await getUserData(userName);
@@ -155,6 +204,21 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     if (db == null) {
       return;
     }
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user == null) {
+      console.log("User is not signed in!");
+      return;
+    }
+    const uid = user.uid;
+    if (uid === "") {
+      console.log("User is not signed in!");
+      return;
+    } else if (uid !== userName) {
+      console.log("Signed in user does not match user name!");
+      await signOut();
+      return;
+    }
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("userName", "==", userName));
     const querySnapshot = await getDocs(q);
@@ -167,7 +231,6 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
         highScore: 0,
         scoredAt: Timestamp.now()
       };
-
       await setDoc(doc(db, "users", userName), newUser);
 
       await getUserData(userName);
@@ -199,6 +262,21 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       return;
     }
     const userName = firestoreData?.userData?.userName;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user == null) {
+      console.log("User is not signed in!");
+      return;
+    }
+    const uid = user.uid;
+    if (uid === "") {
+      console.log("User is not signed in!");
+      return;
+    } else if (uid !== userName) {
+      console.log("Signed in user does not match user name!");
+      await signOut();
+      return;
+    }
     const updatedData = {
       highScore,
       scoredAt: Timestamp.now()
@@ -208,16 +286,81 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     await getUserData(userName);
   };
 
+  useMemo(() => {
+    const functions = getFunctions();
+    if (functions == null) {
+      return;
+    }
+    const getAuthMessageCallable = httpsCallable(functions, "getAuthMessage");
+    if (getAuthMessageCallable == null) {
+      console.log("getAuthMessageCallable is null");
+      return;
+    }
+    const getAuthMessage = async (userName: string, pubkey: string) => {
+      if (userName === "" || userName == null) {
+        throw new Error("userName is empty");
+      }
+      if (pubkey === "" || pubkey == null) {
+        throw new Error("pubkey is empty");
+      }
+      console.log("getAuthMessage ", userName, pubkey);
+      return await getAuthMessageCallable({ userName, pubkey })
+        .then((result) => {
+          return result.data;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    };
+    const getAuthTokenCallable = httpsCallable(functions, "getAuthToken");
+    if (getAuthTokenCallable == null) {
+      console.log("getAuthTokenCallable is null");
+      return;
+    }
+    const getAuthToken = async (userName: string, pubkey: string, signature: string, signatureID: string) => {
+      return await getAuthTokenCallable({ userName, pubkey, signature, signatureID })
+        .then((result) => {
+          return result.data;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    };
+    const firestoreFunctions = {
+      getAuthMessage,
+      getAuthToken
+    };
+    setFirestoreCallableFunctions(firestoreFunctions);
+  }, []);
+
+  useMemo(() => {
+    getAuth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log("User is signed in");
+        const userName = user.uid;
+        getUserData(userName).catch((err) => {
+          console.log("Error getting user data: ", err.message);
+        });
+      } else {
+        console.log("User is signed out");
+      }
+    });
+  }, []);
+
   const firestoreFunctions = {
     initializeFirestore,
     initializeUserData,
     getUserData,
     getLeaderboard,
-    newHighScore
+    newHighScore,
+    signInWithToken,
+    signOut
   };
 
   return (
-    <FirestoreContext.Provider value={{ firestoreData, firestoreFunctions, setFirestoreData }}>
+    <FirestoreContext.Provider
+      value={{ firestoreData, firestoreFunctions, firestoreCallableFunctions, setFirestoreData }}
+    >
       {children}
     </FirestoreContext.Provider>
   );
