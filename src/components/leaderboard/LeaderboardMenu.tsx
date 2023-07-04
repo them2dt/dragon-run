@@ -78,13 +78,39 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
         <Table aria-label="leaderboard" stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell align="center" sx={{ color: muiTheme.palette.text.secondary }}>
+              <TableCell
+                align="center"
+                sx={{
+                  color: muiTheme.palette.text.secondary,
+                  [muiTheme.breakpoints.down("sm")]: {
+                    padding: 1,
+                    paddingLeft: 2
+                  }
+                }}
+              >
                 <Typography variant="subtitle1">Rank</Typography>
               </TableCell>
-              <TableCell align="center" sx={{ color: muiTheme.palette.text.secondary }}>
+              <TableCell
+                align="center"
+                sx={{
+                  color: muiTheme.palette.text.secondary,
+                  [muiTheme.breakpoints.down("sm")]: {
+                    padding: 1
+                  }
+                }}
+              >
                 <Typography variant="subtitle1">Player</Typography>
               </TableCell>
-              <TableCell align="center" sx={{ color: muiTheme.palette.text.secondary }}>
+              <TableCell
+                align="center"
+                sx={{
+                  color: muiTheme.palette.text.secondary,
+                  [muiTheme.breakpoints.down("sm")]: {
+                    padding: 1,
+                    paddingRight: 2
+                  }
+                }}
+              >
                 <Typography variant="subtitle1">Score</Typography>
               </TableCell>
             </TableRow>

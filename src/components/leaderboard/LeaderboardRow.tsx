@@ -27,8 +27,19 @@ export default function LeaderboardRow({ rank, name, score }: LeaderboardRowProp
       <TableCell align="center" sx={{ color: name === currentUserName ? blue[500] : muiTheme.palette.text.secondary }}>
         <Typography variant="body1">{rank}</Typography>
       </TableCell>
-      <TableCell align="center" sx={{ color: name === currentUserName ? blue[500] : muiTheme.palette.text.primary }}>
-        <Typography variant="body2">{name}</Typography>
+      <TableCell
+        align="center"
+        sx={{
+          color: name === currentUserName ? blue[500] : muiTheme.palette.text.primary,
+          [muiTheme.breakpoints.down("sm")]: {
+            padding: 1,
+            maxWidth: 150
+          }
+        }}
+      >
+        <Typography variant="body2" noWrap>
+          {name}
+        </Typography>
       </TableCell>
       <TableCell align="center" sx={{ color: name === currentUserName ? blue[500] : muiTheme.palette.text.secondary }}>
         <Typography variant="body1">{score}</Typography>
