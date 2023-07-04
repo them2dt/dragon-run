@@ -1,7 +1,7 @@
-import React from 'react';
-import { useTheme, Grid, Card, Zoom } from '@mui/material';
-import ComingSoonShopCrates from './ComingSoonShopCrates';
-import TradeOnSection from './TradeOnSection';
+import React from "react";
+import { useTheme, Grid, Card, Zoom } from "@mui/material";
+import ComingSoonShopCrates from "./ComingSoonShopCrates";
+import TradeOnSection from "./TradeOnSection";
 
 interface ShopSectionProps {
   active: boolean;
@@ -10,7 +10,7 @@ interface ShopSectionProps {
 export default function ShopSection({ active }: ShopSectionProps) {
   const muiTheme = useTheme();
   return (
-    <Zoom in={active} style={{ transitionDelay: active ? '200ms' : '0ms' }} unmountOnExit>
+    <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
       <Grid
         container
         direction="row"
@@ -19,9 +19,9 @@ export default function ShopSection({ active }: ShopSectionProps) {
         component={Card}
         elevation={0}
         sx={{
-          mx: 'auto',
+          mx: "auto",
           mb: 10,
-          [muiTheme.breakpoints.up('xl')]: {
+          [muiTheme.breakpoints.up("xl")]: {
             mt: 6,
             mb: 16,
             maxWidth: 1300

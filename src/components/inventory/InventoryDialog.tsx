@@ -1,22 +1,20 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Typography, useTheme, Box, Paper, BottomNavigation, BottomNavigationAction } from "@mui/material";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import StoreIcon from "@mui/icons-material/Store";
 import FullscreenDialog from "components/FullscreenDialog";
 import KnightsSection from "./knights/KnightsSection";
-import ShopSection from "./shop/ShopSection";
 import ComingSoonCratesSection from "./crates/ComingSoonCratesSection";
 
 interface InventoryDialogProps {
   inventoryOpen: boolean;
   closeInventory: () => void;
-  defaultTab?: number;
+  openShop: () => void;
 }
 
-export default function InventoryDialog({ inventoryOpen, closeInventory, defaultTab }: InventoryDialogProps) {
+export default function InventoryDialog({ inventoryOpen, closeInventory, openShop }: InventoryDialogProps) {
   const muiTheme = useTheme();
-  const [value, setValue] = useState(defaultTab ?? 0);
+  const [value, setValue] = useState(0);
   const [cratesActive, setCratesActive] = useState(false);
   const [knightsActive, setKnightsActive] = useState(false);
   const [title, setTitle] = useState("Inventory");
@@ -43,14 +41,9 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
     }
   };
 
-
   useEffect(() => {
     handleValueChange(value);
   }, []);
-
-  useMemo(() => {
-    handleValueChange(defaultTab ?? 0);
-  }, [defaultTab, inventoryOpen]);
 
   return (
     <FullscreenDialog dialogOpen={inventoryOpen} closeDialog={closeInventory}>
@@ -66,8 +59,18 @@ export default function InventoryDialog({ inventoryOpen, closeInventory, default
         }}
       >
         <Box sx={{ minHeight: "100vh" }}>
-          <KnightsSection active={knightsActive} goToShop={()=>{}} />
-          <ComingSoonCratesSection active={cratesActive} goToShop={()=>{}} />
+          <KnightsSection
+            active={knightsActive}
+            goToShop={() => {
+              openShop();
+            }}
+          />
+          <ComingSoonCratesSection
+            active={cratesActive}
+            goToShop={() => {
+              openShop();
+            }}
+          />
         </Box>
       </Box>
       <Paper sx={{}} elevation={20}>

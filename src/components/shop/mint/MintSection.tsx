@@ -1,22 +1,13 @@
-import { useEffect, useState } from "react";
-import {
-  useTheme,
-  Grid,
-  Card,
-  Typography,
-  Zoom,
-  Box,
-  Stack,
-} from "@mui/material";
-//web3
+import React, { useEffect, useState } from "react";
+import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from "@mui/material";
 import axios from "axios";
 import {
-  CandyMachine,
-  DefaultCandyGuardSettings,
+  type CandyMachine,
+  type DefaultCandyGuardSettings,
   Metaplex,
-  walletAdapterIdentity,
+  walletAdapterIdentity
 } from "@metaplex-foundation/js";
-import { PublicKey, Connection } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import { useConnection } from "@solana/wallet-adapter-react";
 
 import loading from "@assets/loading.gif";
@@ -43,15 +34,14 @@ export default function MintSection({ active }: MintSectionProps) {
   }>();
   const [mintResult, setMintResult] = useState<PublicKey>();
 
-  const [candyMachine, setCandyMachine] =
-    useState<CandyMachine<DefaultCandyGuardSettings>>();
+  const [candyMachine, setCandyMachine] = useState<CandyMachine<DefaultCandyGuardSettings>>();
   //
   const muiTheme = useTheme();
   const wallet = useWallet();
   const { connection } = useConnection();
   const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet));
   //
-  //function to print out the wallet, which is being used at the moment
+  // function to print out the wallet, which is being used at the moment
   const logWallet = () => {
     if (wallet.publicKey) {
       console.log("Using Wallet: " + wallet.publicKey.toBase58());
@@ -59,31 +49,25 @@ export default function MintSection({ active }: MintSectionProps) {
       console.log("Wallet couldn't be found.");
     }
   };
-  //function to fetch the candy machine
+  // function to fetch the candy machine
   const getCandyMachine = async () => {
-    const cm = await metaplex
-      .candyMachines()
-      .findByAddress({ address: new PublicKey(import.meta.env.VITE_CM) });
+    const cm = await metaplex.candyMachines().findByAddress({ address: new PublicKey(import.meta.env.VITE_CM) });
 
     setCandyMachine(cm);
   };
-  //function to execute the mint
+  // function to execute the mint
   const executeMint = async () => {
     console.log("launching mint-process...");
 
     setIsLoading(true);
-    const cm = await metaplex
-      .candyMachines()
-      .findByAddress({ address: new PublicKey(import.meta.env.VITE_CM) });
+    const cm = await metaplex.candyMachines().findByAddress({ address: new PublicKey(import.meta.env.VITE_CM) });
 
     const mintBuilder = await metaplex
       .candyMachines()
       .builders()
       .mint({
         candyMachine: cm,
-        collectionUpdateAuthority: new PublicKey(
-          "teachcUD4nENDLkGynmFnPNcupXMRmwSUJBtCK5QVoc"
-        ),
+        collectionUpdateAuthority: new PublicKey("teachcUD4nENDLkGynmFnPNcupXMRmwSUJBtCK5QVoc")
       });
 
     try {
@@ -97,12 +81,10 @@ export default function MintSection({ active }: MintSectionProps) {
       console.log("Mint Failed.");
     }
   };
-  //function to the metadata from an NFT
+  // function to the metadata from an NFT
   const fetchMetadata = async () => {
     if (minted) {
-      const nft = await metaplex
-        .nfts()
-        .findByToken({ token: new PublicKey(mintResult || "") });
+      const nft = await metaplex.nfts().findByToken({ token: new PublicKey(mintResult ?? "") });
       const { data } = await axios.get(nft.uri);
       setMetadata(data);
       console.log(data);
@@ -111,18 +93,18 @@ export default function MintSection({ active }: MintSectionProps) {
   //
   useEffect(() => {
     logWallet();
-    getCandyMachine();
+    getCandyMachine().catch((e) => {
+      console.log(e);
+    });
   }, []);
   //
   useEffect(() => {
-    fetchMetadata();
+    fetchMetadata().catch((e) => {
+      console.log(e);
+    });
   }, [minted]);
   return (
-    <Zoom
-      in={active}
-      style={{ transitionDelay: active ? "200ms" : "0ms" }}
-      unmountOnExit
-    >
+    <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
       <Grid
         container
         direction="row"
@@ -137,16 +119,12 @@ export default function MintSection({ active }: MintSectionProps) {
             mt: 6,
             mb: 16,
             maxWidth: 1300,
-            mx: "auto",
-          },
+            mx: "auto"
+          }
         }}
       >
         {!isLoading && !minted && !mintFailed && (
-          <Zoom
-            in={active}
-            style={{ transitionDelay: active ? "200ms" : "0ms" }}
-            unmountOnExit
-          >
+          <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
             <Grid
               component={Box}
               item
@@ -154,82 +132,62 @@ export default function MintSection({ active }: MintSectionProps) {
               sx={{
                 alignItems: "center",
                 justifyContent: "center",
-                width: 1,
+                width: 1
               }}
             >
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <img
                   src={unrevealed}
                   style={{
                     width: "50vw",
-                    borderRadius: "20px",
+                    borderRadius: "20px"
                   }}
                 />
               </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-                style={{ marginTop: "10px" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }} style={{ marginTop: "10px" }}>
                 <Typography variant="h5" color={"white"}>
                   5 SOL
                 </Typography>
               </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-                style={{ marginTop: "10px" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }} style={{ marginTop: "10px" }}>
                 <Typography variant="h5" color={"white"}>
-                  {candyMachine?.itemsMinted.toNumber()}/
-                  {candyMachine?.itemsLoaded}
+                  {candyMachine?.itemsMinted.toNumber()}/{candyMachine?.itemsLoaded}
                 </Typography>
               </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <button
                   style={{
                     width: "50vw",
                     marginTop: "10px",
                     padding: "10px",
                     backgroundColor: "#ff3c00",
-                    borderRadius: "20px",
+                    borderRadius: "20px"
                   }}
-                  onClick={executeMint}
+                  onClick={() => {
+                    executeMint().catch((e) => {
+                      console.log(e);
+                    });
+                  }}
                 >
                   <Typography variant="h4" color={"white"}>
                     Mint
                   </Typography>
                 </button>
               </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <Typography
                   variant="body1"
                   color={"white"}
                   style={{
                     width: "60vw",
                     textAlign: "center",
-                    marginTop: "40px",
+                    marginTop: "40px"
                   }}
                 >
                   Be the hero of your own story.
                   <br />
                   <br />
-                  Emptea Knights is a collection of 2000 brave knights, forged
-                  to achieve greatness.
+                  Emptea Knights is a collection of 2000 brave knights, forged to achieve greatness.
                 </Typography>
               </Stack>
             </Grid>
@@ -237,11 +195,7 @@ export default function MintSection({ active }: MintSectionProps) {
         )}
 
         {isLoading && !minted && !mintFailed && (
-          <Zoom
-            in={active}
-            style={{ transitionDelay: active ? "200ms" : "0ms" }}
-            unmountOnExit
-          >
+          <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
             <Grid
               component={Box}
               item
@@ -249,28 +203,19 @@ export default function MintSection({ active }: MintSectionProps) {
               sx={{
                 alignItems: "center",
                 justifyContent: "center",
-                width: 1,
+                width: 1
               }}
             >
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <img
                   src={loading}
                   style={{
                     width: "50vw",
-                    borderRadius: "20px",
+                    borderRadius: "20px"
                   }}
                 />
               </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-                style={{ marginTop: "10px" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }} style={{ marginTop: "10px" }}>
                 <Typography variant="h5" color={"white"}>
                   loading...
                 </Typography>
@@ -279,11 +224,7 @@ export default function MintSection({ active }: MintSectionProps) {
           </Zoom>
         )}
         {minted && (
-          <Zoom
-            in={active}
-            style={{ transitionDelay: active ? "200ms" : "0ms" }}
-            unmountOnExit
-          >
+          <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
             <Grid
               component={Box}
               item
@@ -291,47 +232,31 @@ export default function MintSection({ active }: MintSectionProps) {
               sx={{
                 alignItems: "center",
                 justifyContent: "center",
-                width: 1,
+                width: 1
               }}
             >
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <img
-                  src={metadata?.image || unrevealed}
+                  src={metadata?.image ?? unrevealed}
                   style={{
                     width: "50vw",
-                    borderRadius: "20px",
+                    borderRadius: "20px"
                   }}
                 />
               </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-              >
-                <Typography
-                  variant="h5"
-                  color={"white"}
-                  style={{ textAlign: "center", marginTop: "10px" }}
-                >
-                  {metadata?.name || ""} Minted successfully!
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
+                <Typography variant="h5" color={"white"} style={{ textAlign: "center", marginTop: "10px" }}>
+                  {metadata?.name ?? ""} Minted successfully!
                 </Typography>
               </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <button
                   style={{
                     width: "50vw",
                     marginTop: "10px",
                     padding: "10px",
                     backgroundColor: "#ff3c00",
-                    borderRadius: "20px",
+                    borderRadius: "20px"
                   }}
                   onClick={() => {
                     setIsLoading(false);
@@ -348,11 +273,7 @@ export default function MintSection({ active }: MintSectionProps) {
           </Zoom>
         )}
         {mintFailed && (
-          <Zoom
-            in={active}
-            style={{ transitionDelay: active ? "200ms" : "0ms" }}
-            unmountOnExit
-          >
+          <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
             <Grid
               component={Box}
               item
@@ -360,30 +281,22 @@ export default function MintSection({ active }: MintSectionProps) {
               sx={{
                 alignItems: "center",
                 justifyContent: "center",
-                width: 1,
+                width: 1
               }}
             >
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <Typography variant="h5" color={"white"}>
                   Minting failed.
                 </Typography>
               </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ justifyContent: "center" }}
-              >
+              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <button
                   style={{
                     width: "50vw",
                     marginTop: "10px",
                     padding: "10px",
                     backgroundColor: "#ff3c00",
-                    borderRadius: "20px",
+                    borderRadius: "20px"
                   }}
                   onClick={() => {
                     setIsLoading(false);

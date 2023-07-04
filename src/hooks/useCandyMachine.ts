@@ -1,7 +1,7 @@
 import { useConnection } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
 import { useWallet } from "./useWallet";
-import { CandyMachine } from "@metaplex-foundation/js";
+import { type CandyMachine } from "@metaplex-foundation/js";
 import { getCandyMachine } from "../utils/candyMachine";
 
 export const useCandyMachine = (reload?: number) => {
@@ -30,7 +30,7 @@ export const useCandyMachine = (reload?: number) => {
     };
 
     console.log("fetching nfts");
-    fetchNFTs();
+    fetchNFTs().catch(console.error);
   }, [connection, publicKey, reload]);
 
   return { cm, loading, error };

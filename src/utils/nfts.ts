@@ -9,7 +9,7 @@ export interface checkNftRes {
   status: string;
 }
 
-export const getNfts = async (owner: PublicKey) => {
+const getNfts = async (owner: PublicKey) => {
   const nfts = [];
 
   try {
@@ -33,3 +33,5 @@ export const getNfts = async (owner: PublicKey) => {
     console.log("RPC Error: ", error);
   }
 };
+
+export default getNfts;

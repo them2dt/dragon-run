@@ -1,14 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
-import {
-  Typography,
-  useTheme,
-  Box,
-  Paper,
-  BottomNavigation,
-  BottomNavigationAction,
-} from "@mui/material";
+import { Typography, useTheme, Box, Paper, BottomNavigation, BottomNavigationAction } from "@mui/material";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
-import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import StoreIcon from "@mui/icons-material/Store";
 import FullscreenDialog from "components/FullscreenDialog";
 import MintSection from "./mint/MintSection";
@@ -20,11 +12,7 @@ interface ShopDialogProps {
   defaultTab?: number;
 }
 
-export default function ShopDialog({
-  mintOpen,
-  closeMint,
-  defaultTab,
-}: ShopDialogProps) {
+export default function ShopDialog({ mintOpen, closeMint, defaultTab }: ShopDialogProps) {
   const muiTheme = useTheme();
   const [value, setValue] = useState(defaultTab ?? 0);
   const [knightsActive, setKnightsActive] = useState(false);
@@ -35,7 +23,7 @@ export default function ShopDialog({
 
   const scrollToTop = () => {
     scrollBoxRef.current?.scrollTo({
-      top: 0,
+      top: 0
     });
   };
 
@@ -53,10 +41,6 @@ export default function ShopDialog({
     }
   };
 
-  const goToShop = () => {
-    handleValueChange(2);
-  };
-
   useEffect(() => {
     handleValueChange(value);
     console.log("Opened shopDialog");
@@ -68,12 +52,7 @@ export default function ShopDialog({
 
   return (
     <FullscreenDialog dialogOpen={mintOpen} closeDialog={closeMint}>
-      <Typography
-        align="center"
-        sx={{ px: 5, my: 3 }}
-        variant="h3"
-        color={muiTheme.palette.text.secondary}
-      >
+      <Typography align="center" sx={{ px: 5, my: 3 }} variant="h3" color={muiTheme.palette.text.secondary}>
         {title}
       </Typography>
       <Box
@@ -81,11 +60,11 @@ export default function ShopDialog({
         sx={{
           overflowY: "scroll",
           overflowX: "hidden",
-          my: "auto",
+          my: "auto"
         }}
       >
         <Box sx={{ minHeight: "100vh" }}>
-          <MintSection active={knightsActive} goToShop={goToShop} />
+          <MintSection active={knightsActive} />
           <ShopSection active={shopActive} />
         </Box>
       </Box>
@@ -95,7 +74,7 @@ export default function ShopDialog({
           value={value}
           sx={{
             height: 70,
-            background: muiTheme.palette.background.light,
+            background: muiTheme.palette.background.light
           }}
           onChange={(event, newValue) => {
             handleValueChange(newValue);

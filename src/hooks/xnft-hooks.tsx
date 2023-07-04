@@ -1,5 +1,5 @@
-import { Event, XnftMetadata } from "@coral-xyz/common-public";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { type Event, type XnftMetadata } from "@coral-xyz/common-public";
+import { type Connection, type PublicKey } from "@solana/web3.js";
 import { useEffect, useState } from "react";
 
 declare global {
@@ -19,18 +19,7 @@ export function usePublicKey(): PublicKey {
   return publicKey;
 }
 
-export function usePublicKeys(): PublicKey {
-  const [publicKeys, setPublicKeys] = useState(window.xnft.publicKeys);//- TODO: hook problem lösen: hooks(useState) können nicht innerhalb funktionen initialisiert werden.
-  useEffect(() => {
-    window.xnft.on("publicKeysUpdate", () => {
-      setPublicKeys(window.xnft.publicKeys);
-    });
-  }, [setPublicKeys]);
-  return publicKeys;
-}
-
-
-/* 
+/*
  - hab hier was versucht, keine ahnung obs geht.
 export function usePublicKeys(): PublicKey {
   const publicKeys = { keys: window.xnft.publicKeys };
@@ -65,9 +54,7 @@ export function useSolanaConnection(): Connection {
 }
 
 export function useEthereumConnection(): Connection {
-  const [connection, setConnection] = useState(
-    window.xnft.ethereum?.connection
-  );
+  const [connection, setConnection] = useState(window.xnft.ethereum?.connection);
   useEffect(() => {
     window.xnft.ethereum?.on("connectionUpdate", () => {
       setConnection(window.xnft.ethereum.connection);
@@ -109,16 +96,17 @@ export function useMetadata(): XnftMetadata {
 export function useDimensions(debounceMs = 0) {
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
-    width: window.innerWidth,
+    width: window.innerWidth
   });
 
-  const debounce = (fn: Function) => {
+  const debounce = (fn: () => void) => {
     let timer: ReturnType<typeof setTimeout>;
     return function () {
       clearTimeout(timer);
       timer = setTimeout(() => {
         clearTimeout(timer);
-        // @ts-ignore
+        // @ts-expect-error TODO: fix this
+        // eslint-disable-next-line prefer-rest-params
         fn.apply(this, arguments);
       }, debounceMs);
     };
@@ -127,13 +115,13 @@ export function useDimensions(debounceMs = 0) {
   useEffect(() => {
     setDimensions({
       height: window.innerHeight,
-      width: window.innerWidth,
+      width: window.innerWidth
     });
 
     const debouncedHandleResize = debounce(function handleResize() {
       setDimensions({
         height: window.innerHeight,
-        width: window.innerWidth,
+        width: window.innerWidth
       });
     });
 
