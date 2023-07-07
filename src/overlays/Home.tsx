@@ -22,7 +22,7 @@ export default function Home() {
   const [inventoryOpen, setInventoryOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [preGameOpen, setPreGameOpen] = useState(false);
-  // 0 = Shop, 1 = Mint
+  // 0 = Mint, 1 = Shop
   const [defaultTab, setDefaultTab] = useState<number | undefined>(undefined);
 
   const openSettings = () => {
