@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Typography, useTheme, Box } from "@mui/material";
 import FullscreenDialog from "components/FullscreenDialog";
 import ChooseLevelScreen from "./choose-level/ChooseLevelScreen";
@@ -33,12 +33,28 @@ export default function PreGameDialog({ preGameOpen, closePreGame, openShop }: P
     closePreGame();
   };
 
+  const scrollBoxRef = useRef<HTMLDivElement>(null);
+
+  const handleOpenNextScreen = () => {
+    scrollToTop();
+    if (screen === PreGameScreens.ChooseLevel) {
+      setScreen(PreGameScreens.ChooseCharacter);
+    }
+  };
+
+  const scrollToTop = () => {
+    scrollBoxRef.current?.scrollTo({
+      top: 0
+    });
+  };
+
   return (
     <FullscreenDialog dialogOpen={preGameOpen} closeDialog={handleClose}>
       <Typography align="center" sx={{ px: 5, my: 3 }} variant="h3" color={muiTheme.palette.text.secondary}>
         {screenTitle}
       </Typography>
       <Box
+        ref={scrollBoxRef}
         sx={{
           overflowY: "scroll",
           overflowX: "hidden",
@@ -48,9 +64,7 @@ export default function PreGameDialog({ preGameOpen, closePreGame, openShop }: P
         <Box sx={{ minHeight: "100vh" }}>
           <ChooseLevelScreen
             active={screen === PreGameScreens.ChooseLevel}
-            openChooseCharacter={() => {
-              setScreen(PreGameScreens.ChooseCharacter);
-            }}
+            openChooseCharacter={handleOpenNextScreen}
           />
           <ChooseCharacterScreen active={screen === PreGameScreens.ChooseCharacter} openShop={openShop} />
         </Box>
