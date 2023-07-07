@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Typography } from "@mui/material";
-import { magicEden, tensor } from "@consts/Links";
+import { magicEden, tensor } from "@consts/data/Links";
 import magicedenLogo from "@assets/magiceden.png";
 import tensorLogo from "@assets/tensor.png";
 import ExchangeItem from "./ExchangeItem";
