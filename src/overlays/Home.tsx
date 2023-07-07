@@ -13,7 +13,7 @@ import { SquareButton } from "components/styled/SquareButton";
 import Leaderboard from "components/leaderboard/LeaderboardMenu";
 import ShopDialog from "components/shop/ShopDialog";
 import InventoryDialog from "components/inventory/InventoryDialog";
-import ChooseCharacterDialog from "components/choose-character/ChooseCharacterDialog";
+import PreGameDialog from "components/PreGameDialog";
 
 export default function Home() {
   const muiTheme = useTheme();
@@ -21,7 +21,7 @@ export default function Home() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [inventoryOpen, setInventoryOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
-  const [chooseCharacterOpen, setChooseCharacterOpen] = useState(false);
+  const [preGameOpen, setPreGameOpen] = useState(false);
   // 0 = Shop, 1 = Mint
   const [defaultTab, setDefaultTab] = useState<number | undefined>(undefined);
 
@@ -33,11 +33,11 @@ export default function Home() {
   };
 
   const openChooseCharacter = () => {
-    if (chooseCharacterOpen) return;
+    if (preGameOpen) return;
     eventsCenter.emit(EventKeys.OpenChooseCharacter);
   };
   const closeChooseCharacter = () => {
-    if (!chooseCharacterOpen) return;
+    if (!preGameOpen) return;
     eventsCenter.emit(EventKeys.CloseChooseCharacter);
   };
 
@@ -70,10 +70,10 @@ export default function Home() {
 
   useEffect(() => {
     eventsCenter.on(EventKeys.OpenChooseCharacter, () => {
-      setChooseCharacterOpen(true);
+      setPreGameOpen(true);
     });
     eventsCenter.on(EventKeys.CloseChooseCharacter, () => {
-      setChooseCharacterOpen(false);
+      setPreGameOpen(false);
     });
     return () => {
       eventsCenter.off(EventKeys.OpenChooseCharacter);
@@ -86,11 +86,7 @@ export default function Home() {
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
-        <ChooseCharacterDialog
-          chooseCharacterOpen={chooseCharacterOpen}
-          closeChooseCharacter={closeChooseCharacter}
-          openShop={goToShop}
-        />
+        <PreGameDialog preGameOpen={preGameOpen} closePreGame={closeChooseCharacter} openShop={goToShop} />
         <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} openShop={goToShop} />
         <ShopDialog shopOpen={shopOpen} closeShop={closeShop} defaultTab={defaultTab} />
         <HomeNavBar openSettings={openSettings} />

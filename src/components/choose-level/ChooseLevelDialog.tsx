@@ -8,7 +8,7 @@ interface ChooseLevelDialogProps {
   closeChooseLevel: () => void;
 }
 
-export default function InventoryDialog({ chooseLevelOpen, closeChooseLevel }: ChooseLevelDialogProps) {
+export default function ChooseLevelDialog({ chooseLevelOpen, closeChooseLevel }: ChooseLevelDialogProps) {
   const muiTheme = useTheme();
 
   return (
