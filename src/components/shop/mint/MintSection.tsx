@@ -128,7 +128,9 @@ export default function MintSection({ active }: MintSectionProps) {
             <Grid
               component={Box}
               item
-              xs={12}
+              xs={10}
+              md={6}
+              lg={4}
               sx={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -137,31 +139,29 @@ export default function MintSection({ active }: MintSectionProps) {
               }}
             >
               <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-                <Card elevation={18} sx={{ borderRadius: "0", width: "50vw" }}>
+                <Card elevation={18} sx={{ borderRadius: "0", width: "100%" }}>
                   <img
                     src={unrevealed}
                     style={{
-                      width: "50vw",
+                      width: "100%",
                       borderRadius: "0"
                     }}
                   />
                 </Card>
               </Stack>
-              <Stack direction="row" sx={{ justifyContent: "center" }} style={{ marginTop: "16px" }}>
-                <Typography variant="h5" color={"white"}>
+              <Stack direction="column" spacing={0.3} sx={{ justifyContent: "center" }} style={{ marginTop: "16px" }}>
+                <Typography variant="h5" textAlign={"center"} width={1} color={"white"} noWrap>
                   1 SOL
                 </Typography>
-              </Stack>
-              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }} style={{ marginTop: "10px" }}>
-                <Typography variant="h5" color={"white"}>
+                <Typography variant="h5" textAlign={"center"} width={1} color={"white"} noWrap>
                   {candyMachine?.itemsMinted.toNumber()}/{candyMachine?.itemsLoaded}
                 </Typography>
               </Stack>
               <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <button
                   style={{
-                    width: "50vw",
-                    marginTop: "10px",
+                    width: "100%",
+                    marginTop: "20px",
                     padding: "10px",
                     backgroundColor: "#ff3c00",
                     borderRadius: "0"
@@ -182,9 +182,9 @@ export default function MintSection({ active }: MintSectionProps) {
                   variant="body1"
                   color={"white"}
                   style={{
-                    width: "60vw",
+                    width: "100%",
                     textAlign: "center",
-                    marginTop: "40px"
+                    marginTop: "30px"
                   }}
                 >
                   Be the hero of your own story.
@@ -202,24 +202,25 @@ export default function MintSection({ active }: MintSectionProps) {
             <Grid
               component={Box}
               item
-              xs={12}
+              xs={10}
+              md={6}
+              lg={4}
               sx={{
                 alignItems: "center",
                 justifyContent: "center",
+                my: 1,
                 width: 1
               }}
             >
-              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
+              <Stack direction="column" spacing={4} sx={{ justifyContent: "center" }}>
                 <img
                   src={loading}
                   style={{
-                    width: "50vw",
+                    width: "100%",
                     borderRadius: "0"
                   }}
                 />
-              </Stack>
-              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }} style={{ marginTop: "10px" }}>
-                <Typography variant="h5" color={"white"}>
+                <Typography variant="h4" textAlign={"center"} color={"white"}>
                   loading...
                 </Typography>
               </Stack>
@@ -231,35 +232,33 @@ export default function MintSection({ active }: MintSectionProps) {
             <Grid
               component={Box}
               item
-              xs={12}
+              xs={8}
+              md={6}
+              lg={4}
               sx={{
                 alignItems: "center",
                 justifyContent: "center",
+                my: 4,
                 width: 1
               }}
             >
-              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
+              <Stack direction="column" spacing={2} sx={{ justifyContent: "center", alignItems: "center" }}>
                 <img
                   src={metadata?.image ?? unrevealed}
                   style={{
-                    width: "50vw",
+                    width: "100%",
                     borderRadius: "0"
                   }}
                 />
-              </Stack>
-              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-                <Typography variant="h5" color={"white"} style={{ textAlign: "center", marginTop: "10px" }}>
+                <Typography variant="h5" color={"white"} style={{ textAlign: "center" }}>
                   {metadata?.name ?? ""} Minted successfully!
                 </Typography>
-              </Stack>
-              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <button
                   style={{
-                    width: "50vw",
-                    marginTop: "10px",
                     padding: "10px",
                     backgroundColor: "#ff3c00",
-                    borderRadius: "0"
+                    borderRadius: "0",
+                    width: "100%"
                   }}
                   onClick={() => {
                     setIsLoading(false);
@@ -280,23 +279,27 @@ export default function MintSection({ active }: MintSectionProps) {
             <Grid
               component={Box}
               item
-              xs={12}
+              xs={8}
+              md={6}
+              lg={4}
               sx={{
                 alignItems: "center",
                 justifyContent: "center",
+                my: 4,
                 width: 1
               }}
             >
-              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-                <Typography variant="h5" color={"white"}>
+              <Stack
+                direction="column"
+                spacing={4}
+                sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "50vh" }}
+              >
+                <Typography variant="h4" textAlign={"center"} color={"white"}>
                   Minting failed.
                 </Typography>
-              </Stack>
-              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                 <button
                   style={{
-                    width: "50vw",
-                    marginTop: "10px",
+                    width: "100%",
                     padding: "10px",
                     backgroundColor: "#ff3c00",
                     borderRadius: "0"
