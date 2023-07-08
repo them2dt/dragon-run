@@ -19,8 +19,7 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
     <Grid
       item
       xs={10}
-      sm={5}
-      md={5}
+      md={8}
       sx={{
         m: 2,
         width: "fit-content"
@@ -40,7 +39,6 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
         <Grid
           item
           xs={12}
-          md={6}
           sx={{
             p: 2
           }}
@@ -66,7 +64,7 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
                 sx={{
                   backgroundColor: muiTheme.palette.background.light,
                   width: 1,
-                  pt: "100%",
+                  pt: "40%",
                   borderRadius: 0
                 }}
               />
