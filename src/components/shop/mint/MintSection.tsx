@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from "@mui/material";
 import axios from "axios";
 import {
@@ -16,9 +16,10 @@ import unrevealed from "@assets/Knights_unrevealed.gif";
 
 interface MintSectionProps {
   active: boolean;
+  scrollToTop: () => void;
 }
 
-export default function MintSection({ active }: MintSectionProps) {
+export default function MintSection({ active, scrollToTop }: MintSectionProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [minted, setMinted] = useState(false);
   const [mintFailed, setMintFailed] = useState(false);
@@ -90,6 +91,9 @@ export default function MintSection({ active }: MintSectionProps) {
       console.log(data);
     }
   };
+  useMemo(() => {
+    scrollToTop();
+  }, [minted, mintFailed, isLoading]);
   //
   useEffect(() => {
     logWallet();
@@ -169,6 +173,7 @@ export default function MintSection({ active }: MintSectionProps) {
                   onClick={() => {
                     executeMint().catch((e) => {
                       console.log(e);
+                      setMintFailed(true);
                     });
                   }}
                 >
@@ -208,7 +213,6 @@ export default function MintSection({ active }: MintSectionProps) {
               sx={{
                 alignItems: "center",
                 justifyContent: "center",
-                my: 1,
                 width: 1
               }}
             >
