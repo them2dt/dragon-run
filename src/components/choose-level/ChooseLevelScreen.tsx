@@ -26,6 +26,7 @@ export default function ChooseLevelScreen({ active, openChooseCharacter }: Choos
           elevation={0}
           sx={{
             mx: "auto",
+            mt: 2,
             mb: 4,
             [muiTheme.breakpoints.up("xl")]: {
               mt: 6,

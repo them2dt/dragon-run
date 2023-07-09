@@ -63,7 +63,7 @@ export default function ShopDialog({ shopOpen, closeShop, defaultTab }: ShopDial
         }}
       >
         <Box sx={{ minHeight: "100vh" }}>
-          <MintSection active={knightsActive} />
+          <MintSection active={knightsActive} scrollToTop={scrollToTop} />
           <ShopSection active={shopActive} />
         </Box>
       </Box>
