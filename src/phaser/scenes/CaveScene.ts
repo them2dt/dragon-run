@@ -154,7 +154,6 @@ export default class CaveScene extends Phaser.Scene {
     const tileData = this.tileset.tileData as TilesetTileData;
     for (const tileid in tileData) {
       this.tilemap.layers.forEach((layer) => {
-        if (layer.tilemapLayer.type === "StaticTilemapLayer") return;
         layer.data.forEach((tileRow) => {
           tileRow.forEach((tile) => {
             if (tile.index - this.tileset.firstgid === parseInt(tileid, 10)) {
