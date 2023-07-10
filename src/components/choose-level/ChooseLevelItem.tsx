@@ -32,6 +32,10 @@ export default function ChooseLevelItem({
       sx={{
         width: "fit-content",
         m: 1,
+        "&:hover": {
+          borderColor: locked ?? comingSoon ? "none" : muiTheme.palette.grey[500],
+          border: locked ?? comingSoon ? 0 : 2
+        },
         [muiTheme.breakpoints.up("md")]: {
           m: 2
         }
@@ -139,13 +143,14 @@ export default function ChooseLevelItem({
                     textAlign={"left"}
                     sx={{
                       [muiTheme.breakpoints.down("sm")]: {
-                        fontSize: "1rem"
+                        fontSize: "0.8rem"
                       },
-                      color: muiTheme.palette.secondary.main,
+                      color: muiTheme.palette.text.secondary,
                       position: "absolute",
                       top: 0,
                       left: 0,
-                      marginX: 1
+                      marginX: 1,
+                      marginY: 0.3
                     }}
                   >
                     Coming Soon...
@@ -168,7 +173,7 @@ export default function ChooseLevelItem({
                     textAlign={"center"}
                     sx={{
                       [muiTheme.breakpoints.down("sm")]: {
-                        fontSize: "1rem"
+                        fontSize: "0.8rem"
                       },
                       color: green[400],
                       marginX: 1,
@@ -184,6 +189,9 @@ export default function ChooseLevelItem({
                   variant={"h4"}
                   textAlign={"left"}
                   sx={{
+                    [muiTheme.breakpoints.down("sm")]: {
+                      fontSize: "1.2rem"
+                    },
                     color: locked ?? comingSoon ? muiTheme.palette.grey[400] : muiTheme.palette.text.secondary,
                     position: "absolute",
                     bottom: 2.6,
