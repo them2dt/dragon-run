@@ -33,8 +33,8 @@ export default function ChooseLevelItem({
         width: "fit-content",
         m: 1,
         "&:hover": {
-          borderColor: locked ?? comingSoon ? "none" : muiTheme.palette.grey[500],
-          border: locked ?? comingSoon ? 0 : 2
+          borderColor: locked === true || comingSoon === true ? "none" : muiTheme.palette.grey[500],
+          border: locked === true || comingSoon === true ? 0 : 2
         },
         [muiTheme.breakpoints.up("md")]: {
           m: 2
@@ -69,10 +69,10 @@ export default function ChooseLevelItem({
               overflow: "hidden",
               pt: "34%",
               position: "relative",
-              cursor: locked ?? comingSoon ? "auto" : "pointer"
+              cursor: locked === true || comingSoon === true ? "auto" : "pointer"
             }}
             elevation={16}
-            onClick={locked ?? comingSoon ? undefined : selectLevel}
+            onClick={locked === true || comingSoon === true ? undefined : selectLevel}
           >
             <img
               src={image ? `game-assets/level-images/${image}` : "game-assets/level-images/coming-soon-level.png"}
@@ -192,7 +192,10 @@ export default function ChooseLevelItem({
                     [muiTheme.breakpoints.down("sm")]: {
                       fontSize: "1.2rem"
                     },
-                    color: locked ?? comingSoon ? muiTheme.palette.grey[400] : muiTheme.palette.text.secondary,
+                    color:
+                      locked === true || comingSoon === true
+                        ? muiTheme.palette.grey[400]
+                        : muiTheme.palette.text.secondary,
                     position: "absolute",
                     bottom: 2.6,
                     left: 0,
