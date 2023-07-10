@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTheme, Paper, Skeleton, Grid, Typography, Box } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
-import defaultCharacter from "@assets/default-character-still.png";
 import { green } from "@mui/material/colors";
 
 interface ChooseLevelItemProps {
   name: string;
-  image: string;
+  image?: string;
   comingSoon?: boolean;
   completed?: boolean;
   locked?: boolean;
@@ -16,15 +15,6 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
   const muiTheme = useTheme();
 
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [colorPrimary, setColorPrimary] = useState(muiTheme.palette.text.secondary);
-  const [colorSecondary, setColorSecondary] = useState<string>(green[400]);
-
-  useEffect(() => {
-    if (locked ?? comingSoon) {
-      setColorPrimary(muiTheme.palette.grey[500]);
-      setColorSecondary(muiTheme.palette.grey[500]);
-    }
-  }, []);
 
   return (
     <Grid
@@ -72,7 +62,7 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
             elevation={16}
           >
             <img
-              src={image === "" ? defaultCharacter : `game-assets/level-images/${image}`}
+              src={image ? `game-assets/level-images/${image}` : "game-assets/level-images/coming-soon-level.png"}
               alt={name}
               className="h-full absolute top-0 rendering-pixelated object-cover"
               style={{ display: imageLoaded ? "block" : "none" }}
@@ -103,7 +93,7 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
                     width: "100%",
                     height: "100%",
                     background: "black",
-                    opacity: 0.8
+                    opacity: 0.6
                   }}
                 >
                   <LockIcon
@@ -122,22 +112,35 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
                 </Box>
               )}
               {comingSoon && (
-                <Typography
-                  variant={"h5"}
-                  textAlign={"left"}
-                  sx={{
-                    [muiTheme.breakpoints.down("sm")]: {
-                      fontSize: "1rem"
-                    },
-                    color: colorSecondary,
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    marginX: 1
-                  }}
-                >
-                  Coming Soon...
-                </Typography>
+                <>
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      background: "black",
+                      opacity: 0.6
+                    }}
+                  />
+                  <Typography
+                    variant={"h5"}
+                    textAlign={"left"}
+                    sx={{
+                      [muiTheme.breakpoints.down("sm")]: {
+                        fontSize: "1rem"
+                      },
+                      color: muiTheme.palette.secondary.main,
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      marginX: 1
+                    }}
+                  >
+                    Coming Soon...
+                  </Typography>
+                </>
               )}
               {completed && (
                 <Box
@@ -157,7 +160,7 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
                       [muiTheme.breakpoints.down("sm")]: {
                         fontSize: "1rem"
                       },
-                      color: colorSecondary,
+                      color: green[400],
                       marginX: 1,
                       marginY: 0.3
                     }}
@@ -171,7 +174,7 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
                   variant={"h4"}
                   textAlign={"left"}
                   sx={{
-                    color: colorPrimary,
+                    color: locked ?? comingSoon ? muiTheme.palette.grey[400] : muiTheme.palette.text.secondary,
                     position: "absolute",
                     bottom: 2.6,
                     left: 0,
