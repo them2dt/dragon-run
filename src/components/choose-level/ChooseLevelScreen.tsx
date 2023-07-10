@@ -42,6 +42,7 @@ export default function ChooseLevelScreen({ active, openChooseCharacter }: Choos
               image={level.image}
               comingSoon={level.comingSoon}
               completed={level.completed}
+              selectLevel={handleContinue}
               locked={level.locked}
               key={level.name}
             />

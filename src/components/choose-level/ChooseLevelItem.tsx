@@ -9,9 +9,17 @@ interface ChooseLevelItemProps {
   comingSoon?: boolean;
   completed?: boolean;
   locked?: boolean;
+  selectLevel?: () => void;
 }
 
-export default function ChooseLevelItem({ name, image, completed, comingSoon, locked }: ChooseLevelItemProps) {
+export default function ChooseLevelItem({
+  name,
+  image,
+  completed,
+  comingSoon,
+  locked,
+  selectLevel
+}: ChooseLevelItemProps) {
   const muiTheme = useTheme();
 
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -60,11 +68,12 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
               cursor: locked ?? comingSoon ? "auto" : "pointer"
             }}
             elevation={16}
+            onClick={locked ?? comingSoon ? undefined : selectLevel}
           >
             <img
               src={image ? `game-assets/level-images/${image}` : "game-assets/level-images/coming-soon-level.png"}
               alt={name}
-              className="h-full absolute top-0 rendering-pixelated object-cover"
+              className="h-full absolute top-0 rendering-pixelated object-cover pointer-events-none"
               style={{ display: imageLoaded ? "block" : "none" }}
               onLoad={() => {
                 setImageLoaded(true);
@@ -79,7 +88,8 @@ export default function ChooseLevelItem({ name, image, completed, comingSoon, lo
                   top: 0,
                   width: 1,
                   height: 1,
-                  borderRadius: 0
+                  borderRadius: 0,
+                  pointerEvents: "none"
                 }}
               />
             )}
