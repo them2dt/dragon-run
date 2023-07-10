@@ -2,12 +2,13 @@ const levels = [
   {
     name: "Level 1",
     image: "level-1.png",
-    comingSoon: false
+    comingSoon: false,
+    completed: true
   },
   {
     name: "Level 2",
-    image: "level-2.png",
-    comingSoon: true
+    image: "level-1.png",
+    locked: true
   },
   {
     name: "Level 3",

@@ -37,7 +37,14 @@ export default function ChooseLevelScreen({ active, openChooseCharacter }: Choos
           }}
         >
           {levels.map((level) => (
-            <ChooseLevelItem name={level.name} image={level.image} comingSoon={level.comingSoon} key={level.name} />
+            <ChooseLevelItem
+              name={level.name}
+              image={level.image}
+              comingSoon={level.comingSoon}
+              completed={level.completed}
+              locked={level.locked}
+              key={level.name}
+            />
           ))}
         </Grid>
         <Box
