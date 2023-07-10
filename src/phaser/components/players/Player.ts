@@ -192,7 +192,7 @@ export default class Player extends Phaser.GameObjects.Container {
   public preUpdate(t: number) {
     const body = this.body as Phaser.Physics.Arcade.Body;
 
-    this.score = Math.floor(this.x / 10 - 95);
+    this.score = Math.floor(this.x / 10 - 134);
     if (this.score < 0) {
       this.score = 0;
     }
