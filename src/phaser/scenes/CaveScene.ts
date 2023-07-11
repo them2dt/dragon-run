@@ -51,6 +51,7 @@ export default class CaveScene extends Phaser.Scene {
   private tilemap!: Phaser.Tilemaps.Tilemap;
   private ground!: Phaser.Tilemaps.TilemapLayer;
   private lava!: Phaser.Tilemaps.TilemapLayer;
+  private background!: Phaser.Tilemaps.TilemapLayer;
   private animatedTiles!: AnimatedTile[];
   private tileset!: Phaser.Tilemaps.Tileset;
   private playerLayer!: Phaser.Tilemaps.ObjectLayer;
@@ -151,19 +152,32 @@ export default class CaveScene extends Phaser.Scene {
     this.lava.setSize(width, height);
     this.lava.scale = 2.4;
 
+    this.background = this.tilemap.createLayer(
+      "Background",
+      this.tilemap.getTileset("cave-tileset") as Phaser.Tilemaps.Tileset,
+      this.mapOffsetX,
+      this.mapOffsetY
+    ) as Phaser.Tilemaps.TilemapLayer;
+    this.background.setCollisionByProperty({ collides: true });
+    this.background.setCullPadding(10);
+    this.background.setSize(width, height);
+    this.background.scale = 2.4;
+
     const tileData = this.tileset.tileData as TilesetTileData;
     for (const tileid in tileData) {
       this.tilemap.layers.forEach((layer) => {
-        layer.data.forEach((tileRow) => {
-          tileRow.forEach((tile) => {
-            if (tile.index - this.tileset.firstgid === parseInt(tileid, 10)) {
-              const animation = tileData[tileid].animation;
-              if (animation) {
-                this.animatedTiles.push(new AnimatedTile(tile, animation, this.tileset.firstgid));
+        if (layer.name === "Lava") {
+          layer.data.forEach((tileRow) => {
+            tileRow.forEach((tile) => {
+              if (tile.index - this.tileset.firstgid === parseInt(tileid, 10)) {
+                const animation = tileData[tileid].animation;
+                if (animation) {
+                  this.animatedTiles.push(new AnimatedTile(tile, animation, this.tileset.firstgid));
+                }
               }
-            }
+            });
           });
-        });
+        }
       });
     }
 
