@@ -40,7 +40,7 @@ export default function GameOver({ newHighScore }: GameOverProps): JSX.Element {
                 [muiTheme.breakpoints.up("sm")]: { width: "300px", height: "80px" },
                 [muiTheme.breakpoints.up("md")]: { width: "500px", height: "100px" }
               }}
-              onClick={() => eventsCenter.emit(EventKeys.GoToGame)}
+              onClick={() => eventsCenter.emit(EventKeys.RestartGame)}
             >
               <Typography variant="h3">Play</Typography>
             </SquareButton>

@@ -66,7 +66,6 @@ export default function PhaserGame() {
 
     eventsCenter.on(EventKeys.GoToHome, () => {
       phaserGame.scene.stop(SceneKeys.EnterScene);
-      phaserGame.scene.stop(SceneKeys.GameOver);
       phaserGame.scene.stop(SceneKeys.CaveScene);
       phaserGame.sound.stopAll();
 
@@ -76,7 +75,6 @@ export default function PhaserGame() {
 
     eventsCenter.on(EventKeys.GoToGame, () => {
       phaserGame.scene.stop(SceneKeys.HomeScene);
-      phaserGame.scene.stop(SceneKeys.GameOver);
       phaserGame.sound.stopAll();
       // Fixes animation error
       const phaserAnimations: Phaser.Types.Animations.JSONAnimations = phaserGame.anims.toJSON();
@@ -89,11 +87,11 @@ export default function PhaserGame() {
     });
 
     eventsCenter.on(EventKeys.GoToGameOver, () => {
-      if (phaserGame.scene.isActive(SceneKeys.GameOver)) {
-        return;
-      }
-      phaserGame.scene.start(SceneKeys.GameOver);
       setOverlay(OverlayKeys.GameOver);
+    });
+
+    eventsCenter.on(EventKeys.RestartGame, () => {
+      setOverlay(OverlayKeys.Game);
     });
 
     eventsCenter.on(EventKeys.PauseGame, () => {

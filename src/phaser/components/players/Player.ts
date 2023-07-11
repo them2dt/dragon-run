@@ -6,7 +6,6 @@ import type CaveScene from "../../scenes/CaveScene";
 import CameraFollowing from "../../../constants/CameraFollowing";
 import PlayerState from "../../../constants/players/PlayerState";
 import DragonState from "../../../constants/enemies/DragonState";
-import MusicKeys from "../../../constants/audio/MusicKeys";
 import PlayerSoundEffectKeys from "../../../constants/audio/PlayerSoundEffectKeys";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
@@ -212,7 +211,6 @@ export default class Player extends Phaser.GameObjects.Container {
           this.dKey.isDown ||
           this.cursors.up.isDown ||
           this.wKey.isDown ||
-          this.cursors.space.isDown ||
           this.sKey.isDown ||
           this.cursors.down.isDown
         ) {
@@ -283,6 +281,7 @@ export default class Player extends Phaser.GameObjects.Container {
         body.velocity.x *= 0.99;
         if (body.velocity.x <= 5) {
           this.playerState = PlayerState.Dead;
+          eventsCenter.emit(EventKeys.GoToGameOver);
         }
         break;
       }
@@ -294,10 +293,13 @@ export default class Player extends Phaser.GameObjects.Container {
 
         if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
           this.currentScene = SceneKeys.CaveScene;
-          this.scene.sound.removeByKey(MusicKeys.CaveScene1);
+          const caveScene = this.scene as CaveScene;
+          caveScene.music.stop();
         }
 
-        eventsCenter.emit(EventKeys.GoToGameOver);
+        if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
+          eventsCenter.emit(EventKeys.RestartGame);
+        }
         break;
       }
     }

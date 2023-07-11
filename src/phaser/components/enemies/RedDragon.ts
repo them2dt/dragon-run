@@ -16,7 +16,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
   public dragonSpeed = 0;
 
   private dragonRoar1Sound!: Phaser.Sound.BaseSound;
-  private dragonWings1Sound!: Phaser.Sound.BaseSound;
+  public dragonWings1Sound!: Phaser.Sound.BaseSound;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);

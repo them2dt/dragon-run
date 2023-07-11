@@ -37,7 +37,12 @@ export default class CaveScene extends Phaser.Scene {
   private dragonBurn1Sound!: Phaser.Sound.BaseSound;
 
   private player!: Player;
+  private playerGroundCollider!: Phaser.Physics.Arcade.Collider;
+  private playerLavaCollider!: Phaser.Physics.Arcade.Collider;
+
   private smallDragons!: Phaser.GameObjects.Group;
+  private smallDragonsPlayerCollider!: Phaser.Physics.Arcade.Collider;
+  private smallDragonsGroundCollider!: Phaser.Physics.Arcade.Collider;
 
   public redDragon!: RedDragon;
   private redDragonSpeed = 200;
@@ -181,26 +186,6 @@ export default class CaveScene extends Phaser.Scene {
       });
     }
 
-    this.spawnRedDragon();
-    this.redDragon.depth = -1000;
-
-    this.spawnEnemies();
-
-    this.spawnPlayer();
-
-    this.createPlayerFireballs();
-
-    this.createLavaballs();
-    this.throwLavaballs();
-
-    this.time.addEvent({
-      delay: 3000, // ms
-      callback: this.throwLavaballs,
-      repeat: -1
-    });
-
-    this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100);
-
     this.physics.world.setBounds(
       -100,
       -100,
@@ -213,33 +198,11 @@ export default class CaveScene extends Phaser.Scene {
 
     this.handleBGScale();
 
-    this.physics.add.collider(this.player, this.ground);
-    this.physics.add.collider(this.player, this.lava, () => {
-      this.lavaBurn1Sound.play({ volume: 0.4 });
-      this.player.kill();
-    });
-
-    this.physics.add.collider(this.smallDragons, this.player, (object1, object2) => {
-      if (this.player.playerState !== PlayerState.Alive || object1 !== this.player) {
-        return;
-      }
-      const player = object1 as Player;
-      const playerBody = object1.body as Phaser.Physics.Arcade.Body;
-      const smallDragon = object2 as SmallDragon;
-
-      if (playerBody.touching.down) {
-        playerBody.setVelocityY(-220);
-        smallDragon.kill();
-      } else {
-        this.enemyBite1Sound.play({ volume: 0.4 });
-        player.kill();
-      }
-    });
-    this.physics.add.collider(this.smallDragons, this.ground);
-
     onresize = () => {
       this.resize();
     };
+
+    this.spawnAllObjects();
 
     eventsCenter.on(EventKeys.StartGame, () => {
       SoundFade.fadeIn(this.music, 10000, 0.5);
@@ -247,6 +210,10 @@ export default class CaveScene extends Phaser.Scene {
       this.redDragon.dragonSpeed = this.redDragonSpeed;
       this.runWarning();
       this.redDragon.start();
+    });
+    eventsCenter.on(EventKeys.RestartGame, () => {
+      this.cameras.main.fadeIn(1000);
+      this.restartGame();
     });
   }
 
@@ -380,6 +347,7 @@ export default class CaveScene extends Phaser.Scene {
   public spawnRedDragon = () => {
     this.redDragon = new RedDragon(this, 100, 100);
     this.add.existing(this.redDragon);
+    this.redDragon.depth = -1000;
   };
 
   public spawnPlayer = () => {
@@ -393,6 +361,15 @@ export default class CaveScene extends Phaser.Scene {
 
       this.player = new Player(this, playerObjectX * this.mainScale + this.objectsLayerOffsetX, playerObjectY * 0.5);
       this.add.existing(this.player);
+    });
+
+    this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100);
+    this.createPlayerFireballs();
+
+    this.playerGroundCollider = this.physics.add.collider(this.player, this.ground);
+    this.playerLavaCollider = this.physics.add.collider(this.player, this.lava, () => {
+      this.lavaBurn1Sound.play({ volume: 0.4 });
+      this.player.kill();
     });
   };
 
@@ -424,6 +401,71 @@ export default class CaveScene extends Phaser.Scene {
       this.add.existing(enemy);
       this.smallDragons.add(enemy);
     });
+
+    this.smallDragonsPlayerCollider = this.physics.add.collider(this.smallDragons, this.player, (object1, object2) => {
+      if (this.player.playerState !== PlayerState.Alive || object1 !== this.player) {
+        return;
+      }
+      const player = object1 as Player;
+      const playerBody = object1.body as Phaser.Physics.Arcade.Body;
+      const smallDragon = object2 as SmallDragon;
+
+      if (playerBody.touching.down) {
+        playerBody.setVelocityY(-220);
+        smallDragon.kill();
+      } else {
+        this.enemyBite1Sound.play({ volume: 0.4 });
+        player.kill();
+      }
+    });
+    this.smallDragonsGroundCollider = this.physics.add.collider(this.smallDragons, this.ground);
+  };
+
+  private spawnAllObjects = () => {
+    this.spawnRedDragon();
+    this.spawnEnemies();
+    this.spawnPlayer();
+    this.createLavaballs();
+    this.throwLavaballs();
+  };
+
+  private destroyAllEnemies = () => {
+    this.smallDragons.destroy(true);
+    this.physics.world.removeCollider(this.smallDragonsPlayerCollider);
+    this.physics.world.removeCollider(this.smallDragonsGroundCollider);
+  };
+
+  private destroyAllFireballs = () => {
+    this.playerFireballs.destroy(true);
+  };
+
+  private destroyAllLavaballs = () => {
+    this.lavaballs.destroy(true);
+    this.lavaballThrow1Sound.stop();
+  };
+
+  private destroyPlayer = () => {
+    this.player.destroy();
+    this.physics.world.removeCollider(this.playerGroundCollider);
+    this.physics.world.removeCollider(this.playerLavaCollider);
+  };
+
+  private destroyRedDragon = () => {
+    this.redDragon.destroy();
+    this.redDragon.dragonWings1Sound.stop();
+  };
+
+  private destroyAllObjects = () => {
+    this.destroyAllEnemies();
+    this.destroyAllFireballs();
+    this.destroyAllLavaballs();
+    this.destroyPlayer();
+    this.destroyRedDragon();
+  };
+
+  public restartGame = () => {
+    this.destroyAllObjects();
+    this.spawnAllObjects();
   };
 
   public handleCameraFollow = () => {
