@@ -20,6 +20,7 @@ export default class Player extends Phaser.GameObjects.Container {
   private playerRun1Sound!: Phaser.Sound.BaseSound;
 
   private currentScene!: SceneKeys;
+  private scenePlayerSpawnX = 0;
 
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private fireKeyOne!: Phaser.Input.Keyboard.Key;
@@ -41,12 +42,17 @@ export default class Player extends Phaser.GameObjects.Container {
   private playerJump = -300;
   private playerSize = 1.0;
 
+  private checkScene() {
+    if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
+      this.currentScene = SceneKeys.CaveScene;
+      this.scenePlayerSpawnX = 134;
+    }
+  }
+
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);
 
-    if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
-      this.currentScene = SceneKeys.CaveScene;
-    }
+    this.checkScene();
 
     this.playerFireballThrow1Sound = this.scene.sound.add(PlayerSoundEffectKeys.PlayerFireballThrow1);
     this.playerJump1Sound = this.scene.sound.add(PlayerSoundEffectKeys.PlayerJump1);
@@ -89,10 +95,20 @@ export default class Player extends Phaser.GameObjects.Container {
     this.dKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
   }
 
-  public start() {
-    if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
-      this.currentScene = SceneKeys.CaveScene;
+  private updateScore() {
+    this.score = Math.floor(this.x / 10 - this.scenePlayerSpawnX);
+    if (this.score < 0) {
+      this.score = 0;
     }
+    eventsCenter.emit(EventKeys.UpdateScore, this.score);
+
+    if (this.score >= 4850) {
+      this.levelComplete();
+    }
+  }
+
+  public start() {
+    this.checkScene();
     eventsCenter.emit(EventKeys.StartGame);
     this.playerState = PlayerState.Alive;
   }
@@ -145,9 +161,7 @@ export default class Player extends Phaser.GameObjects.Container {
   }
 
   public kill() {
-    if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
-      this.currentScene = SceneKeys.CaveScene;
-    }
+    this.checkScene();
 
     if (this.playerState !== PlayerState.Alive) {
       return;
@@ -204,8 +218,6 @@ export default class Player extends Phaser.GameObjects.Container {
 
     eventsCenter.emit(EventKeys.UpdateEndScore, this.score);
 
-    this.defaultCharacter.play(AnimationKeys.CharacterIdleRight, true);
-
     if (this.currentScene === SceneKeys.CaveScene) {
       const caveScene = this.scene as CaveScene;
       const cameraFollowing = caveScene.cameraFollowing;
@@ -221,23 +233,12 @@ export default class Player extends Phaser.GameObjects.Container {
     }
 
     this.scene.cameras.main.fade(2000, 0, 0, 0);
-
-    const body = this.body as Phaser.Physics.Arcade.Body;
-    body.setVelocityX(0);
   }
 
   public preUpdate(t: number) {
     const body = this.body as Phaser.Physics.Arcade.Body;
 
-    this.score = Math.floor(this.x / 10 - 134);
-    if (this.score < 0) {
-      this.score = 0;
-    }
-    eventsCenter.emit(EventKeys.UpdateScore, this.score);
-
-    if (this.score > 150) {
-      this.levelComplete();
-    }
+    this.checkScene();
 
     switch (this.playerState) {
       case PlayerState.Idle: {
@@ -262,6 +263,7 @@ export default class Player extends Phaser.GameObjects.Container {
       }
 
       case PlayerState.Alive: {
+        this.updateScore();
         if (this.cursors.left.isDown || this.aKey.isDown) {
           body.setVelocityX(-this.playerSpeed);
           this.defaultCharacter.play(AnimationKeys.CharacterRunningRight, true);
@@ -347,6 +349,14 @@ export default class Player extends Phaser.GameObjects.Container {
           const caveScene = this.scene as CaveScene;
           caveScene.music.stop();
         }
+        if (body.velocity.x > 20) {
+          this.defaultCharacter.play(AnimationKeys.CharacterRunningRight, true);
+          this.defaultCharacter.setFlipX(false);
+        } else {
+          this.defaultCharacter.play(AnimationKeys.CharacterIdleRight, true);
+        }
+
+        body.velocity.x *= 0.99;
 
         if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
           eventsCenter.emit(EventKeys.RestartGame);
