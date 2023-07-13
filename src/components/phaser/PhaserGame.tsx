@@ -90,6 +90,10 @@ export default function PhaserGame() {
       setOverlay(OverlayKeys.GameOver);
     });
 
+    eventsCenter.on(EventKeys.GoToLevelComplete, () => {
+      setOverlay(OverlayKeys.LevelComplete);
+    });
+
     eventsCenter.on(EventKeys.RestartGame, () => {
       setOverlay(OverlayKeys.Game);
     });

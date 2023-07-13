@@ -197,6 +197,11 @@ export default class Player extends Phaser.GameObjects.Container {
     }
     eventsCenter.emit(EventKeys.UpdateScore, this.score);
 
+    if (this.score > 1000) {
+      eventsCenter.emit(EventKeys.UpdateEndScore, this.score);
+      eventsCenter.emit(EventKeys.GoToLevelComplete);
+    }
+
     switch (this.playerState) {
       case PlayerState.Idle: {
         if (body.blocked.down && body.velocity.x === 0) {
