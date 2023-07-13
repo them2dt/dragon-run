@@ -135,16 +135,16 @@ export default class CaveScene extends Phaser.Scene {
     this.enemiesLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Enemies) as Phaser.Tilemaps.ObjectLayer;
     this.lavaballsLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Lavaballs) as Phaser.Tilemaps.ObjectLayer;
 
-    this.ground = this.tilemap.createLayer(
-      "Ground",
+    this.background = this.tilemap.createLayer(
+      "Background",
       this.tilemap.getTileset("cave-tileset") as Phaser.Tilemaps.Tileset,
       this.mapOffsetX,
       this.mapOffsetY
     ) as Phaser.Tilemaps.TilemapLayer;
-    this.ground.setCullPadding(10);
-    this.ground.setCollisionByProperty({ collides: true });
-    this.ground.setSize(width, height);
-    this.ground.scale = 2.4;
+    this.background.setCollisionByProperty({ collides: true });
+    this.background.setCullPadding(15);
+    this.background.setSize(width, height);
+    this.background.scale = 2.4;
 
     this.lava = this.tilemap.createLayer(
       "Lava",
@@ -153,20 +153,20 @@ export default class CaveScene extends Phaser.Scene {
       this.mapOffsetY
     ) as Phaser.Tilemaps.TilemapLayer;
     this.lava.setCollisionByProperty({ collides: true });
-    this.lava.setCullPadding(10);
+    this.lava.setCullPadding(15);
     this.lava.setSize(width, height);
     this.lava.scale = 2.4;
 
-    this.background = this.tilemap.createLayer(
-      "Background",
+    this.ground = this.tilemap.createLayer(
+      "Ground",
       this.tilemap.getTileset("cave-tileset") as Phaser.Tilemaps.Tileset,
       this.mapOffsetX,
       this.mapOffsetY
     ) as Phaser.Tilemaps.TilemapLayer;
-    this.background.setCollisionByProperty({ collides: true });
-    this.background.setCullPadding(10);
-    this.background.setSize(width, height);
-    this.background.scale = 2.4;
+    this.ground.setCullPadding(15);
+    this.ground.setCollisionByProperty({ collides: true });
+    this.ground.setSize(width, height);
+    this.ground.scale = 2.4;
 
     const tileData = this.tileset.tileData as TilesetTileData;
     for (const tileid in tileData) {
