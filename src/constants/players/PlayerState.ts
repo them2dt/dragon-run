@@ -2,7 +2,8 @@ enum PlayerState {
   Idle,
   Alive,
   Killed,
-  Dead
+  Dead,
+  LevelComplete
 }
 
 export default PlayerState;

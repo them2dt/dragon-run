@@ -90,6 +90,9 @@ export default class Player extends Phaser.GameObjects.Container {
   }
 
   public start() {
+    if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
+      this.currentScene = SceneKeys.CaveScene;
+    }
     eventsCenter.emit(EventKeys.StartGame);
     this.playerState = PlayerState.Alive;
   }
@@ -188,6 +191,41 @@ export default class Player extends Phaser.GameObjects.Container {
     body.collideWorldBounds = false;
   }
 
+  public levelComplete() {
+    if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
+      this.currentScene = SceneKeys.CaveScene;
+    }
+
+    if (this.playerState !== PlayerState.Alive) {
+      return;
+    }
+
+    this.playerState = PlayerState.LevelComplete;
+
+    eventsCenter.emit(EventKeys.UpdateEndScore, this.score);
+
+    this.defaultCharacter.play(AnimationKeys.CharacterIdleRight, true);
+
+    if (this.currentScene === SceneKeys.CaveScene) {
+      const caveScene = this.scene as CaveScene;
+      const cameraFollowing = caveScene.cameraFollowing;
+
+      if (caveScene.redDragon.dragonState === DragonState.Chasing) {
+        caveScene.redDragon.dragonState = DragonState.Idle;
+      }
+
+      if (cameraFollowing === CameraFollowing.Player) {
+        this.scene.cameras.main.stopFollow();
+      }
+      eventsCenter.emit(EventKeys.GoToLevelComplete);
+    }
+
+    this.scene.cameras.main.fade(2000, 0, 0, 0);
+
+    const body = this.body as Phaser.Physics.Arcade.Body;
+    body.setVelocityX(0);
+  }
+
   public preUpdate(t: number) {
     const body = this.body as Phaser.Physics.Arcade.Body;
 
@@ -197,9 +235,8 @@ export default class Player extends Phaser.GameObjects.Container {
     }
     eventsCenter.emit(EventKeys.UpdateScore, this.score);
 
-    if (this.score > 1000) {
-      eventsCenter.emit(EventKeys.UpdateEndScore, this.score);
-      eventsCenter.emit(EventKeys.GoToLevelComplete);
+    if (this.score > 150) {
+      this.levelComplete();
     }
 
     switch (this.playerState) {
@@ -292,10 +329,19 @@ export default class Player extends Phaser.GameObjects.Container {
       }
 
       case PlayerState.Dead: {
-        if (this.scene.scene.isActive(SceneKeys.GameOver)) {
-          break;
+        if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
+          this.currentScene = SceneKeys.CaveScene;
+          const caveScene = this.scene as CaveScene;
+          caveScene.music.stop();
         }
 
+        if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
+          eventsCenter.emit(EventKeys.RestartGame);
+        }
+        break;
+      }
+
+      case PlayerState.LevelComplete: {
         if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
           this.currentScene = SceneKeys.CaveScene;
           const caveScene = this.scene as CaveScene;
