@@ -44,6 +44,8 @@ export default class CaveScene extends Phaser.Scene {
   private smallDragonsPlayerCollider!: Phaser.Physics.Arcade.Collider;
   private smallDragonsGroundCollider!: Phaser.Physics.Arcade.Collider;
 
+  private lavaballThrowEvent!: Phaser.Time.TimerEvent;
+
   public redDragon!: RedDragon;
   private redDragonSpeed = 200;
 
@@ -423,10 +425,14 @@ export default class CaveScene extends Phaser.Scene {
 
   private spawnAllObjects = () => {
     this.spawnRedDragon();
-    this.spawnEnemies();
     this.spawnPlayer();
+    this.spawnEnemies();
     this.createLavaballs();
-    this.throwLavaballs();
+    this.lavaballThrowEvent = this.time.addEvent({
+      delay: 3000, // ms
+      callback: this.throwLavaballs,
+      repeat: -1
+    });
   };
 
   private destroyAllEnemies = () => {
@@ -441,6 +447,7 @@ export default class CaveScene extends Phaser.Scene {
 
   private destroyAllLavaballs = () => {
     this.lavaballs.destroy(true);
+    this.lavaballThrowEvent.destroy();
     this.lavaballThrow1Sound.stop();
   };
 
