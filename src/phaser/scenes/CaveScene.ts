@@ -127,8 +127,8 @@ export default class CaveScene extends Phaser.Scene {
       TextureKeys.CaveTiles,
       16,
       16,
-      1,
-      2
+      1.8,
+      4
     ) as Phaser.Tilemaps.Tileset;
 
     this.playerLayer = this.tilemap.getObjectLayer(TiledLayerKeys.Player) as Phaser.Tilemaps.ObjectLayer;
