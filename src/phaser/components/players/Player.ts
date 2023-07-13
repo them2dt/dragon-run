@@ -242,6 +242,7 @@ export default class Player extends Phaser.GameObjects.Container {
 
     switch (this.playerState) {
       case PlayerState.Idle: {
+        this.updateScore();
         if (body.blocked.down && body.velocity.x === 0) {
           this.defaultCharacter.play(AnimationKeys.CharacterIdleRight, true);
         } else {

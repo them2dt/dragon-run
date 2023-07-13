@@ -17,13 +17,13 @@ export default function LevelComplete({ newHighScore }: LevelCompleteProps): JSX
   const muiTheme = useTheme();
   return (
     <AnimatedPageDelayed>
-      <OverlayWrapper className=" bg-[#a3e635] overflow-hidden">
+      <OverlayWrapper className=" bg-black overflow-hidden">
         <div className="w-full h-full m-auto flex flex-col pb-4 pt-10 md:pt-14 lg:pt-16 max-w-[1240px] text-center">
           <div className="mx-auto my-auto">
             {newHighScore > 0 && <AnimatedNewHighScoreTitle text="New High Score!!!" className="mx-auto" />}
             <AnimatedOnViewTitleLg
               text="Level Complete"
-              className="mx-auto py-0 mt-6 mb-10 text-2xl xs:text-4xl sm:text-5xl md:text-6xl"
+              className="mx-auto text-[#a3e635] py-0 mt-6 mb-10 text-2xl xs:text-4xl sm:text-5xl md:text-6xl"
               delay={0}
             />
             <SquareButton
