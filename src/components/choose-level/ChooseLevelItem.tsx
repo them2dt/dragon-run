@@ -34,12 +34,14 @@ export default function ChooseLevelItem({
         m: 1,
         "&:hover": {
           borderColor: locked === true || comingSoon === true ? "none" : muiTheme.palette.grey[500],
-          border: locked === true || comingSoon === true ? 0 : 2
+          border: locked === true || comingSoon === true ? 0 : 2,
+          cursor: locked === true || comingSoon === true ? "auto" : "pointer"
         },
         [muiTheme.breakpoints.up("md")]: {
           m: 2
         }
       }}
+      onClick={locked === true || comingSoon === true ? undefined : selectLevel}
     >
       <Grid
         spacing={0}
@@ -48,7 +50,8 @@ export default function ChooseLevelItem({
         direction="row"
         sx={{
           borderRadius: "0",
-          background: muiTheme.palette.background.light
+          background: muiTheme.palette.background.light,
+          pointerEvents: "none"
         }}
         elevation={12}
       >
@@ -57,6 +60,7 @@ export default function ChooseLevelItem({
           xs={12}
           sx={{
             p: 1,
+            pointerEvents: "none",
             [muiTheme.breakpoints.up("md")]: {
               p: 2
             }
@@ -69,10 +73,9 @@ export default function ChooseLevelItem({
               overflow: "hidden",
               pt: "34%",
               position: "relative",
-              cursor: locked === true || comingSoon === true ? "auto" : "pointer"
+              pointerEvents: "none"
             }}
             elevation={16}
-            onClick={locked === true || comingSoon === true ? undefined : selectLevel}
           >
             <img
               src={image ? `game-assets/level-images/${image}` : "game-assets/level-images/coming-soon-level.png"}
