@@ -55,6 +55,7 @@ export default function ChooseCharacterScreen({ active, openShop }: ChooseCharac
               charactersAmount={solana.ownedKnights.length}
               next={handleNextCharacterClick}
               previous={handlePreviousCharacterClick}
+              handleConfirm={handleConfirm}
             />
             <SquareButton
               sx={{

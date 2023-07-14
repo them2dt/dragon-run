@@ -10,6 +10,7 @@ interface ChooseCharacterCardProps {
   next: () => void;
   previous: () => void;
   charactersAmount: number;
+  handleConfirm: () => void;
 }
 
 export default function ChooseCharacterCard({
@@ -17,7 +18,8 @@ export default function ChooseCharacterCard({
   image,
   next,
   previous,
-  charactersAmount
+  charactersAmount,
+  handleConfirm
 }: ChooseCharacterCardProps) {
   const muiTheme = useTheme();
 
@@ -60,8 +62,12 @@ export default function ChooseCharacterCard({
           component={Paper}
           xs={12}
           elevation={12}
+          onClick={() => {
+            handleConfirm();
+          }}
           sx={{
             width: 150,
+            cursor: "pointer",
             [muiTheme.breakpoints.up("xs")]: {
               width: 220
             },
@@ -77,7 +83,7 @@ export default function ChooseCharacterCard({
             src={image === "" ? defaultCharacter : image}
             alt={name}
             className="w-full rendering-pixelated"
-            style={{ display: imageLoaded ? "block" : "none" }}
+            style={{ display: imageLoaded ? "block" : "none", pointerEvents: "none" }}
             onLoad={() => {
               setImageLoaded(true);
             }}
@@ -90,6 +96,7 @@ export default function ChooseCharacterCard({
                 borderRadius: 0,
                 pt: "100%",
                 width: 150,
+                pointerEvents: "none",
                 [muiTheme.breakpoints.up("xs")]: {
                   width: 220
                 },

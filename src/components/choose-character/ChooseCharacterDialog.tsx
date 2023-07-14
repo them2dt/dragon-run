@@ -76,6 +76,7 @@ export default function ChooseCharacterDialog({
               charactersAmount={solana.ownedKnights.length}
               next={handleNextCharacterClick}
               previous={handlePreviousCharacterClick}
+              handleConfirm={handleConfirm}
             />
             <SquareButton
               sx={{
