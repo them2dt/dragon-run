@@ -122,10 +122,10 @@ export default function Enter({ userName }: EnterProps) {
                   backgroundColor: muiTheme.palette.text.secondary,
                   color: muiTheme.palette.secondary.main
                 },
-                width: "200px",
+                minWidth: "200px",
                 py: "10px",
-                [muiTheme.breakpoints.up("sm")]: { width: "300px", py: "14px" },
-                [muiTheme.breakpoints.up("md")]: { width: "500px", py: "18px" }
+                [muiTheme.breakpoints.up("sm")]: { minWidth: "300px", py: "14px" },
+                [muiTheme.breakpoints.up("md")]: { minWidth: "500px", py: "18px" }
               }}
               onClick={() => {
                 handleEnterClick().catch((error) => {
