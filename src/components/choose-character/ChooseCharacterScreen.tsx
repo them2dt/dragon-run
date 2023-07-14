@@ -28,7 +28,9 @@ export default function ChooseCharacterScreen({ active, openShop, handleLoading 
 
   const handleConfirm = () => {
     handleLoading();
-    loadCharacter(solana.ownedKnights[characterIndex].spritesheet, EventKeys.GoToGame);
+    setTimeout(() => {
+      loadCharacter(solana.ownedKnights[characterIndex].spritesheet, EventKeys.GoToGame);
+    }, 600);
   };
 
   return (

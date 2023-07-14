@@ -10,7 +10,7 @@ export default function LoadingScreen({ active }: LoadingScreenProps) {
   const muiTheme = useTheme();
 
   return (
-    <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
+    <Zoom in={active} style={{ transitionDelay: active ? "0ms" : "0ms" }} unmountOnExit>
       <Paper
         component={Stack}
         sx={{

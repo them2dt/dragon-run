@@ -94,8 +94,6 @@ export default class CaveScene extends Phaser.Scene {
   }
 
   public create() {
-    eventsCenter.emit(EventKeys.GameLoaded);
-
     this.anims.createFromAseprite(TextureKeys.RedDragon);
     this.anims.createFromAseprite(TextureKeys.SmallDragonOrange);
     this.anims.createFromAseprite(TextureKeys.Character);
@@ -217,6 +215,8 @@ export default class CaveScene extends Phaser.Scene {
       this.cameras.main.fadeIn(1000);
       this.restartGame();
     });
+
+    eventsCenter.emit(EventKeys.GameLoaded);
   }
 
   public update(time: number, delta: number): void {
