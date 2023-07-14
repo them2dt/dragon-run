@@ -5,7 +5,6 @@ import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
 
 export default class CharacterLoader extends Phaser.Scene {
-  // "https://bafybeiabmrvyz7ibdxc72hyxru5wbw2naix44wwtiqxuno7xf6go3gj5dq.ipfs.nftstorage.link/14.png"
   constructor() {
     super(SceneKeys.CharacterLoader);
   }

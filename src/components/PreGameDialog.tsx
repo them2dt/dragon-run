@@ -3,16 +3,13 @@ import { Typography, useTheme, Box } from "@mui/material";
 import FullscreenDialog from "components/FullscreenDialog";
 import ChooseLevelScreen from "./choose-level/ChooseLevelScreen";
 import ChooseCharacterScreen from "./choose-character/ChooseCharacterScreen";
+import LoadingScreen from "./loading/LoadingScreen";
+import PreGameScreens from "constants/PreGameScreens";
 
 interface PreGameDialogProps {
   preGameOpen: boolean;
   closePreGame: () => void;
   openShop: () => void;
-}
-
-enum PreGameScreens {
-  ChooseLevel,
-  ChooseCharacter
 }
 
 export default function PreGameDialog({ preGameOpen, closePreGame, openShop }: PreGameDialogProps) {
@@ -25,6 +22,8 @@ export default function PreGameDialog({ preGameOpen, closePreGame, openShop }: P
       setScreenTitle("Choose Level");
     } else if (screen === PreGameScreens.ChooseCharacter) {
       setScreenTitle("Choose Character");
+    } else if (screen === PreGameScreens.Loading) {
+      setScreenTitle("Loading...");
     }
   }, [screen]);
 
@@ -35,11 +34,13 @@ export default function PreGameDialog({ preGameOpen, closePreGame, openShop }: P
 
   const scrollBoxRef = useRef<HTMLDivElement>(null);
 
-  const handleOpenNextScreen = () => {
+  const handleOpenScreen = (nextScreen: PreGameScreens) => {
     scrollToTop();
-    if (screen === PreGameScreens.ChooseLevel) {
-      setScreen(PreGameScreens.ChooseCharacter);
-    }
+    setScreen(nextScreen);
+  };
+
+  const handleLoading = () => {
+    handleOpenScreen(PreGameScreens.Loading);
   };
 
   const scrollToTop = () => {
@@ -64,9 +65,16 @@ export default function PreGameDialog({ preGameOpen, closePreGame, openShop }: P
         <Box sx={{ minHeight: "100vh" }}>
           <ChooseLevelScreen
             active={screen === PreGameScreens.ChooseLevel}
-            openChooseCharacter={handleOpenNextScreen}
+            openChooseCharacter={() => {
+              handleOpenScreen(PreGameScreens.ChooseCharacter);
+            }}
           />
-          <ChooseCharacterScreen active={screen === PreGameScreens.ChooseCharacter} openShop={openShop} />
+          <ChooseCharacterScreen
+            active={screen === PreGameScreens.ChooseCharacter}
+            openShop={openShop}
+            handleLoading={handleLoading}
+          />
+          <LoadingScreen active={screen === PreGameScreens.Loading} />
         </Box>
       </Box>
     </FullscreenDialog>

@@ -9,9 +9,10 @@ import { useSolana } from "@context/useSolana";
 interface ChooseCharacterScreenProps {
   active: boolean;
   openShop: () => void;
+  handleLoading: () => void;
 }
 
-export default function ChooseCharacterScreen({ active, openShop }: ChooseCharacterScreenProps) {
+export default function ChooseCharacterScreen({ active, openShop, handleLoading }: ChooseCharacterScreenProps) {
   const muiTheme = useTheme();
   const { solana } = useSolana();
 
@@ -26,6 +27,7 @@ export default function ChooseCharacterScreen({ active, openShop }: ChooseCharac
   };
 
   const handleConfirm = () => {
+    handleLoading();
     loadCharacter(solana.ownedKnights[characterIndex].spritesheet, EventKeys.GoToGame);
   };
 
