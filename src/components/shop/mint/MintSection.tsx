@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from "@mui/material";
 import axios from "axios";
 import {
@@ -40,7 +40,8 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
   const [mintPrice, setMintPrice] = useState<number>(2);
   const [mintDisabled, setMintDisabled] = useState(false);
   const [warningText, setWarningText] = useState("");
-  //
+  const [amountMinted, setAmountMinted] = useState<string>("????/3000");
+
   const muiTheme = useTheme();
   const wallet = useWallet();
   const { connection } = useConnection();
@@ -55,7 +56,15 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
     const cmMintPrice = candyMachine?.candyGuard?.guards?.solPayment?.amount?.basisPoints;
     console.log("mintPrice: " + cmMintPrice);
     if (cmMintPrice) {
-      setMintPrice(cmMintPrice / LAMPORTS_PER_SOL);
+      setMintPrice((cmMintPrice as unknown as number) / LAMPORTS_PER_SOL);
+    }
+  };
+
+  const getAmountMinted = async () => {
+    const minted = candyMachine?.itemsMinted.toNumber();
+    const max = candyMachine?.itemsLoaded;
+    if (minted !== undefined && max !== undefined) {
+      setAmountMinted(minted + "/" + max);
     }
   };
 
@@ -82,13 +91,17 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
     }
 
     setIsLoading(true);
-    const cm = await metaplex.candyMachines().findByAddress({ address: new PublicKey(import.meta.env.VITE_CM) });
+
+    if (!candyMachine) {
+      setMintFailed(true);
+      throw new Error("Candy Machine not found");
+    }
 
     const mintBuilder = await metaplex
       .candyMachines()
       .builders()
       .mint({
-        candyMachine: cm,
+        candyMachine,
         collectionUpdateAuthority: new PublicKey("teachcUD4nENDLkGynmFnPNcupXMRmwSUJBtCK5QVoc")
       });
 
@@ -118,17 +131,17 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
       console.log(data);
     }
   };
-  useMemo(() => {
+  useEffect(() => {
     scrollToTop();
-  }, [minted, mintFailed, isLoading]);
-  //
+  }, [minted, mintFailed, isLoading, active]);
+
   useEffect(() => {
     logWallet();
     getCandyMachine().catch((e) => {
       console.log(e);
     });
-  }, []);
-  //
+  }, [active]);
+
   useEffect(() => {
     fetchMetadata().catch((e) => {
       console.log(e);
@@ -146,6 +159,12 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
       console.log(e);
     });
   }, [wallet]);
+
+  useEffect(() => {
+    getAmountMinted().catch((e) => {
+      console.log(e);
+    });
+  }, [candyMachine, minted, mintFailed, active]);
 
   useEffect(() => {
     if (balance < mintPrice) {
@@ -209,7 +228,7 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
                   {mintPrice} Sol
                 </Typography>
                 <Typography variant="h5" textAlign={"center"} width={1} color={"white"} noWrap>
-                  {candyMachine?.itemsMinted.toNumber()}/{candyMachine?.itemsLoaded}
+                  {amountMinted}
                 </Typography>
               </Stack>
               <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
@@ -261,7 +280,7 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
                   Be the hero of your own story.
                   <br />
                   <br />
-                  Emptea Knights is a collection of 2000 brave knights, forged to achieve greatness.
+                  Emptea Knights is a collection of 3000 brave knights, forged to achieve greatness.
                 </Typography>
               </Stack>
             </Grid>
