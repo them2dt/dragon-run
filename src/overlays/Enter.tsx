@@ -11,6 +11,7 @@ import AlertDialog from "components/AlertDialog";
 import { useFirestore } from "@context/useFirestore";
 import { getAuth } from "firebase/auth";
 import Loading from "./Loading";
+import { green } from "@mui/material/colors";
 
 interface EnterProps {
   userName: string;
@@ -117,10 +118,10 @@ export default function Enter({ userName }: EnterProps) {
               variant="contained"
               size="large"
               sx={{
-                backgroundColor: muiTheme.palette.secondary.main,
+                backgroundColor: needsSignIn ? muiTheme.palette.secondary.main : green[500],
                 "&:hover": {
                   backgroundColor: muiTheme.palette.text.secondary,
-                  color: muiTheme.palette.secondary.main
+                  color: needsSignIn ? muiTheme.palette.secondary.main : green[500]
                 },
                 minWidth: "200px",
                 py: "10px",
