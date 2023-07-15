@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from "@mui/material";
 import axios from "axios";
 import {
@@ -102,7 +102,7 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
       .builders()
       .mint({
         candyMachine,
-        collectionUpdateAuthority: new PublicKey("teachcUD4nENDLkGynmFnPNcupXMRmwSUJBtCK5QVoc")
+        collectionUpdateAuthority: new PublicKey("tea5csx62GtMfevNPVNZ1saG1kc8Z8W58mEkPxxLXjm")
       });
 
     try {
@@ -137,10 +137,13 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
 
   useEffect(() => {
     logWallet();
+  }, [active]);
+
+  useEffect(() => {
     getCandyMachine().catch((e) => {
       console.log(e);
     });
-  }, [active]);
+  }, [wallet, minted, mintFailed, active]);
 
   useEffect(() => {
     fetchMetadata().catch((e) => {
@@ -148,8 +151,11 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
     });
   }, [minted]);
 
-  useEffect(() => {
+  useMemo(() => {
     getMintPrice().catch((e) => {
+      console.log(e);
+    });
+    getAmountMinted().catch((e) => {
       console.log(e);
     });
   }, [candyMachine]);
@@ -158,13 +164,7 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
     getBalance().catch((e) => {
       console.log(e);
     });
-  }, [wallet]);
-
-  useEffect(() => {
-    getAmountMinted().catch((e) => {
-      console.log(e);
-    });
-  }, [candyMachine, minted, mintFailed, active]);
+  }, [wallet, minted, mintFailed]);
 
   useEffect(() => {
     if (balance < mintPrice) {
