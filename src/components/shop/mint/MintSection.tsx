@@ -7,12 +7,13 @@ import {
   Metaplex,
   walletAdapterIdentity
 } from "@metaplex-foundation/js";
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useConnection } from "@solana/wallet-adapter-react";
 
 import loading from "@assets/loading.gif";
 import { useWallet } from "../../../hooks/useWallet";
 import unrevealed from "@assets/Knights_unrevealed.gif";
+import { SquareButton } from "components/styled/SquareButton";
 
 interface MintSectionProps {
   active: boolean;
@@ -34,14 +35,30 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
     symbol: "TEA";
   }>();
   const [mintResult, setMintResult] = useState<PublicKey>();
-
   const [candyMachine, setCandyMachine] = useState<CandyMachine<DefaultCandyGuardSettings>>();
+  const [balance, setBalance] = useState<number>(0);
+  const [mintPrice, setMintPrice] = useState<number>(2);
+  const [mintDisabled, setMintDisabled] = useState(false);
+  const [warningText, setWarningText] = useState("");
   //
   const muiTheme = useTheme();
   const wallet = useWallet();
   const { connection } = useConnection();
   const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet));
-  //
+
+  const getBalance = async () => {
+    const balance = await connection.getBalance(wallet.publicKey);
+    setBalance(balance / LAMPORTS_PER_SOL);
+  };
+
+  const getMintPrice = async () => {
+    const cmMintPrice = candyMachine?.candyGuard?.guards?.solPayment?.amount?.basisPoints;
+    console.log("mintPrice: " + cmMintPrice);
+    if (cmMintPrice) {
+      setMintPrice(cmMintPrice / LAMPORTS_PER_SOL);
+    }
+  };
+
   // function to print out the wallet, which is being used at the moment
   const logWallet = () => {
     if (wallet.publicKey) {
@@ -60,6 +77,10 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
   const executeMint = async () => {
     console.log("launching mint-process...");
 
+    if (balance < mintPrice) {
+      throw new Error("Not enough Sol");
+    }
+
     setIsLoading(true);
     const cm = await metaplex.candyMachines().findByAddress({ address: new PublicKey(import.meta.env.VITE_CM) });
 
@@ -77,9 +98,15 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
         setMinted(true);
       });
       console.log("Minted successfully.");
+      getBalance().catch((e) => {
+        console.log(e);
+      });
     } catch (e) {
       setMintFailed(true);
-      console.log("Mint Failed.");
+      console.log("Mint Failed: " + e);
+      getBalance().catch((e) => {
+        console.log(e);
+      });
     }
   };
   // function to the metadata from an NFT
@@ -107,6 +134,30 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
       console.log(e);
     });
   }, [minted]);
+
+  useEffect(() => {
+    getMintPrice().catch((e) => {
+      console.log(e);
+    });
+  }, [candyMachine]);
+
+  useEffect(() => {
+    getBalance().catch((e) => {
+      console.log(e);
+    });
+  }, [wallet]);
+
+  useEffect(() => {
+    if (balance < mintPrice) {
+      setMintDisabled(true);
+      setWarningText("You need more SOL!");
+    } else {
+      if (mintDisabled) {
+        setMintDisabled(false);
+      }
+    }
+  }, [balance, mintPrice]);
+
   return (
     <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
       <Grid
@@ -155,20 +206,24 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
               </Stack>
               <Stack direction="column" spacing={0.3} sx={{ justifyContent: "center" }} style={{ marginTop: "16px" }}>
                 <Typography variant="h5" textAlign={"center"} width={1} color={"white"} noWrap>
-                  1 SOL
+                  {mintPrice} Sol
                 </Typography>
                 <Typography variant="h5" textAlign={"center"} width={1} color={"white"} noWrap>
                   {candyMachine?.itemsMinted.toNumber()}/{candyMachine?.itemsLoaded}
                 </Typography>
               </Stack>
               <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-                <button
-                  style={{
+                <SquareButton
+                  disabled={mintDisabled}
+                  sx={{
                     width: "100%",
                     marginTop: "20px",
                     padding: "10px",
-                    backgroundColor: "#ff3c00",
-                    borderRadius: "0"
+                    backgroundColor: muiTheme.palette.secondary.main,
+                    "&:hover": {
+                      backgroundColor: muiTheme.palette.text.secondary,
+                      color: muiTheme.palette.secondary.main
+                    }
                   }}
                   onClick={() => {
                     executeMint().catch((e) => {
@@ -177,12 +232,23 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
                     });
                   }}
                 >
-                  <Typography variant="h4" color={"white"}>
-                    Mint
-                  </Typography>
-                </button>
+                  <Typography variant="h4">Mint</Typography>
+                </SquareButton>
               </Stack>
-              <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
+              <Stack direction="column" spacing={2} sx={{ justifyContent: "center" }}>
+                {mintDisabled && (
+                  <Typography
+                    variant="h4"
+                    style={{
+                      width: "100%",
+                      textAlign: "center",
+                      marginTop: "30px",
+                      color: muiTheme.palette.secondary.main
+                    }}
+                  >
+                    {warningText}
+                  </Typography>
+                )}
                 <Typography
                   variant="body1"
                   color={"white"}
@@ -257,12 +323,16 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
                 <Typography variant="h5" color={"white"} style={{ textAlign: "center" }}>
                   {metadata?.name ?? ""} Minted successfully!
                 </Typography>
-                <button
-                  style={{
+                <SquareButton
+                  sx={{
                     padding: "10px",
-                    backgroundColor: "#ff3c00",
                     borderRadius: "0",
-                    width: "100%"
+                    width: "100%",
+                    backgroundColor: muiTheme.palette.secondary.main,
+                    "&:hover": {
+                      backgroundColor: muiTheme.palette.text.secondary,
+                      color: muiTheme.palette.secondary.main
+                    }
                   }}
                   onClick={() => {
                     setIsLoading(false);
@@ -270,10 +340,8 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
                     setMintFailed(false);
                   }}
                 >
-                  <Typography variant="h4" color={"white"}>
-                    close
-                  </Typography>
-                </button>
+                  <Typography variant="h4">close</Typography>
+                </SquareButton>
               </Stack>
             </Grid>
           </Zoom>
@@ -301,12 +369,16 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
                 <Typography variant="h4" textAlign={"center"} color={"white"}>
                   Minting failed.
                 </Typography>
-                <button
-                  style={{
-                    width: "100%",
+                <SquareButton
+                  sx={{
                     padding: "10px",
-                    backgroundColor: "#ff3c00",
-                    borderRadius: "0"
+                    borderRadius: "0",
+                    width: "100%",
+                    backgroundColor: muiTheme.palette.secondary.main,
+                    "&:hover": {
+                      backgroundColor: muiTheme.palette.text.secondary,
+                      color: muiTheme.palette.secondary.main
+                    }
                   }}
                   onClick={() => {
                     setIsLoading(false);
@@ -314,10 +386,8 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
                     setMintFailed(false);
                   }}
                 >
-                  <Typography variant="h4" color={"white"}>
-                    close
-                  </Typography>
-                </button>
+                  <Typography variant="h4">close</Typography>
+                </SquareButton>
               </Stack>
             </Grid>
           </Zoom>
