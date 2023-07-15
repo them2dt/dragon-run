@@ -25,6 +25,7 @@ export default function Enter({ userName }: EnterProps) {
   const [loading, setLoading] = useState(false);
   const [authorised, setAuthorised] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
+  const [failedSignIn, setFailedSignIn] = useState(false);
   const [fullScreenDialogOpen, setFullScreenDialogOpen] = useState(false);
 
   const openFullScreenDialog = () => {
@@ -43,6 +44,8 @@ export default function Enter({ userName }: EnterProps) {
     }
     if (firestoreData?.firestore?.app == null) {
       console.log("Firestore not initialized");
+      setFailedSignIn(true);
+      setLoading(false);
       return;
     }
     const auth = getAuth(firestoreData?.firestore?.app);
@@ -68,9 +71,11 @@ export default function Enter({ userName }: EnterProps) {
       .getAuthSignature(userName)
       .then(() => {
         setAuthorised(true);
+        setFailedSignIn(false);
       })
       .catch((error) => {
         console.log(error);
+        setFailedSignIn(true);
       });
     setLoading(false);
   };
@@ -113,7 +118,7 @@ export default function Enter({ userName }: EnterProps) {
         />
         <div className="w-full h-full m-auto flex flex-col max-w-[1240px] text-center">
           <div className="h-auto my-auto">
-            <AnimatedEnterTitle userName={userName} signedIn={!needsSignIn} />
+            <AnimatedEnterTitle userName={userName} signedIn={!needsSignIn} failedSignIn={failedSignIn} />
             <SquareButton
               variant="contained"
               size="large"
