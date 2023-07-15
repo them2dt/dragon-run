@@ -1,4 +1,5 @@
-import React, { useTheme, Grid, Card, Typography, Zoom, Stack, Box } from "@mui/material";
+import React, { useMemo, useState } from "react";
+import { useTheme, Grid, Card, Typography, Zoom, Stack, Box } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
 import KnightItem from "./KnightItem";
 import { useSolana } from "@context/useSolana";
@@ -12,6 +13,17 @@ interface KnightsSectionProps {
 export default function KnightsSection({ active, goToShop }: KnightsSectionProps) {
   const muiTheme = useTheme();
   const { solana } = useSolana();
+  const [ownedKnights, setOwnedKnights] = useState<KnightNFT[]>(solana.ownedKnights);
+
+  useMemo(() => {
+    const knights = solana.ownedKnights.sort((a, b) => {
+      const aNum = parseInt(a.name.split("#")[1]);
+      const bNum = parseInt(b.name.split("#")[1]);
+      return aNum - bNum;
+    });
+    setOwnedKnights(knights);
+  }, [solana.ownedKnights]);
+
   return (
     <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
       <Box>
@@ -38,7 +50,7 @@ export default function KnightsSection({ active, goToShop }: KnightsSectionProps
               Owned
             </Typography>
           </Grid>
-          {solana.ownedKnights.map((character: KnightNFT) => (
+          {ownedKnights.map((character: KnightNFT) => (
             <KnightItem name={character.name} image={character.image} key={"knights" + character.name}>
               <Typography variant="h5">{character.name}</Typography>
               <Typography

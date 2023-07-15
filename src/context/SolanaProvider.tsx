@@ -1,5 +1,5 @@
 import React, { createContext, useState, useMemo, useEffect } from "react";
-import { Metaplex, type Metadata } from "@metaplex-foundation/js";
+import { Metaplex, type Metadata, walletAdapterIdentity } from "@metaplex-foundation/js";
 import type KnightNFT from "types/KnightNFT";
 import { useFirestore } from "./useFirestore";
 import { encode } from "bs58";
@@ -19,6 +19,7 @@ interface SolanaContextType {
     getPublicKey: () => void;
     getSignature: (message: string) => void;
     getAuthSignature: (userName: string) => Promise<void>;
+    getOwnedKnights: () => Promise<void>;
   };
 }
 
@@ -60,7 +61,6 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     axios
       .get("https://xnft-api-server.xnfts.dev/v1/users", { params: { user_id: userName } })
       .then((res) => {
-        console.log("Response: ", res);
         const data = res.data;
         if (data?.user?.publicKeys == null) {
           throw new Error("No public key found");
@@ -94,7 +94,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     if (!publicKey) {
       return;
     }
-    const metaplex = Metaplex.make(connection);
+    const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(xnftSolana));
     if (!metaplex) {
       return;
     }
@@ -205,7 +205,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
         console.log("Unable to get owned NFTs: ", err);
       });
     }
-  }, [metaplex, publicKey]);
+  }, [publicKey]);
 
   useMemo(() => {
     if (!metaplex) return;
@@ -232,7 +232,8 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   const solanaFunctions = {
     getPublicKey,
     getSignature,
-    getAuthSignature
+    getAuthSignature,
+    getOwnedKnights
   };
 
   return <SolanaContext.Provider value={{ solana, setSolana, solanaFunctions }}>{children}</SolanaContext.Provider>;

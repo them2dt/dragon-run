@@ -32,8 +32,6 @@ const router = createBrowserRouter([
 function App() {
   const endpoint = import.meta.env.VITE_RPC_URL;
 
-  console.log(window?.xnft);
-
   return (
     <ConnectionProvider endpoint={endpoint}>
       <ThemeProvider theme={muiTheme}>

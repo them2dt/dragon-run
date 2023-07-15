@@ -1,19 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from "@mui/material";
 import axios from "axios";
-import {
-  type CandyMachine,
-  type DefaultCandyGuardSettings,
-  Metaplex,
-  walletAdapterIdentity
-} from "@metaplex-foundation/js";
+import { type CandyMachine, type DefaultCandyGuardSettings } from "@metaplex-foundation/js";
 import { PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { useConnection } from "@solana/wallet-adapter-react";
-
 import loading from "@assets/loading.gif";
 import { useWallet } from "../../../hooks/useWallet";
 import unrevealed from "@assets/Knights_unrevealed.gif";
 import { SquareButton } from "components/styled/SquareButton";
+import { useSolana } from "@context/useSolana";
 
 interface MintSectionProps {
   active: boolean;
@@ -42,13 +36,22 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
   const [warningText, setWarningText] = useState("");
   const [amountMinted, setAmountMinted] = useState<string>("????/3000");
 
+  const { solana, solanaFunctions } = useSolana();
   const muiTheme = useTheme();
   const wallet = useWallet();
-  const { connection } = useConnection();
-  const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet));
+  const metaplex = solana.metaplex;
+  const solanaPublicKey = solana.publicKey;
 
   const getBalance = async () => {
-    const balance = await connection.getBalance(wallet.publicKey);
+    const xnftSolana = window?.xnft?.solana;
+    if (!xnftSolana) {
+      return;
+    }
+    const connection = xnftSolana?.connection;
+    if (!connection) {
+      return;
+    }
+    const balance = await connection.getBalance(solanaPublicKey);
     setBalance(balance / LAMPORTS_PER_SOL);
   };
 
@@ -70,7 +73,7 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
 
   // function to print out the wallet, which is being used at the moment
   const logWallet = () => {
-    if (wallet.publicKey) {
+    if (solana.publicKey) {
       console.log("Using Wallet: " + wallet.publicKey.toBase58());
     } else {
       console.log("Wallet couldn't be found.");
@@ -78,6 +81,9 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
   };
   // function to fetch the candy machine
   const getCandyMachine = async () => {
+    if (!metaplex) {
+      throw new Error("Metaplex not found");
+    }
     const cm = await metaplex.candyMachines().findByAddress({ address: new PublicKey(import.meta.env.VITE_CM) });
 
     setCandyMachine(cm);
@@ -95,6 +101,11 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
     if (!candyMachine) {
       setMintFailed(true);
       throw new Error("Candy Machine not found");
+    }
+
+    if (!metaplex) {
+      setMintFailed(true);
+      throw new Error("Metaplex not found");
     }
 
     const mintBuilder = await metaplex
@@ -124,6 +135,9 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
   };
   // function to the metadata from an NFT
   const fetchMetadata = async () => {
+    if (!metaplex) {
+      throw new Error("Metaplex not found");
+    }
     if (minted) {
       const nft = await metaplex.nfts().findByToken({ token: new PublicKey(mintResult ?? "") });
       const { data } = await axios.get(nft.uri);
@@ -131,6 +145,7 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
       console.log(data);
     }
   };
+
   useEffect(() => {
     scrollToTop();
   }, [minted, mintFailed, isLoading, active]);
@@ -147,6 +162,9 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
 
   useEffect(() => {
     fetchMetadata().catch((e) => {
+      console.log(e);
+    });
+    solanaFunctions.getOwnedKnights().catch((e) => {
       console.log(e);
     });
   }, [minted]);

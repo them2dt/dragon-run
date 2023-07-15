@@ -14,9 +14,11 @@ import Leaderboard from "components/leaderboard/LeaderboardMenu";
 import ShopDialog from "components/shop/ShopDialog";
 import InventoryDialog from "components/inventory/InventoryDialog";
 import PreGameDialog from "components/PreGameDialog";
+import { useSolana } from "@context/useSolana";
 
 export default function Home() {
   const muiTheme = useTheme();
+  const { solanaFunctions } = useSolana();
   const [shopOpen, setShopOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [inventoryOpen, setInventoryOpen] = useState(false);
@@ -80,6 +82,12 @@ export default function Home() {
       eventsCenter.off(EventKeys.CloseChooseCharacter);
     };
   }, []);
+
+  useEffect(() => {
+    solanaFunctions.getOwnedKnights().catch((err) => {
+      console.log("Unable to get owned NFTs: ", err);
+    });
+  }, [shopOpen]);
 
   return (
     <AnimatedPage>
