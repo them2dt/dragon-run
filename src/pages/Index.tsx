@@ -92,8 +92,16 @@ export default function Index(): JSX.Element {
   }, [firestoreData?.firestore]);
 
   useEffect(() => {
+    if (firestoreData?.firestore == null) {
+      return;
+    }
+    if (overlay === OverlayKeys.Home || overlay === OverlayKeys.Game) {
+      firestoreFunctions.getLeaderboard();
+    }
+  }, [overlay]);
+
+  useEffect(() => {
     if (window?.xnft == null || window?.xnft?.metadata == null || window?.xnft?.metadata?.username == null) {
-      console.log("Please open in Backpack!");
       return;
     }
     const username = window?.xnft?.metadata?.username;
