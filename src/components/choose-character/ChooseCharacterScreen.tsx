@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import EventKeys from "constants/EventKeys";
 import { Paper, Stack, Typography, useTheme, Box, Zoom } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
 import loadCharacter from "utils/loadCharacter";
 import ChooseCharacterCard from "./ChooseCharacterCard";
 import { useSolana } from "@context/useSolana";
+import type KnightNFT from "types/KnightNFT";
 
 interface ChooseCharacterScreenProps {
   active: boolean;
@@ -17,6 +18,16 @@ export default function ChooseCharacterScreen({ active, openShop, handleLoading 
   const { solana } = useSolana();
 
   const [characterIndex, setCharacterIndex] = useState(0);
+  const [ownedKnights, setOwnedKnights] = useState<KnightNFT[]>(solana.ownedKnights);
+
+  useMemo(() => {
+    const knights = solana.ownedKnights.sort((a, b) => {
+      const aNum = parseInt(a.name.split("#")[1]);
+      const bNum = parseInt(b.name.split("#")[1]);
+      return aNum - bNum;
+    });
+    setOwnedKnights(knights);
+  }, [solana.ownedKnights]);
 
   const handleNextCharacterClick = () => {
     setCharacterIndex((prevIndex) => (prevIndex + 1) % solana.ownedKnights.length);
@@ -54,9 +65,9 @@ export default function ChooseCharacterScreen({ active, openShop, handleLoading 
         >
           <Stack direction={"column"} spacing={2} sx={{ px: 3, pb: 3, pt: 1, mt: 5 }}>
             <ChooseCharacterCard
-              name={solana.ownedKnights[characterIndex].name}
-              image={solana.ownedKnights[characterIndex].image}
-              charactersAmount={solana.ownedKnights.length}
+              name={ownedKnights[characterIndex].name}
+              image={ownedKnights[characterIndex].image}
+              charactersAmount={ownedKnights.length}
               next={handleNextCharacterClick}
               previous={handlePreviousCharacterClick}
               handleConfirm={handleConfirm}
