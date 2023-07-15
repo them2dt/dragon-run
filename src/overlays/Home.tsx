@@ -57,6 +57,7 @@ export default function Home() {
   const closeShop = () => {
     setShopOpen(false);
   };
+
   const openInventory = () => {
     setDefaultTab(undefined);
     setInventoryOpen(true);
@@ -66,7 +67,7 @@ export default function Home() {
   };
 
   const goToShop = () => {
-    setDefaultTab(1);
+    setDefaultTab(0);
     setShopOpen(true);
   };
 

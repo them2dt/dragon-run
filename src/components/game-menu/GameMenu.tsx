@@ -13,9 +13,17 @@ interface GameMenuProps {
   openLeaderboard: () => void;
   openSettings: () => void;
   openInventory: () => void;
+  openShop: () => void;
 }
 
-export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSettings, openInventory }: GameMenuProps) {
+export default function GameMenu({
+  menuOpen,
+  closeMenu,
+  openLeaderboard,
+  openSettings,
+  openInventory,
+  openShop
+}: GameMenuProps) {
   const muiTheme = useTheme();
 
   return (
@@ -38,8 +46,13 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
           Menu
         </DialogTitle>
         <ListItem sx={{ "&:hover": { backgroundColor: "background.light" } }}>
-          <ListItemButton onClick={() => eventsCenter.emit(EventKeys.GoToHome)}>
-            <ListItemText sx={{ textAlign: "center" }} primary="Home" />
+          <ListItemButton onClick={openLeaderboard}>
+            <ListItemText sx={{ textAlign: "center" }} primary="Leaderboard" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem sx={{ "&:hover": { backgroundColor: "background.light" } }}>
+          <ListItemButton onClick={openShop}>
+            <ListItemText sx={{ textAlign: "center" }} primary="Shop" />
           </ListItemButton>
         </ListItem>
         <ListItem sx={{ "&:hover": { backgroundColor: "background.light" } }}>
@@ -48,13 +61,13 @@ export default function GameMenu({ menuOpen, closeMenu, openLeaderboard, openSet
           </ListItemButton>
         </ListItem>
         <ListItem sx={{ "&:hover": { backgroundColor: "background.light" } }}>
-          <ListItemButton onClick={openLeaderboard}>
-            <ListItemText sx={{ textAlign: "center" }} primary="Leaderboard" />
+          <ListItemButton onClick={openSettings}>
+            <ListItemText sx={{ textAlign: "center" }} primary="Settings" />
           </ListItemButton>
         </ListItem>
         <ListItem sx={{ "&:hover": { backgroundColor: "background.light" } }}>
-          <ListItemButton onClick={openSettings}>
-            <ListItemText sx={{ textAlign: "center" }} primary="Settings" />
+          <ListItemButton onClick={() => eventsCenter.emit(EventKeys.GoToHome)}>
+            <ListItemText sx={{ textAlign: "center" }} primary="Home" />
           </ListItemButton>
         </ListItem>
         <ListItem>

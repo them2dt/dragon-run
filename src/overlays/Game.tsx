@@ -11,6 +11,7 @@ import AnimatedRunText from "components/animated/AnimatedRunText";
 import SettingsMenu from "components/SettingsMenu";
 import InventoryDialog from "components/inventory/InventoryDialog";
 import ControlsTutorial from "components/ControlsTutorial";
+import ShopDialog from "components/shop/ShopDialog";
 
 export default function Game() {
   const theme = useTheme();
@@ -18,6 +19,8 @@ export default function Game() {
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [inventoryOpen, setInventoryOpen] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
+  const [defaultTab, setDefaultTab] = useState<number | undefined>(undefined);
   const [score, setScore] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [showRun, setShowRun] = useState(false);
@@ -73,6 +76,19 @@ export default function Game() {
     setInventoryOpen(false);
   };
 
+  const openShop = () => {
+    setDefaultTab(undefined);
+    setShopOpen(true);
+  };
+  const closeShop = () => {
+    setShopOpen(false);
+  };
+
+  const goToShop = () => {
+    setDefaultTab(0);
+    setShopOpen(true);
+  };
+
   return (
     <AnimatedPage>
       <OverlayWrapper className="z-50 fixed top-0 left-0 pointer-events-none">
@@ -82,10 +98,12 @@ export default function Game() {
           openLeaderboard={openLeaderboard}
           openSettings={openSettings}
           openInventory={openInventory}
+          openShop={openShop}
         />
         <LeaderboardMenu leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
-        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} />
+        <ShopDialog shopOpen={shopOpen} closeShop={closeShop} defaultTab={defaultTab} />
+        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} openShop={goToShop} />
         <GameNavBar>
           <div className="fixed z-40 left-[16px] top-[12px] h-[32px] w-[60px]">
             <Button
