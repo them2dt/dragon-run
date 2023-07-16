@@ -361,7 +361,7 @@ export default class CaveScene extends Phaser.Scene {
         return;
       }
 
-      this.player = new Player(this, playerObjectX * this.mainScale + this.objectsLayerOffsetX, playerObjectY * 0.5);
+      this.player = new Player(this, playerObjectX * this.mainScale + this.objectsLayerOffsetX, playerObjectY * 0.6);
       this.add.existing(this.player);
     });
 
