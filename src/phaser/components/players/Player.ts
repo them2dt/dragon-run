@@ -9,9 +9,14 @@ import DragonState from "../../../constants/enemies/DragonState";
 import PlayerSoundEffectKeys from "../../../constants/audio/PlayerSoundEffectKeys";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
+import Clock from "phaser3-rex-plugins/plugins/clock.js";
+import type LevelCompleteData from "types/LevelCompleteData";
 
 export default class Player extends Phaser.GameObjects.Container {
   public score = 0;
+  private clock!: Clock;
+  private time = 0;
+  private timeBonus = 0;
 
   private playerFireballThrow1Sound!: Phaser.Sound.BaseSound;
   private playerJump1Sound!: Phaser.Sound.BaseSound;
@@ -81,6 +86,9 @@ export default class Player extends Phaser.GameObjects.Container {
     body.setFrictionX(0);
     body.setFrictionY(0);
 
+    this.clock = new Clock(this.scene);
+    this.clock.pause();
+
     const keyboard = scene.input.keyboard;
 
     if (!keyboard) {
@@ -110,6 +118,7 @@ export default class Player extends Phaser.GameObjects.Container {
   public start() {
     this.checkScene();
     eventsCenter.emit(EventKeys.StartGame);
+    this.clock.start();
     this.playerState = PlayerState.Alive;
   }
 
@@ -216,7 +225,25 @@ export default class Player extends Phaser.GameObjects.Container {
 
     this.playerState = PlayerState.LevelComplete;
 
-    eventsCenter.emit(EventKeys.UpdateEndScore, this.score);
+    this.time = (this.clock.now / 1000).toFixed(2) as unknown as number;
+    if (this.time < 220) {
+      // This player is cheating
+      this.timeBonus = 0;
+    } else if (this.time > 250) {
+      // This player is too slow
+      this.timeBonus = 0;
+    } else {
+      this.timeBonus = Math.floor((250 - this.time) * 100);
+    }
+
+    const levelCompleteData: LevelCompleteData = {
+      score: this.score,
+      time: this.time,
+      timeBonus: this.timeBonus,
+      total: this.score + this.timeBonus
+    };
+
+    eventsCenter.emit(EventKeys.UpdateLevelCompleteData, levelCompleteData);
 
     if (this.currentScene === SceneKeys.CaveScene) {
       const caveScene = this.scene as CaveScene;

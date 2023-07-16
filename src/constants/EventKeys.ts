@@ -23,6 +23,7 @@ enum EventKeys {
   UpdateScore = "update-score",
   UpdateEndScore = "update-end-score",
   UpdateHighScore = "update-high-score",
+  UpdateLevelCompleteData = "update-level-complete-data",
   Run = "run",
   ChangeVolume = "change-volume"
 }

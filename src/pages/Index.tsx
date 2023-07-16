@@ -13,6 +13,7 @@ import { onSnapshot, doc } from "firebase/firestore";
 import Enter from "overlays/Enter";
 import { useSolana } from "@context/useSolana";
 import LevelComplete from "overlays/LevelComplete";
+import type LevelCompleteData from "types/LevelCompleteData";
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
@@ -22,6 +23,9 @@ export default function Index(): JSX.Element {
   const [highScore, setHighScore] = useState<number>(0);
   const [newScore, setNewScore] = useState<number>(0);
   const [newHighScore, setNewHighScore] = useState<number>(0);
+  const [scoreBeforeBonus, setScoreBeforeBonus] = useState<number>(0);
+  const [time, setTime] = useState<number>(0);
+  const [timeBonus, setTimeBonus] = useState<number>(0);
 
   useEffect(() => {
     const initializeFirestore = () => {
@@ -69,6 +73,12 @@ export default function Index(): JSX.Element {
   useEffect(() => {
     eventsCenter.on(EventKeys.UpdateEndScore, (score: number) => {
       setNewScore(score);
+    });
+    eventsCenter.on(EventKeys.UpdateLevelCompleteData, ({ score, time, timeBonus, total }: LevelCompleteData) => {
+      setScoreBeforeBonus(score);
+      setTime(time);
+      setTimeBonus(timeBonus);
+      setNewScore(total);
     });
     eventsCenter.on(EventKeys.GoToGame, () => {
       setNewHighScore(0);
@@ -121,7 +131,14 @@ export default function Index(): JSX.Element {
         <Game />
       ) : null}
       {overlay === OverlayKeys.GameOver ? <GameOver newHighScore={newHighScore} /> : null}
-      {overlay === OverlayKeys.LevelComplete ? <LevelComplete newHighScore={newHighScore} /> : null}
+      {overlay === OverlayKeys.LevelComplete ? (
+        <LevelComplete
+          scoreBeforeBonus={scoreBeforeBonus}
+          time={time}
+          timeBonus={timeBonus}
+          newHighScore={newHighScore}
+        />
+      ) : null}
       <PhaserGame />
     </>
   );

@@ -2,18 +2,25 @@ import React from "react";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
 import OverlayWrapper from "components/OverlayWrapper";
-import AnimatedOnViewTitleLg from "components/animated/AnimatedOnViewTitleLg";
-import AnimatedOnViewTitleMd from "components/animated/AnimatedOnViewTitleMd";
 import AnimatedPageDelayed from "components/animated/AnimatedPageDelayed";
 import AnimatedNewHighScoreTitle from "components/animated/AnimatedNewHighScoreTitle";
-import { Typography, useTheme } from "@mui/material";
+import { Typography, useTheme, Box } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
+import { grey } from "@mui/material/colors";
 
 interface LevelCompleteProps {
+  scoreBeforeBonus: number;
+  time: number;
+  timeBonus: number;
   newHighScore: number;
 }
 
-export default function LevelComplete({ newHighScore }: LevelCompleteProps): JSX.Element {
+export default function LevelComplete({
+  newHighScore,
+  scoreBeforeBonus,
+  time,
+  timeBonus
+}: LevelCompleteProps): JSX.Element {
   const muiTheme = useTheme();
   return (
     <AnimatedPageDelayed>
@@ -21,11 +28,23 @@ export default function LevelComplete({ newHighScore }: LevelCompleteProps): JSX
         <div className="w-full h-full m-auto flex flex-col pb-4 pt-10 md:pt-14 lg:pt-16 max-w-[1240px] text-center">
           <div className="mx-auto my-auto">
             {newHighScore > 0 && <AnimatedNewHighScoreTitle text="New High Score!!!" className="mx-auto" />}
-            <AnimatedOnViewTitleLg
-              text="Level Complete"
-              className="mx-auto text-[#a3e635] py-0 mt-6 mb-10 text-2xl xs:text-4xl sm:text-5xl md:text-6xl"
-              delay={0}
-            />
+            <Typography variant="h2" sx={{ color: muiTheme.palette.secondary.main, my: 2 }}>
+              Level Complete!
+            </Typography>
+            <Box sx={{ my: 1 }}>
+              <Typography variant="h6" sx={{ color: grey[200] }}>
+                Score: {scoreBeforeBonus}
+              </Typography>
+              <Typography variant="h6" sx={{ color: grey[200] }}>
+                Time: {time}s
+              </Typography>
+              <Typography variant="h6" sx={{ color: grey[200] }}>
+                Time Bonus: {timeBonus}
+              </Typography>
+              <Typography variant="h4" sx={{ mt: 0.6, color: "#a3e635" }}>
+                Total Score: {scoreBeforeBonus + timeBonus}
+              </Typography>
+            </Box>
             <SquareButton
               variant="contained"
               size="large"
@@ -35,21 +54,24 @@ export default function LevelComplete({ newHighScore }: LevelCompleteProps): JSX
                   backgroundColor: muiTheme.palette.text.secondary,
                   color: muiTheme.palette.secondary.main
                 },
-                width: "200px",
+                my: 1,
+                minWidth: "200px",
                 minHeight: "70px",
                 py: "10px",
-                [muiTheme.breakpoints.up("sm")]: { width: "300px", minHeight: "80px" },
-                [muiTheme.breakpoints.up("md")]: { width: "500px", minHeight: "100px" }
+                px: "20px",
+                [muiTheme.breakpoints.up("sm")]: { minWidth: "300px", minHeight: "80px" },
+                [muiTheme.breakpoints.up("md")]: { minWidth: "400px", px: "40px" },
+                [muiTheme.breakpoints.up("lg")]: { mt: 3 }
               }}
               onClick={() => eventsCenter.emit(EventKeys.RestartGame)}
             >
-              <Typography variant="h3">Play Again</Typography>
+              <Typography variant="h3" noWrap>
+                Play Again
+              </Typography>
             </SquareButton>
-            <AnimatedOnViewTitleMd
-              text="Press SPACE to Play Again"
-              className="mx-auto py-0 text-gray-100 text-sm sm:text-xl md:text-xl mt-4 md:mt-8"
-              delay={0}
-            />
+            <Typography variant="h6" sx={{ color: grey[400] }}>
+              Press SPACE to Play Again
+            </Typography>
           </div>
           <div className="mx-auto mb-4">
             <SquareButton
