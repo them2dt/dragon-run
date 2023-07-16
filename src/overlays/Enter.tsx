@@ -47,6 +47,7 @@ export default function Enter({ userName }: EnterProps) {
 
   const handleTermsAndConditionsAcceptedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTermsAndConditionsAccepted(event.target.checked);
+    localStorage.setItem("termsAndConditionsAccepted", JSON.stringify({ accepted: event.target.checked, userName }));
   };
 
   const handleEnterClick = async () => {
@@ -119,6 +120,17 @@ export default function Enter({ userName }: EnterProps) {
       openFullScreenDialog();
     }
   }, []);
+
+  useEffect(() => {
+    const result = localStorage.getItem("termsAndConditionsAccepted");
+    if (!result) return;
+    const resultParsed = JSON.parse(result);
+    if (resultParsed.accepted && resultParsed.userName === userName) {
+      setTermsAndConditionsAccepted(true);
+    } else {
+      setTermsAndConditionsAccepted(false);
+    }
+  }, [userName]);
 
   return (
     <AnimatedPage>
