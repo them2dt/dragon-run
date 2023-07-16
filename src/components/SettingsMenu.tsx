@@ -44,6 +44,9 @@ export default function SettingsMenu({ settingsOpen, closeSettings }: SettingsMe
       onClose={closeSettings}
       TransitionComponent={MenuSlideTransition}
       sx={{ width: "100%" }}
+      PaperProps={{
+        style: { borderRadius: 0 }
+      }}
     >
       <DialogTitle align="center" color={muiTheme.palette.text.secondary}>
         Settings

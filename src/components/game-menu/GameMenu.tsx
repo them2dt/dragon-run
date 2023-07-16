@@ -54,7 +54,15 @@ export default function GameMenu({
   };
 
   return (
-    <Dialog open={menuOpen} onClose={closeMenu} TransitionComponent={MenuSlideTransition} sx={{ width: "100%" }}>
+    <Dialog
+      PaperProps={{
+        style: { borderRadius: 0 }
+      }}
+      open={menuOpen}
+      onClose={closeMenu}
+      TransitionComponent={MenuSlideTransition}
+      sx={{ width: "100%" }}
+    >
       <Paper
         sx={{
           minWidth: 200,

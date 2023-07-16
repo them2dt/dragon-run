@@ -31,9 +31,6 @@ declare module "@mui/material/styles" {
 }
 
 const muiThemeProps = {
-  shape: {
-    borderRadius: 0
-  },
   palette: {
     primary: {
       light: theme.colors.cA,
@@ -63,6 +60,15 @@ const muiThemeProps = {
   },
   typography: {
     fontFamily: "'Silkscreen', cursive"
+  },
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          borderRadius: 0
+        }
+      }
+    }
   }
 };
 

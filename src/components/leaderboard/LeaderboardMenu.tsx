@@ -56,6 +56,9 @@ export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: L
       onClose={closeLeaderboard}
       TransitionComponent={MenuSlideTransition}
       sx={{ width: "100%" }}
+      PaperProps={{
+        style: { borderRadius: 0 }
+      }}
     >
       <DialogTitle align="center" color={muiTheme.palette.text.secondary}>
         Leaderboard
