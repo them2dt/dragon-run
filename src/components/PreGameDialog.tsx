@@ -40,6 +40,7 @@ export default function PreGameDialog({ preGameOpen, closePreGame, openShop }: P
   };
 
   const handleLoading = () => {
+    scrollToTop();
     handleOpenScreen(PreGameScreens.Loading);
   };
 
