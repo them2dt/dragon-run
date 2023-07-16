@@ -9,6 +9,7 @@ import DragonState from "../../../constants/enemies/DragonState";
 import PlayerSoundEffectKeys from "../../../constants/audio/PlayerSoundEffectKeys";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
+import PlayerAbility from "@consts/players/PlayerAbility";
 import Clock from "phaser3-rex-plugins/plugins/clock.js";
 import type LevelCompleteData from "types/LevelCompleteData";
 
@@ -46,6 +47,7 @@ export default class Player extends Phaser.GameObjects.Container {
   private playerSpeed = 210;
   private playerJump = -300;
   private playerSize = 1.0;
+  private playerAbility = PlayerAbility.None;
 
   private checkScene() {
     if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
@@ -323,12 +325,14 @@ export default class Player extends Phaser.GameObjects.Container {
           this.defaultCharacter.play(AnimationKeys.CharacterJumpingRight, true);
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.fireKeyOne) || Phaser.Input.Keyboard.JustDown(this.firekeyTwo)) {
-          if (t < this.fireballTimer) {
-            return;
+        if (this.playerAbility === PlayerAbility.Fireball) {
+          if (Phaser.Input.Keyboard.JustDown(this.fireKeyOne) || Phaser.Input.Keyboard.JustDown(this.firekeyTwo)) {
+            if (t < this.fireballTimer) {
+              return;
+            }
+            this.throwFireball();
+            this.fireballTimer = t + this.fireballCooldown;
           }
-          this.throwFireball();
-          this.fireballTimer = t + this.fireballCooldown;
         }
 
         if (body.blocked.down && body.velocity.x === 0) {
