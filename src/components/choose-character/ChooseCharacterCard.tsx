@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, useTheme, Paper, Box, Skeleton, Grid } from "@mui/material";
+import { Typography, useTheme, Paper, Box, Skeleton, Grid, Tooltip } from "@mui/material";
 import { ChevronRight, ChevronLeft } from "@mui/icons-material";
 import { SquareButton } from "components/styled/SquareButton";
 import defaultCharacter from "@assets/default-character-still.png";
@@ -24,6 +24,28 @@ export default function ChooseCharacterCard({
   const muiTheme = useTheme();
 
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [charactersTooltipLeftOpen, setCharactersTooltipLeftOpen] = useState(false);
+  const [charactersTooltipRightOpen, setCharactersTooltipRightOpen] = useState(false);
+
+  const handleCharactersTooltipLeftOpen = () => {
+    setCharactersTooltipLeftOpen(true);
+    setTimeout(() => {
+      setCharactersTooltipLeftOpen(false);
+    }, 2000);
+  };
+  const handleCharactersTooltipLeftClose = () => {
+    setCharactersTooltipLeftOpen(false);
+  };
+
+  const handleCharactersTooltipRightOpen = () => {
+    setCharactersTooltipRightOpen(true);
+    setTimeout(() => {
+      setCharactersTooltipRightOpen(false);
+    }, 2000);
+  };
+  const handleCharactersTooltipRightClose = () => {
+    setCharactersTooltipRightOpen(false);
+  };
 
   return (
     <Paper sx={{ borderRadius: "0", background: muiTheme.palette.background.light }} elevation={16}>
@@ -124,28 +146,58 @@ export default function ChooseCharacterCard({
             }
           }}
         >
-          <SquareButton
-            onClick={() => {
-              if (charactersAmount === 1) return;
-              setImageLoaded(false);
-              previous();
+          <Tooltip
+            PopperProps={{
+              disablePortal: true
             }}
-            variant="contained"
-            sx={{ marginY: "auto", marginX: "auto" }}
+            onClose={handleCharactersTooltipLeftClose}
+            open={charactersTooltipLeftOpen}
+            disableFocusListener
+            disableHoverListener
+            disableTouchListener
+            title="Get more characters from the store!"
           >
-            <ChevronLeft fontSize="large" />
-          </SquareButton>
-          <SquareButton
-            onClick={() => {
-              if (charactersAmount === 1) return;
-              setImageLoaded(false);
-              next();
+            <SquareButton
+              onClick={() => {
+                if (charactersAmount === 1) {
+                  handleCharactersTooltipLeftOpen();
+                  return;
+                }
+                setImageLoaded(false);
+                previous();
+              }}
+              variant="contained"
+              sx={{ marginY: "auto", marginX: "auto" }}
+            >
+              <ChevronLeft fontSize="large" />
+            </SquareButton>
+          </Tooltip>
+          <Tooltip
+            PopperProps={{
+              disablePortal: true
             }}
-            variant="contained"
-            sx={{ marginY: "auto", marginX: "auto" }}
+            onClose={handleCharactersTooltipRightClose}
+            open={charactersTooltipRightOpen}
+            disableFocusListener
+            disableHoverListener
+            disableTouchListener
+            title="Get more characters from the store!"
           >
-            <ChevronRight fontSize="large" />
-          </SquareButton>
+            <SquareButton
+              onClick={() => {
+                if (charactersAmount === 1) {
+                  handleCharactersTooltipRightOpen();
+                  return;
+                }
+                setImageLoaded(false);
+                next();
+              }}
+              variant="contained"
+              sx={{ marginY: "auto", marginX: "auto" }}
+            >
+              <ChevronRight fontSize="large" />
+            </SquareButton>
+          </Tooltip>
         </Grid>
       </Grid>
     </Paper>
