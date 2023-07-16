@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
 import Dialog from "@mui/material/Dialog";
-import { DialogTitle, IconButton, ListItem, ListItemButton, ListItemText, Paper, Stack, useTheme } from "@mui/material";
+import {
+  DialogTitle,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Stack,
+  useTheme,
+  ClickAwayListener,
+  Tooltip
+} from "@mui/material";
 import { discord, twitter } from "@consts/data/Links";
 import { FaDiscord, FaTwitter } from "react-icons/fa";
 import MenuSlideTransition from "../MenuSlideTransition";
@@ -25,6 +36,22 @@ export default function GameMenu({
   openShop
 }: GameMenuProps) {
   const muiTheme = useTheme();
+
+  const [twitterCopied, setTwitterCopied] = useState(false);
+
+  const handleTwitterCopy = () => {
+    navigator.clipboard.writeText(twitter).catch((err) => {
+      console.error("Failed to copy to clipboard: ", err);
+    });
+    setTwitterCopied(true);
+    setTimeout(() => {
+      setTwitterCopied(false);
+    }, 1000);
+  };
+
+  const handleTwitterCopyReset = () => {
+    setTwitterCopied(false);
+  };
 
   return (
     <Dialog open={menuOpen} onClose={closeMenu} TransitionComponent={MenuSlideTransition} sx={{ width: "100%" }}>
@@ -79,13 +106,31 @@ export default function GameMenu({
             >
               <FaDiscord color="#5460E6" />
             </IconButton>
-            <IconButton
-              onClick={() => window.open(twitter, "_blank")}
-              size="large"
-              sx={{ "&:hover": { backgroundColor: muiTheme.palette.background.light } }}
-            >
-              <FaTwitter color="#1C98E5" />
-            </IconButton>
+            <ClickAwayListener onClickAway={handleTwitterCopyReset}>
+              <div>
+                <Tooltip
+                  PopperProps={{
+                    disablePortal: true
+                  }}
+                  onClose={handleTwitterCopyReset}
+                  open={twitterCopied}
+                  disableFocusListener
+                  disableHoverListener
+                  disableTouchListener
+                  title="Copied!"
+                >
+                  <IconButton
+                    onClick={() => {
+                      handleTwitterCopy();
+                    }}
+                    size="large"
+                    sx={{ "&:hover": { backgroundColor: muiTheme.palette.background.light } }}
+                  >
+                    <FaTwitter color="#1C98E5" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            </ClickAwayListener>
           </Stack>
         </ListItem>
         <ListItem sx={{ backgroundColor: muiTheme.palette.secondary.main }}>

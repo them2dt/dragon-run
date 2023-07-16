@@ -31,6 +31,9 @@ declare module "@mui/material/styles" {
 }
 
 const muiThemeProps = {
+  shape: {
+    borderRadius: 0
+  },
   palette: {
     primary: {
       light: theme.colors.cA,
