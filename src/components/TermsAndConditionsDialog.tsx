@@ -29,13 +29,13 @@ export default function TermsAndConditionsDialog({
           my: "auto"
         }}
       >
-        <Box sx={{ minHeight: "100vh", px: 4, py: 3 }}>
-          <Typography align="center" variant="body1" marginY={1} color={muiTheme.palette.text.secondary}>
+        <Box sx={{ minHeight: "100vh", px: 4, py: 3, [muiTheme.breakpoints.up("md")]: { maxWidth: 1200, mx: "auto" } }}>
+          <Typography align="center" variant="h6" marginY={1} color={muiTheme.palette.secondary.main}>
             Welcome to Dragon Run (&quot;the Game&quot;). By accessing or using the Game, you agree to be bound by the
             following terms and conditions (&quot;Terms&quot;). If you do not agree with any part of these Terms, you
             may not use the Game.
           </Typography>
-          <Typography align="center" variant="body1" marginY={1} color={muiTheme.palette.text.secondary}>
+          <Typography align="center" variant="h5" marginY={2} color={muiTheme.palette.text.secondary}>
             Last updated: July 16, 2023
           </Typography>
           <Typography align="center" variant="body1" marginY={0.6} color={muiTheme.palette.text.secondary}>

@@ -4,14 +4,15 @@ import EventKeys from "constants/EventKeys";
 import AnimatedPage from "components/animated/AnimatedPage";
 import OverlayWrapper from "components/OverlayWrapper";
 import AnimatedEnterTitle from "components/animated/AnimatedEnterTitle";
-import { Typography, useTheme } from "@mui/material";
+import { Typography, useTheme, Checkbox, Box } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
 import eventsCenter from "utils/eventsCenter";
 import AlertDialog from "components/AlertDialog";
 import { useFirestore } from "@context/useFirestore";
 import { getAuth } from "firebase/auth";
 import Loading from "./Loading";
-import { green } from "@mui/material/colors";
+import { green, grey } from "@mui/material/colors";
+import TermsAndConditionsDialog from "components/TermsAndConditionsDialog";
 
 interface EnterProps {
   userName: string;
@@ -27,13 +28,25 @@ export default function Enter({ userName }: EnterProps) {
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const [failedSignIn, setFailedSignIn] = useState(false);
   const [fullScreenDialogOpen, setFullScreenDialogOpen] = useState(false);
+  const [termsAndConditionsDialogOpen, setTermsAndConditionsDialogOpen] = useState(false);
+  const [termsAndConditionsAccepted, setTermsAndConditionsAccepted] = useState(false);
 
   const openFullScreenDialog = () => {
     setFullScreenDialogOpen(true);
   };
-
   const closeFullScreenDialog = () => {
     setFullScreenDialogOpen(false);
+  };
+
+  const openTermsAndConditionsDialog = () => {
+    setTermsAndConditionsDialogOpen(true);
+  };
+  const closeTermsAndConditionsDialog = () => {
+    setTermsAndConditionsDialogOpen(false);
+  };
+
+  const handleTermsAndConditionsAcceptedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTermsAndConditionsAccepted(event.target.checked);
   };
 
   const handleEnterClick = async () => {
@@ -116,6 +129,10 @@ export default function Enter({ userName }: EnterProps) {
           closeDialog={closeFullScreenDialog}
           acceptFunction={enterFullScreen}
         />
+        <TermsAndConditionsDialog
+          termsAndConditionsOpen={termsAndConditionsDialogOpen}
+          closeTermsAndConditions={closeTermsAndConditionsDialog}
+        />
         <div className="w-full h-full m-auto flex flex-col max-w-[1240px] text-center">
           <div className="h-auto my-auto">
             <AnimatedEnterTitle userName={userName} signedIn={!needsSignIn} failedSignIn={failedSignIn} />
@@ -131,13 +148,18 @@ export default function Enter({ userName }: EnterProps) {
                 minWidth: "200px",
                 py: "10px",
                 [muiTheme.breakpoints.up("sm")]: { minWidth: "300px", py: "14px" },
-                [muiTheme.breakpoints.up("md")]: { minWidth: "500px", py: "18px" }
+                [muiTheme.breakpoints.up("md")]: { minWidth: "500px", py: "18px" },
+                "&:disabled": {
+                  color: muiTheme.palette.text.secondary,
+                  backgroundColor: grey[500]
+                }
               }}
               onClick={() => {
                 handleEnterClick().catch((error) => {
                   console.log(error);
                 });
               }}
+              disabled={!needsSignIn && !termsAndConditionsAccepted}
             >
               <Typography
                 sx={{ fontSize: "2.2rem", [muiTheme.breakpoints.up("md")]: { fontSize: "3rem" } }}
@@ -148,6 +170,30 @@ export default function Enter({ userName }: EnterProps) {
                 {needsSignIn ? "Sign In" : "Enter"}
               </Typography>
             </SquareButton>
+            {!needsSignIn && (
+              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mt: 2, px: 2 }}>
+                <Checkbox
+                  checked={termsAndConditionsAccepted}
+                  onChange={handleTermsAndConditionsAcceptedChange}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+                <Typography
+                  noWrap
+                  color={termsAndConditionsAccepted ? muiTheme.palette.text.secondary : muiTheme.palette.secondary.main}
+                  component="h3"
+                >
+                  I accept the{" "}
+                  <span
+                    className="underline cursor-pointer"
+                    onClick={() => {
+                      openTermsAndConditionsDialog();
+                    }}
+                  >
+                    Terms and Conditions
+                  </span>
+                </Typography>
+              </Box>
+            )}
           </div>
         </div>
         {loading && (
