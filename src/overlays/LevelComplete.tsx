@@ -59,7 +59,7 @@ export default function LevelComplete({
                 minHeight: "70px",
                 py: "10px",
                 px: "20px",
-                [muiTheme.breakpoints.up("sm")]: { minWidth: "300px", minHeight: "80px" },
+                [muiTheme.breakpoints.up("sm")]: { minWidth: "300px", minHeight: "80px", px: "30px" },
                 [muiTheme.breakpoints.up("md")]: { minWidth: "400px", px: "40px" },
                 [muiTheme.breakpoints.up("lg")]: { mt: 3 }
               }}
@@ -69,7 +69,7 @@ export default function LevelComplete({
                 Play Again
               </Typography>
             </SquareButton>
-            <Typography variant="h6" sx={{ color: grey[400] }}>
+            <Typography variant="body1" sx={{ color: grey[400] }}>
               Press SPACE to Play Again
             </Typography>
           </div>
