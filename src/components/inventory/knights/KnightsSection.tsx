@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { useTheme, Grid, Card, Typography, Zoom, Stack, Box } from "@mui/material";
+import { useTheme, Grid, Card, Typography, Zoom, Stack, Box, Checkbox } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
 import KnightItem from "./KnightItem";
 import { useSolana } from "@context/useSolana";
@@ -8,9 +8,11 @@ import type KnightNFT from "types/KnightNFT";
 interface KnightsSectionProps {
   active: boolean;
   goToShop: () => void;
+  equippedKnight: string;
+  equipKnight: (name: string) => void;
 }
 
-export default function KnightsSection({ active, goToShop }: KnightsSectionProps) {
+export default function KnightsSection({ active, goToShop, equippedKnight, equipKnight }: KnightsSectionProps) {
   const muiTheme = useTheme();
   const { solana } = useSolana();
   const [ownedKnights, setOwnedKnights] = useState<KnightNFT[]>(solana.ownedKnights);
@@ -54,31 +56,52 @@ export default function KnightsSection({ active, goToShop }: KnightsSectionProps
             <KnightItem name={character.name} image={character.image} key={"knights" + character.name}>
               <Typography variant="h5">{character.name}</Typography>
               <Typography
-                variant="h6"
+                variant="body1"
                 sx={{
                   pb: 0.2,
                   pt: 0.3,
                   [muiTheme.breakpoints.up("lg")]: {
-                    pb: 1,
-                    pt: 2
+                    pb: 0.4,
+                    pt: 0.6
                   }
                 }}
                 color={muiTheme.palette.text.secondary}
               >
                 Traits:
               </Typography>
-              <Typography color={muiTheme.palette.text.secondary}>
+              <Typography variant="body2" color={muiTheme.palette.text.secondary}>
                 Head: {character.traits.head === "" ? "Default" : character.traits.head}
               </Typography>
-              <Typography color={muiTheme.palette.text.secondary}>
+              <Typography variant="body2" color={muiTheme.palette.text.secondary}>
                 Arms: {character.traits.arms === "" ? "Default" : character.traits.arms}
               </Typography>
-              <Typography color={muiTheme.palette.text.secondary}>
+              <Typography variant="body2" color={muiTheme.palette.text.secondary}>
                 Torso: {character.traits.torso === "" ? "Default" : character.traits.torso}
               </Typography>
-              <Typography color={muiTheme.palette.text.secondary}>
+              <Typography variant="body2" color={muiTheme.palette.text.secondary}>
                 Legs: {character.traits.legs === "" ? "Default" : character.traits.legs}
               </Typography>
+              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "start", ml: -1, my: -0.4 }}>
+                <Checkbox
+                  checked={equippedKnight === character.name}
+                  onChange={() => {
+                    equipKnight(character.name);
+                  }}
+                  inputProps={{ "aria-label": "controlled" }}
+                  sx={{
+                    color: muiTheme.palette.text.secondary
+                  }}
+                />
+                <Typography
+                  noWrap
+                  color={
+                    equippedKnight === character.name ? muiTheme.palette.primary.main : muiTheme.palette.text.secondary
+                  }
+                  component="h3"
+                >
+                  Equipped
+                </Typography>
+              </Box>
             </KnightItem>
           ))}
         </Grid>

@@ -16,7 +16,11 @@ import InventoryDialog from "components/inventory/InventoryDialog";
 import PreGameDialog from "components/PreGameDialog";
 import { useSolana } from "@context/useSolana";
 
-export default function Home() {
+interface HomeProps {
+  userName?: string;
+}
+
+export default function Home({ userName }: HomeProps): JSX.Element {
   const muiTheme = useTheme();
   const { solanaFunctions } = useSolana();
   const [shopOpen, setShopOpen] = useState(false);
@@ -26,6 +30,7 @@ export default function Home() {
   const [preGameOpen, setPreGameOpen] = useState(false);
   // 0 = Mint, 1 = Shop
   const [defaultTab, setDefaultTab] = useState<number | undefined>(undefined);
+  const [equippedKnight, setEquippedKnight] = useState("");
 
   const openSettings = () => {
     setSettingsOpen(true);
@@ -71,6 +76,11 @@ export default function Home() {
     setShopOpen(true);
   };
 
+  const equipKnight = (knight: string) => {
+    setEquippedKnight(knight);
+    localStorage.setItem("equippedKnight", JSON.stringify({ knight, userName }));
+  };
+
   useEffect(() => {
     eventsCenter.on(EventKeys.OpenChooseCharacter, () => {
       setPreGameOpen(true);
@@ -90,13 +100,35 @@ export default function Home() {
     });
   }, [shopOpen]);
 
+  useEffect(() => {
+    const equippedKnight = localStorage.getItem("equippedKnight");
+    if (equippedKnight) {
+      const equippedKnightParsed = JSON.parse(equippedKnight);
+      if (equippedKnightParsed.userName === userName) {
+        setEquippedKnight(equippedKnightParsed.knight);
+      }
+    }
+  }, [userName]);
+
   return (
     <AnimatedPage>
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
-        <PreGameDialog preGameOpen={preGameOpen} closePreGame={closeChooseCharacter} openShop={goToShop} />
-        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} openShop={goToShop} />
+        <PreGameDialog
+          preGameOpen={preGameOpen}
+          closePreGame={closeChooseCharacter}
+          openShop={goToShop}
+          equippedKnight={equippedKnight}
+          equipKnight={equipKnight}
+        />
+        <InventoryDialog
+          inventoryOpen={inventoryOpen}
+          closeInventory={closeInventory}
+          openShop={goToShop}
+          equippedKnight={equippedKnight}
+          equipKnight={equipKnight}
+        />
         <ShopDialog shopOpen={shopOpen} closeShop={closeShop} defaultTab={defaultTab} />
         <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">

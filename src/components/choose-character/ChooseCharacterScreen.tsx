@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import EventKeys from "constants/EventKeys";
 import { Paper, Stack, Typography, useTheme, Box, Zoom } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
@@ -11,9 +11,17 @@ interface ChooseCharacterScreenProps {
   active: boolean;
   openShop: () => void;
   handleLoading: () => void;
+  equippedKnight: string;
+  equipKnight: (name: string) => void;
 }
 
-export default function ChooseCharacterScreen({ active, openShop, handleLoading }: ChooseCharacterScreenProps) {
+export default function ChooseCharacterScreen({
+  active,
+  openShop,
+  handleLoading,
+  equippedKnight,
+  equipKnight
+}: ChooseCharacterScreenProps) {
   const muiTheme = useTheme();
   const { solana } = useSolana();
 
@@ -39,10 +47,23 @@ export default function ChooseCharacterScreen({ active, openShop, handleLoading 
 
   const handleConfirm = () => {
     handleLoading();
+    equipKnight(ownedKnights[characterIndex].name);
     setTimeout(() => {
       loadCharacter(solana.ownedKnights[characterIndex].spritesheet, EventKeys.GoToGame);
     }, 600);
   };
+
+  useEffect(() => {
+    // set the equipped knight to the first one in the list
+    if (ownedKnights.length > 0) {
+      for (let i = 0; i < ownedKnights.length; i++) {
+        if (ownedKnights[i].name === equippedKnight) {
+          setCharacterIndex(i);
+          break;
+        }
+      }
+    }
+  }, [active]);
 
   return (
     <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>

@@ -10,9 +10,17 @@ interface PreGameDialogProps {
   preGameOpen: boolean;
   closePreGame: () => void;
   openShop: () => void;
+  equippedKnight: string;
+  equipKnight: (knight: string) => void;
 }
 
-export default function PreGameDialog({ preGameOpen, closePreGame, openShop }: PreGameDialogProps) {
+export default function PreGameDialog({
+  preGameOpen,
+  closePreGame,
+  openShop,
+  equippedKnight,
+  equipKnight
+}: PreGameDialogProps) {
   const muiTheme = useTheme();
   const [screen, setScreen] = useState(PreGameScreens.ChooseLevel);
   const [screenTitle, setScreenTitle] = useState("Choose Level");
@@ -74,6 +82,8 @@ export default function PreGameDialog({ preGameOpen, closePreGame, openShop }: P
             active={screen === PreGameScreens.ChooseCharacter}
             openShop={openShop}
             handleLoading={handleLoading}
+            equippedKnight={equippedKnight}
+            equipKnight={equipKnight}
           />
           <LoadingScreen active={screen === PreGameScreens.Loading} />
         </Box>

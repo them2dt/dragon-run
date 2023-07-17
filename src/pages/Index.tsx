@@ -126,7 +126,7 @@ export default function Index(): JSX.Element {
       {overlay === OverlayKeys.None && null}
       {overlay === OverlayKeys.Preloader ? <Loading /> : null}
       {overlay === OverlayKeys.Enter ? <Enter userName={userName} /> : null}
-      {overlay === OverlayKeys.Home ? <Home /> : null}
+      {overlay === OverlayKeys.Home ? <Home userName={userName} /> : null}
       {overlay === OverlayKeys.Game || overlay === OverlayKeys.GameOver || overlay === OverlayKeys.LevelComplete ? (
         <Game />
       ) : null}
