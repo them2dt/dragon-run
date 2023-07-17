@@ -6,9 +6,10 @@ interface KnightItemProps {
   name: string;
   image: string;
   children?: React.ReactNode;
+  equipped?: boolean;
 }
 
-export default function KnightItem({ name, image, children }: KnightItemProps) {
+export default function KnightItem({ name, image, children, equipped }: KnightItemProps) {
   const muiTheme = useTheme();
 
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -21,7 +22,9 @@ export default function KnightItem({ name, image, children }: KnightItemProps) {
       md={5}
       sx={{
         m: 2,
-        width: "fit-content"
+        width: "fit-content",
+        borderWidth: equipped ? 2 : 0,
+        borderColor: muiTheme.palette.secondary.main
       }}
     >
       <Grid

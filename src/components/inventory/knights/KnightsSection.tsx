@@ -53,7 +53,12 @@ export default function KnightsSection({ active, goToShop, equippedKnight, equip
             </Typography>
           </Grid>
           {ownedKnights.map((character: KnightNFT) => (
-            <KnightItem name={character.name} image={character.image} key={"knights" + character.name}>
+            <KnightItem
+              name={character.name}
+              image={character.image}
+              key={"knights" + character.name}
+              equipped={equippedKnight === character.name}
+            >
               <Typography variant="h5">{character.name}</Typography>
               <Typography
                 variant="body1"
