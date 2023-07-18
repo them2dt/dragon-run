@@ -1,7 +1,6 @@
 import * as Phaser from "phaser";
 import TextureKeys from "../../../constants/TextureKeys";
 import AnimationKeys from "../../../constants/AnimationKeys";
-import SceneKeys from "../../../constants/SceneKeys";
 import type CaveScene from "../../scenes/CaveScene";
 import CameraFollowing from "../../../constants/CameraFollowing";
 import PlayerState from "../../../constants/players/PlayerState";
@@ -27,7 +26,6 @@ export default class Player extends Phaser.GameObjects.Container {
   private playerRun1Sound!: Phaser.Sound.BaseSound;
   private levelCompleteSound!: Phaser.Sound.BaseSound;
 
-  private currentScene!: SceneKeys;
   private scenePlayerSpawnX = 0;
   private sceneLevelCompleteX = 0;
   private sceneMinCompleteTime = 0;
@@ -56,11 +54,7 @@ export default class Player extends Phaser.GameObjects.Container {
   private playerAbility = PlayerAbility.None;
 
   private checkScene() {
-    let scene = null;
-    if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
-      this.currentScene = SceneKeys.CaveScene;
-      scene = this.scene as CaveScene;
-    }
+    const scene = this.scene as CaveScene;
 
     if (scene) {
       this.scenePlayerSpawnX = scene.playerSpawnX;
@@ -208,13 +202,7 @@ export default class Player extends Phaser.GameObjects.Container {
       repeat: 0
     });
 
-    let scene = null;
-
-    if (this.currentScene === SceneKeys.CaveScene) {
-      scene = this.scene as CaveScene;
-    } else {
-      return;
-    }
+    const scene = this.scene as CaveScene;
 
     const cameraFollowing = scene.cameraFollowing;
 
@@ -238,21 +226,11 @@ export default class Player extends Phaser.GameObjects.Container {
   }
 
   public levelComplete() {
-    if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
-      this.currentScene = SceneKeys.CaveScene;
-    }
-
     if (this.playerState !== PlayerState.Alive) {
       return;
     }
 
-    let scene = null;
-
-    if (this.currentScene === SceneKeys.CaveScene) {
-      scene = this.scene as CaveScene;
-    } else {
-      return;
-    }
+    const scene = this.scene as CaveScene;
 
     this.levelCompleteSound.play({ volume: 0.5 });
 
@@ -391,11 +369,8 @@ export default class Player extends Phaser.GameObjects.Container {
       }
 
       case PlayerState.Dead: {
-        if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
-          this.currentScene = SceneKeys.CaveScene;
-          const caveScene = this.scene as CaveScene;
-          caveScene.music.stop();
-        }
+        const scene = this.scene as CaveScene;
+        scene.music.stop();
 
         if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
           eventsCenter.emit(EventKeys.RestartGame);
@@ -404,11 +379,9 @@ export default class Player extends Phaser.GameObjects.Container {
       }
 
       case PlayerState.LevelComplete: {
-        if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
-          this.currentScene = SceneKeys.CaveScene;
-          const caveScene = this.scene as CaveScene;
-          caveScene.music.stop();
-        }
+        const scene = this.scene as CaveScene;
+        scene.music.stop();
+
         if (body.velocity.x > 20) {
           this.defaultCharacter.play(AnimationKeys.CharacterRunningRight, true);
           this.defaultCharacter.setFlipX(false);

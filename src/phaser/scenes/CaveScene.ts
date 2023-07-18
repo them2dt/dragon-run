@@ -1,6 +1,5 @@
 import * as Phaser from "phaser";
 import TextureKeys from "constants/TextureKeys";
-import SceneKeys from "constants/SceneKeys";
 import Player from "../components/players/Player";
 import SmallDragon from "../components/enemies/SmallDragon";
 import RedDragon from "../components/enemies/RedDragon";
@@ -91,8 +90,8 @@ export default class CaveScene extends Phaser.Scene {
   public scoreMultiplier = 1;
   public playerSpawnX = 134;
 
-  constructor() {
-    super(SceneKeys.CaveScene);
+  constructor(sceneKey: string) {
+    super(sceneKey);
     this.animatedTiles = [];
   }
 

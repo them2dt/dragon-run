@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import * as Phaser from "phaser";
 import { useOverlay } from "@context/useOverlay";
 import Preloader from "../../phaser/scenes/Preloader";
-import CaveScene from "../../phaser/scenes/CaveScene";
 import GameOver from "../../phaser/scenes/GameOver";
 import HomeScene from "../../phaser/scenes/HomeScene";
+import Level1Scene from "phaser/scenes/Level1Scene";
 import CharacterLoader from "phaser/scenes/CharacterLoader";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
@@ -23,7 +23,7 @@ export default function PhaserGame() {
         debug: false
       }
     },
-    scene: [Preloader, CharacterLoader, EnterScene, HomeScene, CaveScene, GameOver],
+    scene: [Preloader, CharacterLoader, EnterScene, HomeScene, Level1Scene, GameOver],
     scale: {
       mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -82,7 +82,7 @@ export default function PhaserGame() {
         phaserGame.anims.remove(animation.key);
       });
 
-      phaserGame.scene.start(SceneKeys.CaveScene);
+      phaserGame.scene.start(SceneKeys.Level1Scene);
       setOverlay(OverlayKeys.Game);
     });
 
