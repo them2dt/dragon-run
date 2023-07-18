@@ -18,11 +18,12 @@ import PlayerSoundEffectKeys from "constants/audio/PlayerSoundEffectKeys";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
 import MiscSoundEffectKeys from "@consts/audio/MiscSoundEffectKeys";
+import handleZoom from "phaser/utils/handleZoom";
 
 export default class CaveScene extends Phaser.Scene {
   public levelNumber = 1;
 
-  private device: Device = Device.Desktop;
+  public device: Device = Device.Desktop;
 
   public music!: Phaser.Sound.BaseSound;
   private lavaBackground1Sound!: Phaser.Sound.BaseSound;
@@ -78,11 +79,11 @@ export default class CaveScene extends Phaser.Scene {
   private bg3!: Phaser.GameObjects.Image;
 
   private mainScale = 2.4;
-  private defaultZoom = 1;
-  private zoom = 1;
+  public defaultZoom = 1;
+  public zoom = 1;
 
   public cameraFollowing: CameraFollowing = CameraFollowing.Player;
-  private dragonCameraOffset!: number;
+  public dragonCameraOffset!: number;
 
   public levelCompleteX = 4850;
   public maxCompleteTime = 220;
@@ -96,7 +97,7 @@ export default class CaveScene extends Phaser.Scene {
   }
 
   public resize() {
-    this.handleZoom();
+    handleZoom(this);
 
     this.handleBGScale();
   }
@@ -202,7 +203,7 @@ export default class CaveScene extends Phaser.Scene {
     );
 
     this.cameras.main.removeBounds();
-    this.handleZoom();
+    handleZoom(this);
 
     this.handleBGScale();
 
@@ -526,93 +527,5 @@ export default class CaveScene extends Phaser.Scene {
   private handleBGScale = () => {
     const height = this.scale.height;
     this.bg1.scale = height * 0.011;
-  };
-
-  public handleZoom = () => {
-    const width = this.scale.width;
-    const height = this.scale.height;
-
-    if (width >= 1000) {
-      this.device = Device.Desktop;
-      switch (true) {
-        case width < 1200:
-          this.zoom = 0.6;
-          break;
-        case width < 1400:
-          this.zoom = 0.6;
-          break;
-        case width < 1600:
-          this.zoom = 0.7;
-          break;
-        case width >= 1600:
-          this.zoom = 0.7;
-          break;
-      }
-    } else if (width < height) {
-      this.device = Device.MobilePortrait;
-      switch (true) {
-        case width < 400:
-          this.zoom = 0;
-          break;
-        case width < 500:
-          this.zoom = 0.2;
-          break;
-        case width < 600:
-          this.zoom = 0.5;
-          break;
-        case width < 1000:
-          this.zoom = 0.7;
-          break;
-      }
-    } else {
-      this.device = Device.MobileLandscape;
-      switch (true) {
-        case height < 300:
-          this.zoom = -0.2;
-          break;
-        case height < 400:
-          this.zoom = -0.1;
-          break;
-        case height < 500:
-          this.zoom = 0;
-          break;
-        case height < 600:
-          this.zoom = 0.1;
-          break;
-        case height < 800:
-          this.zoom = 0.2;
-          break;
-        case height < 1000:
-          this.zoom = 0.3;
-          break;
-        case height < 1200:
-          this.zoom = 0.3;
-          break;
-        case height < 1400:
-          this.zoom = 0.4;
-          break;
-        case height < 1600:
-          this.zoom = 0.5;
-          break;
-        case height >= 1600:
-          this.zoom = 0.6;
-          break;
-      }
-    }
-
-    switch (this.device) {
-      case Device.MobilePortrait:
-        this.dragonCameraOffset = -(width * 0.3) + (-200 + 210 * (this.defaultZoom + this.zoom));
-        break;
-      case Device.MobileLandscape:
-        this.dragonCameraOffset = -(width * 0.5) + (-240 + 380 * (this.defaultZoom + this.zoom));
-        break;
-      case Device.Desktop:
-        this.dragonCameraOffset = -(width * 0.3) + (-200 + 210 * (this.defaultZoom + this.zoom));
-    }
-
-    if (this.cameras.main) {
-      this.cameras.main.setZoom(this.defaultZoom + this.zoom);
-    }
   };
 }
