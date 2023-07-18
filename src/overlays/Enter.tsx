@@ -56,13 +56,7 @@ export default function Enter({ userName }: EnterProps) {
       eventsCenter.emit(EventKeys.GoToHome);
       return;
     }
-    if (firestoreData?.firestore?.app == null) {
-      console.log("Firestore not initialized");
-      setFailedSignIn(true);
-      setLoading(false);
-      return;
-    }
-    const auth = getAuth(firestoreData?.firestore?.app);
+    const auth = getAuth();
     if (auth.currentUser?.uid === userName) {
       setAuthorised(true);
       console.log("User already signed in");
@@ -99,7 +93,7 @@ export default function Enter({ userName }: EnterProps) {
   };
 
   useEffect(() => {
-    const auth = getAuth(firestoreData?.firestore?.app);
+    const auth = getAuth();
     if (auth.currentUser?.uid === userName) {
       setAuthorised(true);
     } else {

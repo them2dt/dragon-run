@@ -9,7 +9,6 @@ import Loading from "overlays/Loading";
 import { useFirestore } from "@context/useFirestore";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "@consts/EventKeys";
-import { onSnapshot, doc } from "firebase/firestore";
 import Enter from "overlays/Enter";
 import { useSolana } from "@context/useSolana";
 import LevelComplete from "overlays/LevelComplete";
@@ -26,21 +25,13 @@ export default function Index(): JSX.Element {
   const [scoreBeforeBonus, setScoreBeforeBonus] = useState<number>(0);
   const [time, setTime] = useState<number>(0);
   const [timeBonus, setTimeBonus] = useState<number>(0);
-
-  useEffect(() => {
-    const initializeFirestore = () => {
-      if (firestoreData?.firestore == null) {
-        firestoreFunctions.initializeFirestore();
-      }
-    };
-    initializeFirestore();
-  }, [firestoreData?.firestore]);
+  const [levelCompleted, setLevelCompleted] = useState<number>(0);
 
   useEffect(() => {
     if (firestoreData?.leaderboard == null) {
       firestoreFunctions.getLeaderboard();
     }
-  }, [firestoreData?.firestore, firestoreData?.leaderboard]);
+  }, [firestoreData?.leaderboard]);
 
   useMemo(() => {
     const initializeUserData = () => {
@@ -74,41 +65,25 @@ export default function Index(): JSX.Element {
     eventsCenter.on(EventKeys.UpdateEndScore, (score: number) => {
       setNewScore(score);
     });
-    eventsCenter.on(EventKeys.UpdateLevelCompleteData, ({ score, time, timeBonus, total }: LevelCompleteData) => {
-      setScoreBeforeBonus(score);
-      setTime(time);
-      setTimeBonus(timeBonus);
-      setNewScore(total);
-    });
+    eventsCenter.on(
+      EventKeys.UpdateLevelCompleteData,
+      ({ level, score, time, timeBonus, total }: LevelCompleteData) => {
+        setLevelCompleted(level);
+        setScoreBeforeBonus(score);
+        setTime(time);
+        setTimeBonus(timeBonus);
+        setNewScore(total);
+      }
+    );
     eventsCenter.on(EventKeys.GoToGame, () => {
       setNewHighScore(0);
     });
     return () => {
       eventsCenter.off(EventKeys.UpdateEndScore);
+      eventsCenter.off(EventKeys.UpdateLevelCompleteData);
       eventsCenter.off(EventKeys.GoToGame);
     };
   }, []);
-
-  useEffect(() => {
-    if (firestoreData?.firestore == null) {
-      return;
-    }
-    const unsubscribe = onSnapshot(doc(firestoreData?.firestore, "leaderboard", "highScores"), () => {
-      firestoreFunctions.getLeaderboard();
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [firestoreData?.firestore]);
-
-  useEffect(() => {
-    if (firestoreData?.firestore == null) {
-      return;
-    }
-    if (overlay === OverlayKeys.Home || overlay === OverlayKeys.Game) {
-      firestoreFunctions.getLeaderboard();
-    }
-  }, [overlay]);
 
   useEffect(() => {
     if (window?.xnft == null || window?.xnft?.metadata == null || window?.xnft?.metadata?.username == null) {
@@ -137,6 +112,7 @@ export default function Index(): JSX.Element {
           time={time}
           timeBonus={timeBonus}
           newHighScore={newHighScore}
+          levelCompleted={levelCompleted}
         />
       ) : null}
       <PhaserGame />

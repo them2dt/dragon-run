@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import type FirestoreData from "@firestore/FirestoreData";
 import type UserData from "@firestore/UserData";
 import {
@@ -11,7 +11,8 @@ import {
   getDocs,
   setDoc,
   Timestamp,
-  updateDoc
+  updateDoc,
+  onSnapshot
 } from "firebase/firestore";
 import { browserLocalPersistence, getAuth, setPersistence, signInWithCustomToken } from "firebase/auth";
 import { getFunctions, httpsCallable } from "firebase/functions";
@@ -28,11 +29,11 @@ interface FirestoreCallableFunctions {
 interface FirestoreContextType {
   firestoreData: FirestoreData | null;
   firestoreFunctions: {
-    initializeFirestore: () => void;
     initializeUserData: (userName: string) => void;
-    getUserData: (userName: string) => void;
+    getUserData: (userName?: string) => void;
     getLeaderboard: () => void;
     newHighScore: (score: number) => void;
+    levelComplete: (levelNumber: number) => void;
     signInWithToken: (token: string) => Promise<void>;
     signOut: () => void;
   };
@@ -45,7 +46,6 @@ interface FirestoreProviderProps {
 }
 
 const defaultFirestoreData: FirestoreData = {
-  firestore: null,
   userData: null,
   leaderboard: null
 };
@@ -56,22 +56,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   const [firestoreData, setFirestoreData] = useState<FirestoreData>(defaultFirestoreData);
   const [firestoreCallableFunctions, setFirestoreCallableFunctions] = useState<FirestoreCallableFunctions | null>(null);
 
-  const initializeFirestore = async () => {
-    if (firestoreData?.firestore != null) {
-      return;
-    }
-    const db = getFirestore(firestore);
-    if (db == null) {
-      return;
-    }
-    if (firestoreData != null) {
-      setFirestoreData({
-        firestore: db,
-        userData: firestoreData?.userData ?? null,
-        leaderboard: firestoreData?.leaderboard ?? null
-      });
-    }
-  };
+  const db = getFirestore(firestore);
 
   const signInWithToken = async (token: string) => {
     const auth = getAuth();
@@ -101,17 +86,15 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     });
   };
 
-  const getUserData = async (userName: string) => {
+  const getUserData = async (userName?: string) => {
     if (userName === "") {
       return;
     }
-    let db = firestoreData?.firestore;
-    if (db == null) {
-      await initializeFirestore();
-      db = firestoreData?.firestore;
+    if (userName == null) {
+      userName = firestoreData?.userData?.userName;
     }
-    if (db == null) {
-      return;
+    if (userName == null) {
+      throw new Error("Failed to get user data: userName is null");
     }
     const auth = getAuth();
     const user = auth.currentUser;
@@ -120,10 +103,10 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     }
     const uid = user.uid;
     if (uid === "") {
-      console.log("User is not signed in!");
+      throw new Error("Failed to get user data: User is not signed in!");
     } else if (uid !== userName) {
-      console.log("Signed in user does not match user name!");
       await signOut();
+      throw new Error("Failed to get user data: Signed in user does not match user name!");
     }
     const userDataDoc = doc(db, "users", userName);
     const userData = await getDoc(userDataDoc);
@@ -131,20 +114,12 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       return;
     }
     setFirestoreData({
-      firestore: firestoreData?.firestore ?? null,
       userData: userData.data() as UserData,
       leaderboard: firestoreData?.leaderboard ?? null
     });
   };
 
   const getLeaderboard = async () => {
-    const db = firestoreData?.firestore;
-    if (db == null) {
-      await initializeFirestore();
-    }
-    if (db == null) {
-      return;
-    }
     const highScoresDocRef = doc(db, "leaderboard", "highScores");
     const highScoresDoc = await getDoc(highScoresDocRef);
     if (!isHighScoresDoc(highScoresDoc.data())) {
@@ -160,7 +135,6 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     }
 
     setFirestoreData({
-      firestore: firestoreData?.firestore ?? null,
       userData: firestoreData?.userData ?? null,
       leaderboard
     });
@@ -168,14 +142,6 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
 
   const initializeUserData = async (userName: string) => {
     if (userName === "") {
-      return;
-    }
-    let db = firestoreData?.firestore;
-    if (db == null) {
-      await initializeFirestore();
-      db = firestoreData?.firestore;
-    }
-    if (db == null) {
       return;
     }
     if (firestoreData?.userData?.userName === userName) {
@@ -194,36 +160,25 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
 
   const createUser = async (userName: string) => {
     if (userName === "") {
-      return;
-    }
-    let db = firestoreData?.firestore;
-    if (db == null) {
-      await initializeFirestore();
-      db = firestoreData?.firestore;
-    }
-    if (db == null) {
-      return;
+      throw new Error("Failed to create user: userName is null!");
     }
     const auth = getAuth();
     const user = auth.currentUser;
     if (user == null) {
-      console.log("User is not signed in!");
-      return;
+      throw new Error("Failed to create user: User is not signed in!");
     }
     const uid = user.uid;
     if (uid === "") {
-      console.log("User is not signed in!");
-      return;
+      throw new Error("Failed to create user: User is not signed in!");
     } else if (uid !== userName) {
-      console.log("Signed in user does not match user name!");
       await signOut();
-      return;
+      throw new Error("Failed to create user: Signed in user does not match user name!");
     }
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("userName", "==", userName));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.size >= 1) {
-      console.log("User already exists!");
+      console.log("Failed to create user: User already exists!");
     } else if (querySnapshot.size === 0) {
       const newUser: UserData = {
         userName,
@@ -233,58 +188,76 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
         levelsCompleted: 0
       };
       await setDoc(doc(db, "users", userName), newUser);
-
-      await getUserData(userName);
     }
   };
 
   const newHighScore = async (highScore: number) => {
-    let db = firestoreData?.firestore;
-    if (db == null) {
-      await initializeFirestore();
-      db = firestoreData?.firestore;
-    }
-    if (db == null) {
-      return;
-    }
     if (firestoreData?.userData == null) {
-      return;
+      throw new Error("Failed to update high score: userData is null");
     }
     if (firestoreData?.userData?.userName == null) {
-      return;
+      throw new Error("Failed to update high score: userName is null");
     }
     if (highScore === 0) {
-      return;
+      throw new Error("Failed to update high score: highScore cannot be 0");
     }
     if (firestoreData?.userData?.highScore === null) {
-      return;
+      throw new Error("Failed to update high score: highScore is null");
     }
     if (highScore <= firestoreData?.userData?.highScore) {
-      return;
+      console.log("Failed to update high score: New high score is not higher than current high score");
     }
     const userName = firestoreData?.userData?.userName;
     const auth = getAuth();
     const user = auth.currentUser;
     if (user == null) {
-      console.log("User is not signed in!");
-      return;
+      throw new Error("Failed to update high score: User is not signed in!");
     }
     const uid = user.uid;
     if (uid === "") {
-      console.log("User is not signed in!");
-      return;
+      throw new Error("Failed to update high score: User is not signed in!");
     } else if (uid !== userName) {
-      console.log("Signed in user does not match user name!");
       await signOut();
-      return;
+      throw new Error("Failed to update high score: Signed in user does not match user name!");
     }
     const updatedData = {
       highScore,
       scoredAt: Timestamp.now()
     };
     await updateDoc(doc(db, "users", userName), updatedData);
+  };
 
-    await getUserData(userName);
+  const levelComplete = async (levelNumber: number) => {
+    console.log("levelComplete ", levelNumber);
+    console.log("firestoreData ", firestoreData);
+    if (firestoreData?.userData?.userName == null) {
+      throw new Error("Failed to update completed levels: userName is null");
+    }
+    if (firestoreData?.userData?.levelsCompleted === null) {
+      throw new Error("Failed to update completed levels: levelsCompleted is null");
+    }
+    if (firestoreData?.userData?.levelsCompleted >= levelNumber) {
+      console.log("Failed to update completed levels: Already completed this level");
+      return;
+    }
+    const userName = firestoreData?.userData?.userName;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user == null) {
+      throw new Error("Failed to update completed levels: User is not signed in!");
+    }
+    const uid = user.uid;
+    if (uid === "") {
+      throw new Error("Failed to update completed levels: User is not signed in!");
+    } else if (uid !== userName) {
+      await signOut();
+      throw new Error("Failed to update completed levels: Signed in user does not match user name!");
+    }
+    console.log("Updating levelsCompleted to ", levelNumber);
+    const updatedData = {
+      levelsCompleted: levelNumber
+    };
+    await updateDoc(doc(db, "users", userName), updatedData);
   };
 
   useMemo(() => {
@@ -348,12 +321,47 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (firestoreData?.userData?.userName == null) {
+      return;
+    }
+    const userName = firestoreData?.userData?.userName;
+    const unsubscribe = onSnapshot(doc(db, "users", userName), (doc) => {
+      if (!doc.exists()) {
+        console.log("No such document!");
+        return;
+      }
+      const userData = doc.data() as UserData;
+      if (userData == null) {
+        return;
+      }
+      setFirestoreData({
+        userData,
+        leaderboard: firestoreData?.leaderboard ?? null
+      });
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(db, "leaderboard", "highScores"), () => {
+      getLeaderboard().catch((err) => {
+        console.log("Error getting leaderboard: ", err.message);
+      });
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   const firestoreFunctions = {
-    initializeFirestore,
     initializeUserData,
     getUserData,
     getLeaderboard,
     newHighScore,
+    levelComplete,
     signInWithToken,
     signOut
   };

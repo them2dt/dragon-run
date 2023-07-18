@@ -1,4 +1,5 @@
 interface LevelCompleteData {
+  level: number;
   score: number;
   time: number;
   timeBonus: number;

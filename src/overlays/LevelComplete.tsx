@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
 import OverlayWrapper from "components/OverlayWrapper";
@@ -7,21 +7,30 @@ import AnimatedNewHighScoreTitle from "components/animated/AnimatedNewHighScoreT
 import { Typography, useTheme, Box } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
 import { grey } from "@mui/material/colors";
+import { useFirestore } from "@context/useFirestore";
 
 interface LevelCompleteProps {
   scoreBeforeBonus: number;
   time: number;
   timeBonus: number;
   newHighScore: number;
+  levelCompleted: number;
 }
 
 export default function LevelComplete({
   newHighScore,
   scoreBeforeBonus,
   time,
-  timeBonus
+  timeBonus,
+  levelCompleted
 }: LevelCompleteProps): JSX.Element {
   const muiTheme = useTheme();
+  const { firestoreFunctions } = useFirestore();
+
+  useMemo(() => {
+    firestoreFunctions.levelComplete(levelCompleted);
+  }, [levelCompleted]);
+
   return (
     <AnimatedPageDelayed>
       <OverlayWrapper className=" bg-black overflow-hidden">
@@ -29,7 +38,7 @@ export default function LevelComplete({
           <div className="mx-auto my-auto">
             {newHighScore > 0 && <AnimatedNewHighScoreTitle text="New High Score!!!" className="mx-auto" />}
             <Typography variant="h2" sx={{ color: muiTheme.palette.secondary.main, my: 2 }}>
-              Level Complete!
+              Level {levelCompleted} Complete!
             </Typography>
             <Box sx={{ my: 1 }}>
               <Typography variant="h6" sx={{ color: grey[200] }}>

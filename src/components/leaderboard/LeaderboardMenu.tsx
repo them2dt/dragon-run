@@ -27,17 +27,8 @@ interface LeaderboardMenuProps {
 
 export default function LeaderboardMenu({ leaderboardOpen, closeLeaderboard }: LeaderboardMenuProps) {
   const muiTheme = useTheme();
-  const { firestoreData, firestoreFunctions } = useFirestore();
+  const { firestoreData } = useFirestore();
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[] | []>([]);
-
-  useMemo(() => {
-    if (firestoreData?.firestore == null) {
-      firestoreFunctions.initializeFirestore();
-    }
-    if (firestoreData?.leaderboard == null) {
-      firestoreFunctions.getLeaderboard();
-    }
-  }, [firestoreData?.firestore]);
 
   useMemo(() => {
     if (firestoreData?.leaderboard != null) {

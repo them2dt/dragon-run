@@ -248,6 +248,7 @@ export default class Player extends Phaser.GameObjects.Container {
     }
 
     const levelCompleteData: LevelCompleteData = {
+      level: scene.levelNumber,
       score: this.score,
       time: this.time,
       timeBonus: this.timeBonus,
