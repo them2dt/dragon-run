@@ -6,6 +6,7 @@ import loadCharacter from "utils/loadCharacter";
 import ChooseCharacterCard from "./ChooseCharacterCard";
 import { useSolana } from "@context/useSolana";
 import type KnightNFT from "types/KnightNFT";
+import type SceneKeys from "@consts/SceneKeys";
 
 interface ChooseCharacterScreenProps {
   active: boolean;
@@ -13,6 +14,8 @@ interface ChooseCharacterScreenProps {
   handleLoading: () => void;
   equippedKnight: string;
   equipKnight: (name: string) => void;
+  selectedLevel: number;
+  selectedSceneKey: SceneKeys;
 }
 
 export default function ChooseCharacterScreen({
@@ -20,7 +23,9 @@ export default function ChooseCharacterScreen({
   openShop,
   handleLoading,
   equippedKnight,
-  equipKnight
+  equipKnight,
+  selectedLevel,
+  selectedSceneKey
 }: ChooseCharacterScreenProps) {
   const muiTheme = useTheme();
   const { solana } = useSolana();
@@ -49,7 +54,10 @@ export default function ChooseCharacterScreen({
     handleLoading();
     equipKnight(ownedKnights[characterIndex].name);
     setTimeout(() => {
-      loadCharacter(solana.ownedKnights[characterIndex].spritesheet, EventKeys.GoToGame);
+      loadCharacter(solana.ownedKnights[characterIndex].spritesheet, EventKeys.GoToGame, {
+        levelNumber: selectedLevel,
+        levelSceneKey: selectedSceneKey
+      });
     }, 600);
   };
 

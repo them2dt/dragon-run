@@ -48,11 +48,12 @@ export default function PhaserGame() {
   useEffect(() => {
     const phaserGame = new Phaser.Game(config);
 
-    eventsCenter.on(EventKeys.LoadCharacter, ({ characterLink, nextEventKey }: LoadCharacterProps) => {
+    eventsCenter.on(EventKeys.LoadCharacter, ({ characterLink, nextEventKey, nextEventProps }: LoadCharacterProps) => {
       const data = {
         values: {
           characterLink,
-          nextEventKey
+          nextEventKey,
+          nextEventProps
         }
       };
       phaserGame.scene.start(SceneKeys.CharacterLoader, data);
@@ -65,26 +66,30 @@ export default function PhaserGame() {
     });
 
     eventsCenter.on(EventKeys.GoToHome, () => {
-      phaserGame.scene.stop(SceneKeys.EnterScene);
-      phaserGame.scene.stop(SceneKeys.CaveScene);
+      phaserGame.scene.scenes.forEach((scene) => {
+        phaserGame.scene.stop(scene.scene.key);
+      });
       phaserGame.sound.stopAll();
 
       phaserGame.scene.start(SceneKeys.HomeScene);
       setOverlay(OverlayKeys.Home);
     });
 
-    eventsCenter.on(EventKeys.GoToGame, () => {
-      phaserGame.scene.stop(SceneKeys.HomeScene);
-      phaserGame.sound.stopAll();
-      // Fixes animation error
-      const phaserAnimations: Phaser.Types.Animations.JSONAnimations = phaserGame.anims.toJSON();
-      phaserAnimations.anims.forEach((animation) => {
-        phaserGame.anims.remove(animation.key);
-      });
-
-      phaserGame.scene.start(SceneKeys.Level1Scene);
-      setOverlay(OverlayKeys.Game);
-    });
+    eventsCenter.on(
+      EventKeys.GoToGame,
+      ({ levelNumber, levelSceneKey }: { levelNumber: number; levelSceneKey: SceneKeys }) => {
+        phaserGame.scene.stop(SceneKeys.HomeScene);
+        phaserGame.sound.stopAll();
+        // Fixes animation error
+        const phaserAnimations: Phaser.Types.Animations.JSONAnimations = phaserGame.anims.toJSON();
+        phaserAnimations.anims.forEach((animation) => {
+          phaserGame.anims.remove(animation.key);
+        });
+        console.log("Going to level: ", levelNumber);
+        phaserGame.scene.start(levelSceneKey);
+        setOverlay(OverlayKeys.Game);
+      }
+    );
 
     eventsCenter.on(EventKeys.GoToGameOver, () => {
       setOverlay(OverlayKeys.GameOver);

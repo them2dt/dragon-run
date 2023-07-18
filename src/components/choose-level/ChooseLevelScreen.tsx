@@ -1,19 +1,18 @@
-import React, { useTheme, Grid, Card, Typography, Zoom, Box } from "@mui/material";
+import React from "react";
+import { useTheme, Grid, Card, Typography, Zoom, Box } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
 import levels from "@consts/data/Levels";
 import ChooseLevelItem from "./ChooseLevelItem";
+import type SceneKeys from "@consts/SceneKeys";
 
 interface ChooseLevelScreenProps {
   active: boolean;
-  openChooseCharacter: () => void;
+  handleContinue: (levelNumber?: number, levelSceneKey?: SceneKeys) => void;
 }
 
-export default function ChooseLevelScreen({ active, openChooseCharacter }: ChooseLevelScreenProps) {
+export default function ChooseLevelScreen({ active, handleContinue }: ChooseLevelScreenProps) {
   const muiTheme = useTheme();
 
-  const handleContinue = () => {
-    openChooseCharacter();
-  };
   return (
     <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
       <Box>
@@ -38,13 +37,14 @@ export default function ChooseLevelScreen({ active, openChooseCharacter }: Choos
         >
           {levels.map((level) => (
             <ChooseLevelItem
-              name={level.name}
+              number={level.number}
+              sceneKey={level.sceneKey}
               image={level.image}
               comingSoon={level.comingSoon}
               completed={level.completed}
               selectLevel={handleContinue}
               locked={level.locked}
-              key={level.name}
+              key={level.number}
             />
           ))}
         </Grid>
@@ -74,7 +74,9 @@ export default function ChooseLevelScreen({ active, openChooseCharacter }: Choos
                 color: muiTheme.palette.secondary.main
               }
             }}
-            onClick={handleContinue}
+            onClick={() => {
+              handleContinue();
+            }}
           >
             <Typography variant="h4">Continue</Typography>
           </SquareButton>

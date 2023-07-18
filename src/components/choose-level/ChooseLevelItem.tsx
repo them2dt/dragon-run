@@ -1,19 +1,23 @@
+/* eslint-disable @typescript-eslint/indent */
 import React, { useState } from "react";
 import { useTheme, Paper, Skeleton, Grid, Typography, Box } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import { green } from "@mui/material/colors";
+import type SceneKeys from "@consts/SceneKeys";
 
 interface ChooseLevelItemProps {
-  name: string;
+  number: number;
+  sceneKey?: SceneKeys;
   image?: string;
   comingSoon?: boolean;
   completed?: boolean;
   locked?: boolean;
-  selectLevel?: () => void;
+  selectLevel: (levelNumber: number, levelSceneKey?: SceneKeys) => void;
 }
 
 export default function ChooseLevelItem({
-  name,
+  number,
+  sceneKey,
   image,
   completed,
   comingSoon,
@@ -41,7 +45,13 @@ export default function ChooseLevelItem({
           m: 2
         }
       }}
-      onClick={locked === true || comingSoon === true ? undefined : selectLevel}
+      onClick={
+        locked === true || comingSoon === true
+          ? undefined
+          : () => {
+              selectLevel(number, sceneKey);
+            }
+      }
     >
       <Grid
         spacing={0}
@@ -79,7 +89,7 @@ export default function ChooseLevelItem({
           >
             <img
               src={image ? `game-assets/level-images/${image}` : "game-assets/level-images/coming-soon-level.png"}
-              alt={name}
+              alt={`level-${number}`}
               className="h-full absolute top-0 rendering-pixelated object-cover pointer-events-none"
               style={{ display: imageLoaded ? "block" : "none" }}
               onLoad={() => {
@@ -187,7 +197,7 @@ export default function ChooseLevelItem({
                   </Typography>
                 </Box>
               )}
-              {name && (
+              {number && (
                 <Typography
                   variant={"h4"}
                   textAlign={"left"}
@@ -205,7 +215,7 @@ export default function ChooseLevelItem({
                     marginX: 1
                   }}
                 >
-                  {name}
+                  level-{number}
                 </Typography>
               )}
             </Box>

@@ -1,13 +1,30 @@
+import SceneKeys from "@consts/SceneKeys";
+
 const levels = [
   {
-    name: "Level 1",
+    number: 1,
+    sceneKey: SceneKeys.Level1Scene,
+    image: "level-1.png",
+    comingSoon: false,
+    completed: true,
+    locked: false
+  },
+  {
+    number: 2,
+    sceneKey: SceneKeys.Level1Scene,
     image: "level-1.png",
     comingSoon: false,
     completed: false,
     locked: false
   },
   {
-    name: "Level 2",
+    number: 3,
+    comingSoon: false,
+    completed: false,
+    locked: true
+  },
+  {
+    number: 4,
     comingSoon: true,
     completed: false,
     locked: false
