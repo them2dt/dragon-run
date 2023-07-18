@@ -85,10 +85,11 @@ export default class CaveScene extends Phaser.Scene {
   public dragonCameraOffset!: number;
 
   public levelCompleteX = 4850;
-  public maxCompleteTime = 220;
-  public minCompleteTime = 250;
+  public minCompleteTime = 220;
+  public maxCompleteTime = 250;
   public scoreMultiplier = 1;
   public playerSpawnX = 134;
+  public mapKey = TextureKeys.CaveMap;
 
   constructor(sceneKey: string) {
     super(sceneKey);
@@ -129,7 +130,7 @@ export default class CaveScene extends Phaser.Scene {
     this.bg1.setOrigin(0, 0);
     this.bg1.setScrollFactor(0.2, 0.1);
 
-    this.tilemap = this.make.tilemap({ key: TextureKeys.CaveMap });
+    this.tilemap = this.make.tilemap({ key: this.mapKey });
     this.tileset = this.tilemap.addTilesetImage(
       "cave-tileset",
       TextureKeys.CaveTiles,

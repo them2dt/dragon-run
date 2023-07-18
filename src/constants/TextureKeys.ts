@@ -4,6 +4,7 @@ enum TextureKeys {
   Background3 = "background-3",
   CaveTiles = "cave-tiles",
   CaveMap = "cave-map",
+  Level1 = "level-1",
   RedDragon = "red-dragon",
   Character = "character",
   Fireball = "fireball",
