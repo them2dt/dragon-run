@@ -1,5 +1,6 @@
 enum MiscSoundEffectKeys {
-  Run = "run"
+  Run = "run",
+  LevelComplete = "levelComplete"
 }
 
 export default MiscSoundEffectKeys;

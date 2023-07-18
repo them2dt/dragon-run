@@ -12,6 +12,7 @@ import EventKeys from "constants/EventKeys";
 import PlayerAbility from "@consts/players/PlayerAbility";
 import Clock from "phaser3-rex-plugins/plugins/clock.js";
 import type LevelCompleteData from "types/LevelCompleteData";
+import MiscSoundEffectKeys from "@consts/audio/MiscSoundEffectKeys";
 
 export default class Player extends Phaser.GameObjects.Container {
   public score = 0;
@@ -24,9 +25,14 @@ export default class Player extends Phaser.GameObjects.Container {
   private playerDeath1Sound!: Phaser.Sound.BaseSound;
   private playerDeath2Sound!: Phaser.Sound.BaseSound;
   private playerRun1Sound!: Phaser.Sound.BaseSound;
+  private levelCompleteSound!: Phaser.Sound.BaseSound;
 
   private currentScene!: SceneKeys;
   private scenePlayerSpawnX = 0;
+  private sceneLevelCompleteX = 0;
+  private sceneMinCompleteTime = 0;
+  private sceneMaxCompleteTime = 0;
+  private sceneScoreMultiplier = 1;
 
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private fireKeyOne!: Phaser.Input.Keyboard.Key;
@@ -50,9 +56,18 @@ export default class Player extends Phaser.GameObjects.Container {
   private playerAbility = PlayerAbility.None;
 
   private checkScene() {
+    let scene = null;
     if (this.scene.scene.isActive(SceneKeys.CaveScene)) {
       this.currentScene = SceneKeys.CaveScene;
-      this.scenePlayerSpawnX = 134;
+      scene = this.scene as CaveScene;
+    }
+
+    if (scene) {
+      this.scenePlayerSpawnX = scene.playerSpawnX;
+      this.sceneLevelCompleteX = scene.levelCompleteX;
+      this.sceneMinCompleteTime = scene.minCompleteTime;
+      this.sceneMaxCompleteTime = scene.maxCompleteTime;
+      this.sceneScoreMultiplier = scene.scoreMultiplier;
     }
   }
 
@@ -66,6 +81,7 @@ export default class Player extends Phaser.GameObjects.Container {
     this.playerDeath1Sound = this.scene.sound.add(PlayerSoundEffectKeys.PlayerDeath1);
     this.playerDeath2Sound = this.scene.sound.add(PlayerSoundEffectKeys.PlayerDeath2);
     this.playerRun1Sound = this.scene.sound.add(PlayerSoundEffectKeys.PlayerRun1);
+    this.levelCompleteSound = this.scene.sound.add(MiscSoundEffectKeys.LevelComplete);
 
     this.defaultCharacter = scene.add
       .sprite(0, 0, TextureKeys.Character)
@@ -106,13 +122,13 @@ export default class Player extends Phaser.GameObjects.Container {
   }
 
   private updateScore() {
-    this.score = Math.floor(this.x / 10 - this.scenePlayerSpawnX);
+    this.score = Math.floor(this.x / 10 - this.scenePlayerSpawnX * this.sceneScoreMultiplier);
     if (this.score < 0) {
       this.score = 0;
     }
     eventsCenter.emit(EventKeys.UpdateScore, this.score);
 
-    if (this.score >= 4850) {
+    if (this.score >= this.sceneLevelCompleteX) {
       this.levelComplete();
     }
   }
@@ -192,20 +208,25 @@ export default class Player extends Phaser.GameObjects.Container {
       repeat: 0
     });
 
+    let scene = null;
+
     if (this.currentScene === SceneKeys.CaveScene) {
-      const caveScene = this.scene as CaveScene;
-      const cameraFollowing = caveScene.cameraFollowing;
-
-      if (caveScene.redDragon.dragonState === DragonState.Chasing) {
-        caveScene.redDragon.dragonState = DragonState.Idle;
-      }
-
-      if (cameraFollowing === CameraFollowing.Player) {
-        this.scene.cameras.main.stopFollow();
-      }
+      scene = this.scene as CaveScene;
+    } else {
+      return;
     }
 
-    this.scene.cameras.main.fade(2000, 0, 0, 0);
+    const cameraFollowing = scene.cameraFollowing;
+
+    if (scene.redDragon.dragonState === DragonState.Chasing) {
+      scene.redDragon.dragonState = DragonState.Idle;
+    }
+
+    if (cameraFollowing === CameraFollowing.Player) {
+      scene.cameras.main.stopFollow();
+    }
+
+    scene.cameras.main.fade(2000, 0, 0, 0);
 
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.checkCollision.none = true;
@@ -225,17 +246,27 @@ export default class Player extends Phaser.GameObjects.Container {
       return;
     }
 
+    let scene = null;
+
+    if (this.currentScene === SceneKeys.CaveScene) {
+      scene = this.scene as CaveScene;
+    } else {
+      return;
+    }
+
+    this.levelCompleteSound.play({ volume: 0.5 });
+
     this.playerState = PlayerState.LevelComplete;
 
     this.time = (this.clock.now / 1000).toFixed(2) as unknown as number;
-    if (this.time < 220) {
+    if (this.time < this.sceneMinCompleteTime) {
       // This player is cheating
       this.timeBonus = 0;
-    } else if (this.time > 250) {
+    } else if (this.time > this.sceneMaxCompleteTime) {
       // This player is too slow
       this.timeBonus = 0;
     } else {
-      this.timeBonus = Math.floor((250 - this.time) * 100);
+      this.timeBonus = Math.floor((this.sceneMaxCompleteTime - this.time) * 100 * this.sceneScoreMultiplier);
     }
 
     const levelCompleteData: LevelCompleteData = {
@@ -247,21 +278,18 @@ export default class Player extends Phaser.GameObjects.Container {
 
     eventsCenter.emit(EventKeys.UpdateLevelCompleteData, levelCompleteData);
 
-    if (this.currentScene === SceneKeys.CaveScene) {
-      const caveScene = this.scene as CaveScene;
-      const cameraFollowing = caveScene.cameraFollowing;
+    const cameraFollowing = scene.cameraFollowing;
 
-      if (caveScene.redDragon.dragonState === DragonState.Chasing) {
-        caveScene.redDragon.dragonState = DragonState.Idle;
-      }
-
-      if (cameraFollowing === CameraFollowing.Player) {
-        this.scene.cameras.main.stopFollow();
-      }
-      eventsCenter.emit(EventKeys.GoToLevelComplete);
+    if (scene.redDragon.dragonState === DragonState.Chasing) {
+      scene.redDragon.dragonState = DragonState.Idle;
     }
 
-    this.scene.cameras.main.fade(2000, 0, 0, 0);
+    if (cameraFollowing === CameraFollowing.Player) {
+      scene.cameras.main.stopFollow();
+    }
+    eventsCenter.emit(EventKeys.GoToLevelComplete);
+
+    scene.cameras.main.fade(2000, 0, 0, 0);
   }
 
   public preUpdate(t: number) {

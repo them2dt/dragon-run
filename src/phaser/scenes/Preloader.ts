@@ -78,6 +78,7 @@ export default class Preloader extends Phaser.Scene {
     );
 
     this.load.audio(MiscSoundEffectKeys.Run, "game-assets/sound-effects/misc/run.mp3");
+    this.load.audio(MiscSoundEffectKeys.LevelComplete, "game-assets/sound-effects/misc/level-complete.mp3");
 
     this.load.audio(MusicKeys.CaveScene1, "game-assets/music/cave-scene-1.mp3");
     this.load.audio(MusicKeys.HomeScene1, "game-assets/music/home-scene-1.mp3");
