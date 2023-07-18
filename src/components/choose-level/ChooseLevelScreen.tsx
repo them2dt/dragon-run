@@ -8,9 +8,16 @@ import type SceneKeys from "@consts/SceneKeys";
 interface ChooseLevelScreenProps {
   active: boolean;
   handleContinue: (levelNumber?: number, levelSceneKey?: SceneKeys) => void;
+  levelsCompleted: number;
+  highestUnlockedLevel: number;
 }
 
-export default function ChooseLevelScreen({ active, handleContinue }: ChooseLevelScreenProps) {
+export default function ChooseLevelScreen({
+  active,
+  handleContinue,
+  levelsCompleted,
+  highestUnlockedLevel
+}: ChooseLevelScreenProps) {
   const muiTheme = useTheme();
 
   return (
@@ -41,9 +48,9 @@ export default function ChooseLevelScreen({ active, handleContinue }: ChooseLeve
               sceneKey={level.sceneKey}
               image={level.image}
               comingSoon={level.comingSoon}
-              completed={level.completed}
+              completed={levelsCompleted >= level.number}
               selectLevel={handleContinue}
-              locked={level.locked}
+              locked={level.number > highestUnlockedLevel}
               key={level.number}
             />
           ))}

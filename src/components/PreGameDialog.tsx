@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { Typography, useTheme, Box } from "@mui/material";
 import FullscreenDialog from "components/FullscreenDialog";
 import ChooseLevelScreen from "./choose-level/ChooseLevelScreen";
@@ -6,6 +6,8 @@ import ChooseCharacterScreen from "./choose-character/ChooseCharacterScreen";
 import LoadingScreen from "./loading/LoadingScreen";
 import PreGameScreens from "constants/PreGameScreens";
 import SceneKeys from "@consts/SceneKeys";
+import { useFirestore } from "@context/useFirestore";
+import levels from "@consts/data/Levels";
 
 interface PreGameDialogProps {
   preGameOpen: boolean;
@@ -23,19 +25,20 @@ export default function PreGameDialog({
   equipKnight
 }: PreGameDialogProps) {
   const muiTheme = useTheme();
+  const { firestoreData } = useFirestore();
   const [screen, setScreen] = useState(PreGameScreens.ChooseLevel);
   const [screenTitle, setScreenTitle] = useState("Choose Level");
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
   const [selectedSceneKey, setSelectedSceneKey] = useState<SceneKeys>(SceneKeys.Level1Scene);
+  const [levelsCompleted, setLevelsCompleted] = useState<number>(0);
   const [highestUnlockedLevel, setHighestUnlockedLevel] = useState<number>(1);
-  const [highestUnlockedSceneKey, setHighestUnlockedSceneKey] = useState<SceneKeys>(SceneKeys.Level1Scene);
 
   const handleContinue = (levelNumber?: number, levelSceneKey?: SceneKeys) => {
     if (levelNumber === undefined) {
       levelNumber = highestUnlockedLevel;
     }
     if (levelSceneKey === undefined) {
-      levelSceneKey = highestUnlockedSceneKey;
+      levelSceneKey = levels[highestUnlockedLevel - 1].sceneKey;
     }
     setSelectedLevel(levelNumber);
     setSelectedSceneKey(levelSceneKey);
@@ -75,6 +78,21 @@ export default function PreGameDialog({
     });
   };
 
+  useMemo(() => {
+    if (firestoreData) {
+      const levelsCompleted = firestoreData.userData?.levelsCompleted;
+      if (levelsCompleted) {
+        setLevelsCompleted(levelsCompleted);
+        const nextLevelComingSoon = levels[levelsCompleted + 1].comingSoon;
+        if (nextLevelComingSoon) {
+          setHighestUnlockedLevel(levelsCompleted);
+        } else {
+          setHighestUnlockedLevel(levelsCompleted + 1);
+        }
+      }
+    }
+  }, [firestoreData?.userData?.levelsCompleted]);
+
   return (
     <FullscreenDialog dialogOpen={preGameOpen} closeDialog={handleClose}>
       <Typography align="center" sx={{ px: 5, my: 3 }} variant="h3" color={muiTheme.palette.text.secondary}>
@@ -89,7 +107,12 @@ export default function PreGameDialog({
         }}
       >
         <Box sx={{ minHeight: "100vh" }}>
-          <ChooseLevelScreen active={screen === PreGameScreens.ChooseLevel} handleContinue={handleContinue} />
+          <ChooseLevelScreen
+            active={screen === PreGameScreens.ChooseLevel}
+            handleContinue={handleContinue}
+            levelsCompleted={levelsCompleted}
+            highestUnlockedLevel={highestUnlockedLevel}
+          />
           <ChooseCharacterScreen
             active={screen === PreGameScreens.ChooseCharacter}
             openShop={openShop}

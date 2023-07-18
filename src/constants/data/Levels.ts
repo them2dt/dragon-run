@@ -5,29 +5,23 @@ const levels = [
     number: 1,
     sceneKey: SceneKeys.Level1Scene,
     image: "level-1.png",
-    comingSoon: false,
-    completed: true,
-    locked: false
+    comingSoon: false
   },
   {
     number: 2,
     sceneKey: SceneKeys.Level1Scene,
     image: "level-1.png",
-    comingSoon: false,
-    completed: false,
-    locked: false
+    comingSoon: false
   },
   {
     number: 3,
-    comingSoon: false,
-    completed: false,
-    locked: true
+    sceneKey: SceneKeys.Level1Scene,
+    comingSoon: false
   },
   {
     number: 4,
-    comingSoon: true,
-    completed: false,
-    locked: false
+    sceneKey: SceneKeys.Level1Scene,
+    comingSoon: true
   }
 ];
 

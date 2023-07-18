@@ -229,7 +229,8 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
         userName,
         createdAt: Timestamp.now(),
         highScore: 0,
-        scoredAt: Timestamp.now()
+        scoredAt: Timestamp.now(),
+        levelsCompleted: 0
       };
       await setDoc(doc(db, "users", userName), newUser);
 

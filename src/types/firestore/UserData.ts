@@ -5,6 +5,7 @@ interface UserData {
   createdAt: Timestamp;
   highScore: number;
   scoredAt: Timestamp;
+  levelsCompleted: number;
 }
 
 export default UserData;
