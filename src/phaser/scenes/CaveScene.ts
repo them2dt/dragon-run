@@ -84,7 +84,7 @@ export default class CaveScene extends Phaser.Scene {
   public cameraFollowing: CameraFollowing = CameraFollowing.Player;
   private dragonCameraOffset!: number;
 
-  public levelCompleteX = 485;
+  public levelCompleteX = 4850;
   public maxCompleteTime = 220;
   public minCompleteTime = 250;
   public scoreMultiplier = 1;
