@@ -18,9 +18,11 @@ import { useSolana } from "@context/useSolana";
 
 interface HomeProps {
   userName?: string;
+  equipKnight: (name: string) => void;
+  equippedKnight: string;
 }
 
-export default function Home({ userName }: HomeProps): JSX.Element {
+export default function Home({ userName, equipKnight, equippedKnight }: HomeProps): JSX.Element {
   const muiTheme = useTheme();
   const { solanaFunctions } = useSolana();
   const [shopOpen, setShopOpen] = useState(false);
@@ -30,7 +32,6 @@ export default function Home({ userName }: HomeProps): JSX.Element {
   const [preGameOpen, setPreGameOpen] = useState(false);
   // 0 = Mint, 1 = Shop
   const [defaultTab, setDefaultTab] = useState<number | undefined>(undefined);
-  const [equippedKnight, setEquippedKnight] = useState("");
 
   const openSettings = () => {
     setSettingsOpen(true);
@@ -76,11 +77,6 @@ export default function Home({ userName }: HomeProps): JSX.Element {
     setShopOpen(true);
   };
 
-  const equipKnight = (knight: string) => {
-    setEquippedKnight(knight);
-    localStorage.setItem("equippedKnight", JSON.stringify({ knight, userName }));
-  };
-
   useEffect(() => {
     eventsCenter.on(EventKeys.OpenChooseCharacter, () => {
       setPreGameOpen(true);
@@ -99,16 +95,6 @@ export default function Home({ userName }: HomeProps): JSX.Element {
       console.log("Unable to get owned NFTs: ", err);
     });
   }, [shopOpen]);
-
-  useEffect(() => {
-    const equippedKnight = localStorage.getItem("equippedKnight");
-    if (equippedKnight) {
-      const equippedKnightParsed = JSON.parse(equippedKnight);
-      if (equippedKnightParsed.userName === userName) {
-        setEquippedKnight(equippedKnightParsed.knight);
-      }
-    }
-  }, [userName]);
 
   return (
     <AnimatedPage>

@@ -13,7 +13,12 @@ import InventoryDialog from "components/inventory/InventoryDialog";
 import ControlsTutorial from "components/ControlsTutorial";
 import ShopDialog from "components/shop/ShopDialog";
 
-export default function Game() {
+interface GameProps {
+  equipKnight: (name: string) => void;
+  equippedKnight: string;
+}
+
+export default function Game({ equipKnight, equippedKnight }: GameProps): JSX.Element {
   const theme = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
@@ -103,7 +108,13 @@ export default function Game() {
         <LeaderboardMenu leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
         <ShopDialog shopOpen={shopOpen} closeShop={closeShop} defaultTab={defaultTab} />
-        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} openShop={goToShop} />
+        <InventoryDialog
+          inventoryOpen={inventoryOpen}
+          closeInventory={closeInventory}
+          openShop={goToShop}
+          equipKnight={equipKnight}
+          equippedKnight={equippedKnight}
+        />
         <GameNavBar>
           <div className="fixed z-40 left-[16px] top-[12px] h-[32px] w-[60px]">
             <Button

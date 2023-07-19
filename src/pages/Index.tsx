@@ -26,6 +26,22 @@ export default function Index(): JSX.Element {
   const [time, setTime] = useState<number>(0);
   const [timeBonus, setTimeBonus] = useState<number>(0);
   const [levelCompleted, setLevelCompleted] = useState<number>(0);
+  const [equippedKnight, setEquippedKnight] = useState("");
+
+  const equipKnight = (knight: string) => {
+    setEquippedKnight(knight);
+    localStorage.setItem("equippedKnight", JSON.stringify({ knight, userName }));
+  };
+
+  useEffect(() => {
+    const equippedKnight = localStorage.getItem("equippedKnight");
+    if (equippedKnight) {
+      const equippedKnightParsed = JSON.parse(equippedKnight);
+      if (equippedKnightParsed.userName === userName) {
+        setEquippedKnight(equippedKnightParsed.knight);
+      }
+    }
+  }, [userName]);
 
   useEffect(() => {
     if (firestoreData?.leaderboard == null) {
@@ -101,9 +117,11 @@ export default function Index(): JSX.Element {
       {overlay === OverlayKeys.None && null}
       {overlay === OverlayKeys.Preloader ? <Loading /> : null}
       {overlay === OverlayKeys.Enter ? <Enter userName={userName} /> : null}
-      {overlay === OverlayKeys.Home ? <Home userName={userName} /> : null}
+      {overlay === OverlayKeys.Home ? (
+        <Home userName={userName} equippedKnight={equippedKnight} equipKnight={equipKnight} />
+      ) : null}
       {overlay === OverlayKeys.Game || overlay === OverlayKeys.GameOver || overlay === OverlayKeys.LevelComplete ? (
-        <Game />
+        <Game equippedKnight={equippedKnight} equipKnight={equipKnight} />
       ) : null}
       {overlay === OverlayKeys.GameOver ? <GameOver newHighScore={newHighScore} /> : null}
       {overlay === OverlayKeys.LevelComplete ? (
