@@ -155,7 +155,7 @@ export default function ChooseCharacterCard({
             disableFocusListener
             disableHoverListener
             disableTouchListener
-            title="Get more characters from the store!"
+            title="Get more characters from the shop!"
           >
             <SquareButton
               onClick={() => {
@@ -181,7 +181,7 @@ export default function ChooseCharacterCard({
             disableFocusListener
             disableHoverListener
             disableTouchListener
-            title="Get more characters from the store!"
+            title="Get more characters from the shop!"
           >
             <SquareButton
               onClick={() => {
