@@ -77,6 +77,7 @@ export default function ChooseCharacterScreen({
     <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>
       <Paper
         component={Stack}
+        elevation={0}
         sx={{
           background: muiTheme.palette.background.default,
           overflowY: "scroll",

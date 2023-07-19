@@ -31,7 +31,12 @@ export default function ChooseLevelSection() {
           }}
         >
           {levels.map((level) => (
-            <ChooseLevelItem name={level.name} image={level.image} comingSoon={level.comingSoon} key={level.name} />
+            <ChooseLevelItem
+              number={level.number}
+              image={level.image}
+              comingSoon={level.comingSoon}
+              key={level.number}
+            />
           ))}
         </Grid>
         <Box

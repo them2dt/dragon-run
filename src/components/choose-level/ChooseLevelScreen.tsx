@@ -34,6 +34,7 @@ export default function ChooseLevelScreen({
             mx: "auto",
             mt: 2,
             mb: 4,
+            height: "100%",
             [muiTheme.breakpoints.up("xl")]: {
               mt: 6,
               mb: 6,
