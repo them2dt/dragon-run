@@ -16,13 +16,7 @@ import InventoryDialog from "components/inventory/InventoryDialog";
 import PreGameDialog from "components/PreGameDialog";
 import { useSolana } from "@context/useSolana";
 
-interface HomeProps {
-  userName?: string;
-  equipKnight: (name: string) => void;
-  equippedKnight: string;
-}
-
-export default function Home({ userName, equipKnight, equippedKnight }: HomeProps): JSX.Element {
+export default function Home(): JSX.Element {
   const muiTheme = useTheme();
   const { solanaFunctions } = useSolana();
   const [shopOpen, setShopOpen] = useState(false);
@@ -101,20 +95,8 @@ export default function Home({ userName, equipKnight, equippedKnight }: HomeProp
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
-        <PreGameDialog
-          preGameOpen={preGameOpen}
-          closePreGame={closeChooseCharacter}
-          openShop={goToShop}
-          equippedKnight={equippedKnight}
-          equipKnight={equipKnight}
-        />
-        <InventoryDialog
-          inventoryOpen={inventoryOpen}
-          closeInventory={closeInventory}
-          openShop={goToShop}
-          equippedKnight={equippedKnight}
-          equipKnight={equipKnight}
-        />
+        <PreGameDialog preGameOpen={preGameOpen} closePreGame={closeChooseCharacter} openShop={goToShop} />
+        <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} openShop={goToShop} />
         <ShopDialog shopOpen={shopOpen} closeShop={closeShop} defaultTab={defaultTab} />
         <HomeNavBar openSettings={openSettings} />
         <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">

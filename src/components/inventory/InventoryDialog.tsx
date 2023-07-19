@@ -10,17 +10,9 @@ interface InventoryDialogProps {
   inventoryOpen: boolean;
   closeInventory: () => void;
   openShop: () => void;
-  equippedKnight: string;
-  equipKnight: (knight: string) => void;
 }
 
-export default function InventoryDialog({
-  inventoryOpen,
-  closeInventory,
-  openShop,
-  equippedKnight,
-  equipKnight
-}: InventoryDialogProps) {
+export default function InventoryDialog({ inventoryOpen, closeInventory, openShop }: InventoryDialogProps) {
   const muiTheme = useTheme();
   const [value, setValue] = useState(0);
   const [cratesActive, setCratesActive] = useState(false);
@@ -72,8 +64,6 @@ export default function InventoryDialog({
             goToShop={() => {
               openShop();
             }}
-            equippedKnight={equippedKnight}
-            equipKnight={equipKnight}
           />
           <ComingSoonCratesSection
             active={cratesActive}

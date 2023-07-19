@@ -4,17 +4,17 @@ import { SquareButton } from "components/styled/SquareButton";
 import KnightItem from "./KnightItem";
 import { useSolana } from "@context/useSolana";
 import type KnightNFT from "types/KnightNFT";
+import { useGameData } from "@context/useGameData";
 
 interface KnightsSectionProps {
   active: boolean;
   goToShop: () => void;
-  equippedKnight: string;
-  equipKnight: (name: string) => void;
 }
 
-export default function KnightsSection({ active, goToShop, equippedKnight, equipKnight }: KnightsSectionProps) {
+export default function KnightsSection({ active, goToShop }: KnightsSectionProps) {
   const muiTheme = useTheme();
   const { solana } = useSolana();
+  const { equippedKnight, equipKnight } = useGameData();
   const [ownedKnights, setOwnedKnights] = useState<KnightNFT[]>(solana.ownedKnights);
 
   useMemo(() => {

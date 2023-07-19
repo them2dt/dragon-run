@@ -12,21 +12,12 @@ interface ChooseCharacterScreenProps {
   active: boolean;
   openShop: () => void;
   handleLoading: () => void;
-  equippedKnight: string;
-  equipKnight: (name: string) => void;
 }
 
-export default function ChooseCharacterScreen({
-  active,
-  openShop,
-  handleLoading,
-  equippedKnight,
-  equipKnight
-}: ChooseCharacterScreenProps) {
+export default function ChooseCharacterScreen({ active, openShop, handleLoading }: ChooseCharacterScreenProps) {
   const muiTheme = useTheme();
   const { solana } = useSolana();
-  const { selectedLevel, selectedSceneKey } = useGameData();
-
+  const { selectedLevel, selectedSceneKey, equipKnight, equippedKnight } = useGameData();
   const [characterIndex, setCharacterIndex] = useState(0);
   const [ownedKnights, setOwnedKnights] = useState<KnightNFT[]>(solana.ownedKnights);
 

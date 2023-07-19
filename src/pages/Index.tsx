@@ -13,12 +13,13 @@ import Enter from "overlays/Enter";
 import { useSolana } from "@context/useSolana";
 import LevelComplete from "overlays/LevelComplete";
 import type LevelCompleteData from "types/LevelCompleteData";
+import { useGameData } from "@context/useGameData";
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
   const { firestoreData, firestoreFunctions } = useFirestore();
   const { solanaFunctions } = useSolana();
-  const [userName, setUserName] = useState("");
+  const { userName, setUserName } = useGameData();
   const [highScore, setHighScore] = useState<number>(0);
   const [newScore, setNewScore] = useState<number>(0);
   const [newHighScore, setNewHighScore] = useState<number>(0);
@@ -26,22 +27,6 @@ export default function Index(): JSX.Element {
   const [time, setTime] = useState<number>(0);
   const [timeBonus, setTimeBonus] = useState<number>(0);
   const [levelCompleted, setLevelCompleted] = useState<number>(0);
-  const [equippedKnight, setEquippedKnight] = useState("");
-
-  const equipKnight = (knight: string) => {
-    setEquippedKnight(knight);
-    localStorage.setItem("equippedKnight", JSON.stringify({ knight, userName }));
-  };
-
-  useEffect(() => {
-    const equippedKnight = localStorage.getItem("equippedKnight");
-    if (equippedKnight) {
-      const equippedKnightParsed = JSON.parse(equippedKnight);
-      if (equippedKnightParsed.userName === userName) {
-        setEquippedKnight(equippedKnightParsed.knight);
-      }
-    }
-  }, [userName]);
 
   useEffect(() => {
     if (firestoreData?.leaderboard == null) {
@@ -68,7 +53,7 @@ export default function Index(): JSX.Element {
       }
     };
     initializeUserData();
-  }, [firestoreData?.userData, userName]);
+  }, [firestoreData?.userData]);
 
   useMemo(() => {
     if (newScore > highScore) {
@@ -117,11 +102,9 @@ export default function Index(): JSX.Element {
       {overlay === OverlayKeys.None && null}
       {overlay === OverlayKeys.Preloader ? <Loading /> : null}
       {overlay === OverlayKeys.Enter ? <Enter userName={userName} /> : null}
-      {overlay === OverlayKeys.Home ? (
-        <Home userName={userName} equippedKnight={equippedKnight} equipKnight={equipKnight} />
-      ) : null}
+      {overlay === OverlayKeys.Home ? <Home /> : null}
       {overlay === OverlayKeys.Game || overlay === OverlayKeys.GameOver || overlay === OverlayKeys.LevelComplete ? (
-        <Game equippedKnight={equippedKnight} equipKnight={equipKnight} />
+        <Game />
       ) : null}
       {overlay === OverlayKeys.GameOver ? <GameOver newHighScore={newHighScore} /> : null}
       {overlay === OverlayKeys.LevelComplete ? (

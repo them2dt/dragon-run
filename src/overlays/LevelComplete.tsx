@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
 import OverlayWrapper from "components/OverlayWrapper";
@@ -8,6 +8,11 @@ import { Typography, useTheme, Box } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
 import { grey } from "@mui/material/colors";
 import { useFirestore } from "@context/useFirestore";
+import { useGameData } from "@context/useGameData";
+import levels from "@consts/data/Levels";
+import Loading from "./Loading";
+import { useSolana } from "@context/useSolana";
+import loadCharacter from "utils/loadCharacter";
 
 interface LevelCompleteProps {
   scoreBeforeBonus: number;
@@ -26,14 +31,43 @@ export default function LevelComplete({
 }: LevelCompleteProps): JSX.Element {
   const muiTheme = useTheme();
   const { firestoreFunctions } = useFirestore();
+  const { selectedLevel, selectLevel, highestUnlockedLevel, equippedKnight } = useGameData();
+  const { solana } = useSolana();
+  const [nextLevelUnlocked, setNextLevelUnlocked] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useMemo(() => {
+    if (selectedLevel < highestUnlockedLevel) {
+      setNextLevelUnlocked(true);
+    } else {
+      setNextLevelUnlocked(false);
+    }
+  }, [selectedLevel, highestUnlockedLevel]);
 
   useMemo(() => {
     firestoreFunctions.levelComplete(levelCompleted);
   }, [levelCompleted]);
 
+  const handleNextLevel = () => {
+    const nextLevel = selectedLevel + 1;
+    const nextLevelKey = levels[nextLevel - 1].sceneKey;
+    if (nextLevelUnlocked) {
+      selectLevel(selectedLevel + 1, levels[selectedLevel + 1].sceneKey);
+    }
+    setLoading(true);
+    const spritesheet = solana.ownedKnights.find((knight) => knight.name === equippedKnight)?.spritesheet ?? "";
+    setTimeout(() => {
+      loadCharacter(spritesheet, EventKeys.GoToGame, {
+        levelNumber: nextLevel,
+        levelSceneKey: nextLevelKey
+      });
+    }, 600);
+  };
+
   return (
     <AnimatedPageDelayed>
       <OverlayWrapper className=" bg-black overflow-hidden">
+        {loading && <Loading />}
         <div className="w-full h-full m-auto flex flex-col pb-4 pt-10 md:pt-14 lg:pt-16 max-w-[1240px] text-center">
           <div className="mx-auto my-auto">
             {newHighScore > 0 && <AnimatedNewHighScoreTitle text="New High Score!!!" className="mx-auto" />}
@@ -78,6 +112,35 @@ export default function LevelComplete({
                 Play Again
               </Typography>
             </SquareButton>
+            {nextLevelUnlocked && (
+              <SquareButton
+                variant="contained"
+                size="large"
+                sx={{
+                  backgroundColor: muiTheme.palette.secondary.main,
+                  "&:hover": {
+                    backgroundColor: muiTheme.palette.text.secondary,
+                    color: muiTheme.palette.secondary.main
+                  },
+                  my: 1,
+                  ml: 2,
+                  minWidth: "200px",
+                  minHeight: "70px",
+                  py: "10px",
+                  px: "20px",
+                  [muiTheme.breakpoints.up("sm")]: { minWidth: "300px", minHeight: "80px", px: "30px" },
+                  [muiTheme.breakpoints.up("md")]: { minWidth: "400px", px: "40px" },
+                  [muiTheme.breakpoints.up("lg")]: { mt: 3 }
+                }}
+                onClick={() => {
+                  handleNextLevel();
+                }}
+              >
+                <Typography variant="h3" noWrap>
+                  Next Level
+                </Typography>
+              </SquareButton>
+            )}
             <Typography variant="body1" sx={{ color: grey[400] }}>
               Press SPACE to Play Again
             </Typography>

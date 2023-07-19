@@ -307,7 +307,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     setFirestoreCallableFunctions(firestoreFunctions);
   }, []);
 
-  useMemo(() => {
+  useEffect(() => {
     getAuth().onAuthStateChanged((user) => {
       if (user) {
         console.log("User is signed in");
@@ -321,12 +321,12 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     });
   }, []);
 
-  useEffect(() => {
+  useMemo(() => {
     if (firestoreData?.userData?.userName == null) {
       return;
     }
     const userName = firestoreData?.userData?.userName;
-    const unsubscribe = onSnapshot(doc(db, "users", userName), (doc) => {
+    onSnapshot(doc(db, "users", userName), (doc) => {
       if (!doc.exists()) {
         console.log("No such document!");
         return;
@@ -340,20 +340,14 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
         leaderboard: firestoreData?.leaderboard ?? null
       });
     });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  }, [firestoreData?.userData?.userName]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, "leaderboard", "highScores"), () => {
+    onSnapshot(doc(db, "leaderboard", "highScores"), () => {
       getLeaderboard().catch((err) => {
         console.log("Error getting leaderboard: ", err.message);
       });
     });
-    return () => {
-      unsubscribe();
-    };
   }, []);
 
   const firestoreFunctions = {

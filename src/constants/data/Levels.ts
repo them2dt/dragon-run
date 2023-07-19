@@ -9,17 +9,12 @@ const levels = [
   },
   {
     number: 2,
-    sceneKey: SceneKeys.Level1Scene,
+    sceneKey: SceneKeys.CaveScene,
     image: "level-1.png",
     comingSoon: false
   },
   {
     number: 3,
-    sceneKey: SceneKeys.Level1Scene,
-    comingSoon: false
-  },
-  {
-    number: 4,
     sceneKey: SceneKeys.Level1Scene,
     comingSoon: true
   }
