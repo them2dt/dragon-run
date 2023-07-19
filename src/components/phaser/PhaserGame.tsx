@@ -104,12 +104,16 @@ export default function PhaserGame() {
     });
 
     eventsCenter.on(EventKeys.PauseGame, () => {
-      phaserGame.scene.pause(SceneKeys.CaveScene);
+      for (const scene of phaserGame.scene.scenes) {
+        scene.scene.pause();
+      }
       phaserGame.sound.pauseAll();
     });
 
     eventsCenter.on(EventKeys.ResumeGame, () => {
-      phaserGame.scene.resume(SceneKeys.CaveScene);
+      for (const scene of phaserGame.scene.scenes) {
+        scene.scene.resume();
+      }
       phaserGame.sound.resumeAll();
     });
 
