@@ -4,21 +4,16 @@ import { SquareButton } from "components/styled/SquareButton";
 import levels from "@consts/data/Levels";
 import ChooseLevelItem from "./ChooseLevelItem";
 import type SceneKeys from "@consts/SceneKeys";
+import { useGameData } from "@context/useGameData";
 
 interface ChooseLevelScreenProps {
   active: boolean;
   handleContinue: (levelNumber?: number, levelSceneKey?: SceneKeys) => void;
-  levelsCompleted: number;
-  highestUnlockedLevel: number;
 }
 
-export default function ChooseLevelScreen({
-  active,
-  handleContinue,
-  levelsCompleted,
-  highestUnlockedLevel
-}: ChooseLevelScreenProps) {
+export default function ChooseLevelScreen({ active, handleContinue }: ChooseLevelScreenProps) {
   const muiTheme = useTheme();
+  const { levelsCompleted, highestUnlockedLevel } = useGameData();
 
   return (
     <Zoom in={active} style={{ transitionDelay: active ? "200ms" : "0ms" }} unmountOnExit>

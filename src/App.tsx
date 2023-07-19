@@ -12,6 +12,7 @@ import ErrorPage from "./pages/ErrorPage";
 import Index from "./pages/Index";
 import SettingsProvider from "@context/SettingsProvider";
 import SolanaProvider from "@context/SolanaProvider";
+import GameDataProvider from "@context/GameDataProvider";
 
 globalThis.Buffer = buffer.Buffer;
 
@@ -38,9 +39,11 @@ function App() {
         <FirestoreProvider>
           <SettingsProvider>
             <SolanaProvider>
-              <OverlayProvider>
-                <RouterProvider router={router} />
-              </OverlayProvider>
+              <GameDataProvider>
+                <OverlayProvider>
+                  <RouterProvider router={router} />
+                </OverlayProvider>
+              </GameDataProvider>
             </SolanaProvider>
           </SettingsProvider>
         </FirestoreProvider>
