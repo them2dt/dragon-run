@@ -98,6 +98,7 @@ export default function LevelComplete({
                   color: muiTheme.palette.secondary.main
                 },
                 my: 1,
+                mx: 2,
                 minWidth: "200px",
                 minHeight: "70px",
                 py: "10px",
@@ -123,7 +124,7 @@ export default function LevelComplete({
                     color: muiTheme.palette.secondary.main
                   },
                   my: 1,
-                  ml: 2,
+                  mx: 2,
                   minWidth: "200px",
                   minHeight: "70px",
                   py: "10px",
