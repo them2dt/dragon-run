@@ -2,13 +2,15 @@ import React, { useTheme, Grid, Card, Typography, Zoom, Box } from "@mui/materia
 import { SquareButton } from "components/styled/SquareButton";
 import levels from "@consts/data/Levels";
 import ChooseLevelItem from "./ChooseLevelItem";
+import type SceneKeys from "@consts/SceneKeys";
 
-export default function ChooseLevelSection() {
+interface ChooseLevelSectionProps {
+  handleContinue: (levelNumber?: number, levelSceneKey?: SceneKeys) => void;
+}
+
+export default function ChooseLevelSection({ handleContinue }: ChooseLevelSectionProps) {
   const muiTheme = useTheme();
 
-  const handleContinue = () => {
-    console.log("Continue");
-  };
   return (
     <Zoom style={{ transitionDelay: "200ms" }} unmountOnExit>
       <Box>
@@ -36,6 +38,7 @@ export default function ChooseLevelSection() {
               image={level.image}
               comingSoon={level.comingSoon}
               key={level.number}
+              selectLevel={handleContinue}
             />
           ))}
         </Grid>
@@ -65,7 +68,9 @@ export default function ChooseLevelSection() {
                 color: muiTheme.palette.secondary.main
               }
             }}
-            onClick={handleContinue}
+            onClick={() => {
+              handleContinue();
+            }}
           >
             <Typography variant="h4">Continue</Typography>
           </SquareButton>
