@@ -213,17 +213,10 @@ export default class CaveScene extends Phaser.Scene {
 
     this.spawnAllObjects();
 
-    eventsCenter.on(EventKeys.StartGame, () => {
-      SoundFade.fadeIn(this.music, 10000, 0.5);
-      this.redDragon.depth = 1000;
-      this.redDragon.dragonSpeed = this.redDragonSpeed;
-      this.runWarning();
-      this.redDragon.start();
-    });
-    eventsCenter.on(EventKeys.RestartGame, () => {
-      this.cameras.main.fadeIn(1000);
-      this.restartGame();
-    });
+    eventsCenter.on(EventKeys.StartGame, this.startGame);
+    eventsCenter.on(EventKeys.RestartGame, this.restartGame);
+
+    this.events.on("shutdown", this.shutdown, this);
 
     eventsCenter.emit(EventKeys.GameLoaded);
   }
@@ -257,6 +250,14 @@ export default class CaveScene extends Phaser.Scene {
 
     this.handleCameraFollow();
   }
+
+  private startGame = () => {
+    SoundFade.fadeIn(this.music, 10000, 0.5);
+    this.redDragon.depth = 1000;
+    this.redDragon.dragonSpeed = this.redDragonSpeed;
+    this.runWarning();
+    this.redDragon.start();
+  };
 
   private runWarning = () => {
     this.runSound.play({ volume: 0.6 });
@@ -445,28 +446,43 @@ export default class CaveScene extends Phaser.Scene {
   };
 
   private destroyAllEnemies = () => {
+    if (!this.smallDragons) {
+      return;
+    }
     this.smallDragons.destroy(true);
     this.physics.world.removeCollider(this.smallDragonsPlayerCollider);
     this.physics.world.removeCollider(this.smallDragonsGroundCollider);
   };
 
   private destroyAllFireballs = () => {
+    if (!this.playerFireballs) {
+      return;
+    }
     this.playerFireballs.destroy(true);
   };
 
   private destroyAllLavaballs = () => {
+    if (!this.lavaballs) {
+      return;
+    }
     this.lavaballs.destroy(true);
     this.lavaballThrowEvent.destroy();
     this.lavaballThrow1Sound.stop();
   };
 
   private destroyPlayer = () => {
+    if (!this.player) {
+      return;
+    }
     this.player.destroy();
     this.physics.world.removeCollider(this.playerGroundCollider);
     this.physics.world.removeCollider(this.playerLavaCollider);
   };
 
   private destroyRedDragon = () => {
+    if (!this.redDragon) {
+      return;
+    }
     this.redDragon.destroy();
     this.redDragon.dragonWings1Sound.stop();
   };
@@ -480,6 +496,7 @@ export default class CaveScene extends Phaser.Scene {
   };
 
   public restartGame = () => {
+    this.cameras.main.fadeIn(1000);
     this.destroyAllObjects();
     this.spawnAllObjects();
   };
@@ -527,5 +544,10 @@ export default class CaveScene extends Phaser.Scene {
   private handleBGScale = () => {
     const height = this.scale.height;
     this.bg1.scale = height * 0.011;
+  };
+
+  public shutdown = () => {
+    eventsCenter.off(EventKeys.StartGame, this.startGame);
+    eventsCenter.off(EventKeys.RestartGame, this.restartGame);
   };
 }

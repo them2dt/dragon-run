@@ -5,6 +5,7 @@ enum SceneKeys {
   HomeScene = "home-scene",
   CaveScene = "cave-scene",
   Level1Scene = "level-1-scene",
+  Level2Scene = "level-2-scene",
   GameOver = "game-over"
 }
 

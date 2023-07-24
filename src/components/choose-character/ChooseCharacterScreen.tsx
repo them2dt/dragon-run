@@ -40,9 +40,9 @@ export default function ChooseCharacterScreen({ active, openShop, handleLoading 
 
   const handleConfirm = () => {
     handleLoading();
-    equipKnight(ownedKnights[characterIndex].name);
+    equipKnight(ownedKnights[characterIndex].name, ownedKnights[characterIndex].spritesheet);
     setTimeout(() => {
-      loadCharacter(solana.ownedKnights[characterIndex].spritesheet, EventKeys.GoToGame, {
+      loadCharacter(ownedKnights[characterIndex].spritesheet, EventKeys.GoToGame, {
         levelNumber: selectedLevel,
         levelSceneKey: selectedSceneKey
       });
@@ -53,7 +53,7 @@ export default function ChooseCharacterScreen({ active, openShop, handleLoading 
     // set the equipped knight to the first one in the list
     if (ownedKnights.length > 0) {
       for (let i = 0; i < ownedKnights.length; i++) {
-        if (ownedKnights[i].name === equippedKnight) {
+        if (ownedKnights[i].name === equippedKnight.name) {
           setCharacterIndex(i);
           break;
         }

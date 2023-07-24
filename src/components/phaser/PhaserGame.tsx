@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import * as Phaser from "phaser";
 import { useOverlay } from "@context/useOverlay";
 import Preloader from "../../phaser/scenes/Preloader";
-import GameOver from "../../phaser/scenes/GameOver";
 import HomeScene from "../../phaser/scenes/HomeScene";
 import Level1Scene from "phaser/scenes/Level1Scene";
+import Level2Scene from "phaser/scenes/Level2Scene";
 import CharacterLoader from "phaser/scenes/CharacterLoader";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
@@ -12,6 +12,7 @@ import SceneKeys from "constants/SceneKeys";
 import OverlayKeys from "constants/OverlayKeys";
 import EnterScene from "phaser/scenes/EnterScene";
 import type LoadCharacterProps from "types/LoadCharacterProps";
+import CaveScene from "phaser/scenes/CaveScene";
 
 export default function PhaserGame() {
   const config: Phaser.Types.Core.GameConfig = {
@@ -23,7 +24,7 @@ export default function PhaserGame() {
         debug: false
       }
     },
-    scene: [Preloader, CharacterLoader, EnterScene, HomeScene, Level1Scene, GameOver],
+    scene: [Preloader, CharacterLoader, EnterScene, HomeScene, CaveScene, Level1Scene, Level2Scene],
     scale: {
       mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -45,6 +46,39 @@ export default function PhaserGame() {
 
   const { setOverlay } = useOverlay();
 
+  const stopAllScenes = (phaserGame: Phaser.Game) => {
+    phaserGame.scene.scenes.forEach((scene) => {
+      if (scene.scene.key === SceneKeys.CharacterLoader || scene.scene.key === SceneKeys.Preloader) {
+        return;
+      }
+      if (phaserGame.scene.isActive(scene.scene.key) || phaserGame.scene.isPaused(scene.scene.key)) {
+        phaserGame.scene.stop(scene.scene.key);
+      }
+    });
+  };
+
+  const pauseAllScenes = (phaserGame: Phaser.Game) => {
+    phaserGame.scene.scenes.forEach((scene) => {
+      if (scene.scene.key === SceneKeys.CharacterLoader || scene.scene.key === SceneKeys.Preloader) {
+        return;
+      }
+      if (phaserGame.scene.isActive(scene.scene.key)) {
+        phaserGame.scene.pause(scene.scene.key);
+      }
+    });
+  };
+
+  const resumeAllScenes = (phaserGame: Phaser.Game) => {
+    phaserGame.scene.scenes.forEach((scene) => {
+      if (scene.scene.key === SceneKeys.CharacterLoader || scene.scene.key === SceneKeys.Preloader) {
+        return;
+      }
+      if (phaserGame.scene.isActive(scene.scene.key) || phaserGame.scene.isPaused(scene.scene.key)) {
+        phaserGame.scene.resume(scene.scene.key);
+      }
+    });
+  };
+
   useEffect(() => {
     const phaserGame = new Phaser.Game(config);
 
@@ -56,8 +90,9 @@ export default function PhaserGame() {
           nextEventProps
         }
       };
+      stopAllScenes(phaserGame);
+      phaserGame.sound.stopAll();
       phaserGame.scene.start(SceneKeys.CharacterLoader, data);
-      phaserGame.scene.stop(SceneKeys.HomeScene);
     });
 
     eventsCenter.on(EventKeys.GoToEnter, () => {
@@ -66,11 +101,8 @@ export default function PhaserGame() {
     });
 
     eventsCenter.on(EventKeys.GoToHome, () => {
-      phaserGame.scene.scenes.forEach((scene) => {
-        phaserGame.scene.stop(scene.scene.key);
-      });
+      stopAllScenes(phaserGame);
       phaserGame.sound.stopAll();
-
       phaserGame.scene.start(SceneKeys.HomeScene);
       setOverlay(OverlayKeys.Home);
     });
@@ -79,13 +111,11 @@ export default function PhaserGame() {
       EventKeys.GoToGame,
       ({ levelNumber, levelSceneKey }: { levelNumber: number; levelSceneKey: SceneKeys }) => {
         phaserGame.scene.stop(SceneKeys.HomeScene);
-        phaserGame.sound.stopAll();
         // Fixes animation error
         const phaserAnimations: Phaser.Types.Animations.JSONAnimations = phaserGame.anims.toJSON();
         phaserAnimations.anims.forEach((animation) => {
           phaserGame.anims.remove(animation.key);
         });
-        console.log("Going to level: ", levelNumber);
         phaserGame.scene.start(levelSceneKey);
         setOverlay(OverlayKeys.Game);
       }
@@ -104,16 +134,12 @@ export default function PhaserGame() {
     });
 
     eventsCenter.on(EventKeys.PauseGame, () => {
-      for (const scene of phaserGame.scene.scenes) {
-        scene.scene.pause();
-      }
+      pauseAllScenes(phaserGame);
       phaserGame.sound.pauseAll();
     });
 
     eventsCenter.on(EventKeys.ResumeGame, () => {
-      for (const scene of phaserGame.scene.scenes) {
-        scene.scene.resume();
-      }
+      resumeAllScenes(phaserGame);
       phaserGame.sound.resumeAll();
     });
 

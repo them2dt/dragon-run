@@ -11,7 +11,6 @@ import { useFirestore } from "@context/useFirestore";
 import { useGameData } from "@context/useGameData";
 import levels from "@consts/data/Levels";
 import Loading from "./Loading";
-import { useSolana } from "@context/useSolana";
 import loadCharacter from "utils/loadCharacter";
 
 interface LevelCompleteProps {
@@ -32,7 +31,6 @@ export default function LevelComplete({
   const muiTheme = useTheme();
   const { firestoreFunctions } = useFirestore();
   const { selectedLevel, selectLevel, highestUnlockedLevel, equippedKnight } = useGameData();
-  const { solana } = useSolana();
   const [nextLevelUnlocked, setNextLevelUnlocked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -52,12 +50,11 @@ export default function LevelComplete({
     const nextLevel = selectedLevel + 1;
     const nextLevelKey = levels[nextLevel - 1].sceneKey;
     if (nextLevelUnlocked) {
-      selectLevel(selectedLevel + 1, levels[selectedLevel + 1].sceneKey);
+      selectLevel(selectedLevel + 1, levels[selectedLevel].sceneKey);
     }
     setLoading(true);
-    const spritesheet = solana.ownedKnights.find((knight) => knight.name === equippedKnight)?.spritesheet ?? "";
     setTimeout(() => {
-      loadCharacter(spritesheet, EventKeys.GoToGame, {
+      loadCharacter(equippedKnight.spritesheet, EventKeys.GoToGame, {
         levelNumber: nextLevel,
         levelSceneKey: nextLevelKey
       });

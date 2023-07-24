@@ -57,7 +57,7 @@ export default function KnightsSection({ active, goToShop }: KnightsSectionProps
               name={character.name}
               image={character.image}
               key={"knights" + character.name}
-              equipped={equippedKnight === character.name}
+              equipped={equippedKnight.name === character.name}
             >
               <Typography variant="h5">{character.name}</Typography>
               <Typography
@@ -88,9 +88,9 @@ export default function KnightsSection({ active, goToShop }: KnightsSectionProps
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center", justifyContent: "start", ml: -1, my: -0.4 }}>
                 <Checkbox
-                  checked={equippedKnight === character.name}
+                  checked={equippedKnight.name === character.name}
                   onChange={() => {
-                    equipKnight(character.name);
+                    equipKnight(character.name, character.spritesheet);
                   }}
                   inputProps={{ "aria-label": "controlled" }}
                   sx={{
@@ -100,7 +100,9 @@ export default function KnightsSection({ active, goToShop }: KnightsSectionProps
                 <Typography
                   noWrap
                   color={
-                    equippedKnight === character.name ? muiTheme.palette.primary.main : muiTheme.palette.text.secondary
+                    equippedKnight.name === character.name
+                      ? muiTheme.palette.primary.main
+                      : muiTheme.palette.text.secondary
                   }
                   component="h3"
                 >

@@ -22,6 +22,7 @@ export default class Preloader extends Phaser.Scene {
     this.load.image(TextureKeys.CaveTiles, "game-assets/tiles/cave-tileset-extruded.png");
     this.load.tilemapTiledJSON(TextureKeys.CaveMap, "game-assets/tiles/cave-map.json");
     this.load.tilemapTiledJSON(TextureKeys.Level1, "game-assets/tiles/level-1.json");
+    this.load.tilemapTiledJSON(TextureKeys.Level2, "game-assets/tiles/cave-map.json");
 
     this.load.image(TextureKeys.Fireball, "game-assets/misc/fireball.png");
     this.load.image(TextureKeys.Lavaball, "game-assets/misc/lavaball.png");

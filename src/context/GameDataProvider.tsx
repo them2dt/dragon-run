@@ -11,8 +11,8 @@ interface GameDataContextType {
   levelsCompleted: number;
   highestUnlockedLevel: number;
   selectLevel: (levelNumber?: number, levelSceneKey?: SceneKeys) => void;
-  equippedKnight: string;
-  equipKnight: (knight: string) => void;
+  equippedKnight: { name: string; spritesheet: string };
+  equipKnight: (name: string, spritesheet: string) => void;
 }
 
 interface GameDataProviderProps {
@@ -28,11 +28,11 @@ export const GameDataProvider = ({ children }: GameDataProviderProps) => {
   const [selectedSceneKey, setSelectedSceneKey] = useState<SceneKeys>(SceneKeys.Level1Scene);
   const [levelsCompleted, setLevelsCompleted] = useState<number>(0);
   const [highestUnlockedLevel, setHighestUnlockedLevel] = useState<number>(1);
-  const [equippedKnight, setEquippedKnight] = useState("");
+  const [equippedKnight, setEquippedKnight] = useState({ name: "", spritesheet: "" });
 
-  const equipKnight = (knight: string) => {
-    setEquippedKnight(knight);
-    localStorage.setItem("equippedKnight", JSON.stringify({ knight, userName }));
+  const equipKnight = (name: string, spritesheet: string) => {
+    setEquippedKnight({ name, spritesheet });
+    localStorage.setItem("equippedKnight", JSON.stringify({ name, spritesheet, userName }));
   };
 
   const selectLevel = (levelNumber?: number, levelSceneKey?: SceneKeys) => {
@@ -65,8 +65,8 @@ export const GameDataProvider = ({ children }: GameDataProviderProps) => {
     const equippedKnight = localStorage.getItem("equippedKnight");
     if (equippedKnight) {
       const equippedKnightParsed = JSON.parse(equippedKnight);
-      if (equippedKnightParsed.userName === userName) {
-        setEquippedKnight(equippedKnightParsed.knight);
+      if (equippedKnightParsed.userName === userName && equippedKnightParsed.name && equippedKnightParsed.spritesheet) {
+        setEquippedKnight({ name: equippedKnightParsed.name, spritesheet: equippedKnightParsed.spritesheet });
       }
     }
   }, [userName]);
