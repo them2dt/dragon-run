@@ -12,5 +12,7 @@ export default class Level1Scene extends CaveScene {
     this.playerSpawnX = 134;
     this.levelNumber = 1;
     this.mapKey = TextureKeys.Level1;
+    this.redDragonSpawn = 500;
+    this.redDragonSpeed = 220;
   }
 }

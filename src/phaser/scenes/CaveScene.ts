@@ -49,7 +49,6 @@ export default class CaveScene extends Phaser.Scene {
   private lavaballThrowEvent!: Phaser.Time.TimerEvent;
 
   public redDragon!: RedDragon;
-  private redDragonSpeed = 200;
 
   private playerFireballs!: Phaser.Physics.Arcade.Group;
   private playerFireballsMaxAmount = 20;
@@ -91,6 +90,8 @@ export default class CaveScene extends Phaser.Scene {
   public playerSpawnX = 134;
   public mapKey = TextureKeys.CaveMap;
   public backgroudColor = "#3a1d33";
+  public redDragonSpawn = 100;
+  public redDragonSpeed = 200;
 
   constructor(sceneKey: string) {
     super(sceneKey);
@@ -359,7 +360,9 @@ export default class CaveScene extends Phaser.Scene {
   };
 
   public spawnRedDragon = () => {
-    this.redDragon = new RedDragon(this, 100, 100);
+    const playerBody = this.player.body as Phaser.Physics.Arcade.Body;
+    const playerBodyPositionY = playerBody.position.y + playerBody.halfHeight - 31;
+    this.redDragon = new RedDragon(this, this.redDragonSpawn, playerBodyPositionY);
     this.add.existing(this.redDragon);
     this.redDragon.depth = -1000;
   };
@@ -436,8 +439,8 @@ export default class CaveScene extends Phaser.Scene {
   };
 
   private spawnAllObjects = () => {
-    this.spawnRedDragon();
     this.spawnPlayer();
+    this.spawnRedDragon();
     this.spawnEnemies();
     this.createLavaballs();
     this.lavaballThrowEvent = this.time.addEvent({
