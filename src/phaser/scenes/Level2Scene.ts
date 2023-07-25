@@ -11,6 +11,7 @@ export default class Level2Scene extends CaveScene {
     this.scoreMultiplier = 1.1;
     this.playerSpawnX = 134;
     this.levelNumber = 2;
+    this.redDragonSpawn = 300;
     this.mapKey = TextureKeys.Level2;
   }
 }
