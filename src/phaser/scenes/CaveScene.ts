@@ -90,6 +90,7 @@ export default class CaveScene extends Phaser.Scene {
   public scoreMultiplier = 1;
   public playerSpawnX = 134;
   public mapKey = TextureKeys.CaveMap;
+  public backgroudColor = "#3a1d33";
 
   constructor(sceneKey: string) {
     super(sceneKey);
@@ -203,6 +204,7 @@ export default class CaveScene extends Phaser.Scene {
     );
 
     this.cameras.main.removeBounds();
+    this.cameras.main.setBackgroundColor(this.backgroudColor);
     handleZoom(this);
 
     this.handleBGScale();
