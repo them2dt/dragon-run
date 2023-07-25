@@ -128,7 +128,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
       case DragonState.Attacking: {
         body.setVelocityX(50);
-
+        body.setVelocityY(0);
         break;
       }
 
