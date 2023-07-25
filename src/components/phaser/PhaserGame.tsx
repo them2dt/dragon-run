@@ -5,6 +5,7 @@ import Preloader from "../../phaser/scenes/Preloader";
 import HomeScene from "../../phaser/scenes/HomeScene";
 import Level1Scene from "phaser/scenes/Level1Scene";
 import Level2Scene from "phaser/scenes/Level2Scene";
+import Level3Scene from "phaser/scenes/Level3Scene";
 import CharacterLoader from "phaser/scenes/CharacterLoader";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "constants/EventKeys";
@@ -24,7 +25,7 @@ export default function PhaserGame() {
         debug: false
       }
     },
-    scene: [Preloader, CharacterLoader, EnterScene, HomeScene, CaveScene, Level1Scene, Level2Scene],
+    scene: [Preloader, CharacterLoader, EnterScene, HomeScene, CaveScene, Level1Scene, Level2Scene, Level3Scene],
     scale: {
       mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.CENTER_BOTH,

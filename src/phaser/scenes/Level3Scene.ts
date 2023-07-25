@@ -4,13 +4,13 @@ import TextureKeys from "@consts/TextureKeys";
 
 export default class Level2Scene extends CaveScene {
   constructor() {
-    super(SceneKeys.Level2Scene);
-    this.levelCompleteX = 1800;
-    this.minCompleteTime = 75;
-    this.maxCompleteTime = 96;
-    this.scoreMultiplier = 1.1;
+    super(SceneKeys.Level3Scene);
+    this.levelCompleteX = 4850;
+    this.minCompleteTime = 220;
+    this.maxCompleteTime = 250;
+    this.scoreMultiplier = 1.2;
     this.playerSpawnX = 134;
-    this.levelNumber = 2;
-    this.mapKey = TextureKeys.Level2;
+    this.levelNumber = 3;
+    this.mapKey = TextureKeys.Level3;
   }
 }
