@@ -93,6 +93,8 @@ export default function Index(): JSX.Element {
     const username = window?.xnft?.metadata?.username;
     if (username != null) {
       setUserName(username);
+    } else {
+      setUserName("");
     }
     solanaFunctions.getPublicKey();
   }, [window?.xnft?.metadata]);

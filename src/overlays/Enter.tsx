@@ -93,6 +93,20 @@ export default function Enter({ userName }: EnterProps) {
   };
 
   useEffect(() => {
+    getAuth().onAuthStateChanged((user) => {
+      if (user) {
+        if (user.uid === userName) {
+          setAuthorised(true);
+        } else {
+          setAuthorised(false);
+        }
+      } else {
+        console.log("User is signed out");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     const auth = getAuth();
     if (auth.currentUser?.uid === userName) {
       setAuthorised(true);

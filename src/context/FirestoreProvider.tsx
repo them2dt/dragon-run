@@ -307,20 +307,6 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     setFirestoreCallableFunctions(firestoreFunctions);
   }, []);
 
-  useEffect(() => {
-    getAuth().onAuthStateChanged((user) => {
-      if (user) {
-        console.log("User is signed in");
-        const userName = user.uid;
-        getUserData(userName).catch((err) => {
-          console.log("Error getting user data: ", err.message);
-        });
-      } else {
-        console.log("User is signed out");
-      }
-    });
-  }, []);
-
   useMemo(() => {
     if (firestoreData?.userData?.userName == null) {
       return;
