@@ -1,7 +1,8 @@
-import React, { createContext, useState, useMemo } from "react";
+import React, { createContext, useState, useMemo, useEffect } from "react";
 import SceneKeys from "@consts/SceneKeys";
 import levels from "@consts/data/Levels";
 import { useFirestore } from "@context/useFirestore";
+import { getAuth } from "firebase/auth";
 
 interface GameDataContextType {
   userName: string;
@@ -73,6 +74,17 @@ export const GameDataProvider = ({ children }: GameDataProviderProps) => {
       firestoreFunctions?.getUserData(userName);
     }
   }, [userName]);
+
+  useEffect(() => {
+    getAuth().onAuthStateChanged((user) => {
+      if (user && user.uid === userName) {
+        console.log("Signed in as: " + user.uid);
+        firestoreFunctions.getUserData();
+      } else {
+        console.log("Not signed in as: " + userName);
+      }
+    });
+  }, []);
 
   return (
     <GameDataContext.Provider

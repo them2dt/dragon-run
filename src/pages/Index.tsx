@@ -53,7 +53,7 @@ export default function Index(): JSX.Element {
       }
     };
     initializeUserData();
-  }, [firestoreData?.userData]);
+  }, [firestoreData?.userData, userName]);
 
   useMemo(() => {
     if (newScore > highScore) {
