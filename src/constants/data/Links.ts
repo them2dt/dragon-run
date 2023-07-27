@@ -1,6 +1,6 @@
 const discord = "https://discord.gg/";
 const twitter = "https://twitter.com/EmpteaXYZ/";
-const tensor = "https://www.tensor.trade/";
-const magicEden = "https://magiceden.io/";
+const tensor = "";
+const magicEden = "";
 
 export { discord, twitter, tensor, magicEden };
