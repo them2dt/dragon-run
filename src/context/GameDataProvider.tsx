@@ -22,7 +22,7 @@ interface GameDataProviderProps {
 export const GameDataContext = createContext<GameDataContextType | null>(null);
 
 export const GameDataProvider = ({ children }: GameDataProviderProps) => {
-  const { firestoreData } = useFirestore();
+  const { firestoreData, firestoreFunctions } = useFirestore();
   const [userName, setUserName] = useState<string>("");
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
   const [selectedSceneKey, setSelectedSceneKey] = useState<SceneKeys>(SceneKeys.Level1Scene);
@@ -68,6 +68,9 @@ export const GameDataProvider = ({ children }: GameDataProviderProps) => {
       if (equippedKnightParsed.userName === userName && equippedKnightParsed.name && equippedKnightParsed.spritesheet) {
         setEquippedKnight({ name: equippedKnightParsed.name, spritesheet: equippedKnightParsed.spritesheet });
       }
+    }
+    if (userName !== "") {
+      firestoreFunctions?.getUserData(userName);
     }
   }, [userName]);
 

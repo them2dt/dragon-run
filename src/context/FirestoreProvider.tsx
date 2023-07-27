@@ -336,6 +336,10 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     });
   }, []);
 
+  useEffect(() => {
+    console.log(firestoreData?.userData);
+  }, [firestoreData?.userData]);
+
   const firestoreFunctions = {
     initializeUserData,
     getUserData,
