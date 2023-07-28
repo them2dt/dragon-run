@@ -54,6 +54,8 @@ export default function Enter({ userName }: EnterProps) {
   };
 
   const handleEnterClick = async () => {
+    setError(false);
+    setSuccess(false);
     setLoading(true);
     setLoadingDescription("Fetching your stats...");
     if (!userName) {
@@ -62,8 +64,8 @@ export default function Enter({ userName }: EnterProps) {
     }
     const auth = getAuth();
     if (auth.currentUser?.uid === userName) {
-      if (!termsAndConditionsAccepted) return;
       setAuthorised(true);
+      setLoadingDescription("Welcome back, " + userName + "!");
       setSuccess(true);
       eventsCenter.emit(EventKeys.GoToHome);
       return;
@@ -89,14 +91,17 @@ export default function Enter({ userName }: EnterProps) {
     await solanaFunctions
       .getAuthSignature(userName)
       .then(() => {
+        setLoadingDescription("Access granted!");
+        setSuccess(true);
         setAuthorised(true);
         setFailedSignIn(false);
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
+        setLoadingDescription("Error: Couldn't sign in. Please try again.");
         setFailedSignIn(true);
       });
-    setLoading(false);
   };
 
   const enterFullScreen = () => {
@@ -112,7 +117,7 @@ export default function Enter({ userName }: EnterProps) {
           setAuthorised(false);
         }
       } else {
-        console.log("User is signed out");
+        console.log("User is not signed in.");
       }
     });
   }, []);
@@ -227,7 +232,13 @@ export default function Enter({ userName }: EnterProps) {
             )}
           </div>
         </div>
-        <LoadingFullScreen active={loading} description={solanaLoadingDescription ?? loadingDescription} />
+        <LoadingFullScreen
+          active={loading}
+          setActive={setLoading}
+          error={error}
+          success={success}
+          description={solanaLoadingDescription === "" ? loadingDescription : solanaLoadingDescription}
+        />
       </OverlayWrapper>
     </AnimatedPage>
   );

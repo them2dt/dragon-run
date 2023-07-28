@@ -208,6 +208,7 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
         resetSolanaLoadingDescription();
         throw new Error("Auth error: " + err.message);
       });
+    resetSolanaLoadingDescription();
   };
 
   useMemo(() => {
