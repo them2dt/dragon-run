@@ -15,6 +15,10 @@ export default class Preloader extends Phaser.Scene {
   }
 
   preload() {
+    this.load.on("progress", (value: number) => {
+      eventsCenter.emit(EventKeys.LoadingProgress, value);
+    });
+
     this.load.image(TextureKeys.Background1, "game-assets/backgrounds/volcano-bg1.png");
     this.load.image(TextureKeys.Background2, "game-assets/backgrounds/volcano-bg2.png");
     this.load.image(TextureKeys.Background3, "game-assets/backgrounds/volcano-bg3.png");

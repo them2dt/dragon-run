@@ -1,5 +1,6 @@
 enum EventKeys {
   PreloaderLoaded = "preloader-loaded",
+  LoadingProgress = "loading-progress",
   GoToEnter = "go-to-enter",
   GoToHome = "go-to-home",
   HomeLoaded = "home-loaded",

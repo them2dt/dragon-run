@@ -54,7 +54,15 @@ export default function LoadingDetails({ setActive, progress, success, error, de
           {description}
         </Typography>
       </Box>
-      <Box sx={{ mt: 2, width: "60%", [muiTheme.breakpoints.up("md")]: { width: "40%" } }}>
+      <Box
+        sx={{
+          mt: 2,
+          width: "60%",
+          alignItems: "center",
+          textAlign: "center",
+          [muiTheme.breakpoints.up("md")]: { width: "40%" }
+        }}
+      >
         {progress && <LinearProgress color={"inherit"} variant={"determinate"} value={progress} />}
       </Box>
     </>

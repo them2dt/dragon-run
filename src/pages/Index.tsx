@@ -25,6 +25,7 @@ export default function Index(): JSX.Element {
   const [time, setTime] = useState<number>(0);
   const [timeBonus, setTimeBonus] = useState<number>(0);
   const [levelCompleted, setLevelCompleted] = useState<number>(0);
+  const [progress, setProgress] = useState<number>(0);
 
   useEffect(() => {
     if (firestoreData?.leaderboard == null) {
@@ -57,6 +58,9 @@ export default function Index(): JSX.Element {
   }, [newScore]);
 
   useEffect(() => {
+    eventsCenter.on(EventKeys.LoadingProgress, (progress: number) => {
+      setProgress(progress * 100);
+    });
     eventsCenter.on(EventKeys.UpdateEndScore, (score: number) => {
       setNewScore(score);
     });
@@ -74,6 +78,7 @@ export default function Index(): JSX.Element {
       setNewHighScore(0);
     });
     return () => {
+      eventsCenter.off(EventKeys.LoadingProgress);
       eventsCenter.off(EventKeys.UpdateEndScore);
       eventsCenter.off(EventKeys.UpdateLevelCompleteData);
       eventsCenter.off(EventKeys.GoToGame);
@@ -83,7 +88,9 @@ export default function Index(): JSX.Element {
   return (
     <>
       {overlay === OverlayKeys.None && null}
-      {overlay === OverlayKeys.Preloader ? <Loading /> : null}
+      {overlay === OverlayKeys.Preloader ? (
+        <Loading progress={progress} loadingDescription="Preparing the Dragons..." />
+      ) : null}
       {overlay === OverlayKeys.Enter ? <Enter userName={userName} /> : null}
       {overlay === OverlayKeys.Home ? <Home /> : null}
       {overlay === OverlayKeys.Game || overlay === OverlayKeys.GameOver || overlay === OverlayKeys.LevelComplete ? (
