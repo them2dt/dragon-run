@@ -22,18 +22,35 @@ export default function LoadingDetails({ setActive, progress, success, error, de
     }
   };
 
+  const handleError = () => {
+    if (setActive) {
+      setTimeout(() => {
+        setActive(false);
+      }, 2000);
+    }
+  };
+
   useEffect(() => {
-    console.log("success", success);
-    if (success) {
+    if (success === true) {
       handleSuccess();
     }
   }, [success]);
+
+  useEffect(() => {
+    if (error === true) {
+      handleError();
+    }
+  }, [error]);
 
   return (
     <>
       <LoadingSpinner success={success} error={error} />
       <Box sx={{ mt: 2, px: 1, maxWidth: "80%", [muiTheme.breakpoints.up("md")]: { maxWidth: "40%" } }}>
-        <Typography variant={"h6"} sx={{ color: success ? green[500] : muiTheme.palette.secondary.main }}>
+        <Typography
+          align={"center"}
+          variant={"h6"}
+          sx={{ color: success ? green[500] : muiTheme.palette.secondary.main }}
+        >
           {description}
         </Typography>
       </Box>
