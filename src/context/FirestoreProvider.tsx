@@ -141,7 +141,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   };
 
   const initializeUserData = async (userName: string) => {
-    if (userName === "") {
+    if (userName === "" || userName == null) {
       return;
     }
     if (firestoreData?.userData?.userName === userName) {
@@ -149,8 +149,11 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     }
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("userName", "==", userName));
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(q).catch((err) => {
+      throw new Error(err.message);
+    });
     if (querySnapshot.size === 0) {
+      console.log("No user with name: " + userName + " found!");
       await createUser(userName);
       return;
     }
@@ -159,7 +162,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   };
 
   const createUser = async (userName: string) => {
-    if (userName === "") {
+    if (userName === "" || userName == null) {
       throw new Error("Failed to create user: userName is null!");
     }
     const auth = getAuth();
@@ -314,7 +317,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     const userName = firestoreData?.userData?.userName;
     onSnapshot(doc(db, "users", userName), (doc) => {
       if (!doc.exists()) {
-        console.log("No such document!");
+        console.log("User document doesn't exist!");
         return;
       }
       const userData = doc.data() as UserData;
@@ -335,10 +338,6 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       });
     });
   }, []);
-
-  useEffect(() => {
-    console.log(firestoreData?.userData);
-  }, [firestoreData?.userData]);
 
   const firestoreFunctions = {
     initializeUserData,

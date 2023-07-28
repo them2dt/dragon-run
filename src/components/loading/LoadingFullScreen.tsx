@@ -1,8 +1,8 @@
 import React from "react";
-import { Paper, Stack, useTheme, Box, Zoom } from "@mui/material";
+import { useTheme, Box, Zoom, Paper, Stack } from "@mui/material";
 import LoadingDetails from "./LoadingDetails";
 
-interface LoadingScreenProps {
+interface LoadingFullScreenProps {
   active: boolean;
   setActive?: React.Dispatch<React.SetStateAction<boolean>>;
   progress?: number;
@@ -11,16 +11,15 @@ interface LoadingScreenProps {
   description?: string;
 }
 
-export default function LoadingScreen({
+export default function LoadingFullScreen({
   active,
   setActive,
   progress,
   success,
   error,
   description
-}: LoadingScreenProps) {
+}: LoadingFullScreenProps) {
   const muiTheme = useTheme();
-
   return (
     <Zoom in={active} style={{ transitionDelay: active ? "0ms" : "0ms" }} unmountOnExit>
       <Paper
@@ -28,9 +27,12 @@ export default function LoadingScreen({
         elevation={0}
         sx={{
           background: muiTheme.palette.background.default,
-          overflowY: "hidden",
-          height: "80vh",
-          overflowX: "hidden"
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          zIndex: 1000
         }}
       >
         <Box
@@ -39,7 +41,7 @@ export default function LoadingScreen({
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            height: "60vh"
+            height: "100vh"
           }}
         >
           <LoadingDetails

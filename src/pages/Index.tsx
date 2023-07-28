@@ -10,7 +10,6 @@ import { useFirestore } from "@context/useFirestore";
 import eventsCenter from "utils/eventsCenter";
 import EventKeys from "@consts/EventKeys";
 import Enter from "overlays/Enter";
-import { useSolana } from "@context/useSolana";
 import LevelComplete from "overlays/LevelComplete";
 import type LevelCompleteData from "types/LevelCompleteData";
 import { useGameData } from "@context/useGameData";
@@ -18,8 +17,7 @@ import { useGameData } from "@context/useGameData";
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
   const { firestoreData, firestoreFunctions } = useFirestore();
-  const { solanaFunctions } = useSolana();
-  const { userName, setUserName } = useGameData();
+  const { userName } = useGameData();
   const [highScore, setHighScore] = useState<number>(0);
   const [newScore, setNewScore] = useState<number>(0);
   const [newHighScore, setNewHighScore] = useState<number>(0);
@@ -42,10 +40,6 @@ export default function Index(): JSX.Element {
       const currentUserName = firestoreData?.userData?.userName;
       if (userName !== currentUserName) {
         firestoreFunctions.initializeUserData(userName);
-      }
-      const updatedUserName = firestoreData?.userData?.userName;
-      if (updatedUserName != null) {
-        setUserName(updatedUserName);
       }
       const updatedHighScore = firestoreData?.userData?.highScore;
       if (updatedHighScore !== undefined) {
@@ -85,19 +79,6 @@ export default function Index(): JSX.Element {
       eventsCenter.off(EventKeys.GoToGame);
     };
   }, []);
-
-  useEffect(() => {
-    if (window?.xnft == null || window?.xnft?.metadata == null || window?.xnft?.metadata?.username == null) {
-      return;
-    }
-    const username = window?.xnft?.metadata?.username;
-    if (username != null) {
-      setUserName(username);
-    } else {
-      setUserName("");
-    }
-    solanaFunctions.getPublicKey();
-  }, [window?.xnft?.metadata]);
 
   return (
     <>

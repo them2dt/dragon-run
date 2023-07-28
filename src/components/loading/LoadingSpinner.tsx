@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface LoadingSpinnerProps {
   className?: string;
+  success?: boolean;
+  error?: boolean;
 }
 
-const LoadingSpinner = (props: LoadingSpinnerProps) => {
+const LoadingSpinner = ({ className, success, error }: LoadingSpinnerProps) => {
   const loadingSpinnerAnimation = {
     initial: { opacity: 0 },
     animate: {
@@ -17,14 +19,26 @@ const LoadingSpinner = (props: LoadingSpinnerProps) => {
     exit: { opacity: 0, transition: { duration: 1.5 } }
   };
 
+  const [source, setSource] = useState("/loading/blocks-loading.svg");
+
+  useEffect(() => {
+    if (success) {
+      setSource("/loading/blocks-success.svg");
+    } else if (error) {
+      setSource("/loading/blocks-error.svg");
+    } else {
+      setSource("/loading/blocks-loading.svg");
+    }
+  }, [success, error]);
+
   return (
     <motion.img
       variants={loadingSpinnerAnimation}
       initial="initial"
       animate="animate"
       exit="exit"
-      className={`h-[40px] xs:h-[50px] sm:h-[70px] lg:h-[80px] sm:px-3 md:px-0 cursor-auto ${props.className}`}
-      src={"/loading/Blocks-0.9s-200px.svg"}
+      className={`h-[40px] xs:h-[50px] sm:h-[70px] lg:h-[80px] sm:px-3 md:px-0 cursor-auto ${className}`}
+      src={source}
       alt=""
     />
   );

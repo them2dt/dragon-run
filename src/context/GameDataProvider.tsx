@@ -3,6 +3,7 @@ import SceneKeys from "@consts/SceneKeys";
 import levels from "@consts/data/Levels";
 import { useFirestore } from "@context/useFirestore";
 import { getAuth } from "firebase/auth";
+import { useSolana } from "@context/useSolana";
 
 interface GameDataContextType {
   userName: string;
@@ -23,6 +24,7 @@ interface GameDataProviderProps {
 export const GameDataContext = createContext<GameDataContextType | null>(null);
 
 export const GameDataProvider = ({ children }: GameDataProviderProps) => {
+  const { solanaFunctions } = useSolana();
   const { firestoreData, firestoreFunctions } = useFirestore();
   const [userName, setUserName] = useState<string>("");
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
@@ -63,6 +65,9 @@ export const GameDataProvider = ({ children }: GameDataProviderProps) => {
   }, [firestoreData?.userData?.levelsCompleted]);
 
   useMemo(() => {
+    if (userName !== "") {
+      firestoreFunctions?.getUserData(userName);
+    }
     const equippedKnight = localStorage.getItem("equippedKnight");
     if (equippedKnight) {
       const equippedKnightParsed = JSON.parse(equippedKnight);
@@ -70,13 +75,11 @@ export const GameDataProvider = ({ children }: GameDataProviderProps) => {
         setEquippedKnight({ name: equippedKnightParsed.name, spritesheet: equippedKnightParsed.spritesheet });
       }
     }
-    if (userName !== "") {
-      firestoreFunctions?.getUserData(userName);
-    }
   }, [userName]);
 
   useEffect(() => {
     getAuth().onAuthStateChanged((user) => {
+      if (!userName) return;
       if (user && user.uid === userName) {
         console.log("Signed in as: " + user.uid);
         firestoreFunctions.getUserData();
@@ -85,6 +88,19 @@ export const GameDataProvider = ({ children }: GameDataProviderProps) => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (window?.xnft == null || window?.xnft?.metadata == null || window?.xnft?.metadata?.username == null) {
+      return;
+    }
+    const username = window?.xnft?.metadata?.username;
+    if (username != null) {
+      setUserName(username);
+    } else {
+      setUserName("");
+    }
+    solanaFunctions.getPublicKey();
+  }, [window?.xnft?.metadata?.username]);
 
   return (
     <GameDataContext.Provider

@@ -10,9 +10,9 @@ import eventsCenter from "utils/eventsCenter";
 import AlertDialog from "components/AlertDialog";
 import { useFirestore } from "@context/useFirestore";
 import { getAuth } from "firebase/auth";
-import Loading from "./Loading";
 import { green, grey } from "@mui/material/colors";
 import TermsAndConditionsDialog from "components/TermsAndConditionsDialog";
+import LoadingFullScreen from "components/loading/LoadingFullScreen";
 
 interface EnterProps {
   userName: string;
@@ -20,10 +20,13 @@ interface EnterProps {
 
 export default function Enter({ userName }: EnterProps) {
   const muiTheme = useTheme();
-  const { solanaFunctions } = useSolana();
+  const { solanaFunctions, solanaLoadingDescription } = useSolana();
   const { firestoreData } = useFirestore();
 
   const [loading, setLoading] = useState(false);
+  const [loadingDescription, setLoadingDescription] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
   const [authorised, setAuthorised] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const [failedSignIn, setFailedSignIn] = useState(false);
@@ -52,29 +55,37 @@ export default function Enter({ userName }: EnterProps) {
 
   const handleEnterClick = async () => {
     setLoading(true);
+    setLoadingDescription("Fetching your stats...");
     if (!userName) {
       eventsCenter.emit(EventKeys.GoToHome);
       return;
     }
     const auth = getAuth();
     if (auth.currentUser?.uid === userName) {
+      if (!termsAndConditionsAccepted) return;
       setAuthorised(true);
-      console.log("User already signed in");
+      setSuccess(true);
       eventsCenter.emit(EventKeys.GoToHome);
       return;
     }
     const xnftSolana = window?.xnft?.solana;
     if (!xnftSolana) {
+      setError(true);
+      setLoadingDescription("Error: Couldn't connect to Backpack. Please check your connection and try again.");
       return;
     }
     const pubkey = xnftSolana?.publicKey?.toString();
     if (!pubkey) {
+      setError(true);
+      setLoadingDescription("Error: Couldn't get your wallet details. Please check your connection and try again.");
       return;
     }
     if (pubkey == null) {
-      console.log("Pubkey not found");
+      setError(true);
+      setLoadingDescription("Error: Couldn't get your wallet details. Please check your connection and try again.");
       return;
     }
+
     await solanaFunctions
       .getAuthSignature(userName)
       .then(() => {
@@ -216,11 +227,7 @@ export default function Enter({ userName }: EnterProps) {
             )}
           </div>
         </div>
-        {loading && (
-          <div className="absolute top-0 left-0 w-full h-full bg-bg3">
-            <Loading />
-          </div>
-        )}
+        <LoadingFullScreen active={loading} description={solanaLoadingDescription ?? loadingDescription} />
       </OverlayWrapper>
     </AnimatedPage>
   );

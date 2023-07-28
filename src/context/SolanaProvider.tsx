@@ -13,6 +13,7 @@ export interface Solana {
 }
 
 interface SolanaContextType {
+  solanaLoadingDescription: string;
   solana: Solana;
   setSolana: React.Dispatch<React.SetStateAction<Solana>>;
   solanaFunctions: {
@@ -37,6 +38,7 @@ const defaultKnight: KnightNFT = {
 };
 
 export const SolanaProvider = ({ children }: SolanaProviderProps) => {
+  const [solanaLoadingDescription, setSolanaLoadingDescription] = useState("");
   const [publicKey, setPublicKey] = useState<string | null>(null);
   const [metaplex, setMetaplex] = useState<Metaplex | null>(null);
   const [ownedKnights, setOwnedKnights] = useState<KnightNFT[]>([defaultKnight]);
@@ -48,6 +50,10 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   const { firestoreCallableFunctions, firestoreFunctions } = useFirestore();
 
   const candyMachineCollection = import.meta.env.VITE_CM_COLLECTION;
+
+  const resetSolanaLoadingDescription = () => {
+    setSolanaLoadingDescription("");
+  };
 
   const getPublicKey = () => {
     const xnft = window?.xnft;
@@ -160,24 +166,28 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
   const getAuthSignature = async (userName: string) => {
     const xnftSolana = window?.xnft?.solana;
     if (!xnftSolana) {
-      return;
+      throw new Error("Couldn't connect to Backpack");
     }
     const connection = xnftSolana?.connection;
     if (!connection) {
-      return;
+      throw new Error("Couldn't connect to Solana");
     }
     if (!publicKey) {
-      return;
+      throw new Error("Couldn't get wallet details");
     }
+    setSolanaLoadingDescription("Fetching message to sign...");
     await firestoreCallableFunctions
       ?.getAuthMessage(userName, publicKey)
       .then(async (messageData: any) => {
         const message = messageData.message;
         if (!message) {
+          resetSolanaLoadingDescription();
           throw new Error("No message found");
         }
+        setSolanaLoadingDescription("Waiting for signature...");
         await getSignature(message)
           .then(async (signature) => {
+            setSolanaLoadingDescription("Confirming signature...");
             signature = encode(signature);
             await firestoreCallableFunctions
               ?.getAuthToken(userName, publicKey, signature, messageData.signatureID)
@@ -185,14 +195,17 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
                 await firestoreFunctions?.signInWithToken(token);
               })
               .catch((err: any) => {
+                resetSolanaLoadingDescription();
                 throw new Error(err.message);
               });
           })
           .catch((err) => {
+            resetSolanaLoadingDescription();
             throw new Error(err.message);
           });
       })
       .catch((err: any) => {
+        resetSolanaLoadingDescription();
         throw new Error("Auth error: " + err.message);
       });
   };
@@ -236,6 +249,10 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     getOwnedKnights
   };
 
-  return <SolanaContext.Provider value={{ solana, setSolana, solanaFunctions }}>{children}</SolanaContext.Provider>;
+  return (
+    <SolanaContext.Provider value={{ solanaLoadingDescription, solana, setSolana, solanaFunctions }}>
+      {children}
+    </SolanaContext.Provider>
+  );
 };
 export default SolanaProvider;
