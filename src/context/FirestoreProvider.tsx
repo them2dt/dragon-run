@@ -55,6 +55,7 @@ export const FirestoreContext = createContext<FirestoreContextType | null>(null)
 export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
   const [firestoreData, setFirestoreData] = useState<FirestoreData>(defaultFirestoreData);
   const [firestoreCallableFunctions, setFirestoreCallableFunctions] = useState<FirestoreCallableFunctions | null>(null);
+  const [apparentUserName, setApparentUserName] = useState<string>("");
 
   const db = getFirestore(firestore);
 
@@ -154,6 +155,7 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
     });
     if (querySnapshot.size === 0) {
       console.log("No user with name: " + userName + " found!");
+      setApparentUserName(userName);
       await createUser(userName);
       return;
     }
@@ -192,11 +194,15 @@ export const FirestoreProvider = ({ children }: FirestoreProviderProps) => {
       };
       await setDoc(doc(db, "users", userName), newUser);
     }
+    await getUserData(userName);
   };
 
   const newHighScore = async (highScore: number) => {
     if (firestoreData?.userData == null) {
-      throw new Error("Failed to update high score: userData is null");
+      console.log("Failed to update high score: userData is null");
+      console.log("Attempting to get user data...");
+      await getUserData(apparentUserName);
+      throw new Error("Failed to update high score: could not get user data");
     }
     if (firestoreData?.userData?.userName == null) {
       throw new Error("Failed to update high score: userName is null");
