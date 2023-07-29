@@ -1,15 +1,17 @@
+import type AlertSeverityKeys from "@consts/AlertSeverityKeys";
 import React, { createContext, useState } from "react";
 
 export interface Alert {
   open: boolean;
   message: string;
-  severity: "success" | "info" | "warning" | "error" | undefined;
+  severity: AlertSeverityKeys | undefined;
   hideDuration?: number | null;
 }
 
 interface AlertContextType {
   alert: Alert;
   setAlert: React.Dispatch<React.SetStateAction<Alert>>;
+  newAlert: (message: string, severity: AlertSeverityKeys, hideDuration?: number | null) => void;
 }
 
 interface AlertProviderProps {
@@ -26,6 +28,15 @@ export const AlertProvider = ({ children }: AlertProviderProps) => {
     hideDuration: null
   });
 
-  return <AlertContext.Provider value={{ alert, setAlert }}>{children}</AlertContext.Provider>;
+  const newAlert = (message: string, severity: AlertSeverityKeys, hideDuration?: number | null) => {
+    setAlert({
+      open: true,
+      message,
+      severity,
+      hideDuration
+    });
+  };
+
+  return <AlertContext.Provider value={{ alert, setAlert, newAlert }}>{children}</AlertContext.Provider>;
 };
 export default AlertProvider;

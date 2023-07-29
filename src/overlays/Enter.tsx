@@ -7,7 +7,7 @@ import AnimatedEnterTitle from "components/animated/AnimatedEnterTitle";
 import { Typography, useTheme, Checkbox, Box } from "@mui/material";
 import { SquareButton } from "components/styled/SquareButton";
 import eventsCenter from "utils/eventsCenter";
-import AlertDialog from "components/AlertDialog";
+import AlertDialog from "components/alerts/AlertDialog";
 import { useFirestore } from "@context/useFirestore";
 import { getAuth } from "firebase/auth";
 import { green, grey } from "@mui/material/colors";

@@ -4,7 +4,9 @@ import type KnightNFT from "types/KnightNFT";
 import { useFirestore } from "./useFirestore";
 import { encode } from "bs58";
 import { PublicKey } from "@solana/web3.js";
+import { useAlert } from "@context/useAlert";
 import axios from "axios";
+import AlertSeverityKeys from "@consts/AlertSeverityKeys";
 
 export interface Solana {
   publicKey: string | null;
@@ -38,6 +40,7 @@ const defaultKnight: KnightNFT = {
 };
 
 export const SolanaProvider = ({ children }: SolanaProviderProps) => {
+  const { newAlert } = useAlert();
   const [solanaLoadingDescription, setSolanaLoadingDescription] = useState("");
   const [publicKey, setPublicKey] = useState<string | null>(null);
   const [metaplex, setMetaplex] = useState<Metaplex | null>(null);
@@ -103,6 +106,14 @@ export const SolanaProvider = ({ children }: SolanaProviderProps) => {
     const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(xnftSolana));
     if (!metaplex) {
       return;
+    }
+    if (
+      metaplex.cluster === "devnet" ||
+      metaplex.cluster === "testnet" ||
+      metaplex.cluster === "localnet" ||
+      metaplex.cluster === "custom"
+    ) {
+      newAlert("Please ensure you're connected to Mainnet Beta to play.", AlertSeverityKeys.Warning, 3500);
     }
     setMetaplex(metaplex);
   };

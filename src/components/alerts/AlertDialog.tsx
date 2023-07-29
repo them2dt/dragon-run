@@ -1,9 +1,9 @@
 import React from "react";
 import Dialog from "@mui/material/Dialog";
 import { IconButton, Paper, Stack, Typography, useTheme } from "@mui/material";
-import MenuSlideTransition from "./MenuSlideTransition";
+import MenuSlideTransition from "../MenuSlideTransition";
 import CloseIcon from "@mui/icons-material/Close";
-import { SquareButton } from "./styled/SquareButton";
+import { SquareButton } from "../styled/SquareButton";
 
 interface AlertDialogProps {
   dialogOpen: boolean;
