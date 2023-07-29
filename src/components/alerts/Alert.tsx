@@ -2,7 +2,7 @@ import React from "react";
 import { Alert, Snackbar } from "@mui/material";
 import { useAlert } from "@context/useAlert";
 
-export default function TransactionAlert() {
+export default function BottomAlert() {
   const { alert, setAlert } = useAlert();
 
   const { open, message, severity, hideDuration } = alert;

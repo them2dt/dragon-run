@@ -13,6 +13,7 @@ import Enter from "overlays/Enter";
 import LevelComplete from "overlays/LevelComplete";
 import type LevelCompleteData from "types/LevelCompleteData";
 import { useGameData } from "@context/useGameData";
+import BottomAlert from "components/alerts/Alert";
 
 export default function Index(): JSX.Element {
   const { overlay } = useOverlay();
@@ -107,6 +108,7 @@ export default function Index(): JSX.Element {
         />
       ) : null}
       <PhaserGame />
+      <BottomAlert />
     </>
   );
 }

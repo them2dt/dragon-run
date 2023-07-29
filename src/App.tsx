@@ -13,6 +13,7 @@ import Index from "./pages/Index";
 import SettingsProvider from "@context/SettingsProvider";
 import SolanaProvider from "@context/SolanaProvider";
 import GameDataProvider from "@context/GameDataProvider";
+import AlertProvider from "@context/AlertProvider";
 
 globalThis.Buffer = buffer.Buffer;
 
@@ -34,21 +35,23 @@ function App() {
   const endpoint = import.meta.env.VITE_RPC_URL;
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <ThemeProvider theme={muiTheme}>
-        <FirestoreProvider>
-          <SettingsProvider>
-            <SolanaProvider>
-              <GameDataProvider>
-                <OverlayProvider>
-                  <RouterProvider router={router} />
-                </OverlayProvider>
-              </GameDataProvider>
-            </SolanaProvider>
-          </SettingsProvider>
-        </FirestoreProvider>
-      </ThemeProvider>
-    </ConnectionProvider>
+    <AlertProvider>
+      <ConnectionProvider endpoint={endpoint}>
+        <ThemeProvider theme={muiTheme}>
+          <FirestoreProvider>
+            <SettingsProvider>
+              <SolanaProvider>
+                <GameDataProvider>
+                  <OverlayProvider>
+                    <RouterProvider router={router} />
+                  </OverlayProvider>
+                </GameDataProvider>
+              </SolanaProvider>
+            </SettingsProvider>
+          </FirestoreProvider>
+        </ThemeProvider>
+      </ConnectionProvider>
+    </AlertProvider>
   );
 }
 
