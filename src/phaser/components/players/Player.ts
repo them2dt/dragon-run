@@ -49,7 +49,7 @@ export default class Player extends Phaser.GameObjects.Container {
 
   public playerState: PlayerState = PlayerState.Idle;
   private playerSpeed = 210;
-  private playerJump = -300;
+  private playerJump = -240;
   private playerSize = 1.0;
   private playerAbility = PlayerAbility.None;
 
@@ -221,7 +221,7 @@ export default class Player extends Phaser.GameObjects.Container {
     body.setAccelerationY(0);
     body.setVelocityX(0);
     body.setVelocityY(-200);
-    body.setGravityY(150);
+    body.setGravityY(230);
     body.collideWorldBounds = false;
   }
 
@@ -314,14 +314,19 @@ export default class Player extends Phaser.GameObjects.Container {
         } else {
           body.setVelocityX(0);
         }
-
-        if (
-          (this.cursors.up.isDown && body.blocked.down) ||
-          (this.wKey.isDown && body.blocked.down) ||
-          (this.cursors.space.isDown && body.blocked.down)
-        ) {
-          body.setVelocityY(this.playerJump);
-          this.playerJump1Sound.play({ volume: 0.8 });
+        // Jumping
+        if (this.cursors.up.isDown || this.wKey.isDown || this.cursors.space.isDown) {
+          // Jumping from the ground
+          if (body.blocked.down) {
+            body.setVelocityY(this.playerJump);
+            this.playerJump1Sound.play({ volume: 0.8 });
+          } else if (body.velocity.y < 0) {
+            // Jumping in the air
+            body.setVelocityY(body.velocity.y * 1.02);
+          } else if (body.velocity.y > 0) {
+            // Falling
+            body.setVelocityY(body.velocity.y * 0.96);
+          }
         }
 
         if (!body.blocked.down && body.velocity.x < 0) {
