@@ -303,6 +303,7 @@ export default class Player extends Phaser.GameObjects.Container {
 
       case PlayerState.Alive: {
         this.updateScore();
+        // Left and Right
         if (this.cursors.left.isDown || this.aKey.isDown) {
           body.setVelocityX(-this.playerSpeed);
           this.defaultCharacter.play(AnimationKeys.CharacterRunningRight, true);
@@ -314,7 +315,7 @@ export default class Player extends Phaser.GameObjects.Container {
         } else {
           body.setVelocityX(0);
         }
-        // Jumping
+        // Up
         if (this.cursors.up.isDown || this.wKey.isDown || this.cursors.space.isDown) {
           // Jumping from the ground
           if (body.blocked.down) {
@@ -325,7 +326,13 @@ export default class Player extends Phaser.GameObjects.Container {
             body.setVelocityY(body.velocity.y * 1.02);
           } else if (body.velocity.y > 0) {
             // Falling
-            body.setVelocityY(body.velocity.y * 0.96);
+            body.setVelocityY(body.velocity.y * 0.97);
+          }
+        }
+        // Down
+        if (this.cursors.down.isDown || this.sKey.isDown) {
+          if (body.velocity.y > 0 || body.velocity.y < 0) {
+            body.setVelocityY(body.velocity.y * 1.02);
           }
         }
 
