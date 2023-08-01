@@ -101,6 +101,8 @@ export default class CaveScene extends Phaser.Scene {
   public resize() {
     handleZoom(this);
 
+    this.handleCameraFollow(true);
+
     this.handleBGScale();
   }
 
@@ -506,7 +508,7 @@ export default class CaveScene extends Phaser.Scene {
     this.spawnAllObjects();
   };
 
-  public handleCameraFollow = () => {
+  public handleCameraFollow = (rezize?: boolean) => {
     if (!this.redDragon || !this.player.body || this.cameraFollowing === CameraFollowing.None) {
       return;
     }
@@ -520,25 +522,36 @@ export default class CaveScene extends Phaser.Scene {
       0
     );
 
-    if (
-      distanceBetweenPlayerAndRedDragonX < -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10 &&
-      this.cameraFollowing === CameraFollowing.Player
-    ) {
-      this.cameraFollowing = CameraFollowing.RedDragon;
-      this.cameras.main.startFollow(
-        this.redDragon,
-        false,
-        0.9,
-        0.1,
-        this.dragonCameraOffset,
-        redDragonBody.height * 0.5
-      );
-    } else if (
-      distanceBetweenPlayerAndRedDragonX >= -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10 &&
-      this.cameraFollowing === CameraFollowing.RedDragon
-    ) {
-      this.cameraFollowing = CameraFollowing.Player;
-      this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100);
+    if (distanceBetweenPlayerAndRedDragonX < -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10) {
+      if (this.cameraFollowing === CameraFollowing.Player) {
+        this.cameraFollowing = CameraFollowing.RedDragon;
+        this.cameras.main.startFollow(
+          this.redDragon,
+          false,
+          0.9,
+          0.1,
+          this.dragonCameraOffset,
+          redDragonBody.height * 0.5
+        );
+      } else if (rezize === true) {
+        this.cameraFollowing = CameraFollowing.RedDragon;
+        this.cameras.main.startFollow(
+          this.redDragon,
+          false,
+          0.9,
+          0.1,
+          this.dragonCameraOffset,
+          redDragonBody.height * 0.5
+        );
+      }
+    } else if (distanceBetweenPlayerAndRedDragonX >= -this.dragonCameraOffset + redDragonBody.width * 0.5 + 10) {
+      if (this.cameraFollowing === CameraFollowing.RedDragon) {
+        this.cameraFollowing = CameraFollowing.Player;
+        this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100);
+      } else if (rezize === true) {
+        this.cameraFollowing = CameraFollowing.Player;
+        this.cameras.main.startFollow(this.player, false, 0.9, 0.1, 0, 100);
+      }
     }
   };
 
