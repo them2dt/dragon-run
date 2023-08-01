@@ -111,9 +111,9 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
     switch (this.dragonState) {
       case DragonState.Idle: {
-        body.setVelocityX(0);
+        body.setVelocityX(body.velocity.x * 0.98);
 
-        body.setVelocityY(0);
+        body.setVelocityY(body.velocity.y * 0.98);
 
         break;
       }
@@ -128,7 +128,7 @@ export default class RedDragon extends Phaser.GameObjects.Container {
 
       case DragonState.Attacking: {
         body.setVelocityX(50);
-        body.setVelocityY(0);
+        body.setVelocityY(body.velocity.y * 0.98);
         break;
       }
 

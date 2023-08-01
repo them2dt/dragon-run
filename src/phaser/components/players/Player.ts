@@ -259,17 +259,10 @@ export default class Player extends Phaser.GameObjects.Container {
 
     eventsCenter.emit(EventKeys.UpdateLevelCompleteData, levelCompleteData);
 
-    console.log(levelCompleteData);
-
-    const cameraFollowing = scene.cameraFollowing;
-
     if (scene.redDragon.dragonState === DragonState.Chasing) {
       scene.redDragon.dragonState = DragonState.Idle;
     }
 
-    if (cameraFollowing === CameraFollowing.Player) {
-      scene.cameras.main.stopFollow();
-    }
     eventsCenter.emit(EventKeys.GoToLevelComplete);
 
     scene.cameras.main.fade(2000, 0, 0, 0);
