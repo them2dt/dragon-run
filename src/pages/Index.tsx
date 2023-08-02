@@ -90,7 +90,7 @@ export default function Index(): JSX.Element {
     <>
       {overlay === OverlayKeys.None && null}
       {overlay === OverlayKeys.Preloader ? (
-        <Loading progress={progress} loadingDescription="Preparing the Dragons..." />
+        <Loading progress={progress} loadingDescription="Feeding the Dragons..." />
       ) : null}
       {overlay === OverlayKeys.Enter ? <Enter userName={userName} /> : null}
       {overlay === OverlayKeys.Home ? <Home /> : null}
