@@ -35,7 +35,7 @@ export const GameDataProvider = ({ children }: GameDataProviderProps) => {
 
   const equipKnight = (name: string, spritesheet: string) => {
     setEquippedKnight({ name, spritesheet });
-    localStorage.setItem("equippedKnight", JSON.stringify({ name, spritesheet, userName }));
+    localStorage.setItem(`equippedKnight${userName}`, JSON.stringify({ name, spritesheet, userName }));
   };
 
   const selectLevel = (levelNumber?: number, levelSceneKey?: SceneKeys) => {
@@ -68,12 +68,17 @@ export const GameDataProvider = ({ children }: GameDataProviderProps) => {
     if (userName !== "") {
       firestoreFunctions?.getUserData(userName);
     }
-    const equippedKnight = localStorage.getItem("equippedKnight");
+    if (userName === "") {
+      setEquippedKnight({ name: "Default", spritesheet: "" });
+    }
+    const equippedKnight = localStorage.getItem(`equippedKnight${userName}`);
     if (equippedKnight) {
       const equippedKnightParsed = JSON.parse(equippedKnight);
       if (equippedKnightParsed.userName === userName && equippedKnightParsed.name && equippedKnightParsed.spritesheet) {
         setEquippedKnight({ name: equippedKnightParsed.name, spritesheet: equippedKnightParsed.spritesheet });
       }
+    } else {
+      setEquippedKnight({ name: "Default", spritesheet: "" });
     }
   }, [userName]);
 
