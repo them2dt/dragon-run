@@ -357,7 +357,7 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
                     borderRadius: "0"
                   }}
                 />
-                <Typography variant="h5" color={"white"} style={{ textAlign: "center" }}>
+                <Typography variant="h5" color={"#a3e635"} style={{ textAlign: "center" }}>
                   {metadata?.name ?? ""} Minted successfully!
                 </Typography>
                 <SquareButton
@@ -375,6 +375,7 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
                     setIsLoading(false);
                     setMinted(false);
                     setMintFailed(false);
+                    setMetadata(undefined);
                   }}
                 >
                   <Typography variant="h4">close</Typography>
