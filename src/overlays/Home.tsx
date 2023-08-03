@@ -93,14 +93,24 @@ export default function Home(): JSX.Element {
   return (
     <AnimatedPage>
       <OverlayWrapper className="bg-bg3 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full overflow-x-hidden">
+          <img
+            src="/assets/home-screen.png"
+            className="absolute top-0 left-0 w-full h-full object-cover rendering-pixelated block md:hidden"
+          />
+          <img
+            src="/assets/home-screen-square.png"
+            className="absolute top-0 left-0 w-full h-full object-cover rendering-pixelated hidden md:block"
+          />
+        </div>
         <Leaderboard leaderboardOpen={leaderboardOpen} closeLeaderboard={closeLeaderboard} />
         <SettingsMenu settingsOpen={settingsOpen} closeSettings={closeSettings} />
         <PreGameDialog preGameOpen={preGameOpen} closePreGame={closeChooseCharacter} openShop={goToShop} />
         <InventoryDialog inventoryOpen={inventoryOpen} closeInventory={closeInventory} openShop={goToShop} />
         <ShopDialog shopOpen={shopOpen} closeShop={closeShop} defaultTab={defaultTab} />
         <HomeNavBar openSettings={openSettings} />
-        <div className="w-full mx-auto h-full flex flex-col max-w-[1240px]">
-          <img src={logo} alt="logo" className="m-auto px-5 lg:w-[560px] h-auto rendering-pixelated" />
+        <div className="w-full mx-auto h-full flex flex-col max-w-[1240px] z-50">
+          <img src={logo} alt="logo" className="m-auto pb-16 lg:pb-20 px-5 lg:w-[560px] h-auto rendering-pixelated" />
           <Grid
             container
             spacing={2}
