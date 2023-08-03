@@ -20,6 +20,7 @@ export default class Player extends Phaser.GameObjects.Container {
   private timeBonus = 0;
 
   private lastTimeOnGround = 0;
+  private lastJumpTime = 0;
 
   private playerFireballThrow1Sound!: Phaser.Sound.BaseSound;
   private playerJump1Sound!: Phaser.Sound.BaseSound;
@@ -314,8 +315,13 @@ export default class Player extends Phaser.GameObjects.Container {
         }
         // Up
         if (this.cursors.up.isDown || this.wKey.isDown || this.cursors.space.isDown) {
+          this.lastJumpTime = t;
           // Jumping from the ground
           if (body.blocked.down) {
+            body.setVelocityY(this.playerJump);
+            this.playerJump1Sound.play({ volume: 0.8 });
+          } else if (body.blocked.down && t - this.lastTimeOnGround < 140 && body.velocity.y >= 0) {
+            // Jumping pressed just before leaving ground
             body.setVelocityY(this.playerJump);
             this.playerJump1Sound.play({ volume: 0.8 });
           } else if (t - this.lastTimeOnGround < 140 && body.velocity.y >= 0) {
