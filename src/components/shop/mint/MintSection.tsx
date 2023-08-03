@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useTheme, Grid, Card, Typography, Zoom, Box, Stack } from "@mui/material";
+import { useTheme, Grid, Card, Typography, Zoom, Box, Stack, Skeleton } from "@mui/material";
 import axios from "axios";
 import { type CandyMachine, type DefaultCandyGuardSettings } from "@metaplex-foundation/js";
 import { PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
@@ -8,6 +8,8 @@ import { useWallet } from "../../../hooks/useWallet";
 import unrevealed from "@assets/Knights_unrevealed.gif";
 import { SquareButton } from "components/styled/SquareButton";
 import { useSolana } from "@context/useSolana";
+import { useAlert } from "@context/useAlert";
+import AlertSeverityKeys from "@consts/AlertSeverityKeys";
 
 interface MintSectionProps {
   active: boolean;
@@ -15,6 +17,7 @@ interface MintSectionProps {
 }
 
 export default function MintSection({ active, scrollToTop }: MintSectionProps) {
+  const { newAlert } = useAlert();
   const [isLoading, setIsLoading] = useState(false);
   const [minted, setMinted] = useState(false);
   const [mintFailed, setMintFailed] = useState(false);
@@ -90,8 +93,6 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
   };
   // function to execute the mint
   const executeMint = async () => {
-    console.log("launching mint-process...");
-
     if (balance < mintPrice) {
       throw new Error("Not enough Sol");
     }
@@ -121,16 +122,16 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
         setMintResult(res.tokenAddress);
         setMinted(true);
       });
-      console.log("Minted successfully.");
       getBalance().catch((e) => {
         console.log(e);
       });
     } catch (e) {
       setMintFailed(true);
-      console.log("Mint Failed: " + e);
       getBalance().catch((e) => {
         console.log(e);
       });
+      const error = e as Error;
+      throw new Error("Mint Failed: " + error.message);
     }
   };
   // function to the metadata from an NFT
@@ -264,8 +265,8 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
                   }}
                   onClick={() => {
                     executeMint().catch((e) => {
-                      console.log(e);
                       setMintFailed(true);
+                      newAlert("Mint Failed.", AlertSeverityKeys.Error, undefined, e.message);
                     });
                   }}
                 >
@@ -350,13 +351,26 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
               }}
             >
               <Stack direction="column" spacing={2} sx={{ justifyContent: "center", alignItems: "center" }}>
-                <img
-                  src={metadata?.image ?? unrevealed}
-                  style={{
-                    width: "100%",
-                    borderRadius: "0"
-                  }}
-                />
+                {metadata?.image ? (
+                  <img
+                    src={metadata?.image}
+                    style={{
+                      width: "100%",
+                      borderRadius: "0"
+                    }}
+                  />
+                ) : (
+                  <Skeleton
+                    variant="rectangular"
+                    sx={{
+                      backgroundColor: "#a3e635",
+                      borderRadius: 0,
+                      pt: "100%",
+                      width: "100%",
+                      pointerEvents: "none"
+                    }}
+                  />
+                )}
                 <Typography variant="h5" color={"#a3e635"} style={{ textAlign: "center" }}>
                   {metadata?.name ?? ""} Minted successfully!
                 </Typography>

@@ -12,7 +12,7 @@ export interface Alert {
 interface AlertContextType {
   alert: Alert;
   setAlert: React.Dispatch<React.SetStateAction<Alert>>;
-  newAlert: (message: string, severity: AlertSeverityKeys, hideDuration?: number) => void;
+  newAlert: (message: string, severity: AlertSeverityKeys, hideDuration?: number, copyText?: string) => void;
 }
 
 interface AlertProviderProps {

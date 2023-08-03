@@ -3,6 +3,7 @@ import { Alert, Snackbar, ClickAwayListener, Tooltip, IconButton } from "@mui/ma
 import { useAlert } from "@context/useAlert";
 import { useTheme } from "@mui/material/styles";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function BottomAlert() {
   const { alert, setAlert } = useAlert();
@@ -42,35 +43,46 @@ export default function BottomAlert() {
 
   return (
     <Snackbar open={open} autoHideDuration={hideDuration} onClose={handleClose}>
-      <Alert variant="filled" onClose={handleClose} severity={severity} sx={{ width: "100%", borderRadius: 0 }}>
+      <Alert
+        variant="filled"
+        onClose={handleClose}
+        severity={severity}
+        sx={{ width: "100%", borderRadius: 0 }}
+        action={
+          <>
+            {copyText !== "" && (
+              <ClickAwayListener onClickAway={handleTextCopyReset}>
+                <div>
+                  <Tooltip
+                    PopperProps={{
+                      disablePortal: false
+                    }}
+                    onClose={handleTextCopyReset}
+                    open={textCopied}
+                    disableFocusListener
+                    disableHoverListener
+                    disableTouchListener
+                    title="Copied!"
+                  >
+                    <IconButton
+                      onClick={() => {
+                        handleTCopyText();
+                      }}
+                      size="small"
+                    >
+                      <ContentCopyIcon sx={{ fill: muiTheme.palette.text.secondary }} fontSize="medium" />
+                    </IconButton>
+                  </Tooltip>
+                </div>
+              </ClickAwayListener>
+            )}
+            <IconButton aria-label="close" sx={{ ml: 0.2 }} onClick={handleClose} size="small">
+              <CloseIcon sx={{ fill: muiTheme.palette.text.secondary }} fontSize="medium" />
+            </IconButton>
+          </>
+        }
+      >
         {message}
-        {copyText !== "" && (
-          <ClickAwayListener onClickAway={handleTextCopyReset}>
-            <div>
-              <Tooltip
-                PopperProps={{
-                  disablePortal: true
-                }}
-                onClose={handleTextCopyReset}
-                open={textCopied}
-                disableFocusListener
-                disableHoverListener
-                disableTouchListener
-                title="Copied!"
-              >
-                <IconButton
-                  onClick={() => {
-                    handleTCopyText();
-                  }}
-                  size="large"
-                  sx={{ "&:hover": { backgroundColor: muiTheme.palette.background.light } }}
-                >
-                  <ContentCopyIcon sx={{ fill: muiTheme.palette.text.secondary }} fontSize="small" />
-                </IconButton>
-              </Tooltip>
-            </div>
-          </ClickAwayListener>
-        )}
       </Alert>
     </Snackbar>
   );
