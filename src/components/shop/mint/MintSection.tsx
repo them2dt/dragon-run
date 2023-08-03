@@ -60,7 +60,6 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
 
   const getMintPrice = async () => {
     const cmMintPrice = candyMachine?.candyGuard?.guards?.solPayment?.amount?.basisPoints;
-    console.log("mintPrice: " + cmMintPrice);
     if (cmMintPrice) {
       setMintPrice((cmMintPrice as unknown as number) / LAMPORTS_PER_SOL);
     }
@@ -119,8 +118,8 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
 
     try {
       await mintBuilder.sendAndConfirm(metaplex).then((res) => {
-        setMintResult(res.tokenAddress);
         setMinted(true);
+        setMintResult(res.tokenAddress);
       });
       getBalance().catch((e) => {
         console.log(e);
@@ -143,7 +142,6 @@ export default function MintSection({ active, scrollToTop }: MintSectionProps) {
       const nft = await metaplex.nfts().findByToken({ token: new PublicKey(mintResult ?? "") });
       const { data } = await axios.get(nft.uri);
       setMetadata(data);
-      console.log(data);
     }
   };
 
