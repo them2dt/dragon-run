@@ -30,11 +30,7 @@ export default function HomeNavBar({ openSettings }: HomeNavBarProps) {
   return (
     <Box className="fixed left-[5px] top-[2px]">
       <Stack direction="row" spacing={0} justifyContent="center" width={"100%"} height={"100%"}>
-        <IconButton
-          aria-label="settings"
-          onClick={openSettings}
-          sx={{ "&:hover": { backgroundColor: muiTheme.palette.background.light } }}
-        >
+        <IconButton aria-label="settings" onClick={openSettings} sx={{ "&:hover": { backgroundColor: "#211E29" } }}>
           <Settings sx={{ fill: muiTheme.palette.text.secondary }} fontSize="large" />
         </IconButton>
         <ClickAwayListener onClickAway={handleTwitterCopyReset}>
@@ -54,7 +50,7 @@ export default function HomeNavBar({ openSettings }: HomeNavBarProps) {
                 handleTwitterCopy();
               }}
               size="small"
-              sx={{ my: "auto", "&:hover": { backgroundColor: muiTheme.palette.background.light } }}
+              sx={{ my: "auto", "&:hover": { backgroundColor: "#211E29" } }}
             >
               <FaTwitter fontSize={"1.6rem"} color="#1C98E5" />
             </IconButton>
@@ -63,7 +59,7 @@ export default function HomeNavBar({ openSettings }: HomeNavBarProps) {
         <IconButton
           onClick={() => window.open(discord, "_blank")}
           size="small"
-          sx={{ my: "auto", "&:hover": { backgroundColor: muiTheme.palette.background.light } }}
+          sx={{ my: "auto", "&:hover": { backgroundColor: "#211E29" } }}
         >
           <FaDiscord fontSize={"1.9rem"} color="#5460E6" />
         </IconButton>
