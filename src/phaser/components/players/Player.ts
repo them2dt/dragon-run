@@ -51,9 +51,10 @@ export default class Player extends Phaser.GameObjects.Container {
 
   public playerState: PlayerState = PlayerState.Idle;
   private playerSpeed = 210;
-  private playerJump = -240;
+  private playerJump = -270;
   private playerSize = 1.0;
   private playerAbility = PlayerAbility.None;
+  private gravity = 100;
 
   private checkScene() {
     const scene = this.scene as CaveScene;
@@ -99,6 +100,7 @@ export default class Player extends Phaser.GameObjects.Container {
     body.setDragY(0);
     body.setFrictionX(0);
     body.setFrictionY(0);
+    body.setGravityY(this.gravity);
 
     this.clock = new Clock(this.scene);
     this.clock.pause();
