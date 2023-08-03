@@ -101,7 +101,9 @@ export default function AlertDialog({
             sx={{ marginY: "auto" }}
             fullWidth
           >
-            <Typography variant="h5">{denyText ?? "Deny"}</Typography>
+            <Typography sx={{ color: "#ffbcad" }} variant="h5">
+              {denyText ?? "Deny"}
+            </Typography>
           </SquareButton>
         </Stack>
       </Paper>
