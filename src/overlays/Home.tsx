@@ -15,6 +15,8 @@ import ShopDialog from "components/shop/ShopDialog";
 import InventoryDialog from "components/inventory/InventoryDialog";
 import PreGameDialog from "components/PreGameDialog";
 import { useSolana } from "@context/useSolana";
+import HomeScreen from "@assets/home-screen.png";
+import HomeScreenSquare from "@assets/home-screen-square.png";
 
 export default function Home(): JSX.Element {
   const muiTheme = useTheme();
@@ -95,11 +97,11 @@ export default function Home(): JSX.Element {
       <OverlayWrapper className="bg-bg3 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full overflow-x-hidden">
           <img
-            src="/assets/home-screen.png"
+            src={HomeScreen}
             className="absolute top-0 left-0 w-full h-full object-cover rendering-pixelated block md:hidden"
           />
           <img
-            src="/assets/home-screen-square.png"
+            src={HomeScreenSquare}
             className="absolute top-0 left-0 w-full h-full object-cover rendering-pixelated hidden md:block"
           />
         </div>
