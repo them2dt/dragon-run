@@ -51,7 +51,7 @@ export default class Player extends Phaser.GameObjects.Container {
   private fireballTimer = 0;
 
   public playerState: PlayerState = PlayerState.Idle;
-  private playerSpeed = 210;
+  private playerSpeed = 220;
   private playerJump = -270;
   private playerSize = 1.0;
   private playerAbility = PlayerAbility.None;
