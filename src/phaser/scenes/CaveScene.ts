@@ -91,7 +91,7 @@ export default class CaveScene extends Phaser.Scene {
   public mapKey = TextureKeys.CaveMap;
   public backgroudColor = "#3a1d33";
   public redDragonSpawn = 100;
-  public redDragonSpeed = 200;
+  public redDragonSpeed = 205;
 
   constructor(sceneKey: string) {
     super(sceneKey);
